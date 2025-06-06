@@ -1,15 +1,15 @@
 UNAME := $(shell uname -s)
 
-EXTRA_LINKER_FLAGS =
+FLAGS =
 
 ifeq ($(UNAME), Darwin)
-	EXTRA_LINKER_FLAGS += -rpath /usr/local/lib -rpath /opt/homebrew/lib
+	FLAGS += -extra-linker-flags='-rpath /usr/local/lib -rpath /opt/homebrew/lib'
 endif
 
 all: run
 
 run:
-	odin run src -extra-linker-flags='$(EXTRA_LINKER_FLAGS)'
+	odin run src $(FLAGS)
 
 build:
-	odin build src -debug -extra-linker-flags='$(EXTRA_LINKER_FLAGS)'
+	odin build src -debug $(FLAGS)
