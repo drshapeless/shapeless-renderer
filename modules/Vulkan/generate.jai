@@ -9,6 +9,8 @@
 AT_COMPILE_TIME   :: true;
 #if OS == .MACOS {
     vulkan_h_location :: "/opt/homebrew/include/vulkan/vulkan.h";
+} else #if OS == .LINUX {
+    vulkan_h_location :: "/usr/include/vulkan/vulkan.h";
 } else {
     vulkan_h_location :: "source/vulkan.h";
 }
@@ -19,7 +21,7 @@ AT_COMPILE_TIME   :: true;
 } else #if OS == .MACOS {
     vulkan_lib_path :: "/opt/homebrew/lib";
 } else {
-    vulkan_lib_path :: "";
+    vulkan_lib_path :: "/usr/lib64";
 }
 
 #if AT_COMPILE_TIME {
@@ -67,6 +69,7 @@ OMIT_LIST :: string.[
 generate_bindings :: () -> bool {
     output_filename: string;
     options: Generate_Bindings_Options;
+    options.log_stripped_declarations = true;
     {
         using options;
 
@@ -118,6 +121,7 @@ generate_bindings :: () -> bool {
         return false;
     }
     log("\nOK! generated '%'", output_filename);
+
     return true;
 }
 
