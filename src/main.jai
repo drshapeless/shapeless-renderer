@@ -9,7 +9,7 @@ main :: () {
 
     log("SDL initialized");
 
-    window := SDL_CreateWindow("shapeless renderer", 800, 600, SDL_WINDOW_VULKAN);
+    window := SDL_CreateWindow("shapeless renderer", 800, 600, SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
     if window == null {
         log("Cannot create SDL window %", SDL_GetError());
     }

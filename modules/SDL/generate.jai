@@ -72,25 +72,20 @@ EOF;
             opts.strip_flags = .FUNCTIONS_WITH_VALIST;
 
             FOOTER :: #string EOF
-#if CPU == .X64 {
-    libsdl3 :: #library "bin/x64/libSDL3.0_dynamic";
-} else #if CPU == .ARM64 {
-    libsdl3 :: #library "bin/arm64/libSDL3.0_dynamic";
-}
+libsdl3 :: #library,system "libSDL3";
+libsdl3_ttf :: #library,system "libSDL3_ttf";
+libsdl3_image :: #library,system "libSDL3_image";
 EOF;
-            #if CPU == .X64 {
-                array_add(*opts.library_search_paths, "macos/bin/x64");
-            } else #if CPU == .ARM64 {
-                array_add(*opts.library_search_paths, "macos/bin/arm64");
-            } else {
-                assert(false, "the CPU % is currently unsupported. You might be able to add support for it though!", CPU);
-            }
+
+            array_add(*opts.library_search_paths, "/opt/homebrew/lib");
 
             opts.footer = FOOTER;
             opts.generate_library_declarations = false;
 
             // We need the .a to bind but .dylib is used in runtime.
-            array_add(*opts.libraries, .{filename="libSDL3.0"});
+            array_add(*opts.libraries, .{filename="libSDL3.dylib"});
+            array_add(*opts.libraries, .{filename="libSDL3_ttf.dylib"});
+            array_add(*opts.libraries, .{filename="libSDL3_image.dylib"});
         } else {
             assert(false, "the OS % is currently unsupported. You might be able to add support for it though!", OS);
         }
@@ -100,7 +95,7 @@ EOF;
         array_add(*opts.source_files, "include/SDL3_image/SDL_image.h");
         array_add(*opts.source_files, "include/SDL3_ttf/SDL_ttf.h");
 
-        // array_add(*strip_prefixes, "");
+        // array_add(*opts.strip_prefixes, "SDL_");
 
         opts.visitor = sdl3_visitor;
         opts.generate_compile_time_struct_checks = false;
