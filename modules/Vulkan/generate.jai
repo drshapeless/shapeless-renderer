@@ -11,6 +11,7 @@ AT_COMPILE_TIME   :: true;
     vulkan_h_location :: "/opt/homebrew/include/vulkan/vulkan.h";
 } else #if OS == .LINUX {
     vulkan_h_location :: "/usr/include/vulkan/vulkan.h";
+    vk_video_directory :: "/usr/include/vk_video";
 } else {
     vulkan_h_location :: "source/vulkan.h";
 }
@@ -93,6 +94,11 @@ generate_bindings :: () -> bool {
 
         if vulkan_lib_path then array_add(*library_search_paths, vulkan_lib_path);
 
+        // We have to include the vk_video headers before the vulkan header.
+        video_headers := file_list(vk_video_directory);
+        for file: video_headers {
+            array_add(*source_files, file);
+        }
         array_add(*source_files, vulkan_h_location);
 
         generate_library_declarations = true;
@@ -363,5 +369,6 @@ get_sType_default_value_from_struct_name :: (name: string) -> string {
 #import "Check";
 #import "Bindings_Generator";
 #import "File";
+#import "File_Utilities";
 #import "String";
 #import "Hash_Table";
