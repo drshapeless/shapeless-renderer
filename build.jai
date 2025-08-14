@@ -18,8 +18,14 @@ OUTPUT_EXECUTABLE_NAME := "shapeless-renderer";
     set_build_options(options, w);
 
     compiler_begin_intercept(w);
-    add_build_file("main.jai", w);
+    add_build_file("src/main.jai", w);
 
+    message_loop();
+
+    compiler_end_intercept(w);
+}
+
+message_loop :: () {
     while true {
         message := compiler_wait_for_message();
         if message.kind == {
@@ -32,7 +38,6 @@ OUTPUT_EXECUTABLE_NAME := "shapeless-renderer";
                 break;
         }
     }
-    compiler_end_intercept(w);
 }
 
 #import "Basic";
