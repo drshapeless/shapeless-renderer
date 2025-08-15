@@ -5,6 +5,8 @@
 
 // Modified by drshapeless at Aug 13, 2025
 
+NO_FUNCTION :: true;
+
 // config
 AT_COMPILE_TIME   :: true;
 #if OS == .MACOS {
@@ -217,8 +219,14 @@ vulkan_visitor :: (decl: *Declaration, parent_decl: *Declaration) -> Declaration
     }
 
     if decl.kind == .FUNCTION {
-        function := cast(*Function) decl;
-        maybe_add_enumeration_wrapper(*enumeration_wrapper_builder, function);
+        // Do not export any function because we want to load them by hand.
+        #if NO_FUNCTION {
+            decl.decl_flags |= .OMIT_FROM_OUTPUT;
+            return .STOP;
+        } else {
+            function := cast(*Function) decl;
+            maybe_add_enumeration_wrapper(*enumeration_wrapper_builder, function);
+        }
     }
 
     return .RECURSE;

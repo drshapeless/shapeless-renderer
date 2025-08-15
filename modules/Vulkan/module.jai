@@ -53,19 +53,25 @@ VK_API_VERSION_MAJOR   :: (version: u32) -> u32 { return (version >> 22) & 0x3ff
 VK_API_VERSION_MINOR   :: (version: u32) -> u32 { return (version >> 12) & 0x3ff; }
 VK_API_VERSION_PATCH   :: (version: u32) -> u32 { return version & 0xfff; }
 
+// Do not support windows for now as I don't have a Windows machine.
 #if OS == .WINDOWS {
-    #load "generated_windows.jai";
-    #load "windows_extras.jai";
+    // #load "generated_windows.jai";
+    // #load "windows_extras.jai";
 
-    vkCreateWin32SurfaceKHR :: (instance: VkInstance, pCreateInfo: *VkWin32SurfaceCreateInfoKHR, pAllocator: *VkAllocationCallbacks, pSurface: *VkSurfaceKHR) -> VkResult #foreign libvulkan;
-    vkGetPhysicalDeviceWin32PresentationSupportKHR :: (physicalDevice: VkPhysicalDevice, queueFamilyIndex: u32) -> VkBool32 #foreign libvulkan;
-    #scope_file
-    libvulkan :: #library "win/vulkan-1";
+    // vkCreateWin32SurfaceKHR :: (instance: VkInstance, pCreateInfo: *VkWin32SurfaceCreateInfoKHR, pAllocator: *VkAllocationCallbacks, pSurface: *VkSurfaceKHR) -> VkResult #foreign libvulkan;
+    // vkGetPhysicalDeviceWin32PresentationSupportKHR :: (physicalDevice: VkPhysicalDevice, queueFamilyIndex: u32) -> VkBool32 #foreign libvulkan;
+    // #scope_file
+    // libvulkan :: #library "win/vulkan-1";
+    #assert false  "Unsupported OS";
 } else #if OS == .LINUX || OS == .ANDROID {
     #load "generated_linux.jai";
-    libvulkan :: #system_library "libvulkan";
+    // libvulkan :: #system_library "libvulkan";
 } else #if OS == .MACOS {
     #load "generated_macos.jai";
 } else {
     #assert false  "Unsupported OS";
 }
+
+// We want to load the function by hand.
+// I feel guilty to steal them from Odin.
+#load "functions.jai";
