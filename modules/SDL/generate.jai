@@ -57,15 +57,11 @@ EOF
 
             FOOTER :: #string EOF
 libsdl3 :: #library,system "libSDL3.so.0";
-libsdl3_ttf :: #library,system "libSDL3_ttf.so.0";
-libsdl3_image :: #library,system "libSDL3_image.so.0";
 EOF;
             opts.footer = FOOTER;
             opts.generate_library_declarations = false;
 
             array_add(*opts.libraries, .{filename="libSDL3.so.0"});
-            array_add(*opts.libraries, .{filename="libSDL3_image.so.0"});
-            array_add(*opts.libraries, .{filename="libSDL3_ttf.so.0"});
         } else #if OS == .MACOS {
 
             output_filename = "macos/macos.jai";
@@ -73,8 +69,6 @@ EOF;
 
             FOOTER :: #string EOF
 libsdl3 :: #library,system "libSDL3";
-libsdl3_ttf :: #library,system "libSDL3_ttf";
-libsdl3_image :: #library,system "libSDL3_image";
 EOF;
 
             array_add(*opts.library_search_paths, "/opt/homebrew/lib");
@@ -84,16 +78,12 @@ EOF;
 
             // We need the .a to bind but .dylib is used in runtime.
             array_add(*opts.libraries, .{filename="libSDL3.dylib"});
-            array_add(*opts.libraries, .{filename="libSDL3_ttf.dylib"});
-            array_add(*opts.libraries, .{filename="libSDL3_image.dylib"});
         } else {
             assert(false, "the OS % is currently unsupported. You might be able to add support for it though!", OS);
         }
 
         array_add(*opts.include_paths, "include");
         array_add(*opts.source_files, "include/SDL3/SDL.h");
-        array_add(*opts.source_files, "include/SDL3_image/SDL_image.h");
-        array_add(*opts.source_files, "include/SDL3_ttf/SDL_ttf.h");
 
         // array_add(*opts.strip_prefixes, "SDL_");
 
