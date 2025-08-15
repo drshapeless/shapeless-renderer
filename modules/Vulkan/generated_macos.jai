@@ -7,11 +7,115 @@
 
 
 VK_ENABLE_BETA_EXTENSIONS :: 1;
+vulkan_video_codec_av1std_decode :: 1;
+
+vulkan_video_codec_av1std :: 1;
+
+vulkan_video_codecs_common :: 1;
+
+STD_VIDEO_AV1_NUM_REF_FRAMES :: 8;
+STD_VIDEO_AV1_REFS_PER_FRAME :: 7;
+STD_VIDEO_AV1_TOTAL_REFS_PER_FRAME :: 8;
+STD_VIDEO_AV1_MAX_TILE_COLS :: 64;
+STD_VIDEO_AV1_MAX_TILE_ROWS :: 64;
+STD_VIDEO_AV1_MAX_SEGMENTS :: 8;
+STD_VIDEO_AV1_SEG_LVL_MAX :: 8;
+STD_VIDEO_AV1_PRIMARY_REF_NONE :: 7;
+STD_VIDEO_AV1_SELECT_INTEGER_MV :: 2;
+STD_VIDEO_AV1_SELECT_SCREEN_CONTENT_TOOLS :: 2;
+STD_VIDEO_AV1_SKIP_MODE_FRAMES :: 2;
+STD_VIDEO_AV1_MAX_LOOP_FILTER_STRENGTHS :: 4;
+STD_VIDEO_AV1_LOOP_FILTER_ADJUSTMENTS :: 2;
+STD_VIDEO_AV1_MAX_CDEF_FILTER_STRENGTHS :: 8;
+STD_VIDEO_AV1_MAX_NUM_PLANES :: 3;
+STD_VIDEO_AV1_GLOBAL_MOTION_PARAMS :: 6;
+STD_VIDEO_AV1_MAX_NUM_Y_POINTS :: 14;
+STD_VIDEO_AV1_MAX_NUM_CB_POINTS :: 10;
+STD_VIDEO_AV1_MAX_NUM_CR_POINTS :: 10;
+STD_VIDEO_AV1_MAX_NUM_POS_LUMA :: 24;
+STD_VIDEO_AV1_MAX_NUM_POS_CHROMA :: 25;
+
+VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_EXTENSION_NAME :: "VK_STD_vulkan_video_codec_av1_decode";
+
+vulkan_video_codec_h264std :: 1;
+
+STD_VIDEO_H264_CPB_CNT_LIST_SIZE :: 32;
+STD_VIDEO_H264_SCALING_LIST_4X4_NUM_LISTS :: 6;
+STD_VIDEO_H264_SCALING_LIST_4X4_NUM_ELEMENTS :: 16;
+STD_VIDEO_H264_SCALING_LIST_8X8_NUM_LISTS :: 6;
+STD_VIDEO_H264_SCALING_LIST_8X8_NUM_ELEMENTS :: 64;
+STD_VIDEO_H264_MAX_NUM_LIST_REF :: 32;
+STD_VIDEO_H264_MAX_CHROMA_PLANES :: 2;
+STD_VIDEO_H264_NO_REFERENCE_PICTURE :: 0xFF;
+
+vulkan_video_codec_av1std_encode :: 1;
+
+VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_EXTENSION_NAME :: "VK_STD_vulkan_video_codec_av1_encode";
+
+vulkan_video_codec_h265std :: 1;
+
+STD_VIDEO_H265_CPB_CNT_LIST_SIZE :: 32;
+STD_VIDEO_H265_SUBLAYERS_LIST_SIZE :: 7;
+STD_VIDEO_H265_SCALING_LIST_4X4_NUM_LISTS :: 6;
+STD_VIDEO_H265_SCALING_LIST_4X4_NUM_ELEMENTS :: 16;
+STD_VIDEO_H265_SCALING_LIST_8X8_NUM_LISTS :: 6;
+STD_VIDEO_H265_SCALING_LIST_8X8_NUM_ELEMENTS :: 64;
+STD_VIDEO_H265_SCALING_LIST_16X16_NUM_LISTS :: 6;
+STD_VIDEO_H265_SCALING_LIST_16X16_NUM_ELEMENTS :: 64;
+STD_VIDEO_H265_SCALING_LIST_32X32_NUM_LISTS :: 2;
+STD_VIDEO_H265_SCALING_LIST_32X32_NUM_ELEMENTS :: 64;
+STD_VIDEO_H265_CHROMA_QP_OFFSET_LIST_SIZE :: 6;
+STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_COLS_LIST_SIZE :: 19;
+STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_ROWS_LIST_SIZE :: 21;
+STD_VIDEO_H265_PREDICTOR_PALETTE_COMPONENTS_LIST_SIZE :: 3;
+STD_VIDEO_H265_PREDICTOR_PALETTE_COMP_ENTRIES_LIST_SIZE :: 128;
+STD_VIDEO_H265_MAX_NUM_LIST_REF :: 15;
+STD_VIDEO_H265_MAX_CHROMA_PLANES :: 2;
+STD_VIDEO_H265_MAX_SHORT_TERM_REF_PIC_SETS :: 64;
+STD_VIDEO_H265_MAX_DPB_SIZE :: 16;
+STD_VIDEO_H265_MAX_LONG_TERM_REF_PICS_SPS :: 32;
+STD_VIDEO_H265_MAX_LONG_TERM_PICS :: 16;
+STD_VIDEO_H265_MAX_DELTA_POC :: 48;
+STD_VIDEO_H265_NO_REFERENCE_PICTURE :: 0xFF;
+
+vulkan_video_codec_h264std_decode :: 1;
+
+VK_STD_VULKAN_VIDEO_CODEC_H264_DECODE_EXTENSION_NAME :: "VK_STD_vulkan_video_codec_h264_decode";
+STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_LIST_SIZE :: 2;
+
+vulkan_video_codec_vp9std_decode :: 1;
+
+vulkan_video_codec_vp9std :: 1;
+
+STD_VIDEO_VP9_NUM_REF_FRAMES :: 8;
+STD_VIDEO_VP9_REFS_PER_FRAME :: 3;
+STD_VIDEO_VP9_MAX_REF_FRAMES :: 4;
+STD_VIDEO_VP9_LOOP_FILTER_ADJUSTMENTS :: 2;
+STD_VIDEO_VP9_MAX_SEGMENTS :: 8;
+STD_VIDEO_VP9_SEG_LVL_MAX :: 4;
+STD_VIDEO_VP9_MAX_SEGMENTATION_TREE_PROBS :: 7;
+STD_VIDEO_VP9_MAX_SEGMENTATION_PRED_PROB :: 3;
+
+VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_EXTENSION_NAME :: "VK_STD_vulkan_video_codec_vp9_decode";
+
+vulkan_video_codec_h264std_encode :: 1;
+
+VK_STD_VULKAN_VIDEO_CODEC_H264_ENCODE_EXTENSION_NAME :: "VK_STD_vulkan_video_codec_h264_encode";
+
+vulkan_video_codec_h265std_encode :: 1;
+
+VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_EXTENSION_NAME :: "VK_STD_vulkan_video_codec_h265_encode";
+
+vulkan_video_codec_h265std_decode :: 1;
+
+VK_STD_VULKAN_VIDEO_CODEC_H265_DECODE_EXTENSION_NAME :: "VK_STD_vulkan_video_codec_h265_decode";
+STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_SIZE :: 8;
+
 VK_VERSION_1_0 :: 1;
 
 VK_USE_64_BIT_PTR_DEFINES :: 1;
 
-VK_HEADER_VERSION :: 323;
+VK_HEADER_VERSION :: 325;
 
 VK_LOD_CLAMP_NONE :: 1000.0;
 
@@ -66,67 +170,15 @@ VK_KHR_VIDEO_DECODE_QUEUE_EXTENSION_NAME :: "VK_KHR_video_decode_queue";
 
 VK_KHR_video_encode_h264 :: 1;
 
-vulkan_video_codec_h264std :: 1;
-
-vulkan_video_codecs_common :: 1;
-
-STD_VIDEO_H264_CPB_CNT_LIST_SIZE :: 32;
-STD_VIDEO_H264_SCALING_LIST_4X4_NUM_LISTS :: 6;
-STD_VIDEO_H264_SCALING_LIST_4X4_NUM_ELEMENTS :: 16;
-STD_VIDEO_H264_SCALING_LIST_8X8_NUM_LISTS :: 6;
-STD_VIDEO_H264_SCALING_LIST_8X8_NUM_ELEMENTS :: 64;
-STD_VIDEO_H264_MAX_NUM_LIST_REF :: 32;
-STD_VIDEO_H264_MAX_CHROMA_PLANES :: 2;
-STD_VIDEO_H264_NO_REFERENCE_PICTURE :: 0xFF;
-
-vulkan_video_codec_h264std_encode :: 1;
-
-VK_STD_VULKAN_VIDEO_CODEC_H264_ENCODE_EXTENSION_NAME :: "VK_STD_vulkan_video_codec_h264_encode";
-
 VK_KHR_VIDEO_ENCODE_H264_SPEC_VERSION :: 14;
 VK_KHR_VIDEO_ENCODE_H264_EXTENSION_NAME :: "VK_KHR_video_encode_h264";
 
 VK_KHR_video_encode_h265 :: 1;
 
-vulkan_video_codec_h265std :: 1;
-
-STD_VIDEO_H265_CPB_CNT_LIST_SIZE :: 32;
-STD_VIDEO_H265_SUBLAYERS_LIST_SIZE :: 7;
-STD_VIDEO_H265_SCALING_LIST_4X4_NUM_LISTS :: 6;
-STD_VIDEO_H265_SCALING_LIST_4X4_NUM_ELEMENTS :: 16;
-STD_VIDEO_H265_SCALING_LIST_8X8_NUM_LISTS :: 6;
-STD_VIDEO_H265_SCALING_LIST_8X8_NUM_ELEMENTS :: 64;
-STD_VIDEO_H265_SCALING_LIST_16X16_NUM_LISTS :: 6;
-STD_VIDEO_H265_SCALING_LIST_16X16_NUM_ELEMENTS :: 64;
-STD_VIDEO_H265_SCALING_LIST_32X32_NUM_LISTS :: 2;
-STD_VIDEO_H265_SCALING_LIST_32X32_NUM_ELEMENTS :: 64;
-STD_VIDEO_H265_CHROMA_QP_OFFSET_LIST_SIZE :: 6;
-STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_COLS_LIST_SIZE :: 19;
-STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_ROWS_LIST_SIZE :: 21;
-STD_VIDEO_H265_PREDICTOR_PALETTE_COMPONENTS_LIST_SIZE :: 3;
-STD_VIDEO_H265_PREDICTOR_PALETTE_COMP_ENTRIES_LIST_SIZE :: 128;
-STD_VIDEO_H265_MAX_NUM_LIST_REF :: 15;
-STD_VIDEO_H265_MAX_CHROMA_PLANES :: 2;
-STD_VIDEO_H265_MAX_SHORT_TERM_REF_PIC_SETS :: 64;
-STD_VIDEO_H265_MAX_DPB_SIZE :: 16;
-STD_VIDEO_H265_MAX_LONG_TERM_REF_PICS_SPS :: 32;
-STD_VIDEO_H265_MAX_LONG_TERM_PICS :: 16;
-STD_VIDEO_H265_MAX_DELTA_POC :: 48;
-STD_VIDEO_H265_NO_REFERENCE_PICTURE :: 0xFF;
-
-vulkan_video_codec_h265std_encode :: 1;
-
-VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_EXTENSION_NAME :: "VK_STD_vulkan_video_codec_h265_encode";
-
 VK_KHR_VIDEO_ENCODE_H265_SPEC_VERSION :: 14;
 VK_KHR_VIDEO_ENCODE_H265_EXTENSION_NAME :: "VK_KHR_video_encode_h265";
 
 VK_KHR_video_decode_h264 :: 1;
-
-vulkan_video_codec_h264std_decode :: 1;
-
-VK_STD_VULKAN_VIDEO_CODEC_H264_DECODE_EXTENSION_NAME :: "VK_STD_vulkan_video_codec_h264_decode";
-STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_LIST_SIZE :: 2;
 
 VK_KHR_VIDEO_DECODE_H264_SPEC_VERSION :: 9;
 VK_KHR_VIDEO_DECODE_H264_EXTENSION_NAME :: "VK_KHR_video_decode_h264";
@@ -322,11 +374,6 @@ VK_KHR_SHADER_CLOCK_EXTENSION_NAME :: "VK_KHR_shader_clock";
 
 VK_KHR_video_decode_h265 :: 1;
 
-vulkan_video_codec_h265std_decode :: 1;
-
-VK_STD_VULKAN_VIDEO_CODEC_H265_DECODE_EXTENSION_NAME :: "VK_STD_vulkan_video_codec_h265_decode";
-STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_SIZE :: 8;
-
 VK_KHR_VIDEO_DECODE_H265_SPEC_VERSION :: 8;
 VK_KHR_VIDEO_DECODE_H265_EXTENSION_NAME :: "VK_KHR_video_decode_h265";
 
@@ -466,6 +513,10 @@ VK_KHR_ray_tracing_maintenance1 :: 1;
 VK_KHR_RAY_TRACING_MAINTENANCE_1_SPEC_VERSION :: 1;
 VK_KHR_RAY_TRACING_MAINTENANCE_1_EXTENSION_NAME :: "VK_KHR_ray_tracing_maintenance1";
 
+VK_KHR_shader_untyped_pointers :: 1;
+VK_KHR_SHADER_UNTYPED_POINTERS_SPEC_VERSION :: 1;
+VK_KHR_SHADER_UNTYPED_POINTERS_EXTENSION_NAME :: "VK_KHR_shader_untyped_pointers";
+
 VK_KHR_portability_enumeration :: 1;
 VK_KHR_PORTABILITY_ENUMERATION_SPEC_VERSION :: 1;
 VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME :: "VK_KHR_portability_enumeration";
@@ -522,63 +573,16 @@ VK_KHR_COMPUTE_SHADER_DERIVATIVES_EXTENSION_NAME :: "VK_KHR_compute_shader_deriv
 
 VK_KHR_video_decode_av1 :: 1;
 
-vulkan_video_codec_av1std :: 1;
-
-STD_VIDEO_AV1_NUM_REF_FRAMES :: 8;
-STD_VIDEO_AV1_REFS_PER_FRAME :: 7;
-STD_VIDEO_AV1_TOTAL_REFS_PER_FRAME :: 8;
-STD_VIDEO_AV1_MAX_TILE_COLS :: 64;
-STD_VIDEO_AV1_MAX_TILE_ROWS :: 64;
-STD_VIDEO_AV1_MAX_SEGMENTS :: 8;
-STD_VIDEO_AV1_SEG_LVL_MAX :: 8;
-STD_VIDEO_AV1_PRIMARY_REF_NONE :: 7;
-STD_VIDEO_AV1_SELECT_INTEGER_MV :: 2;
-STD_VIDEO_AV1_SELECT_SCREEN_CONTENT_TOOLS :: 2;
-STD_VIDEO_AV1_SKIP_MODE_FRAMES :: 2;
-STD_VIDEO_AV1_MAX_LOOP_FILTER_STRENGTHS :: 4;
-STD_VIDEO_AV1_LOOP_FILTER_ADJUSTMENTS :: 2;
-STD_VIDEO_AV1_MAX_CDEF_FILTER_STRENGTHS :: 8;
-STD_VIDEO_AV1_MAX_NUM_PLANES :: 3;
-STD_VIDEO_AV1_GLOBAL_MOTION_PARAMS :: 6;
-STD_VIDEO_AV1_MAX_NUM_Y_POINTS :: 14;
-STD_VIDEO_AV1_MAX_NUM_CB_POINTS :: 10;
-STD_VIDEO_AV1_MAX_NUM_CR_POINTS :: 10;
-STD_VIDEO_AV1_MAX_NUM_POS_LUMA :: 24;
-STD_VIDEO_AV1_MAX_NUM_POS_CHROMA :: 25;
-
-vulkan_video_codec_av1std_decode :: 1;
-
-VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_EXTENSION_NAME :: "VK_STD_vulkan_video_codec_av1_decode";
-
 VK_MAX_VIDEO_AV1_REFERENCES_PER_FRAME_KHR :: 7;
 VK_KHR_VIDEO_DECODE_AV1_SPEC_VERSION :: 1;
 VK_KHR_VIDEO_DECODE_AV1_EXTENSION_NAME :: "VK_KHR_video_decode_av1";
 
 VK_KHR_video_encode_av1 :: 1;
 
-vulkan_video_codec_av1std_encode :: 1;
-
-VK_STD_VULKAN_VIDEO_CODEC_AV1_ENCODE_EXTENSION_NAME :: "VK_STD_vulkan_video_codec_av1_encode";
-
 VK_KHR_VIDEO_ENCODE_AV1_SPEC_VERSION :: 1;
 VK_KHR_VIDEO_ENCODE_AV1_EXTENSION_NAME :: "VK_KHR_video_encode_av1";
 
 VK_KHR_video_decode_vp9 :: 1;
-
-vulkan_video_codec_vp9std :: 1;
-
-STD_VIDEO_VP9_NUM_REF_FRAMES :: 8;
-STD_VIDEO_VP9_REFS_PER_FRAME :: 3;
-STD_VIDEO_VP9_MAX_REF_FRAMES :: 4;
-STD_VIDEO_VP9_LOOP_FILTER_ADJUSTMENTS :: 2;
-STD_VIDEO_VP9_MAX_SEGMENTS :: 8;
-STD_VIDEO_VP9_SEG_LVL_MAX :: 4;
-STD_VIDEO_VP9_MAX_SEGMENTATION_TREE_PROBS :: 7;
-STD_VIDEO_VP9_MAX_SEGMENTATION_PRED_PROB :: 3;
-
-vulkan_video_codec_vp9std_decode :: 1;
-
-VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_EXTENSION_NAME :: "VK_STD_vulkan_video_codec_vp9_decode";
 
 VK_MAX_VIDEO_VP9_REFERENCES_PER_FRAME_KHR :: 3;
 VK_KHR_VIDEO_DECODE_VP9_SPEC_VERSION :: 1;
@@ -1763,6 +1767,2162 @@ VK_NV_displacement_micromap :: 1;
 VK_NV_DISPLACEMENT_MICROMAP_SPEC_VERSION :: 2;
 VK_NV_DISPLACEMENT_MICROMAP_EXTENSION_NAME :: "VK_NV_displacement_micromap";
 
+VK_AMDX_dense_geometry_format :: 1;
+VK_AMDX_DENSE_GEOMETRY_FORMAT_SPEC_VERSION :: 1;
+VK_AMDX_DENSE_GEOMETRY_FORMAT_EXTENSION_NAME :: "VK_AMDX_dense_geometry_format";
+VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_BYTE_ALIGNMENT_AMDX :: 128;
+VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_BYTE_STRIDE_AMDX :: 128;
+
+StdVideoAV1Profile :: enum u32 {
+    MAIN         :: 0;
+    HIGH         :: 1;
+    PROFESSIONAL :: 2;
+    INVALID      :: 2147483647;
+    MAX_ENUM     :: 2147483647;
+
+    STD_VIDEO_AV1_PROFILE_MAIN         :: MAIN;
+    STD_VIDEO_AV1_PROFILE_HIGH         :: HIGH;
+    STD_VIDEO_AV1_PROFILE_PROFESSIONAL :: PROFESSIONAL;
+    STD_VIDEO_AV1_PROFILE_INVALID      :: INVALID;
+    STD_VIDEO_AV1_PROFILE_MAX_ENUM     :: MAX_ENUM;
+}
+
+StdVideoAV1Level :: enum u32 {
+    _2_0     :: 0;
+    _2_1     :: 1;
+    _2_2     :: 2;
+    _2_3     :: 3;
+    _3_0     :: 4;
+    _3_1     :: 5;
+    _3_2     :: 6;
+    _3_3     :: 7;
+    _4_0     :: 8;
+    _4_1     :: 9;
+    _4_2     :: 10;
+    _4_3     :: 11;
+    _5_0     :: 12;
+    _5_1     :: 13;
+    _5_2     :: 14;
+    _5_3     :: 15;
+    _6_0     :: 16;
+    _6_1     :: 17;
+    _6_2     :: 18;
+    _6_3     :: 19;
+    _7_0     :: 20;
+    _7_1     :: 21;
+    _7_2     :: 22;
+    _7_3     :: 23;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_AV1_LEVEL_2_0      :: _2_0;
+    STD_VIDEO_AV1_LEVEL_2_1      :: _2_1;
+    STD_VIDEO_AV1_LEVEL_2_2      :: _2_2;
+    STD_VIDEO_AV1_LEVEL_2_3      :: _2_3;
+    STD_VIDEO_AV1_LEVEL_3_0      :: _3_0;
+    STD_VIDEO_AV1_LEVEL_3_1      :: _3_1;
+    STD_VIDEO_AV1_LEVEL_3_2      :: _3_2;
+    STD_VIDEO_AV1_LEVEL_3_3      :: _3_3;
+    STD_VIDEO_AV1_LEVEL_4_0      :: _4_0;
+    STD_VIDEO_AV1_LEVEL_4_1      :: _4_1;
+    STD_VIDEO_AV1_LEVEL_4_2      :: _4_2;
+    STD_VIDEO_AV1_LEVEL_4_3      :: _4_3;
+    STD_VIDEO_AV1_LEVEL_5_0      :: _5_0;
+    STD_VIDEO_AV1_LEVEL_5_1      :: _5_1;
+    STD_VIDEO_AV1_LEVEL_5_2      :: _5_2;
+    STD_VIDEO_AV1_LEVEL_5_3      :: _5_3;
+    STD_VIDEO_AV1_LEVEL_6_0      :: _6_0;
+    STD_VIDEO_AV1_LEVEL_6_1      :: _6_1;
+    STD_VIDEO_AV1_LEVEL_6_2      :: _6_2;
+    STD_VIDEO_AV1_LEVEL_6_3      :: _6_3;
+    STD_VIDEO_AV1_LEVEL_7_0      :: _7_0;
+    STD_VIDEO_AV1_LEVEL_7_1      :: _7_1;
+    STD_VIDEO_AV1_LEVEL_7_2      :: _7_2;
+    STD_VIDEO_AV1_LEVEL_7_3      :: _7_3;
+    STD_VIDEO_AV1_LEVEL_INVALID  :: INVALID;
+    STD_VIDEO_AV1_LEVEL_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoAV1FrameType :: enum u32 {
+    KEY        :: 0;
+    INTER      :: 1;
+    INTRA_ONLY :: 2;
+    SWITCH     :: 3;
+    INVALID    :: 2147483647;
+    MAX_ENUM   :: 2147483647;
+
+    STD_VIDEO_AV1_FRAME_TYPE_KEY        :: KEY;
+    STD_VIDEO_AV1_FRAME_TYPE_INTER      :: INTER;
+    STD_VIDEO_AV1_FRAME_TYPE_INTRA_ONLY :: INTRA_ONLY;
+    STD_VIDEO_AV1_FRAME_TYPE_SWITCH     :: SWITCH;
+    STD_VIDEO_AV1_FRAME_TYPE_INVALID    :: INVALID;
+    STD_VIDEO_AV1_FRAME_TYPE_MAX_ENUM   :: MAX_ENUM;
+}
+
+StdVideoAV1ReferenceName :: enum u32 {
+    INTRA_FRAME   :: 0;
+    LAST_FRAME    :: 1;
+    LAST2_FRAME   :: 2;
+    LAST3_FRAME   :: 3;
+    GOLDEN_FRAME  :: 4;
+    BWDREF_FRAME  :: 5;
+    ALTREF2_FRAME :: 6;
+    ALTREF_FRAME  :: 7;
+    INVALID       :: 2147483647;
+    MAX_ENUM      :: 2147483647;
+
+    STD_VIDEO_AV1_REFERENCE_NAME_INTRA_FRAME   :: INTRA_FRAME;
+    STD_VIDEO_AV1_REFERENCE_NAME_LAST_FRAME    :: LAST_FRAME;
+    STD_VIDEO_AV1_REFERENCE_NAME_LAST2_FRAME   :: LAST2_FRAME;
+    STD_VIDEO_AV1_REFERENCE_NAME_LAST3_FRAME   :: LAST3_FRAME;
+    STD_VIDEO_AV1_REFERENCE_NAME_GOLDEN_FRAME  :: GOLDEN_FRAME;
+    STD_VIDEO_AV1_REFERENCE_NAME_BWDREF_FRAME  :: BWDREF_FRAME;
+    STD_VIDEO_AV1_REFERENCE_NAME_ALTREF2_FRAME :: ALTREF2_FRAME;
+    STD_VIDEO_AV1_REFERENCE_NAME_ALTREF_FRAME  :: ALTREF_FRAME;
+    STD_VIDEO_AV1_REFERENCE_NAME_INVALID       :: INVALID;
+    STD_VIDEO_AV1_REFERENCE_NAME_MAX_ENUM      :: MAX_ENUM;
+}
+
+StdVideoAV1InterpolationFilter :: enum u32 {
+    EIGHTTAP        :: 0;
+    EIGHTTAP_SMOOTH :: 1;
+    EIGHTTAP_SHARP  :: 2;
+    BILINEAR        :: 3;
+    SWITCHABLE      :: 4;
+    INVALID         :: 2147483647;
+    MAX_ENUM        :: 2147483647;
+
+    STD_VIDEO_AV1_INTERPOLATION_FILTER_EIGHTTAP        :: EIGHTTAP;
+    STD_VIDEO_AV1_INTERPOLATION_FILTER_EIGHTTAP_SMOOTH :: EIGHTTAP_SMOOTH;
+    STD_VIDEO_AV1_INTERPOLATION_FILTER_EIGHTTAP_SHARP  :: EIGHTTAP_SHARP;
+    STD_VIDEO_AV1_INTERPOLATION_FILTER_BILINEAR        :: BILINEAR;
+    STD_VIDEO_AV1_INTERPOLATION_FILTER_SWITCHABLE      :: SWITCHABLE;
+    STD_VIDEO_AV1_INTERPOLATION_FILTER_INVALID         :: INVALID;
+    STD_VIDEO_AV1_INTERPOLATION_FILTER_MAX_ENUM        :: MAX_ENUM;
+}
+
+StdVideoAV1TxMode :: enum u32 {
+    ONLY_4X4 :: 0;
+    LARGEST  :: 1;
+    SELECT   :: 2;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_AV1_TX_MODE_ONLY_4X4 :: ONLY_4X4;
+    STD_VIDEO_AV1_TX_MODE_LARGEST  :: LARGEST;
+    STD_VIDEO_AV1_TX_MODE_SELECT   :: SELECT;
+    STD_VIDEO_AV1_TX_MODE_INVALID  :: INVALID;
+    STD_VIDEO_AV1_TX_MODE_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoAV1FrameRestorationType :: enum u32 {
+    NONE       :: 0;
+    WIENER     :: 1;
+    SGRPROJ    :: 2;
+    SWITCHABLE :: 3;
+    INVALID    :: 2147483647;
+    MAX_ENUM   :: 2147483647;
+
+    STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_NONE       :: NONE;
+    STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_WIENER     :: WIENER;
+    STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_SGRPROJ    :: SGRPROJ;
+    STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_SWITCHABLE :: SWITCHABLE;
+    STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_INVALID    :: INVALID;
+    STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_MAX_ENUM   :: MAX_ENUM;
+}
+
+StdVideoAV1ColorPrimaries :: enum u32 {
+    BT_709         :: 1;
+    UNSPECIFIED    :: 2;
+    BT_470_M       :: 4;
+    BT_470_B_G     :: 5;
+    BT_601         :: 6;
+    SMPTE_240      :: 7;
+    GENERIC_FILM   :: 8;
+    BT_2020        :: 9;
+    XYZ            :: 10;
+    SMPTE_431      :: 11;
+    SMPTE_432      :: 12;
+    EBU_3213       :: 22;
+    INVALID        :: 2147483647;
+
+    BT_UNSPECIFIED :: 2;
+    MAX_ENUM       :: 2147483647;
+
+    STD_VIDEO_AV1_COLOR_PRIMARIES_BT_709         :: BT_709;
+    STD_VIDEO_AV1_COLOR_PRIMARIES_UNSPECIFIED    :: UNSPECIFIED;
+    STD_VIDEO_AV1_COLOR_PRIMARIES_BT_470_M       :: BT_470_M;
+    STD_VIDEO_AV1_COLOR_PRIMARIES_BT_470_B_G     :: BT_470_B_G;
+    STD_VIDEO_AV1_COLOR_PRIMARIES_BT_601         :: BT_601;
+    STD_VIDEO_AV1_COLOR_PRIMARIES_SMPTE_240      :: SMPTE_240;
+    STD_VIDEO_AV1_COLOR_PRIMARIES_GENERIC_FILM   :: GENERIC_FILM;
+    STD_VIDEO_AV1_COLOR_PRIMARIES_BT_2020        :: BT_2020;
+    STD_VIDEO_AV1_COLOR_PRIMARIES_XYZ            :: XYZ;
+    STD_VIDEO_AV1_COLOR_PRIMARIES_SMPTE_431      :: SMPTE_431;
+    STD_VIDEO_AV1_COLOR_PRIMARIES_SMPTE_432      :: SMPTE_432;
+    STD_VIDEO_AV1_COLOR_PRIMARIES_EBU_3213       :: EBU_3213;
+    STD_VIDEO_AV1_COLOR_PRIMARIES_INVALID        :: INVALID;
+
+    STD_VIDEO_AV1_COLOR_PRIMARIES_BT_UNSPECIFIED :: BT_UNSPECIFIED;
+    STD_VIDEO_AV1_COLOR_PRIMARIES_MAX_ENUM       :: MAX_ENUM;
+}
+
+StdVideoAV1TransferCharacteristics :: enum u32 {
+    RESERVED_0     :: 0;
+    BT_709         :: 1;
+    UNSPECIFIED    :: 2;
+    RESERVED_3     :: 3;
+    BT_470_M       :: 4;
+    BT_470_B_G     :: 5;
+    BT_601         :: 6;
+    SMPTE_240      :: 7;
+    LINEAR         :: 8;
+    LOG_100        :: 9;
+    LOG_100_SQRT10 :: 10;
+    IEC_61966      :: 11;
+    BT_1361        :: 12;
+    SRGB           :: 13;
+    BT_2020_10_BIT :: 14;
+    BT_2020_12_BIT :: 15;
+    SMPTE_2084     :: 16;
+    SMPTE_428      :: 17;
+    HLG            :: 18;
+    INVALID        :: 2147483647;
+    MAX_ENUM       :: 2147483647;
+
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_RESERVED_0     :: RESERVED_0;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_709         :: BT_709;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_UNSPECIFIED    :: UNSPECIFIED;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_RESERVED_3     :: RESERVED_3;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_470_M       :: BT_470_M;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_470_B_G     :: BT_470_B_G;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_601         :: BT_601;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_SMPTE_240      :: SMPTE_240;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_LINEAR         :: LINEAR;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_LOG_100        :: LOG_100;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_LOG_100_SQRT10 :: LOG_100_SQRT10;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_IEC_61966      :: IEC_61966;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_1361        :: BT_1361;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_SRGB           :: SRGB;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_2020_10_BIT :: BT_2020_10_BIT;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_2020_12_BIT :: BT_2020_12_BIT;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_SMPTE_2084     :: SMPTE_2084;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_SMPTE_428      :: SMPTE_428;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_HLG            :: HLG;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_INVALID        :: INVALID;
+    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_MAX_ENUM       :: MAX_ENUM;
+}
+
+StdVideoAV1MatrixCoefficients :: enum u32 {
+    IDENTITY    :: 0;
+    BT_709      :: 1;
+    UNSPECIFIED :: 2;
+    RESERVED_3  :: 3;
+    FCC         :: 4;
+    BT_470_B_G  :: 5;
+    BT_601      :: 6;
+    SMPTE_240   :: 7;
+    SMPTE_YCGCO :: 8;
+    BT_2020_NCL :: 9;
+    BT_2020_CL  :: 10;
+    SMPTE_2085  :: 11;
+    CHROMAT_NCL :: 12;
+    CHROMAT_CL  :: 13;
+    ICTCP       :: 14;
+    INVALID     :: 2147483647;
+    MAX_ENUM    :: 2147483647;
+
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_IDENTITY    :: IDENTITY;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_BT_709      :: BT_709;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_UNSPECIFIED :: UNSPECIFIED;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_RESERVED_3  :: RESERVED_3;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_FCC         :: FCC;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_BT_470_B_G  :: BT_470_B_G;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_BT_601      :: BT_601;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_SMPTE_240   :: SMPTE_240;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_SMPTE_YCGCO :: SMPTE_YCGCO;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_BT_2020_NCL :: BT_2020_NCL;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_BT_2020_CL  :: BT_2020_CL;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_SMPTE_2085  :: SMPTE_2085;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_CHROMAT_NCL :: CHROMAT_NCL;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_CHROMAT_CL  :: CHROMAT_CL;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_ICTCP       :: ICTCP;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_INVALID     :: INVALID;
+    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_MAX_ENUM    :: MAX_ENUM;
+}
+
+StdVideoAV1ChromaSamplePosition :: enum u32 {
+    UNKNOWN   :: 0;
+    VERTICAL  :: 1;
+    COLOCATED :: 2;
+    RESERVED  :: 3;
+    INVALID   :: 2147483647;
+    MAX_ENUM  :: 2147483647;
+
+    STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_UNKNOWN   :: UNKNOWN;
+    STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_VERTICAL  :: VERTICAL;
+    STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_COLOCATED :: COLOCATED;
+    STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_RESERVED  :: RESERVED;
+    STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_INVALID   :: INVALID;
+    STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_MAX_ENUM  :: MAX_ENUM;
+}
+
+StdVideoAV1ColorConfigFlags :: struct {
+    __bitfield: u32;
+    /* 
+        mono_chrome: u32; /* 1 bits */
+        color_range: u32; /* 1 bits */
+        separate_uv_delta_q: u32; /* 1 bits */
+        color_description_present_flag: u32; /* 1 bits */
+        reserved: u32; /* 28 bits */;
+    */
+}
+
+StdVideoAV1ColorConfig :: struct {
+    flags:                    StdVideoAV1ColorConfigFlags;
+    BitDepth:                 u8;
+    subsampling_x:            u8;
+    subsampling_y:            u8;
+    reserved1:                u8;
+    color_primaries:          StdVideoAV1ColorPrimaries;
+    transfer_characteristics: StdVideoAV1TransferCharacteristics;
+    matrix_coefficients:      StdVideoAV1MatrixCoefficients;
+    chroma_sample_position:   StdVideoAV1ChromaSamplePosition;
+}
+
+StdVideoAV1TimingInfoFlags :: struct {
+    __bitfield: u32;
+    /* 
+        equal_picture_interval: u32; /* 1 bits */
+        reserved: u32; /* 31 bits */;
+    */
+}
+
+StdVideoAV1TimingInfo :: struct {
+    flags:                         StdVideoAV1TimingInfoFlags;
+    num_units_in_display_tick:     u32;
+    time_scale:                    u32;
+    num_ticks_per_picture_minus_1: u32;
+}
+
+StdVideoAV1LoopFilterFlags :: struct {
+    __bitfield: u32;
+    /* 
+        loop_filter_delta_enabled: u32; /* 1 bits */
+        loop_filter_delta_update: u32; /* 1 bits */
+        reserved: u32; /* 30 bits */;
+    */
+}
+
+StdVideoAV1LoopFilter :: struct {
+    flags:                   StdVideoAV1LoopFilterFlags;
+    loop_filter_level:       [4] u8;
+    loop_filter_sharpness:   u8;
+    update_ref_delta:        u8;
+    loop_filter_ref_deltas:  [8] s8;
+    update_mode_delta:       u8;
+    loop_filter_mode_deltas: [2] s8;
+}
+
+StdVideoAV1QuantizationFlags :: struct {
+    __bitfield: u32;
+    /* 
+        using_qmatrix: u32; /* 1 bits */
+        diff_uv_delta: u32; /* 1 bits */
+        reserved: u32; /* 30 bits */;
+    */
+}
+
+StdVideoAV1Quantization :: struct {
+    flags:      StdVideoAV1QuantizationFlags;
+    base_q_idx: u8;
+    DeltaQYDc:  s8;
+    DeltaQUDc:  s8;
+    DeltaQUAc:  s8;
+    DeltaQVDc:  s8;
+    DeltaQVAc:  s8;
+    qm_y:       u8;
+    qm_u:       u8;
+    qm_v:       u8;
+}
+
+StdVideoAV1Segmentation :: struct {
+    FeatureEnabled: [8] u8;
+    FeatureData:    [8] [8] s16;
+}
+
+StdVideoAV1TileInfoFlags :: struct {
+    __bitfield: u32;
+    /* 
+        uniform_tile_spacing_flag: u32; /* 1 bits */
+        reserved: u32; /* 31 bits */;
+    */
+}
+
+StdVideoAV1TileInfo :: struct {
+    flags:                   StdVideoAV1TileInfoFlags;
+    TileCols:                u8;
+    TileRows:                u8;
+    context_update_tile_id:  u16;
+    tile_size_bytes_minus_1: u8;
+    reserved1:               [7] u8;
+    pMiColStarts:            *u16;
+    pMiRowStarts:            *u16;
+    pWidthInSbsMinus1:       *u16;
+    pHeightInSbsMinus1:      *u16;
+}
+
+StdVideoAV1CDEF :: struct {
+    cdef_damping_minus_3: u8;
+    cdef_bits:            u8;
+    cdef_y_pri_strength:  [8] u8;
+    cdef_y_sec_strength:  [8] u8;
+    cdef_uv_pri_strength: [8] u8;
+    cdef_uv_sec_strength: [8] u8;
+}
+
+StdVideoAV1LoopRestoration :: struct {
+    FrameRestorationType: [3] StdVideoAV1FrameRestorationType;
+    LoopRestorationSize:  [3] u16;
+}
+
+StdVideoAV1GlobalMotion :: struct {
+    GmType:    [8] u8;
+    gm_params: [8] [6] s32;
+}
+
+StdVideoAV1FilmGrainFlags :: struct {
+    __bitfield: u32;
+    /* 
+        chroma_scaling_from_luma: u32; /* 1 bits */
+        overlap_flag: u32; /* 1 bits */
+        clip_to_restricted_range: u32; /* 1 bits */
+        update_grain: u32; /* 1 bits */
+        reserved: u32; /* 28 bits */;
+    */
+}
+
+StdVideoAV1FilmGrain :: struct {
+    flags:                     StdVideoAV1FilmGrainFlags;
+    grain_scaling_minus_8:     u8;
+    ar_coeff_lag:              u8;
+    ar_coeff_shift_minus_6:    u8;
+    grain_scale_shift:         u8;
+    grain_seed:                u16;
+    film_grain_params_ref_idx: u8;
+    num_y_points:              u8;
+    point_y_value:             [14] u8;
+    point_y_scaling:           [14] u8;
+    num_cb_points:             u8;
+    point_cb_value:            [10] u8;
+    point_cb_scaling:          [10] u8;
+    num_cr_points:             u8;
+    point_cr_value:            [10] u8;
+    point_cr_scaling:          [10] u8;
+    ar_coeffs_y_plus_128:      [24] s8;
+    ar_coeffs_cb_plus_128:     [25] s8;
+    ar_coeffs_cr_plus_128:     [25] s8;
+    cb_mult:                   u8;
+    cb_luma_mult:              u8;
+    cb_offset:                 u16;
+    cr_mult:                   u8;
+    cr_luma_mult:              u8;
+    cr_offset:                 u16;
+}
+
+StdVideoAV1SequenceHeaderFlags :: struct {
+    __bitfield: u32;
+    /* 
+        still_picture: u32; /* 1 bits */
+        reduced_still_picture_header: u32; /* 1 bits */
+        use_128x128_superblock: u32; /* 1 bits */
+        enable_filter_intra: u32; /* 1 bits */
+        enable_intra_edge_filter: u32; /* 1 bits */
+        enable_interintra_compound: u32; /* 1 bits */
+        enable_masked_compound: u32; /* 1 bits */
+        enable_warped_motion: u32; /* 1 bits */
+        enable_dual_filter: u32; /* 1 bits */
+        enable_order_hint: u32; /* 1 bits */
+        enable_jnt_comp: u32; /* 1 bits */
+        enable_ref_frame_mvs: u32; /* 1 bits */
+        frame_id_numbers_present_flag: u32; /* 1 bits */
+        enable_superres: u32; /* 1 bits */
+        enable_cdef: u32; /* 1 bits */
+        enable_restoration: u32; /* 1 bits */
+        film_grain_params_present: u32; /* 1 bits */
+        timing_info_present_flag: u32; /* 1 bits */
+        initial_display_delay_present_flag: u32; /* 1 bits */
+        reserved: u32; /* 13 bits */;
+    */
+}
+
+StdVideoAV1SequenceHeader :: struct {
+    flags:                              StdVideoAV1SequenceHeaderFlags;
+    seq_profile:                        StdVideoAV1Profile;
+    frame_width_bits_minus_1:           u8;
+    frame_height_bits_minus_1:          u8;
+    max_frame_width_minus_1:            u16;
+    max_frame_height_minus_1:           u16;
+    delta_frame_id_length_minus_2:      u8;
+    additional_frame_id_length_minus_1: u8;
+    order_hint_bits_minus_1:            u8;
+    seq_force_integer_mv:               u8;
+    seq_force_screen_content_tools:     u8;
+    reserved1:                          [5] u8;
+    pColorConfig:                       *StdVideoAV1ColorConfig;
+    pTimingInfo:                        *StdVideoAV1TimingInfo;
+}
+
+StdVideoDecodeAV1PictureInfoFlags :: struct {
+    __bitfield: u32;
+    /* 
+        error_resilient_mode: u32; /* 1 bits */
+        disable_cdf_update: u32; /* 1 bits */
+        use_superres: u32; /* 1 bits */
+        render_and_frame_size_different: u32; /* 1 bits */
+        allow_screen_content_tools: u32; /* 1 bits */
+        is_filter_switchable: u32; /* 1 bits */
+        force_integer_mv: u32; /* 1 bits */
+        frame_size_override_flag: u32; /* 1 bits */
+        buffer_removal_time_present_flag: u32; /* 1 bits */
+        allow_intrabc: u32; /* 1 bits */
+        frame_refs_short_signaling: u32; /* 1 bits */
+        allow_high_precision_mv: u32; /* 1 bits */
+        is_motion_mode_switchable: u32; /* 1 bits */
+        use_ref_frame_mvs: u32; /* 1 bits */
+        disable_frame_end_update_cdf: u32; /* 1 bits */
+        allow_warped_motion: u32; /* 1 bits */
+        reduced_tx_set: u32; /* 1 bits */
+        reference_select: u32; /* 1 bits */
+        skip_mode_present: u32; /* 1 bits */
+        delta_q_present: u32; /* 1 bits */
+        delta_lf_present: u32; /* 1 bits */
+        delta_lf_multi: u32; /* 1 bits */
+        segmentation_enabled: u32; /* 1 bits */
+        segmentation_update_map: u32; /* 1 bits */
+        segmentation_temporal_update: u32; /* 1 bits */
+        segmentation_update_data: u32; /* 1 bits */
+        UsesLr: u32; /* 1 bits */
+        usesChromaLr: u32; /* 1 bits */
+        apply_grain: u32; /* 1 bits */
+        reserved: u32; /* 3 bits */;
+    */
+}
+
+StdVideoDecodeAV1PictureInfo :: struct {
+    flags:                StdVideoDecodeAV1PictureInfoFlags;
+    frame_type:           StdVideoAV1FrameType;
+    current_frame_id:     u32;
+    OrderHint:            u8;
+    primary_ref_frame:    u8;
+    refresh_frame_flags:  u8;
+    reserved1:            u8;
+    interpolation_filter: StdVideoAV1InterpolationFilter;
+    TxMode:               StdVideoAV1TxMode;
+    delta_q_res:          u8;
+    delta_lf_res:         u8;
+    SkipModeFrame:        [2] u8;
+    coded_denom:          u8;
+    reserved2:            [3] u8;
+    OrderHints:           [8] u8;
+    expectedFrameId:      [8] u32;
+    pTileInfo:            *StdVideoAV1TileInfo;
+    pQuantization:        *StdVideoAV1Quantization;
+    pSegmentation:        *StdVideoAV1Segmentation;
+    pLoopFilter:          *StdVideoAV1LoopFilter;
+    pCDEF:                *StdVideoAV1CDEF;
+    pLoopRestoration:     *StdVideoAV1LoopRestoration;
+    pGlobalMotion:        *StdVideoAV1GlobalMotion;
+    pFilmGrain:           *StdVideoAV1FilmGrain;
+}
+
+StdVideoDecodeAV1ReferenceInfoFlags :: struct {
+    __bitfield: u32;
+    /* 
+        disable_frame_end_update_cdf: u32; /* 1 bits */
+        segmentation_enabled: u32; /* 1 bits */
+        reserved: u32; /* 30 bits */;
+    */
+}
+
+StdVideoDecodeAV1ReferenceInfo :: struct {
+    flags:            StdVideoDecodeAV1ReferenceInfoFlags;
+    frame_type:       u8;
+    RefFrameSignBias: u8;
+    OrderHint:        u8;
+    SavedOrderHints:  [8] u8;
+}
+
+StdVideoH264ChromaFormatIdc :: enum u32 {
+    MONOCHROME :: 0;
+    _420       :: 1;
+    _422       :: 2;
+    _444       :: 3;
+    INVALID    :: 2147483647;
+    MAX_ENUM   :: 2147483647;
+
+    STD_VIDEO_H264_CHROMA_FORMAT_IDC_MONOCHROME :: MONOCHROME;
+    STD_VIDEO_H264_CHROMA_FORMAT_IDC_420        :: _420;
+    STD_VIDEO_H264_CHROMA_FORMAT_IDC_422        :: _422;
+    STD_VIDEO_H264_CHROMA_FORMAT_IDC_444        :: _444;
+    STD_VIDEO_H264_CHROMA_FORMAT_IDC_INVALID    :: INVALID;
+    STD_VIDEO_H264_CHROMA_FORMAT_IDC_MAX_ENUM   :: MAX_ENUM;
+}
+
+StdVideoH264ProfileIdc :: enum u32 {
+    BASELINE            :: 66;
+    MAIN                :: 77;
+    HIGH                :: 100;
+    HIGH_444_PREDICTIVE :: 244;
+    INVALID             :: 2147483647;
+    MAX_ENUM            :: 2147483647;
+
+    STD_VIDEO_H264_PROFILE_IDC_BASELINE            :: BASELINE;
+    STD_VIDEO_H264_PROFILE_IDC_MAIN                :: MAIN;
+    STD_VIDEO_H264_PROFILE_IDC_HIGH                :: HIGH;
+    STD_VIDEO_H264_PROFILE_IDC_HIGH_444_PREDICTIVE :: HIGH_444_PREDICTIVE;
+    STD_VIDEO_H264_PROFILE_IDC_INVALID             :: INVALID;
+    STD_VIDEO_H264_PROFILE_IDC_MAX_ENUM            :: MAX_ENUM;
+}
+
+StdVideoH264LevelIdc :: enum u32 {
+    _1_0     :: 0;
+    _1_1     :: 1;
+    _1_2     :: 2;
+    _1_3     :: 3;
+    _2_0     :: 4;
+    _2_1     :: 5;
+    _2_2     :: 6;
+    _3_0     :: 7;
+    _3_1     :: 8;
+    _3_2     :: 9;
+    _4_0     :: 10;
+    _4_1     :: 11;
+    _4_2     :: 12;
+    _5_0     :: 13;
+    _5_1     :: 14;
+    _5_2     :: 15;
+    _6_0     :: 16;
+    _6_1     :: 17;
+    _6_2     :: 18;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_H264_LEVEL_IDC_1_0      :: _1_0;
+    STD_VIDEO_H264_LEVEL_IDC_1_1      :: _1_1;
+    STD_VIDEO_H264_LEVEL_IDC_1_2      :: _1_2;
+    STD_VIDEO_H264_LEVEL_IDC_1_3      :: _1_3;
+    STD_VIDEO_H264_LEVEL_IDC_2_0      :: _2_0;
+    STD_VIDEO_H264_LEVEL_IDC_2_1      :: _2_1;
+    STD_VIDEO_H264_LEVEL_IDC_2_2      :: _2_2;
+    STD_VIDEO_H264_LEVEL_IDC_3_0      :: _3_0;
+    STD_VIDEO_H264_LEVEL_IDC_3_1      :: _3_1;
+    STD_VIDEO_H264_LEVEL_IDC_3_2      :: _3_2;
+    STD_VIDEO_H264_LEVEL_IDC_4_0      :: _4_0;
+    STD_VIDEO_H264_LEVEL_IDC_4_1      :: _4_1;
+    STD_VIDEO_H264_LEVEL_IDC_4_2      :: _4_2;
+    STD_VIDEO_H264_LEVEL_IDC_5_0      :: _5_0;
+    STD_VIDEO_H264_LEVEL_IDC_5_1      :: _5_1;
+    STD_VIDEO_H264_LEVEL_IDC_5_2      :: _5_2;
+    STD_VIDEO_H264_LEVEL_IDC_6_0      :: _6_0;
+    STD_VIDEO_H264_LEVEL_IDC_6_1      :: _6_1;
+    STD_VIDEO_H264_LEVEL_IDC_6_2      :: _6_2;
+    STD_VIDEO_H264_LEVEL_IDC_INVALID  :: INVALID;
+    STD_VIDEO_H264_LEVEL_IDC_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoH264PocType :: enum u32 {
+    _0       :: 0;
+    _1       :: 1;
+    _2       :: 2;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_H264_POC_TYPE_0        :: _0;
+    STD_VIDEO_H264_POC_TYPE_1        :: _1;
+    STD_VIDEO_H264_POC_TYPE_2        :: _2;
+    STD_VIDEO_H264_POC_TYPE_INVALID  :: INVALID;
+    STD_VIDEO_H264_POC_TYPE_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoH264AspectRatioIdc :: enum u32 {
+    UNSPECIFIED  :: 0;
+    SQUARE       :: 1;
+    _12_11       :: 2;
+    _10_11       :: 3;
+    _16_11       :: 4;
+    _40_33       :: 5;
+    _24_11       :: 6;
+    _20_11       :: 7;
+    _32_11       :: 8;
+    _80_33       :: 9;
+    _18_11       :: 10;
+    _15_11       :: 11;
+    _64_33       :: 12;
+    _160_99      :: 13;
+    _4_3         :: 14;
+    _3_2         :: 15;
+    _2_1         :: 16;
+    EXTENDED_SAR :: 255;
+    INVALID      :: 2147483647;
+    MAX_ENUM     :: 2147483647;
+
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_UNSPECIFIED  :: UNSPECIFIED;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_SQUARE       :: SQUARE;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_12_11        :: _12_11;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_10_11        :: _10_11;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_16_11        :: _16_11;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_40_33        :: _40_33;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_24_11        :: _24_11;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_20_11        :: _20_11;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_32_11        :: _32_11;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_80_33        :: _80_33;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_18_11        :: _18_11;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_15_11        :: _15_11;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_64_33        :: _64_33;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_160_99       :: _160_99;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_4_3          :: _4_3;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_3_2          :: _3_2;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_2_1          :: _2_1;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_EXTENDED_SAR :: EXTENDED_SAR;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_INVALID      :: INVALID;
+    STD_VIDEO_H264_ASPECT_RATIO_IDC_MAX_ENUM     :: MAX_ENUM;
+}
+
+StdVideoH264WeightedBipredIdc :: enum u32 {
+    DEFAULT  :: 0;
+    EXPLICIT :: 1;
+    IMPLICIT :: 2;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_DEFAULT  :: DEFAULT;
+    STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_EXPLICIT :: EXPLICIT;
+    STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_IMPLICIT :: IMPLICIT;
+    STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_INVALID  :: INVALID;
+    STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoH264ModificationOfPicNumsIdc :: enum u32 {
+    SHORT_TERM_SUBTRACT :: 0;
+    SHORT_TERM_ADD      :: 1;
+    LONG_TERM           :: 2;
+    END                 :: 3;
+    INVALID             :: 2147483647;
+    MAX_ENUM            :: 2147483647;
+
+    STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_SHORT_TERM_SUBTRACT :: SHORT_TERM_SUBTRACT;
+    STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_SHORT_TERM_ADD      :: SHORT_TERM_ADD;
+    STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_LONG_TERM           :: LONG_TERM;
+    STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_END                 :: END;
+    STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_INVALID             :: INVALID;
+    STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_MAX_ENUM            :: MAX_ENUM;
+}
+
+StdVideoH264MemMgmtControlOp :: enum u32 {
+    END                       :: 0;
+    UNMARK_SHORT_TERM         :: 1;
+    UNMARK_LONG_TERM          :: 2;
+    MARK_LONG_TERM            :: 3;
+    SET_MAX_LONG_TERM_INDEX   :: 4;
+    UNMARK_ALL                :: 5;
+    MARK_CURRENT_AS_LONG_TERM :: 6;
+    INVALID                   :: 2147483647;
+    MAX_ENUM                  :: 2147483647;
+
+    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_END                       :: END;
+    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_UNMARK_SHORT_TERM         :: UNMARK_SHORT_TERM;
+    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_UNMARK_LONG_TERM          :: UNMARK_LONG_TERM;
+    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_MARK_LONG_TERM            :: MARK_LONG_TERM;
+    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_SET_MAX_LONG_TERM_INDEX   :: SET_MAX_LONG_TERM_INDEX;
+    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_UNMARK_ALL                :: UNMARK_ALL;
+    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_MARK_CURRENT_AS_LONG_TERM :: MARK_CURRENT_AS_LONG_TERM;
+    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_INVALID                   :: INVALID;
+    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_MAX_ENUM                  :: MAX_ENUM;
+}
+
+StdVideoH264CabacInitIdc :: enum u32 {
+    _0       :: 0;
+    _1       :: 1;
+    _2       :: 2;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_H264_CABAC_INIT_IDC_0        :: _0;
+    STD_VIDEO_H264_CABAC_INIT_IDC_1        :: _1;
+    STD_VIDEO_H264_CABAC_INIT_IDC_2        :: _2;
+    STD_VIDEO_H264_CABAC_INIT_IDC_INVALID  :: INVALID;
+    STD_VIDEO_H264_CABAC_INIT_IDC_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoH264DisableDeblockingFilterIdc :: enum u32 {
+    DISABLED :: 0;
+    ENABLED  :: 1;
+    PARTIAL  :: 2;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_DISABLED :: DISABLED;
+    STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_ENABLED  :: ENABLED;
+    STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_PARTIAL  :: PARTIAL;
+    STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_INVALID  :: INVALID;
+    STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoH264SliceType :: enum u32 {
+    P        :: 0;
+    B        :: 1;
+    I        :: 2;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_H264_SLICE_TYPE_P        :: P;
+    STD_VIDEO_H264_SLICE_TYPE_B        :: B;
+    STD_VIDEO_H264_SLICE_TYPE_I        :: I;
+    STD_VIDEO_H264_SLICE_TYPE_INVALID  :: INVALID;
+    STD_VIDEO_H264_SLICE_TYPE_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoH264PictureType :: enum u32 {
+    P        :: 0;
+    B        :: 1;
+    I        :: 2;
+    IDR      :: 5;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_H264_PICTURE_TYPE_P        :: P;
+    STD_VIDEO_H264_PICTURE_TYPE_B        :: B;
+    STD_VIDEO_H264_PICTURE_TYPE_I        :: I;
+    STD_VIDEO_H264_PICTURE_TYPE_IDR      :: IDR;
+    STD_VIDEO_H264_PICTURE_TYPE_INVALID  :: INVALID;
+    STD_VIDEO_H264_PICTURE_TYPE_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoH264NonVclNaluType :: enum u32 {
+    SPS             :: 0;
+    PPS             :: 1;
+    AUD             :: 2;
+    PREFIX          :: 3;
+    END_OF_SEQUENCE :: 4;
+    END_OF_STREAM   :: 5;
+    PRECODED        :: 6;
+    INVALID         :: 2147483647;
+    MAX_ENUM        :: 2147483647;
+
+    STD_VIDEO_H264_NON_VCL_NALU_TYPE_SPS             :: SPS;
+    STD_VIDEO_H264_NON_VCL_NALU_TYPE_PPS             :: PPS;
+    STD_VIDEO_H264_NON_VCL_NALU_TYPE_AUD             :: AUD;
+    STD_VIDEO_H264_NON_VCL_NALU_TYPE_PREFIX          :: PREFIX;
+    STD_VIDEO_H264_NON_VCL_NALU_TYPE_END_OF_SEQUENCE :: END_OF_SEQUENCE;
+    STD_VIDEO_H264_NON_VCL_NALU_TYPE_END_OF_STREAM   :: END_OF_STREAM;
+    STD_VIDEO_H264_NON_VCL_NALU_TYPE_PRECODED        :: PRECODED;
+    STD_VIDEO_H264_NON_VCL_NALU_TYPE_INVALID         :: INVALID;
+    STD_VIDEO_H264_NON_VCL_NALU_TYPE_MAX_ENUM        :: MAX_ENUM;
+}
+
+StdVideoH264SpsVuiFlags :: struct {
+    __bitfield: u16;
+    /* 
+        aspect_ratio_info_present_flag: u32; /* 1 bits */
+        overscan_info_present_flag: u32; /* 1 bits */
+        overscan_appropriate_flag: u32; /* 1 bits */
+        video_signal_type_present_flag: u32; /* 1 bits */
+        video_full_range_flag: u32; /* 1 bits */
+        color_description_present_flag: u32; /* 1 bits */
+        chroma_loc_info_present_flag: u32; /* 1 bits */
+        timing_info_present_flag: u32; /* 1 bits */
+        fixed_frame_rate_flag: u32; /* 1 bits */
+        bitstream_restriction_flag: u32; /* 1 bits */
+        nal_hrd_parameters_present_flag: u32; /* 1 bits */
+        vcl_hrd_parameters_present_flag: u32; /* 1 bits */;
+    */
+    #place __bitfield; StdVideoH264SpsVuiFlags_alignment: u32;
+}
+
+StdVideoH264HrdParameters :: struct {
+    cpb_cnt_minus1:                          u8;
+    bit_rate_scale:                          u8;
+    cpb_size_scale:                          u8;
+    reserved1:                               u8;
+    bit_rate_value_minus1:                   [32] u32;
+    cpb_size_value_minus1:                   [32] u32;
+    cbr_flag:                                [32] u8;
+    initial_cpb_removal_delay_length_minus1: u32;
+    cpb_removal_delay_length_minus1:         u32;
+    dpb_output_delay_length_minus1:          u32;
+    time_offset_length:                      u32;
+}
+
+StdVideoH264SequenceParameterSetVui :: struct {
+    flags:                               StdVideoH264SpsVuiFlags;
+    aspect_ratio_idc:                    StdVideoH264AspectRatioIdc;
+    sar_width:                           u16;
+    sar_height:                          u16;
+    video_format:                        u8;
+    colour_primaries:                    u8;
+    transfer_characteristics:            u8;
+    matrix_coefficients:                 u8;
+    num_units_in_tick:                   u32;
+    time_scale:                          u32;
+    max_num_reorder_frames:              u8;
+    max_dec_frame_buffering:             u8;
+    chroma_sample_loc_type_top_field:    u8;
+    chroma_sample_loc_type_bottom_field: u8;
+    reserved1:                           u32;
+    pHrdParameters:                      *StdVideoH264HrdParameters;
+}
+
+StdVideoH264SpsFlags :: struct {
+    __bitfield: u16;
+    /* 
+        constraint_set0_flag: u32; /* 1 bits */
+        constraint_set1_flag: u32; /* 1 bits */
+        constraint_set2_flag: u32; /* 1 bits */
+        constraint_set3_flag: u32; /* 1 bits */
+        constraint_set4_flag: u32; /* 1 bits */
+        constraint_set5_flag: u32; /* 1 bits */
+        direct_8x8_inference_flag: u32; /* 1 bits */
+        mb_adaptive_frame_field_flag: u32; /* 1 bits */
+        frame_mbs_only_flag: u32; /* 1 bits */
+        delta_pic_order_always_zero_flag: u32; /* 1 bits */
+        separate_colour_plane_flag: u32; /* 1 bits */
+        gaps_in_frame_num_value_allowed_flag: u32; /* 1 bits */
+        qpprime_y_zero_transform_bypass_flag: u32; /* 1 bits */
+        frame_cropping_flag: u32; /* 1 bits */
+        seq_scaling_matrix_present_flag: u32; /* 1 bits */
+        vui_parameters_present_flag: u32; /* 1 bits */;
+    */
+    #place __bitfield; StdVideoH264SpsFlags_alignment: u32;
+}
+
+StdVideoH264ScalingLists :: struct {
+    scaling_list_present_mask:       u16;
+    use_default_scaling_matrix_mask: u16;
+    ScalingList4x4:                  [6] [16] u8;
+    ScalingList8x8:                  [6] [64] u8;
+}
+
+StdVideoH264SequenceParameterSet :: struct {
+    flags:                                 StdVideoH264SpsFlags;
+    profile_idc:                           StdVideoH264ProfileIdc;
+    level_idc:                             StdVideoH264LevelIdc;
+    chroma_format_idc:                     StdVideoH264ChromaFormatIdc;
+    seq_parameter_set_id:                  u8;
+    bit_depth_luma_minus8:                 u8;
+    bit_depth_chroma_minus8:               u8;
+    log2_max_frame_num_minus4:             u8;
+    pic_order_cnt_type:                    StdVideoH264PocType;
+    offset_for_non_ref_pic:                s32;
+    offset_for_top_to_bottom_field:        s32;
+    log2_max_pic_order_cnt_lsb_minus4:     u8;
+    num_ref_frames_in_pic_order_cnt_cycle: u8;
+    max_num_ref_frames:                    u8;
+    reserved1:                             u8;
+    pic_width_in_mbs_minus1:               u32;
+    pic_height_in_map_units_minus1:        u32;
+    frame_crop_left_offset:                u32;
+    frame_crop_right_offset:               u32;
+    frame_crop_top_offset:                 u32;
+    frame_crop_bottom_offset:              u32;
+    reserved2:                             u32;
+    pOffsetForRefFrame:                    *s32;
+    pScalingLists:                         *StdVideoH264ScalingLists;
+    pSequenceParameterSetVui:              *StdVideoH264SequenceParameterSetVui;
+}
+
+StdVideoH264PpsFlags :: struct {
+    __bitfield: u8;
+    /* 
+        transform_8x8_mode_flag: u32; /* 1 bits */
+        redundant_pic_cnt_present_flag: u32; /* 1 bits */
+        constrained_intra_pred_flag: u32; /* 1 bits */
+        deblocking_filter_control_present_flag: u32; /* 1 bits */
+        weighted_pred_flag: u32; /* 1 bits */
+        bottom_field_pic_order_in_frame_present_flag: u32; /* 1 bits */
+        entropy_coding_mode_flag: u32; /* 1 bits */
+        pic_scaling_matrix_present_flag: u32; /* 1 bits */;
+    */
+    #place __bitfield; StdVideoH264PpsFlags_alignment: u32;
+}
+
+StdVideoH264PictureParameterSet :: struct {
+    flags:                                StdVideoH264PpsFlags;
+    seq_parameter_set_id:                 u8;
+    pic_parameter_set_id:                 u8;
+    num_ref_idx_l0_default_active_minus1: u8;
+    num_ref_idx_l1_default_active_minus1: u8;
+    weighted_bipred_idc:                  StdVideoH264WeightedBipredIdc;
+    pic_init_qp_minus26:                  s8;
+    pic_init_qs_minus26:                  s8;
+    chroma_qp_index_offset:               s8;
+    second_chroma_qp_index_offset:        s8;
+    pScalingLists:                        *StdVideoH264ScalingLists;
+}
+
+StdVideoEncodeAV1DecoderModelInfo :: struct {
+    buffer_delay_length_minus_1:            u8;
+    buffer_removal_time_length_minus_1:     u8;
+    frame_presentation_time_length_minus_1: u8;
+    reserved1:                              u8;
+    num_units_in_decoding_tick:             u32;
+}
+
+StdVideoEncodeAV1ExtensionHeader :: struct {
+    temporal_id: u8;
+    spatial_id:  u8;
+}
+
+StdVideoEncodeAV1OperatingPointInfoFlags :: struct {
+    __bitfield: u32;
+    /* 
+        decoder_model_present_for_this_op: u32; /* 1 bits */
+        low_delay_mode_flag: u32; /* 1 bits */
+        initial_display_delay_present_for_this_op: u32; /* 1 bits */
+        reserved: u32; /* 29 bits */;
+    */
+}
+
+StdVideoEncodeAV1OperatingPointInfo :: struct {
+    flags:                         StdVideoEncodeAV1OperatingPointInfoFlags;
+    operating_point_idc:           u16;
+    seq_level_idx:                 u8;
+    seq_tier:                      u8;
+    decoder_buffer_delay:          u32;
+    encoder_buffer_delay:          u32;
+    initial_display_delay_minus_1: u8;
+}
+
+StdVideoEncodeAV1PictureInfoFlags :: struct {
+    __bitfield: u32;
+    /* 
+        error_resilient_mode: u32; /* 1 bits */
+        disable_cdf_update: u32; /* 1 bits */
+        use_superres: u32; /* 1 bits */
+        render_and_frame_size_different: u32; /* 1 bits */
+        allow_screen_content_tools: u32; /* 1 bits */
+        is_filter_switchable: u32; /* 1 bits */
+        force_integer_mv: u32; /* 1 bits */
+        frame_size_override_flag: u32; /* 1 bits */
+        buffer_removal_time_present_flag: u32; /* 1 bits */
+        allow_intrabc: u32; /* 1 bits */
+        frame_refs_short_signaling: u32; /* 1 bits */
+        allow_high_precision_mv: u32; /* 1 bits */
+        is_motion_mode_switchable: u32; /* 1 bits */
+        use_ref_frame_mvs: u32; /* 1 bits */
+        disable_frame_end_update_cdf: u32; /* 1 bits */
+        allow_warped_motion: u32; /* 1 bits */
+        reduced_tx_set: u32; /* 1 bits */
+        skip_mode_present: u32; /* 1 bits */
+        delta_q_present: u32; /* 1 bits */
+        delta_lf_present: u32; /* 1 bits */
+        delta_lf_multi: u32; /* 1 bits */
+        segmentation_enabled: u32; /* 1 bits */
+        segmentation_update_map: u32; /* 1 bits */
+        segmentation_temporal_update: u32; /* 1 bits */
+        segmentation_update_data: u32; /* 1 bits */
+        UsesLr: u32; /* 1 bits */
+        usesChromaLr: u32; /* 1 bits */
+        show_frame: u32; /* 1 bits */
+        showable_frame: u32; /* 1 bits */
+        reserved: u32; /* 3 bits */;
+    */
+}
+
+StdVideoEncodeAV1PictureInfo :: struct {
+    flags:                   StdVideoEncodeAV1PictureInfoFlags;
+    frame_type:              StdVideoAV1FrameType;
+    frame_presentation_time: u32;
+    current_frame_id:        u32;
+    order_hint:              u8;
+    primary_ref_frame:       u8;
+    refresh_frame_flags:     u8;
+    coded_denom:             u8;
+    render_width_minus_1:    u16;
+    render_height_minus_1:   u16;
+    interpolation_filter:    StdVideoAV1InterpolationFilter;
+    TxMode:                  StdVideoAV1TxMode;
+    delta_q_res:             u8;
+    delta_lf_res:            u8;
+    ref_order_hint:          [8] u8;
+    ref_frame_idx:           [7] s8;
+    reserved1:               [3] u8;
+    delta_frame_id_minus_1:  [7] u32;
+    pTileInfo:               *StdVideoAV1TileInfo;
+    pQuantization:           *StdVideoAV1Quantization;
+    pSegmentation:           *StdVideoAV1Segmentation;
+    pLoopFilter:             *StdVideoAV1LoopFilter;
+    pCDEF:                   *StdVideoAV1CDEF;
+    pLoopRestoration:        *StdVideoAV1LoopRestoration;
+    pGlobalMotion:           *StdVideoAV1GlobalMotion;
+    pExtensionHeader:        *StdVideoEncodeAV1ExtensionHeader;
+    pBufferRemovalTimes:     *u32;
+}
+
+StdVideoEncodeAV1ReferenceInfoFlags :: struct {
+    __bitfield: u32;
+    /* 
+        disable_frame_end_update_cdf: u32; /* 1 bits */
+        segmentation_enabled: u32; /* 1 bits */
+        reserved: u32; /* 30 bits */;
+    */
+}
+
+StdVideoEncodeAV1ReferenceInfo :: struct {
+    flags:            StdVideoEncodeAV1ReferenceInfoFlags;
+    RefFrameId:       u32;
+    frame_type:       StdVideoAV1FrameType;
+    OrderHint:        u8;
+    reserved1:        [3] u8;
+    pExtensionHeader: *StdVideoEncodeAV1ExtensionHeader;
+}
+
+StdVideoH265ChromaFormatIdc :: enum u32 {
+    MONOCHROME :: 0;
+    _420       :: 1;
+    _422       :: 2;
+    _444       :: 3;
+    INVALID    :: 2147483647;
+    MAX_ENUM   :: 2147483647;
+
+    STD_VIDEO_H265_CHROMA_FORMAT_IDC_MONOCHROME :: MONOCHROME;
+    STD_VIDEO_H265_CHROMA_FORMAT_IDC_420        :: _420;
+    STD_VIDEO_H265_CHROMA_FORMAT_IDC_422        :: _422;
+    STD_VIDEO_H265_CHROMA_FORMAT_IDC_444        :: _444;
+    STD_VIDEO_H265_CHROMA_FORMAT_IDC_INVALID    :: INVALID;
+    STD_VIDEO_H265_CHROMA_FORMAT_IDC_MAX_ENUM   :: MAX_ENUM;
+}
+
+StdVideoH265ProfileIdc :: enum u32 {
+    MAIN                    :: 1;
+    MAIN_10                 :: 2;
+    MAIN_STILL_PICTURE      :: 3;
+    FORMAT_RANGE_EXTENSIONS :: 4;
+    SCC_EXTENSIONS          :: 9;
+    INVALID                 :: 2147483647;
+    MAX_ENUM                :: 2147483647;
+
+    STD_VIDEO_H265_PROFILE_IDC_MAIN                    :: MAIN;
+    STD_VIDEO_H265_PROFILE_IDC_MAIN_10                 :: MAIN_10;
+    STD_VIDEO_H265_PROFILE_IDC_MAIN_STILL_PICTURE      :: MAIN_STILL_PICTURE;
+    STD_VIDEO_H265_PROFILE_IDC_FORMAT_RANGE_EXTENSIONS :: FORMAT_RANGE_EXTENSIONS;
+    STD_VIDEO_H265_PROFILE_IDC_SCC_EXTENSIONS          :: SCC_EXTENSIONS;
+    STD_VIDEO_H265_PROFILE_IDC_INVALID                 :: INVALID;
+    STD_VIDEO_H265_PROFILE_IDC_MAX_ENUM                :: MAX_ENUM;
+}
+
+StdVideoH265LevelIdc :: enum u32 {
+    _1_0     :: 0;
+    _2_0     :: 1;
+    _2_1     :: 2;
+    _3_0     :: 3;
+    _3_1     :: 4;
+    _4_0     :: 5;
+    _4_1     :: 6;
+    _5_0     :: 7;
+    _5_1     :: 8;
+    _5_2     :: 9;
+    _6_0     :: 10;
+    _6_1     :: 11;
+    _6_2     :: 12;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_H265_LEVEL_IDC_1_0      :: _1_0;
+    STD_VIDEO_H265_LEVEL_IDC_2_0      :: _2_0;
+    STD_VIDEO_H265_LEVEL_IDC_2_1      :: _2_1;
+    STD_VIDEO_H265_LEVEL_IDC_3_0      :: _3_0;
+    STD_VIDEO_H265_LEVEL_IDC_3_1      :: _3_1;
+    STD_VIDEO_H265_LEVEL_IDC_4_0      :: _4_0;
+    STD_VIDEO_H265_LEVEL_IDC_4_1      :: _4_1;
+    STD_VIDEO_H265_LEVEL_IDC_5_0      :: _5_0;
+    STD_VIDEO_H265_LEVEL_IDC_5_1      :: _5_1;
+    STD_VIDEO_H265_LEVEL_IDC_5_2      :: _5_2;
+    STD_VIDEO_H265_LEVEL_IDC_6_0      :: _6_0;
+    STD_VIDEO_H265_LEVEL_IDC_6_1      :: _6_1;
+    STD_VIDEO_H265_LEVEL_IDC_6_2      :: _6_2;
+    STD_VIDEO_H265_LEVEL_IDC_INVALID  :: INVALID;
+    STD_VIDEO_H265_LEVEL_IDC_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoH265SliceType :: enum u32 {
+    B        :: 0;
+    P        :: 1;
+    I        :: 2;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_H265_SLICE_TYPE_B        :: B;
+    STD_VIDEO_H265_SLICE_TYPE_P        :: P;
+    STD_VIDEO_H265_SLICE_TYPE_I        :: I;
+    STD_VIDEO_H265_SLICE_TYPE_INVALID  :: INVALID;
+    STD_VIDEO_H265_SLICE_TYPE_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoH265PictureType :: enum u32 {
+    P        :: 0;
+    B        :: 1;
+    I        :: 2;
+    IDR      :: 3;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_H265_PICTURE_TYPE_P        :: P;
+    STD_VIDEO_H265_PICTURE_TYPE_B        :: B;
+    STD_VIDEO_H265_PICTURE_TYPE_I        :: I;
+    STD_VIDEO_H265_PICTURE_TYPE_IDR      :: IDR;
+    STD_VIDEO_H265_PICTURE_TYPE_INVALID  :: INVALID;
+    STD_VIDEO_H265_PICTURE_TYPE_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoH265AspectRatioIdc :: enum u32 {
+    UNSPECIFIED  :: 0;
+    SQUARE       :: 1;
+    _12_11       :: 2;
+    _10_11       :: 3;
+    _16_11       :: 4;
+    _40_33       :: 5;
+    _24_11       :: 6;
+    _20_11       :: 7;
+    _32_11       :: 8;
+    _80_33       :: 9;
+    _18_11       :: 10;
+    _15_11       :: 11;
+    _64_33       :: 12;
+    _160_99      :: 13;
+    _4_3         :: 14;
+    _3_2         :: 15;
+    _2_1         :: 16;
+    EXTENDED_SAR :: 255;
+    INVALID      :: 2147483647;
+    MAX_ENUM     :: 2147483647;
+
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_UNSPECIFIED  :: UNSPECIFIED;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_SQUARE       :: SQUARE;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_12_11        :: _12_11;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_10_11        :: _10_11;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_16_11        :: _16_11;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_40_33        :: _40_33;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_24_11        :: _24_11;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_20_11        :: _20_11;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_32_11        :: _32_11;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_80_33        :: _80_33;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_18_11        :: _18_11;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_15_11        :: _15_11;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_64_33        :: _64_33;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_160_99       :: _160_99;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_4_3          :: _4_3;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_3_2          :: _3_2;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_2_1          :: _2_1;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_EXTENDED_SAR :: EXTENDED_SAR;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_INVALID      :: INVALID;
+    STD_VIDEO_H265_ASPECT_RATIO_IDC_MAX_ENUM     :: MAX_ENUM;
+}
+
+StdVideoH265DecPicBufMgr :: struct {
+    max_latency_increase_plus1:   [7] u32;
+    max_dec_pic_buffering_minus1: [7] u8;
+    max_num_reorder_pics:         [7] u8;
+}
+
+StdVideoH265SubLayerHrdParameters :: struct {
+    bit_rate_value_minus1:    [32] u32;
+    cpb_size_value_minus1:    [32] u32;
+    cpb_size_du_value_minus1: [32] u32;
+    bit_rate_du_value_minus1: [32] u32;
+    cbr_flag:                 u32;
+}
+
+StdVideoH265HrdFlags :: struct {
+    __bitfield: u32;
+    /* 
+        nal_hrd_parameters_present_flag: u32; /* 1 bits */
+        vcl_hrd_parameters_present_flag: u32; /* 1 bits */
+        sub_pic_hrd_params_present_flag: u32; /* 1 bits */
+        sub_pic_cpb_params_in_pic_timing_sei_flag: u32; /* 1 bits */
+        fixed_pic_rate_general_flag: u32; /* 8 bits */
+        fixed_pic_rate_within_cvs_flag: u32; /* 8 bits */
+        low_delay_hrd_flag: u32; /* 8 bits */;
+    */
+}
+
+StdVideoH265HrdParameters :: struct {
+    flags:                                        StdVideoH265HrdFlags;
+    tick_divisor_minus2:                          u8;
+    du_cpb_removal_delay_increment_length_minus1: u8;
+    dpb_output_delay_du_length_minus1:            u8;
+    bit_rate_scale:                               u8;
+    cpb_size_scale:                               u8;
+    cpb_size_du_scale:                            u8;
+    initial_cpb_removal_delay_length_minus1:      u8;
+    au_cpb_removal_delay_length_minus1:           u8;
+    dpb_output_delay_length_minus1:               u8;
+    cpb_cnt_minus1:                               [7] u8;
+    elemental_duration_in_tc_minus1:              [7] u16;
+    reserved:                                     [3] u16;
+    pSubLayerHrdParametersNal:                    *StdVideoH265SubLayerHrdParameters;
+    pSubLayerHrdParametersVcl:                    *StdVideoH265SubLayerHrdParameters;
+}
+
+StdVideoH265VpsFlags :: struct {
+    __bitfield: u8;
+    /* 
+        vps_temporal_id_nesting_flag: u32; /* 1 bits */
+        vps_sub_layer_ordering_info_present_flag: u32; /* 1 bits */
+        vps_timing_info_present_flag: u32; /* 1 bits */
+        vps_poc_proportional_to_timing_flag: u32; /* 1 bits */;
+    */
+    #place __bitfield; StdVideoH265VpsFlags_alignment: u32;
+}
+
+StdVideoH265ProfileTierLevelFlags :: struct {
+    __bitfield: u8;
+    /* 
+        general_tier_flag: u32; /* 1 bits */
+        general_progressive_source_flag: u32; /* 1 bits */
+        general_interlaced_source_flag: u32; /* 1 bits */
+        general_non_packed_constraint_flag: u32; /* 1 bits */
+        general_frame_only_constraint_flag: u32; /* 1 bits */;
+    */
+    #place __bitfield; StdVideoH265ProfileTierLevelFlags_alignment: u32;
+}
+
+StdVideoH265ProfileTierLevel :: struct {
+    flags:               StdVideoH265ProfileTierLevelFlags;
+    general_profile_idc: StdVideoH265ProfileIdc;
+    general_level_idc:   StdVideoH265LevelIdc;
+}
+
+StdVideoH265VideoParameterSet :: struct {
+    flags:                             StdVideoH265VpsFlags;
+    vps_video_parameter_set_id:        u8;
+    vps_max_sub_layers_minus1:         u8;
+    reserved1:                         u8;
+    reserved2:                         u8;
+    vps_num_units_in_tick:             u32;
+    vps_time_scale:                    u32;
+    vps_num_ticks_poc_diff_one_minus1: u32;
+    reserved3:                         u32;
+    pDecPicBufMgr:                     *StdVideoH265DecPicBufMgr;
+    pHrdParameters:                    *StdVideoH265HrdParameters;
+    pProfileTierLevel:                 *StdVideoH265ProfileTierLevel;
+}
+
+StdVideoH265ScalingLists :: struct {
+    ScalingList4x4:         [6] [16] u8;
+    ScalingList8x8:         [6] [64] u8;
+    ScalingList16x16:       [6] [64] u8;
+    ScalingList32x32:       [2] [64] u8;
+    ScalingListDCCoef16x16: [6] u8;
+    ScalingListDCCoef32x32: [2] u8;
+}
+
+StdVideoH265SpsVuiFlags :: struct {
+    __bitfield: u32;
+    /* 
+        aspect_ratio_info_present_flag: u32; /* 1 bits */
+        overscan_info_present_flag: u32; /* 1 bits */
+        overscan_appropriate_flag: u32; /* 1 bits */
+        video_signal_type_present_flag: u32; /* 1 bits */
+        video_full_range_flag: u32; /* 1 bits */
+        colour_description_present_flag: u32; /* 1 bits */
+        chroma_loc_info_present_flag: u32; /* 1 bits */
+        neutral_chroma_indication_flag: u32; /* 1 bits */
+        field_seq_flag: u32; /* 1 bits */
+        frame_field_info_present_flag: u32; /* 1 bits */
+        default_display_window_flag: u32; /* 1 bits */
+        vui_timing_info_present_flag: u32; /* 1 bits */
+        vui_poc_proportional_to_timing_flag: u32; /* 1 bits */
+        vui_hrd_parameters_present_flag: u32; /* 1 bits */
+        bitstream_restriction_flag: u32; /* 1 bits */
+        tiles_fixed_structure_flag: u32; /* 1 bits */
+        motion_vectors_over_pic_boundaries_flag: u32; /* 1 bits */
+        restricted_ref_pic_lists_flag: u32; /* 1 bits */;
+    */
+}
+
+StdVideoH265SequenceParameterSetVui :: struct {
+    flags:                               StdVideoH265SpsVuiFlags;
+    aspect_ratio_idc:                    StdVideoH265AspectRatioIdc;
+    sar_width:                           u16;
+    sar_height:                          u16;
+    video_format:                        u8;
+    colour_primaries:                    u8;
+    transfer_characteristics:            u8;
+    matrix_coeffs:                       u8;
+    chroma_sample_loc_type_top_field:    u8;
+    chroma_sample_loc_type_bottom_field: u8;
+    reserved1:                           u8;
+    reserved2:                           u8;
+    def_disp_win_left_offset:            u16;
+    def_disp_win_right_offset:           u16;
+    def_disp_win_top_offset:             u16;
+    def_disp_win_bottom_offset:          u16;
+    vui_num_units_in_tick:               u32;
+    vui_time_scale:                      u32;
+    vui_num_ticks_poc_diff_one_minus1:   u32;
+    min_spatial_segmentation_idc:        u16;
+    reserved3:                           u16;
+    max_bytes_per_pic_denom:             u8;
+    max_bits_per_min_cu_denom:           u8;
+    log2_max_mv_length_horizontal:       u8;
+    log2_max_mv_length_vertical:         u8;
+    pHrdParameters:                      *StdVideoH265HrdParameters;
+}
+
+StdVideoH265PredictorPaletteEntries :: struct {
+    PredictorPaletteEntries: [3] [128] u16;
+}
+
+StdVideoH265SpsFlags :: struct {
+    __bitfield: u32;
+    /* 
+        sps_temporal_id_nesting_flag: u32; /* 1 bits */
+        separate_colour_plane_flag: u32; /* 1 bits */
+        conformance_window_flag: u32; /* 1 bits */
+        sps_sub_layer_ordering_info_present_flag: u32; /* 1 bits */
+        scaling_list_enabled_flag: u32; /* 1 bits */
+        sps_scaling_list_data_present_flag: u32; /* 1 bits */
+        amp_enabled_flag: u32; /* 1 bits */
+        sample_adaptive_offset_enabled_flag: u32; /* 1 bits */
+        pcm_enabled_flag: u32; /* 1 bits */
+        pcm_loop_filter_disabled_flag: u32; /* 1 bits */
+        long_term_ref_pics_present_flag: u32; /* 1 bits */
+        sps_temporal_mvp_enabled_flag: u32; /* 1 bits */
+        strong_intra_smoothing_enabled_flag: u32; /* 1 bits */
+        vui_parameters_present_flag: u32; /* 1 bits */
+        sps_extension_present_flag: u32; /* 1 bits */
+        sps_range_extension_flag: u32; /* 1 bits */
+        transform_skip_rotation_enabled_flag: u32; /* 1 bits */
+        transform_skip_context_enabled_flag: u32; /* 1 bits */
+        implicit_rdpcm_enabled_flag: u32; /* 1 bits */
+        explicit_rdpcm_enabled_flag: u32; /* 1 bits */
+        extended_precision_processing_flag: u32; /* 1 bits */
+        intra_smoothing_disabled_flag: u32; /* 1 bits */
+        high_precision_offsets_enabled_flag: u32; /* 1 bits */
+        persistent_rice_adaptation_enabled_flag: u32; /* 1 bits */
+        cabac_bypass_alignment_enabled_flag: u32; /* 1 bits */
+        sps_scc_extension_flag: u32; /* 1 bits */
+        sps_curr_pic_ref_enabled_flag: u32; /* 1 bits */
+        palette_mode_enabled_flag: u32; /* 1 bits */
+        sps_palette_predictor_initializers_present_flag: u32; /* 1 bits */
+        intra_boundary_filtering_disabled_flag: u32; /* 1 bits */;
+    */
+}
+
+StdVideoH265ShortTermRefPicSetFlags :: struct {
+    __bitfield: u8;
+    /* 
+        inter_ref_pic_set_prediction_flag: u32; /* 1 bits */
+        delta_rps_sign: u32; /* 1 bits */;
+    */
+    #place __bitfield; StdVideoH265ShortTermRefPicSetFlags_alignment: u32;
+}
+
+StdVideoH265ShortTermRefPicSet :: struct {
+    flags:                    StdVideoH265ShortTermRefPicSetFlags;
+    delta_idx_minus1:         u32;
+    use_delta_flag:           u16;
+    abs_delta_rps_minus1:     u16;
+    used_by_curr_pic_flag:    u16;
+    used_by_curr_pic_s0_flag: u16;
+    used_by_curr_pic_s1_flag: u16;
+    reserved1:                u16;
+    reserved2:                u8;
+    reserved3:                u8;
+    num_negative_pics:        u8;
+    num_positive_pics:        u8;
+    delta_poc_s0_minus1:      [16] u16;
+    delta_poc_s1_minus1:      [16] u16;
+}
+
+StdVideoH265LongTermRefPicsSps :: struct {
+    used_by_curr_pic_lt_sps_flag: u32;
+    lt_ref_pic_poc_lsb_sps:       [32] u32;
+}
+
+StdVideoH265SequenceParameterSet :: struct {
+    flags:                                         StdVideoH265SpsFlags;
+    chroma_format_idc:                             StdVideoH265ChromaFormatIdc;
+    pic_width_in_luma_samples:                     u32;
+    pic_height_in_luma_samples:                    u32;
+    sps_video_parameter_set_id:                    u8;
+    sps_max_sub_layers_minus1:                     u8;
+    sps_seq_parameter_set_id:                      u8;
+    bit_depth_luma_minus8:                         u8;
+    bit_depth_chroma_minus8:                       u8;
+    log2_max_pic_order_cnt_lsb_minus4:             u8;
+    log2_min_luma_coding_block_size_minus3:        u8;
+    log2_diff_max_min_luma_coding_block_size:      u8;
+    log2_min_luma_transform_block_size_minus2:     u8;
+    log2_diff_max_min_luma_transform_block_size:   u8;
+    max_transform_hierarchy_depth_inter:           u8;
+    max_transform_hierarchy_depth_intra:           u8;
+    num_short_term_ref_pic_sets:                   u8;
+    num_long_term_ref_pics_sps:                    u8;
+    pcm_sample_bit_depth_luma_minus1:              u8;
+    pcm_sample_bit_depth_chroma_minus1:            u8;
+    log2_min_pcm_luma_coding_block_size_minus3:    u8;
+    log2_diff_max_min_pcm_luma_coding_block_size:  u8;
+    reserved1:                                     u8;
+    reserved2:                                     u8;
+    palette_max_size:                              u8;
+    delta_palette_max_predictor_size:              u8;
+    motion_vector_resolution_control_idc:          u8;
+    sps_num_palette_predictor_initializers_minus1: u8;
+    conf_win_left_offset:                          u32;
+    conf_win_right_offset:                         u32;
+    conf_win_top_offset:                           u32;
+    conf_win_bottom_offset:                        u32;
+    pProfileTierLevel:                             *StdVideoH265ProfileTierLevel;
+    pDecPicBufMgr:                                 *StdVideoH265DecPicBufMgr;
+    pScalingLists:                                 *StdVideoH265ScalingLists;
+    pShortTermRefPicSet:                           *StdVideoH265ShortTermRefPicSet;
+    pLongTermRefPicsSps:                           *StdVideoH265LongTermRefPicsSps;
+    pSequenceParameterSetVui:                      *StdVideoH265SequenceParameterSetVui;
+    pPredictorPaletteEntries:                      *StdVideoH265PredictorPaletteEntries;
+}
+
+StdVideoH265PpsFlags :: struct {
+    __bitfield: u32;
+    /* 
+        dependent_slice_segments_enabled_flag: u32; /* 1 bits */
+        output_flag_present_flag: u32; /* 1 bits */
+        sign_data_hiding_enabled_flag: u32; /* 1 bits */
+        cabac_init_present_flag: u32; /* 1 bits */
+        constrained_intra_pred_flag: u32; /* 1 bits */
+        transform_skip_enabled_flag: u32; /* 1 bits */
+        cu_qp_delta_enabled_flag: u32; /* 1 bits */
+        pps_slice_chroma_qp_offsets_present_flag: u32; /* 1 bits */
+        weighted_pred_flag: u32; /* 1 bits */
+        weighted_bipred_flag: u32; /* 1 bits */
+        transquant_bypass_enabled_flag: u32; /* 1 bits */
+        tiles_enabled_flag: u32; /* 1 bits */
+        entropy_coding_sync_enabled_flag: u32; /* 1 bits */
+        uniform_spacing_flag: u32; /* 1 bits */
+        loop_filter_across_tiles_enabled_flag: u32; /* 1 bits */
+        pps_loop_filter_across_slices_enabled_flag: u32; /* 1 bits */
+        deblocking_filter_control_present_flag: u32; /* 1 bits */
+        deblocking_filter_override_enabled_flag: u32; /* 1 bits */
+        pps_deblocking_filter_disabled_flag: u32; /* 1 bits */
+        pps_scaling_list_data_present_flag: u32; /* 1 bits */
+        lists_modification_present_flag: u32; /* 1 bits */
+        slice_segment_header_extension_present_flag: u32; /* 1 bits */
+        pps_extension_present_flag: u32; /* 1 bits */
+        cross_component_prediction_enabled_flag: u32; /* 1 bits */
+        chroma_qp_offset_list_enabled_flag: u32; /* 1 bits */
+        pps_curr_pic_ref_enabled_flag: u32; /* 1 bits */
+        residual_adaptive_colour_transform_enabled_flag: u32; /* 1 bits */
+        pps_slice_act_qp_offsets_present_flag: u32; /* 1 bits */
+        pps_palette_predictor_initializers_present_flag: u32; /* 1 bits */
+        monochrome_palette_flag: u32; /* 1 bits */
+        pps_range_extension_flag: u32; /* 1 bits */;
+    */
+}
+
+StdVideoH265PictureParameterSet :: struct {
+    flags:                                     StdVideoH265PpsFlags;
+    pps_pic_parameter_set_id:                  u8;
+    pps_seq_parameter_set_id:                  u8;
+    sps_video_parameter_set_id:                u8;
+    num_extra_slice_header_bits:               u8;
+    num_ref_idx_l0_default_active_minus1:      u8;
+    num_ref_idx_l1_default_active_minus1:      u8;
+    init_qp_minus26:                           s8;
+    diff_cu_qp_delta_depth:                    u8;
+    pps_cb_qp_offset:                          s8;
+    pps_cr_qp_offset:                          s8;
+    pps_beta_offset_div2:                      s8;
+    pps_tc_offset_div2:                        s8;
+    log2_parallel_merge_level_minus2:          u8;
+    log2_max_transform_skip_block_size_minus2: u8;
+    diff_cu_chroma_qp_offset_depth:            u8;
+    chroma_qp_offset_list_len_minus1:          u8;
+    cb_qp_offset_list:                         [6] s8;
+    cr_qp_offset_list:                         [6] s8;
+    log2_sao_offset_scale_luma:                u8;
+    log2_sao_offset_scale_chroma:              u8;
+    pps_act_y_qp_offset_plus5:                 s8;
+    pps_act_cb_qp_offset_plus5:                s8;
+    pps_act_cr_qp_offset_plus3:                s8;
+    pps_num_palette_predictor_initializers:    u8;
+    luma_bit_depth_entry_minus8:               u8;
+    chroma_bit_depth_entry_minus8:             u8;
+    num_tile_columns_minus1:                   u8;
+    num_tile_rows_minus1:                      u8;
+    reserved1:                                 u8;
+    reserved2:                                 u8;
+    column_width_minus1:                       [19] u16;
+    row_height_minus1:                         [21] u16;
+    reserved3:                                 u32;
+    pScalingLists:                             *StdVideoH265ScalingLists;
+    pPredictorPaletteEntries:                  *StdVideoH265PredictorPaletteEntries;
+}
+
+StdVideoDecodeH264FieldOrderCount :: enum u32 {
+    TOP      :: 0;
+    BOTTOM   :: 1;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_TOP      :: TOP;
+    STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_BOTTOM   :: BOTTOM;
+    STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_INVALID  :: INVALID;
+    STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoDecodeH264PictureInfoFlags :: struct {
+    __bitfield: u8;
+    /* 
+        field_pic_flag: u32; /* 1 bits */
+        is_intra: u32; /* 1 bits */
+        IdrPicFlag: u32; /* 1 bits */
+        bottom_field_flag: u32; /* 1 bits */
+        is_reference: u32; /* 1 bits */
+        complementary_field_pair: u32; /* 1 bits */;
+    */
+    #place __bitfield; StdVideoDecodeH264PictureInfoFlags_alignment: u32;
+}
+
+StdVideoDecodeH264PictureInfo :: struct {
+    flags:                StdVideoDecodeH264PictureInfoFlags;
+    seq_parameter_set_id: u8;
+    pic_parameter_set_id: u8;
+    reserved1:            u8;
+    reserved2:            u8;
+    frame_num:            u16;
+    idr_pic_id:           u16;
+    PicOrderCnt:          [2] s32;
+}
+
+StdVideoDecodeH264ReferenceInfoFlags :: struct {
+    __bitfield: u8;
+    /* 
+        top_field_flag: u32; /* 1 bits */
+        bottom_field_flag: u32; /* 1 bits */
+        used_for_long_term_reference: u32; /* 1 bits */
+        is_non_existing: u32; /* 1 bits */;
+    */
+    #place __bitfield; StdVideoDecodeH264ReferenceInfoFlags_alignment: u32;
+}
+
+StdVideoDecodeH264ReferenceInfo :: struct {
+    flags:       StdVideoDecodeH264ReferenceInfoFlags;
+    FrameNum:    u16;
+    reserved:    u16;
+    PicOrderCnt: [2] s32;
+}
+
+StdVideoVP9Profile :: enum u32 {
+    _0       :: 0;
+    _1       :: 1;
+    _2       :: 2;
+    _3       :: 3;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_VP9_PROFILE_0        :: _0;
+    STD_VIDEO_VP9_PROFILE_1        :: _1;
+    STD_VIDEO_VP9_PROFILE_2        :: _2;
+    STD_VIDEO_VP9_PROFILE_3        :: _3;
+    STD_VIDEO_VP9_PROFILE_INVALID  :: INVALID;
+    STD_VIDEO_VP9_PROFILE_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoVP9Level :: enum u32 {
+    _1_0     :: 0;
+    _1_1     :: 1;
+    _2_0     :: 2;
+    _2_1     :: 3;
+    _3_0     :: 4;
+    _3_1     :: 5;
+    _4_0     :: 6;
+    _4_1     :: 7;
+    _5_0     :: 8;
+    _5_1     :: 9;
+    _5_2     :: 10;
+    _6_0     :: 11;
+    _6_1     :: 12;
+    _6_2     :: 13;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_VP9_LEVEL_1_0      :: _1_0;
+    STD_VIDEO_VP9_LEVEL_1_1      :: _1_1;
+    STD_VIDEO_VP9_LEVEL_2_0      :: _2_0;
+    STD_VIDEO_VP9_LEVEL_2_1      :: _2_1;
+    STD_VIDEO_VP9_LEVEL_3_0      :: _3_0;
+    STD_VIDEO_VP9_LEVEL_3_1      :: _3_1;
+    STD_VIDEO_VP9_LEVEL_4_0      :: _4_0;
+    STD_VIDEO_VP9_LEVEL_4_1      :: _4_1;
+    STD_VIDEO_VP9_LEVEL_5_0      :: _5_0;
+    STD_VIDEO_VP9_LEVEL_5_1      :: _5_1;
+    STD_VIDEO_VP9_LEVEL_5_2      :: _5_2;
+    STD_VIDEO_VP9_LEVEL_6_0      :: _6_0;
+    STD_VIDEO_VP9_LEVEL_6_1      :: _6_1;
+    STD_VIDEO_VP9_LEVEL_6_2      :: _6_2;
+    STD_VIDEO_VP9_LEVEL_INVALID  :: INVALID;
+    STD_VIDEO_VP9_LEVEL_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoVP9FrameType :: enum u32 {
+    KEY      :: 0;
+    NON_KEY  :: 1;
+    INVALID  :: 2147483647;
+    MAX_ENUM :: 2147483647;
+
+    STD_VIDEO_VP9_FRAME_TYPE_KEY      :: KEY;
+    STD_VIDEO_VP9_FRAME_TYPE_NON_KEY  :: NON_KEY;
+    STD_VIDEO_VP9_FRAME_TYPE_INVALID  :: INVALID;
+    STD_VIDEO_VP9_FRAME_TYPE_MAX_ENUM :: MAX_ENUM;
+}
+
+StdVideoVP9ReferenceName :: enum u32 {
+    INTRA_FRAME  :: 0;
+    LAST_FRAME   :: 1;
+    GOLDEN_FRAME :: 2;
+    ALTREF_FRAME :: 3;
+    INVALID      :: 2147483647;
+    MAX_ENUM     :: 2147483647;
+
+    STD_VIDEO_VP9_REFERENCE_NAME_INTRA_FRAME  :: INTRA_FRAME;
+    STD_VIDEO_VP9_REFERENCE_NAME_LAST_FRAME   :: LAST_FRAME;
+    STD_VIDEO_VP9_REFERENCE_NAME_GOLDEN_FRAME :: GOLDEN_FRAME;
+    STD_VIDEO_VP9_REFERENCE_NAME_ALTREF_FRAME :: ALTREF_FRAME;
+    STD_VIDEO_VP9_REFERENCE_NAME_INVALID      :: INVALID;
+    STD_VIDEO_VP9_REFERENCE_NAME_MAX_ENUM     :: MAX_ENUM;
+}
+
+StdVideoVP9InterpolationFilter :: enum u32 {
+    EIGHTTAP        :: 0;
+    EIGHTTAP_SMOOTH :: 1;
+    EIGHTTAP_SHARP  :: 2;
+    BILINEAR        :: 3;
+    SWITCHABLE      :: 4;
+    INVALID         :: 2147483647;
+    MAX_ENUM        :: 2147483647;
+
+    STD_VIDEO_VP9_INTERPOLATION_FILTER_EIGHTTAP        :: EIGHTTAP;
+    STD_VIDEO_VP9_INTERPOLATION_FILTER_EIGHTTAP_SMOOTH :: EIGHTTAP_SMOOTH;
+    STD_VIDEO_VP9_INTERPOLATION_FILTER_EIGHTTAP_SHARP  :: EIGHTTAP_SHARP;
+    STD_VIDEO_VP9_INTERPOLATION_FILTER_BILINEAR        :: BILINEAR;
+    STD_VIDEO_VP9_INTERPOLATION_FILTER_SWITCHABLE      :: SWITCHABLE;
+    STD_VIDEO_VP9_INTERPOLATION_FILTER_INVALID         :: INVALID;
+    STD_VIDEO_VP9_INTERPOLATION_FILTER_MAX_ENUM        :: MAX_ENUM;
+}
+
+StdVideoVP9ColorSpace :: enum u32 {
+    UNKNOWN   :: 0;
+    BT_601    :: 1;
+    BT_709    :: 2;
+    SMPTE_170 :: 3;
+    SMPTE_240 :: 4;
+    BT_2020   :: 5;
+    RESERVED  :: 6;
+    RGB       :: 7;
+    INVALID   :: 2147483647;
+    MAX_ENUM  :: 2147483647;
+
+    STD_VIDEO_VP9_COLOR_SPACE_UNKNOWN   :: UNKNOWN;
+    STD_VIDEO_VP9_COLOR_SPACE_BT_601    :: BT_601;
+    STD_VIDEO_VP9_COLOR_SPACE_BT_709    :: BT_709;
+    STD_VIDEO_VP9_COLOR_SPACE_SMPTE_170 :: SMPTE_170;
+    STD_VIDEO_VP9_COLOR_SPACE_SMPTE_240 :: SMPTE_240;
+    STD_VIDEO_VP9_COLOR_SPACE_BT_2020   :: BT_2020;
+    STD_VIDEO_VP9_COLOR_SPACE_RESERVED  :: RESERVED;
+    STD_VIDEO_VP9_COLOR_SPACE_RGB       :: RGB;
+    STD_VIDEO_VP9_COLOR_SPACE_INVALID   :: INVALID;
+    STD_VIDEO_VP9_COLOR_SPACE_MAX_ENUM  :: MAX_ENUM;
+}
+
+StdVideoVP9ColorConfigFlags :: struct {
+    __bitfield: u32;
+    /* 
+        color_range: u32; /* 1 bits */
+        reserved: u32; /* 31 bits */;
+    */
+}
+
+StdVideoVP9ColorConfig :: struct {
+    flags:         StdVideoVP9ColorConfigFlags;
+    BitDepth:      u8;
+    subsampling_x: u8;
+    subsampling_y: u8;
+    reserved1:     u8;
+    color_space:   StdVideoVP9ColorSpace;
+}
+
+StdVideoVP9LoopFilterFlags :: struct {
+    __bitfield: u32;
+    /* 
+        loop_filter_delta_enabled: u32; /* 1 bits */
+        loop_filter_delta_update: u32; /* 1 bits */
+        reserved: u32; /* 30 bits */;
+    */
+}
+
+StdVideoVP9LoopFilter :: struct {
+    flags:                   StdVideoVP9LoopFilterFlags;
+    loop_filter_level:       u8;
+    loop_filter_sharpness:   u8;
+    update_ref_delta:        u8;
+    loop_filter_ref_deltas:  [4] s8;
+    update_mode_delta:       u8;
+    loop_filter_mode_deltas: [2] s8;
+}
+
+StdVideoVP9SegmentationFlags :: struct {
+    __bitfield: u32;
+    /* 
+        segmentation_update_map: u32; /* 1 bits */
+        segmentation_temporal_update: u32; /* 1 bits */
+        segmentation_update_data: u32; /* 1 bits */
+        segmentation_abs_or_delta_update: u32; /* 1 bits */
+        reserved: u32; /* 28 bits */;
+    */
+}
+
+StdVideoVP9Segmentation :: struct {
+    flags:                   StdVideoVP9SegmentationFlags;
+    segmentation_tree_probs: [7] u8;
+    segmentation_pred_prob:  [3] u8;
+    FeatureEnabled:          [8] u8;
+    FeatureData:             [8] [4] s16;
+}
+
+StdVideoDecodeVP9PictureInfoFlags :: struct {
+    __bitfield: u32;
+    /* 
+        error_resilient_mode: u32; /* 1 bits */
+        intra_only: u32; /* 1 bits */
+        allow_high_precision_mv: u32; /* 1 bits */
+        refresh_frame_context: u32; /* 1 bits */
+        frame_parallel_decoding_mode: u32; /* 1 bits */
+        segmentation_enabled: u32; /* 1 bits */
+        show_frame: u32; /* 1 bits */
+        UsePrevFrameMvs: u32; /* 1 bits */
+        reserved: u32; /* 24 bits */;
+    */
+}
+
+StdVideoDecodeVP9PictureInfo :: struct {
+    flags:                    StdVideoDecodeVP9PictureInfoFlags;
+    profile:                  StdVideoVP9Profile;
+    frame_type:               StdVideoVP9FrameType;
+    frame_context_idx:        u8;
+    reset_frame_context:      u8;
+    refresh_frame_flags:      u8;
+    ref_frame_sign_bias_mask: u8;
+    interpolation_filter:     StdVideoVP9InterpolationFilter;
+    base_q_idx:               u8;
+    delta_q_y_dc:             s8;
+    delta_q_uv_dc:            s8;
+    delta_q_uv_ac:            s8;
+    tile_cols_log2:           u8;
+    tile_rows_log2:           u8;
+    reserved1:                [3] u16;
+    pColorConfig:             *StdVideoVP9ColorConfig;
+    pLoopFilter:              *StdVideoVP9LoopFilter;
+    pSegmentation:            *StdVideoVP9Segmentation;
+}
+
+StdVideoEncodeH264WeightTableFlags :: struct {
+    luma_weight_l0_flag:   u32;
+    chroma_weight_l0_flag: u32;
+    luma_weight_l1_flag:   u32;
+    chroma_weight_l1_flag: u32;
+}
+
+StdVideoEncodeH264WeightTable :: struct {
+    flags:                    StdVideoEncodeH264WeightTableFlags;
+    luma_log2_weight_denom:   u8;
+    chroma_log2_weight_denom: u8;
+    luma_weight_l0:           [32] s8;
+    luma_offset_l0:           [32] s8;
+    chroma_weight_l0:         [32] [2] s8;
+    chroma_offset_l0:         [32] [2] s8;
+    luma_weight_l1:           [32] s8;
+    luma_offset_l1:           [32] s8;
+    chroma_weight_l1:         [32] [2] s8;
+    chroma_offset_l1:         [32] [2] s8;
+}
+
+StdVideoEncodeH264SliceHeaderFlags :: struct {
+    __bitfield: u32;
+    /* 
+        direct_spatial_mv_pred_flag: u32; /* 1 bits */
+        num_ref_idx_active_override_flag: u32; /* 1 bits */
+        reserved: u32; /* 30 bits */;
+    */
+}
+
+StdVideoEncodeH264PictureInfoFlags :: struct {
+    __bitfield: u32;
+    /* 
+        IdrPicFlag: u32; /* 1 bits */
+        is_reference: u32; /* 1 bits */
+        no_output_of_prior_pics_flag: u32; /* 1 bits */
+        long_term_reference_flag: u32; /* 1 bits */
+        adaptive_ref_pic_marking_mode_flag: u32; /* 1 bits */
+        reserved: u32; /* 27 bits */;
+    */
+}
+
+StdVideoEncodeH264ReferenceInfoFlags :: struct {
+    __bitfield: u32;
+    /* 
+        used_for_long_term_reference: u32; /* 1 bits */
+        reserved: u32; /* 31 bits */;
+    */
+}
+
+StdVideoEncodeH264ReferenceListsInfoFlags :: struct {
+    __bitfield: u32;
+    /* 
+        ref_pic_list_modification_flag_l0: u32; /* 1 bits */
+        ref_pic_list_modification_flag_l1: u32; /* 1 bits */
+        reserved: u32; /* 30 bits */;
+    */
+}
+
+StdVideoEncodeH264RefListModEntry :: struct {
+    modification_of_pic_nums_idc: StdVideoH264ModificationOfPicNumsIdc;
+    abs_diff_pic_num_minus1:      u16;
+    long_term_pic_num:            u16;
+}
+
+StdVideoEncodeH264RefPicMarkingEntry :: struct {
+    memory_management_control_operation: StdVideoH264MemMgmtControlOp;
+    difference_of_pic_nums_minus1:       u16;
+    long_term_pic_num:                   u16;
+    long_term_frame_idx:                 u16;
+    max_long_term_frame_idx_plus1:       u16;
+}
+
+StdVideoEncodeH264ReferenceListsInfo :: struct {
+    flags:                        StdVideoEncodeH264ReferenceListsInfoFlags;
+    num_ref_idx_l0_active_minus1: u8;
+    num_ref_idx_l1_active_minus1: u8;
+    RefPicList0:                  [32] u8;
+    RefPicList1:                  [32] u8;
+    refList0ModOpCount:           u8;
+    refList1ModOpCount:           u8;
+    refPicMarkingOpCount:         u8;
+    reserved1:                    [7] u8;
+    pRefList0ModOperations:       *StdVideoEncodeH264RefListModEntry;
+    pRefList1ModOperations:       *StdVideoEncodeH264RefListModEntry;
+    pRefPicMarkingOperations:     *StdVideoEncodeH264RefPicMarkingEntry;
+}
+
+StdVideoEncodeH264PictureInfo :: struct {
+    flags:                StdVideoEncodeH264PictureInfoFlags;
+    seq_parameter_set_id: u8;
+    pic_parameter_set_id: u8;
+    idr_pic_id:           u16;
+    primary_pic_type:     StdVideoH264PictureType;
+    frame_num:            u32;
+    PicOrderCnt:          s32;
+    temporal_id:          u8;
+    reserved1:            [3] u8;
+    pRefLists:            *StdVideoEncodeH264ReferenceListsInfo;
+}
+
+StdVideoEncodeH264ReferenceInfo :: struct {
+    flags:               StdVideoEncodeH264ReferenceInfoFlags;
+    primary_pic_type:    StdVideoH264PictureType;
+    FrameNum:            u32;
+    PicOrderCnt:         s32;
+    long_term_pic_num:   u16;
+    long_term_frame_idx: u16;
+    temporal_id:         u8;
+}
+
+StdVideoEncodeH264SliceHeader :: struct {
+    flags:                         StdVideoEncodeH264SliceHeaderFlags;
+    first_mb_in_slice:             u32;
+    slice_type:                    StdVideoH264SliceType;
+    slice_alpha_c0_offset_div2:    s8;
+    slice_beta_offset_div2:        s8;
+    slice_qp_delta:                s8;
+    reserved1:                     u8;
+    cabac_init_idc:                StdVideoH264CabacInitIdc;
+    disable_deblocking_filter_idc: StdVideoH264DisableDeblockingFilterIdc;
+    pWeightTable:                  *StdVideoEncodeH264WeightTable;
+}
+
+StdVideoEncodeH265WeightTableFlags :: struct {
+    luma_weight_l0_flag:   u16;
+    chroma_weight_l0_flag: u16;
+    luma_weight_l1_flag:   u16;
+    chroma_weight_l1_flag: u16;
+}
+
+StdVideoEncodeH265WeightTable :: struct {
+    flags:                          StdVideoEncodeH265WeightTableFlags;
+    luma_log2_weight_denom:         u8;
+    delta_chroma_log2_weight_denom: s8;
+    delta_luma_weight_l0:           [15] s8;
+    luma_offset_l0:                 [15] s8;
+    delta_chroma_weight_l0:         [15] [2] s8;
+    delta_chroma_offset_l0:         [15] [2] s8;
+    delta_luma_weight_l1:           [15] s8;
+    luma_offset_l1:                 [15] s8;
+    delta_chroma_weight_l1:         [15] [2] s8;
+    delta_chroma_offset_l1:         [15] [2] s8;
+}
+
+StdVideoEncodeH265SliceSegmentHeaderFlags :: struct {
+    __bitfield: u32;
+    /* 
+        first_slice_segment_in_pic_flag: u32; /* 1 bits */
+        dependent_slice_segment_flag: u32; /* 1 bits */
+        slice_sao_luma_flag: u32; /* 1 bits */
+        slice_sao_chroma_flag: u32; /* 1 bits */
+        num_ref_idx_active_override_flag: u32; /* 1 bits */
+        mvd_l1_zero_flag: u32; /* 1 bits */
+        cabac_init_flag: u32; /* 1 bits */
+        cu_chroma_qp_offset_enabled_flag: u32; /* 1 bits */
+        deblocking_filter_override_flag: u32; /* 1 bits */
+        slice_deblocking_filter_disabled_flag: u32; /* 1 bits */
+        collocated_from_l0_flag: u32; /* 1 bits */
+        slice_loop_filter_across_slices_enabled_flag: u32; /* 1 bits */
+        reserved: u32; /* 20 bits */;
+    */
+}
+
+StdVideoEncodeH265SliceSegmentHeader :: struct {
+    flags:                  StdVideoEncodeH265SliceSegmentHeaderFlags;
+    slice_type:             StdVideoH265SliceType;
+    slice_segment_address:  u32;
+    collocated_ref_idx:     u8;
+    MaxNumMergeCand:        u8;
+    slice_cb_qp_offset:     s8;
+    slice_cr_qp_offset:     s8;
+    slice_beta_offset_div2: s8;
+    slice_tc_offset_div2:   s8;
+    slice_act_y_qp_offset:  s8;
+    slice_act_cb_qp_offset: s8;
+    slice_act_cr_qp_offset: s8;
+    slice_qp_delta:         s8;
+    reserved1:              u16;
+    pWeightTable:           *StdVideoEncodeH265WeightTable;
+}
+
+StdVideoEncodeH265ReferenceListsInfoFlags :: struct {
+    __bitfield: u32;
+    /* 
+        ref_pic_list_modification_flag_l0: u32; /* 1 bits */
+        ref_pic_list_modification_flag_l1: u32; /* 1 bits */
+        reserved: u32; /* 30 bits */;
+    */
+}
+
+StdVideoEncodeH265ReferenceListsInfo :: struct {
+    flags:                        StdVideoEncodeH265ReferenceListsInfoFlags;
+    num_ref_idx_l0_active_minus1: u8;
+    num_ref_idx_l1_active_minus1: u8;
+    RefPicList0:                  [15] u8;
+    RefPicList1:                  [15] u8;
+    list_entry_l0:                [15] u8;
+    list_entry_l1:                [15] u8;
+}
+
+StdVideoEncodeH265PictureInfoFlags :: struct {
+    __bitfield: u32;
+    /* 
+        is_reference: u32; /* 1 bits */
+        IrapPicFlag: u32; /* 1 bits */
+        used_for_long_term_reference: u32; /* 1 bits */
+        discardable_flag: u32; /* 1 bits */
+        cross_layer_bla_flag: u32; /* 1 bits */
+        pic_output_flag: u32; /* 1 bits */
+        no_output_of_prior_pics_flag: u32; /* 1 bits */
+        short_term_ref_pic_set_sps_flag: u32; /* 1 bits */
+        slice_temporal_mvp_enabled_flag: u32; /* 1 bits */
+        reserved: u32; /* 23 bits */;
+    */
+}
+
+StdVideoEncodeH265LongTermRefPics :: struct {
+    num_long_term_sps:          u8;
+    num_long_term_pics:         u8;
+    lt_idx_sps:                 [32] u8;
+    poc_lsb_lt:                 [16] u8;
+    used_by_curr_pic_lt_flag:   u16;
+    delta_poc_msb_present_flag: [48] u8;
+    delta_poc_msb_cycle_lt:     [48] u8;
+}
+
+StdVideoEncodeH265PictureInfo :: struct {
+    flags:                      StdVideoEncodeH265PictureInfoFlags;
+    pic_type:                   StdVideoH265PictureType;
+    sps_video_parameter_set_id: u8;
+    pps_seq_parameter_set_id:   u8;
+    pps_pic_parameter_set_id:   u8;
+    short_term_ref_pic_set_idx: u8;
+    PicOrderCntVal:             s32;
+    TemporalId:                 u8;
+    reserved1:                  [7] u8;
+    pRefLists:                  *StdVideoEncodeH265ReferenceListsInfo;
+    pShortTermRefPicSet:        *StdVideoH265ShortTermRefPicSet;
+    pLongTermRefPics:           *StdVideoEncodeH265LongTermRefPics;
+}
+
+StdVideoEncodeH265ReferenceInfoFlags :: struct {
+    __bitfield: u32;
+    /* 
+        used_for_long_term_reference: u32; /* 1 bits */
+        unused_for_reference: u32; /* 1 bits */
+        reserved: u32; /* 30 bits */;
+    */
+}
+
+StdVideoEncodeH265ReferenceInfo :: struct {
+    flags:          StdVideoEncodeH265ReferenceInfoFlags;
+    pic_type:       StdVideoH265PictureType;
+    PicOrderCntVal: s32;
+    TemporalId:     u8;
+}
+
+StdVideoDecodeH265PictureInfoFlags :: struct {
+    __bitfield: u8;
+    /* 
+        IrapPicFlag: u32; /* 1 bits */
+        IdrPicFlag: u32; /* 1 bits */
+        IsReference: u32; /* 1 bits */
+        short_term_ref_pic_set_sps_flag: u32; /* 1 bits */;
+    */
+    #place __bitfield; StdVideoDecodeH265PictureInfoFlags_alignment: u32;
+}
+
+StdVideoDecodeH265PictureInfo :: struct {
+    flags:                        StdVideoDecodeH265PictureInfoFlags;
+    sps_video_parameter_set_id:   u8;
+    pps_seq_parameter_set_id:     u8;
+    pps_pic_parameter_set_id:     u8;
+    NumDeltaPocsOfRefRpsIdx:      u8;
+    PicOrderCntVal:               s32;
+    NumBitsForSTRefPicSetInSlice: u16;
+    reserved:                     u16;
+    RefPicSetStCurrBefore:        [8] u8;
+    RefPicSetStCurrAfter:         [8] u8;
+    RefPicSetLtCurr:              [8] u8;
+}
+
+StdVideoDecodeH265ReferenceInfoFlags :: struct {
+    __bitfield: u8;
+    /* 
+        used_for_long_term_reference: u32; /* 1 bits */
+        unused_for_reference: u32; /* 1 bits */;
+    */
+    #place __bitfield; StdVideoDecodeH265ReferenceInfoFlags_alignment: u32;
+}
+
+StdVideoDecodeH265ReferenceInfo :: struct {
+    flags:          StdVideoDecodeH265ReferenceInfoFlags;
+    PicOrderCntVal: s32;
+}
+
 VkBool32 :: u32;
 VkDeviceAddress :: u64;
 VkDeviceSize :: u64;
@@ -2705,6 +4865,7 @@ VkStructureType :: enum u32 {
     PIPELINE_COLOR_WRITE_CREATE_INFO_EXT                                  :: 1000381001;
     PHYSICAL_DEVICE_PRIMITIVES_GENERATED_QUERY_FEATURES_EXT               :: 1000382000;
     PHYSICAL_DEVICE_RAY_TRACING_MAINTENANCE_1_FEATURES_KHR                :: 1000386000;
+    PHYSICAL_DEVICE_SHADER_UNTYPED_POINTERS_FEATURES_KHR                  :: 1000387000;
     PHYSICAL_DEVICE_IMAGE_VIEW_MIN_LOD_FEATURES_EXT                       :: 1000391000;
     IMAGE_VIEW_MIN_LOD_CREATE_INFO_EXT                                    :: 1000391001;
     PHYSICAL_DEVICE_MULTI_DRAW_FEATURES_EXT                               :: 1000392000;
@@ -2820,6 +4981,11 @@ VkStructureType :: enum u32 {
     PHYSICAL_DEVICE_ANTI_LAG_FEATURES_AMD                                 :: 1000476000;
     ANTI_LAG_DATA_AMD                                                     :: 1000476001;
     ANTI_LAG_PRESENTATION_INFO_AMD                                        :: 1000476002;
+
+    PHYSICAL_DEVICE_DENSE_GEOMETRY_FORMAT_FEATURES_AMDX                   :: 1000478000;
+
+    ACCELERATION_STRUCTURE_DENSE_GEOMETRY_FORMAT_TRIANGLES_DATA_AMDX      :: 1000478001;
+
     SURFACE_CAPABILITIES_PRESENT_ID_2_KHR                                 :: 1000479000;
     PRESENT_ID_2_KHR                                                      :: 1000479001;
     PHYSICAL_DEVICE_PRESENT_ID_2_FEATURES_KHR                             :: 1000479002;
@@ -4072,6 +6238,7 @@ VkStructureType :: enum u32 {
     VK_STRUCTURE_TYPE_PIPELINE_COLOR_WRITE_CREATE_INFO_EXT                                  :: PIPELINE_COLOR_WRITE_CREATE_INFO_EXT;
     VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIMITIVES_GENERATED_QUERY_FEATURES_EXT               :: PHYSICAL_DEVICE_PRIMITIVES_GENERATED_QUERY_FEATURES_EXT;
     VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_MAINTENANCE_1_FEATURES_KHR                :: PHYSICAL_DEVICE_RAY_TRACING_MAINTENANCE_1_FEATURES_KHR;
+    VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_UNTYPED_POINTERS_FEATURES_KHR                  :: PHYSICAL_DEVICE_SHADER_UNTYPED_POINTERS_FEATURES_KHR;
     VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_MIN_LOD_FEATURES_EXT                       :: PHYSICAL_DEVICE_IMAGE_VIEW_MIN_LOD_FEATURES_EXT;
     VK_STRUCTURE_TYPE_IMAGE_VIEW_MIN_LOD_CREATE_INFO_EXT                                    :: IMAGE_VIEW_MIN_LOD_CREATE_INFO_EXT;
     VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTI_DRAW_FEATURES_EXT                               :: PHYSICAL_DEVICE_MULTI_DRAW_FEATURES_EXT;
@@ -4187,6 +6354,11 @@ VkStructureType :: enum u32 {
     VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ANTI_LAG_FEATURES_AMD                                 :: PHYSICAL_DEVICE_ANTI_LAG_FEATURES_AMD;
     VK_STRUCTURE_TYPE_ANTI_LAG_DATA_AMD                                                     :: ANTI_LAG_DATA_AMD;
     VK_STRUCTURE_TYPE_ANTI_LAG_PRESENTATION_INFO_AMD                                        :: ANTI_LAG_PRESENTATION_INFO_AMD;
+
+    VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DENSE_GEOMETRY_FORMAT_FEATURES_AMDX                   :: PHYSICAL_DEVICE_DENSE_GEOMETRY_FORMAT_FEATURES_AMDX;
+
+    VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_DENSE_GEOMETRY_FORMAT_TRIANGLES_DATA_AMDX      :: ACCELERATION_STRUCTURE_DENSE_GEOMETRY_FORMAT_TRIANGLES_DATA_AMDX;
+
     VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_PRESENT_ID_2_KHR                                 :: SURFACE_CAPABILITIES_PRESENT_ID_2_KHR;
     VK_STRUCTURE_TYPE_PRESENT_ID_2_KHR                                                      :: PRESENT_ID_2_KHR;
     VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_ID_2_FEATURES_KHR                             :: PHYSICAL_DEVICE_PRESENT_ID_2_FEATURES_KHR;
@@ -12158,6 +14330,9 @@ VK_BUFFER_USAGE_2_RESOURCE_DESCRIPTOR_BUFFER_BIT_EXT: VkBufferUsageFlagBits2 : 4
 VK_BUFFER_USAGE_2_PUSH_DESCRIPTORS_DESCRIPTOR_BUFFER_BIT_EXT: VkBufferUsageFlagBits2 : 67108864;
 VK_BUFFER_USAGE_2_MICROMAP_BUILD_INPUT_READ_ONLY_BIT_EXT: VkBufferUsageFlagBits2 : 8388608;
 VK_BUFFER_USAGE_2_MICROMAP_STORAGE_BIT_EXT: VkBufferUsageFlagBits2 : 16777216;
+
+VK_BUFFER_USAGE_2_COMPRESSED_DATA_DGF1_BIT_AMDX: VkBufferUsageFlagBits2 : 8589934592;
+
 VK_BUFFER_USAGE_2_DATA_GRAPH_FOREIGN_DESCRIPTOR_BIT_ARM: VkBufferUsageFlagBits2 : 536870912;
 VK_BUFFER_USAGE_2_TILE_MEMORY_BIT_QCOM: VkBufferUsageFlagBits2 : 134217728;
 VK_BUFFER_USAGE_2_PREPROCESS_BUFFER_BIT_EXT: VkBufferUsageFlagBits2 : 2147483648;
@@ -13425,537 +15600,6 @@ VkVideoDecodeInfoKHR :: struct {
 
 PFN_vkCmdDecodeVideoKHR :: #type (commandBuffer: VkCommandBuffer, pDecodeInfo: *VkVideoDecodeInfoKHR) -> void #c_call;
 
-StdVideoH264ChromaFormatIdc :: enum u32 {
-    MONOCHROME :: 0;
-    _420       :: 1;
-    _422       :: 2;
-    _444       :: 3;
-    INVALID    :: 2147483647;
-    MAX_ENUM   :: 2147483647;
-
-    STD_VIDEO_H264_CHROMA_FORMAT_IDC_MONOCHROME :: MONOCHROME;
-    STD_VIDEO_H264_CHROMA_FORMAT_IDC_420        :: _420;
-    STD_VIDEO_H264_CHROMA_FORMAT_IDC_422        :: _422;
-    STD_VIDEO_H264_CHROMA_FORMAT_IDC_444        :: _444;
-    STD_VIDEO_H264_CHROMA_FORMAT_IDC_INVALID    :: INVALID;
-    STD_VIDEO_H264_CHROMA_FORMAT_IDC_MAX_ENUM   :: MAX_ENUM;
-}
-
-StdVideoH264ProfileIdc :: enum u32 {
-    BASELINE            :: 66;
-    MAIN                :: 77;
-    HIGH                :: 100;
-    HIGH_444_PREDICTIVE :: 244;
-    INVALID             :: 2147483647;
-    MAX_ENUM            :: 2147483647;
-
-    STD_VIDEO_H264_PROFILE_IDC_BASELINE            :: BASELINE;
-    STD_VIDEO_H264_PROFILE_IDC_MAIN                :: MAIN;
-    STD_VIDEO_H264_PROFILE_IDC_HIGH                :: HIGH;
-    STD_VIDEO_H264_PROFILE_IDC_HIGH_444_PREDICTIVE :: HIGH_444_PREDICTIVE;
-    STD_VIDEO_H264_PROFILE_IDC_INVALID             :: INVALID;
-    STD_VIDEO_H264_PROFILE_IDC_MAX_ENUM            :: MAX_ENUM;
-}
-
-StdVideoH264LevelIdc :: enum u32 {
-    _1_0     :: 0;
-    _1_1     :: 1;
-    _1_2     :: 2;
-    _1_3     :: 3;
-    _2_0     :: 4;
-    _2_1     :: 5;
-    _2_2     :: 6;
-    _3_0     :: 7;
-    _3_1     :: 8;
-    _3_2     :: 9;
-    _4_0     :: 10;
-    _4_1     :: 11;
-    _4_2     :: 12;
-    _5_0     :: 13;
-    _5_1     :: 14;
-    _5_2     :: 15;
-    _6_0     :: 16;
-    _6_1     :: 17;
-    _6_2     :: 18;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_H264_LEVEL_IDC_1_0      :: _1_0;
-    STD_VIDEO_H264_LEVEL_IDC_1_1      :: _1_1;
-    STD_VIDEO_H264_LEVEL_IDC_1_2      :: _1_2;
-    STD_VIDEO_H264_LEVEL_IDC_1_3      :: _1_3;
-    STD_VIDEO_H264_LEVEL_IDC_2_0      :: _2_0;
-    STD_VIDEO_H264_LEVEL_IDC_2_1      :: _2_1;
-    STD_VIDEO_H264_LEVEL_IDC_2_2      :: _2_2;
-    STD_VIDEO_H264_LEVEL_IDC_3_0      :: _3_0;
-    STD_VIDEO_H264_LEVEL_IDC_3_1      :: _3_1;
-    STD_VIDEO_H264_LEVEL_IDC_3_2      :: _3_2;
-    STD_VIDEO_H264_LEVEL_IDC_4_0      :: _4_0;
-    STD_VIDEO_H264_LEVEL_IDC_4_1      :: _4_1;
-    STD_VIDEO_H264_LEVEL_IDC_4_2      :: _4_2;
-    STD_VIDEO_H264_LEVEL_IDC_5_0      :: _5_0;
-    STD_VIDEO_H264_LEVEL_IDC_5_1      :: _5_1;
-    STD_VIDEO_H264_LEVEL_IDC_5_2      :: _5_2;
-    STD_VIDEO_H264_LEVEL_IDC_6_0      :: _6_0;
-    STD_VIDEO_H264_LEVEL_IDC_6_1      :: _6_1;
-    STD_VIDEO_H264_LEVEL_IDC_6_2      :: _6_2;
-    STD_VIDEO_H264_LEVEL_IDC_INVALID  :: INVALID;
-    STD_VIDEO_H264_LEVEL_IDC_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoH264PocType :: enum u32 {
-    _0       :: 0;
-    _1       :: 1;
-    _2       :: 2;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_H264_POC_TYPE_0        :: _0;
-    STD_VIDEO_H264_POC_TYPE_1        :: _1;
-    STD_VIDEO_H264_POC_TYPE_2        :: _2;
-    STD_VIDEO_H264_POC_TYPE_INVALID  :: INVALID;
-    STD_VIDEO_H264_POC_TYPE_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoH264AspectRatioIdc :: enum u32 {
-    UNSPECIFIED  :: 0;
-    SQUARE       :: 1;
-    _12_11       :: 2;
-    _10_11       :: 3;
-    _16_11       :: 4;
-    _40_33       :: 5;
-    _24_11       :: 6;
-    _20_11       :: 7;
-    _32_11       :: 8;
-    _80_33       :: 9;
-    _18_11       :: 10;
-    _15_11       :: 11;
-    _64_33       :: 12;
-    _160_99      :: 13;
-    _4_3         :: 14;
-    _3_2         :: 15;
-    _2_1         :: 16;
-    EXTENDED_SAR :: 255;
-    INVALID      :: 2147483647;
-    MAX_ENUM     :: 2147483647;
-
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_UNSPECIFIED  :: UNSPECIFIED;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_SQUARE       :: SQUARE;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_12_11        :: _12_11;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_10_11        :: _10_11;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_16_11        :: _16_11;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_40_33        :: _40_33;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_24_11        :: _24_11;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_20_11        :: _20_11;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_32_11        :: _32_11;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_80_33        :: _80_33;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_18_11        :: _18_11;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_15_11        :: _15_11;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_64_33        :: _64_33;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_160_99       :: _160_99;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_4_3          :: _4_3;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_3_2          :: _3_2;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_2_1          :: _2_1;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_EXTENDED_SAR :: EXTENDED_SAR;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_INVALID      :: INVALID;
-    STD_VIDEO_H264_ASPECT_RATIO_IDC_MAX_ENUM     :: MAX_ENUM;
-}
-
-StdVideoH264WeightedBipredIdc :: enum u32 {
-    DEFAULT  :: 0;
-    EXPLICIT :: 1;
-    IMPLICIT :: 2;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_DEFAULT  :: DEFAULT;
-    STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_EXPLICIT :: EXPLICIT;
-    STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_IMPLICIT :: IMPLICIT;
-    STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_INVALID  :: INVALID;
-    STD_VIDEO_H264_WEIGHTED_BIPRED_IDC_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoH264ModificationOfPicNumsIdc :: enum u32 {
-    SHORT_TERM_SUBTRACT :: 0;
-    SHORT_TERM_ADD      :: 1;
-    LONG_TERM           :: 2;
-    END                 :: 3;
-    INVALID             :: 2147483647;
-    MAX_ENUM            :: 2147483647;
-
-    STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_SHORT_TERM_SUBTRACT :: SHORT_TERM_SUBTRACT;
-    STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_SHORT_TERM_ADD      :: SHORT_TERM_ADD;
-    STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_LONG_TERM           :: LONG_TERM;
-    STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_END                 :: END;
-    STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_INVALID             :: INVALID;
-    STD_VIDEO_H264_MODIFICATION_OF_PIC_NUMS_IDC_MAX_ENUM            :: MAX_ENUM;
-}
-
-StdVideoH264MemMgmtControlOp :: enum u32 {
-    END                       :: 0;
-    UNMARK_SHORT_TERM         :: 1;
-    UNMARK_LONG_TERM          :: 2;
-    MARK_LONG_TERM            :: 3;
-    SET_MAX_LONG_TERM_INDEX   :: 4;
-    UNMARK_ALL                :: 5;
-    MARK_CURRENT_AS_LONG_TERM :: 6;
-    INVALID                   :: 2147483647;
-    MAX_ENUM                  :: 2147483647;
-
-    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_END                       :: END;
-    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_UNMARK_SHORT_TERM         :: UNMARK_SHORT_TERM;
-    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_UNMARK_LONG_TERM          :: UNMARK_LONG_TERM;
-    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_MARK_LONG_TERM            :: MARK_LONG_TERM;
-    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_SET_MAX_LONG_TERM_INDEX   :: SET_MAX_LONG_TERM_INDEX;
-    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_UNMARK_ALL                :: UNMARK_ALL;
-    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_MARK_CURRENT_AS_LONG_TERM :: MARK_CURRENT_AS_LONG_TERM;
-    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_INVALID                   :: INVALID;
-    STD_VIDEO_H264_MEM_MGMT_CONTROL_OP_MAX_ENUM                  :: MAX_ENUM;
-}
-
-StdVideoH264CabacInitIdc :: enum u32 {
-    _0       :: 0;
-    _1       :: 1;
-    _2       :: 2;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_H264_CABAC_INIT_IDC_0        :: _0;
-    STD_VIDEO_H264_CABAC_INIT_IDC_1        :: _1;
-    STD_VIDEO_H264_CABAC_INIT_IDC_2        :: _2;
-    STD_VIDEO_H264_CABAC_INIT_IDC_INVALID  :: INVALID;
-    STD_VIDEO_H264_CABAC_INIT_IDC_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoH264DisableDeblockingFilterIdc :: enum u32 {
-    DISABLED :: 0;
-    ENABLED  :: 1;
-    PARTIAL  :: 2;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_DISABLED :: DISABLED;
-    STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_ENABLED  :: ENABLED;
-    STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_PARTIAL  :: PARTIAL;
-    STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_INVALID  :: INVALID;
-    STD_VIDEO_H264_DISABLE_DEBLOCKING_FILTER_IDC_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoH264SliceType :: enum u32 {
-    P        :: 0;
-    B        :: 1;
-    I        :: 2;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_H264_SLICE_TYPE_P        :: P;
-    STD_VIDEO_H264_SLICE_TYPE_B        :: B;
-    STD_VIDEO_H264_SLICE_TYPE_I        :: I;
-    STD_VIDEO_H264_SLICE_TYPE_INVALID  :: INVALID;
-    STD_VIDEO_H264_SLICE_TYPE_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoH264PictureType :: enum u32 {
-    P        :: 0;
-    B        :: 1;
-    I        :: 2;
-    IDR      :: 5;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_H264_PICTURE_TYPE_P        :: P;
-    STD_VIDEO_H264_PICTURE_TYPE_B        :: B;
-    STD_VIDEO_H264_PICTURE_TYPE_I        :: I;
-    STD_VIDEO_H264_PICTURE_TYPE_IDR      :: IDR;
-    STD_VIDEO_H264_PICTURE_TYPE_INVALID  :: INVALID;
-    STD_VIDEO_H264_PICTURE_TYPE_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoH264NonVclNaluType :: enum u32 {
-    SPS             :: 0;
-    PPS             :: 1;
-    AUD             :: 2;
-    PREFIX          :: 3;
-    END_OF_SEQUENCE :: 4;
-    END_OF_STREAM   :: 5;
-    PRECODED        :: 6;
-    INVALID         :: 2147483647;
-    MAX_ENUM        :: 2147483647;
-
-    STD_VIDEO_H264_NON_VCL_NALU_TYPE_SPS             :: SPS;
-    STD_VIDEO_H264_NON_VCL_NALU_TYPE_PPS             :: PPS;
-    STD_VIDEO_H264_NON_VCL_NALU_TYPE_AUD             :: AUD;
-    STD_VIDEO_H264_NON_VCL_NALU_TYPE_PREFIX          :: PREFIX;
-    STD_VIDEO_H264_NON_VCL_NALU_TYPE_END_OF_SEQUENCE :: END_OF_SEQUENCE;
-    STD_VIDEO_H264_NON_VCL_NALU_TYPE_END_OF_STREAM   :: END_OF_STREAM;
-    STD_VIDEO_H264_NON_VCL_NALU_TYPE_PRECODED        :: PRECODED;
-    STD_VIDEO_H264_NON_VCL_NALU_TYPE_INVALID         :: INVALID;
-    STD_VIDEO_H264_NON_VCL_NALU_TYPE_MAX_ENUM        :: MAX_ENUM;
-}
-
-StdVideoH264SpsVuiFlags :: struct {
-    __bitfield: u16;
-    /* 
-        aspect_ratio_info_present_flag: u32; /* 1 bits */
-        overscan_info_present_flag: u32; /* 1 bits */
-        overscan_appropriate_flag: u32; /* 1 bits */
-        video_signal_type_present_flag: u32; /* 1 bits */
-        video_full_range_flag: u32; /* 1 bits */
-        color_description_present_flag: u32; /* 1 bits */
-        chroma_loc_info_present_flag: u32; /* 1 bits */
-        timing_info_present_flag: u32; /* 1 bits */
-        fixed_frame_rate_flag: u32; /* 1 bits */
-        bitstream_restriction_flag: u32; /* 1 bits */
-        nal_hrd_parameters_present_flag: u32; /* 1 bits */
-        vcl_hrd_parameters_present_flag: u32; /* 1 bits */;
-    */
-    #place __bitfield; StdVideoH264SpsVuiFlags_alignment: u32;
-}
-
-StdVideoH264HrdParameters :: struct {
-    cpb_cnt_minus1:                          u8;
-    bit_rate_scale:                          u8;
-    cpb_size_scale:                          u8;
-    reserved1:                               u8;
-    bit_rate_value_minus1:                   [32] u32;
-    cpb_size_value_minus1:                   [32] u32;
-    cbr_flag:                                [32] u8;
-    initial_cpb_removal_delay_length_minus1: u32;
-    cpb_removal_delay_length_minus1:         u32;
-    dpb_output_delay_length_minus1:          u32;
-    time_offset_length:                      u32;
-}
-
-StdVideoH264SequenceParameterSetVui :: struct {
-    flags:                               StdVideoH264SpsVuiFlags;
-    aspect_ratio_idc:                    StdVideoH264AspectRatioIdc;
-    sar_width:                           u16;
-    sar_height:                          u16;
-    video_format:                        u8;
-    colour_primaries:                    u8;
-    transfer_characteristics:            u8;
-    matrix_coefficients:                 u8;
-    num_units_in_tick:                   u32;
-    time_scale:                          u32;
-    max_num_reorder_frames:              u8;
-    max_dec_frame_buffering:             u8;
-    chroma_sample_loc_type_top_field:    u8;
-    chroma_sample_loc_type_bottom_field: u8;
-    reserved1:                           u32;
-    pHrdParameters:                      *StdVideoH264HrdParameters;
-}
-
-StdVideoH264SpsFlags :: struct {
-    __bitfield: u16;
-    /* 
-        constraint_set0_flag: u32; /* 1 bits */
-        constraint_set1_flag: u32; /* 1 bits */
-        constraint_set2_flag: u32; /* 1 bits */
-        constraint_set3_flag: u32; /* 1 bits */
-        constraint_set4_flag: u32; /* 1 bits */
-        constraint_set5_flag: u32; /* 1 bits */
-        direct_8x8_inference_flag: u32; /* 1 bits */
-        mb_adaptive_frame_field_flag: u32; /* 1 bits */
-        frame_mbs_only_flag: u32; /* 1 bits */
-        delta_pic_order_always_zero_flag: u32; /* 1 bits */
-        separate_colour_plane_flag: u32; /* 1 bits */
-        gaps_in_frame_num_value_allowed_flag: u32; /* 1 bits */
-        qpprime_y_zero_transform_bypass_flag: u32; /* 1 bits */
-        frame_cropping_flag: u32; /* 1 bits */
-        seq_scaling_matrix_present_flag: u32; /* 1 bits */
-        vui_parameters_present_flag: u32; /* 1 bits */;
-    */
-    #place __bitfield; StdVideoH264SpsFlags_alignment: u32;
-}
-
-StdVideoH264ScalingLists :: struct {
-    scaling_list_present_mask:       u16;
-    use_default_scaling_matrix_mask: u16;
-    ScalingList4x4:                  [6] [16] u8;
-    ScalingList8x8:                  [6] [64] u8;
-}
-
-StdVideoH264SequenceParameterSet :: struct {
-    flags:                                 StdVideoH264SpsFlags;
-    profile_idc:                           StdVideoH264ProfileIdc;
-    level_idc:                             StdVideoH264LevelIdc;
-    chroma_format_idc:                     StdVideoH264ChromaFormatIdc;
-    seq_parameter_set_id:                  u8;
-    bit_depth_luma_minus8:                 u8;
-    bit_depth_chroma_minus8:               u8;
-    log2_max_frame_num_minus4:             u8;
-    pic_order_cnt_type:                    StdVideoH264PocType;
-    offset_for_non_ref_pic:                s32;
-    offset_for_top_to_bottom_field:        s32;
-    log2_max_pic_order_cnt_lsb_minus4:     u8;
-    num_ref_frames_in_pic_order_cnt_cycle: u8;
-    max_num_ref_frames:                    u8;
-    reserved1:                             u8;
-    pic_width_in_mbs_minus1:               u32;
-    pic_height_in_map_units_minus1:        u32;
-    frame_crop_left_offset:                u32;
-    frame_crop_right_offset:               u32;
-    frame_crop_top_offset:                 u32;
-    frame_crop_bottom_offset:              u32;
-    reserved2:                             u32;
-    pOffsetForRefFrame:                    *s32;
-    pScalingLists:                         *StdVideoH264ScalingLists;
-    pSequenceParameterSetVui:              *StdVideoH264SequenceParameterSetVui;
-}
-
-StdVideoH264PpsFlags :: struct {
-    __bitfield: u8;
-    /* 
-        transform_8x8_mode_flag: u32; /* 1 bits */
-        redundant_pic_cnt_present_flag: u32; /* 1 bits */
-        constrained_intra_pred_flag: u32; /* 1 bits */
-        deblocking_filter_control_present_flag: u32; /* 1 bits */
-        weighted_pred_flag: u32; /* 1 bits */
-        bottom_field_pic_order_in_frame_present_flag: u32; /* 1 bits */
-        entropy_coding_mode_flag: u32; /* 1 bits */
-        pic_scaling_matrix_present_flag: u32; /* 1 bits */;
-    */
-    #place __bitfield; StdVideoH264PpsFlags_alignment: u32;
-}
-
-StdVideoH264PictureParameterSet :: struct {
-    flags:                                StdVideoH264PpsFlags;
-    seq_parameter_set_id:                 u8;
-    pic_parameter_set_id:                 u8;
-    num_ref_idx_l0_default_active_minus1: u8;
-    num_ref_idx_l1_default_active_minus1: u8;
-    weighted_bipred_idc:                  StdVideoH264WeightedBipredIdc;
-    pic_init_qp_minus26:                  s8;
-    pic_init_qs_minus26:                  s8;
-    chroma_qp_index_offset:               s8;
-    second_chroma_qp_index_offset:        s8;
-    pScalingLists:                        *StdVideoH264ScalingLists;
-}
-
-StdVideoEncodeH264WeightTableFlags :: struct {
-    luma_weight_l0_flag:   u32;
-    chroma_weight_l0_flag: u32;
-    luma_weight_l1_flag:   u32;
-    chroma_weight_l1_flag: u32;
-}
-
-StdVideoEncodeH264WeightTable :: struct {
-    flags:                    StdVideoEncodeH264WeightTableFlags;
-    luma_log2_weight_denom:   u8;
-    chroma_log2_weight_denom: u8;
-    luma_weight_l0:           [32] s8;
-    luma_offset_l0:           [32] s8;
-    chroma_weight_l0:         [32] [2] s8;
-    chroma_offset_l0:         [32] [2] s8;
-    luma_weight_l1:           [32] s8;
-    luma_offset_l1:           [32] s8;
-    chroma_weight_l1:         [32] [2] s8;
-    chroma_offset_l1:         [32] [2] s8;
-}
-
-StdVideoEncodeH264SliceHeaderFlags :: struct {
-    __bitfield: u32;
-    /* 
-        direct_spatial_mv_pred_flag: u32; /* 1 bits */
-        num_ref_idx_active_override_flag: u32; /* 1 bits */
-        reserved: u32; /* 30 bits */;
-    */
-}
-
-StdVideoEncodeH264PictureInfoFlags :: struct {
-    __bitfield: u32;
-    /* 
-        IdrPicFlag: u32; /* 1 bits */
-        is_reference: u32; /* 1 bits */
-        no_output_of_prior_pics_flag: u32; /* 1 bits */
-        long_term_reference_flag: u32; /* 1 bits */
-        adaptive_ref_pic_marking_mode_flag: u32; /* 1 bits */
-        reserved: u32; /* 27 bits */;
-    */
-}
-
-StdVideoEncodeH264ReferenceInfoFlags :: struct {
-    __bitfield: u32;
-    /* 
-        used_for_long_term_reference: u32; /* 1 bits */
-        reserved: u32; /* 31 bits */;
-    */
-}
-
-StdVideoEncodeH264ReferenceListsInfoFlags :: struct {
-    __bitfield: u32;
-    /* 
-        ref_pic_list_modification_flag_l0: u32; /* 1 bits */
-        ref_pic_list_modification_flag_l1: u32; /* 1 bits */
-        reserved: u32; /* 30 bits */;
-    */
-}
-
-StdVideoEncodeH264RefListModEntry :: struct {
-    modification_of_pic_nums_idc: StdVideoH264ModificationOfPicNumsIdc;
-    abs_diff_pic_num_minus1:      u16;
-    long_term_pic_num:            u16;
-}
-
-StdVideoEncodeH264RefPicMarkingEntry :: struct {
-    memory_management_control_operation: StdVideoH264MemMgmtControlOp;
-    difference_of_pic_nums_minus1:       u16;
-    long_term_pic_num:                   u16;
-    long_term_frame_idx:                 u16;
-    max_long_term_frame_idx_plus1:       u16;
-}
-
-StdVideoEncodeH264ReferenceListsInfo :: struct {
-    flags:                        StdVideoEncodeH264ReferenceListsInfoFlags;
-    num_ref_idx_l0_active_minus1: u8;
-    num_ref_idx_l1_active_minus1: u8;
-    RefPicList0:                  [32] u8;
-    RefPicList1:                  [32] u8;
-    refList0ModOpCount:           u8;
-    refList1ModOpCount:           u8;
-    refPicMarkingOpCount:         u8;
-    reserved1:                    [7] u8;
-    pRefList0ModOperations:       *StdVideoEncodeH264RefListModEntry;
-    pRefList1ModOperations:       *StdVideoEncodeH264RefListModEntry;
-    pRefPicMarkingOperations:     *StdVideoEncodeH264RefPicMarkingEntry;
-}
-
-StdVideoEncodeH264PictureInfo :: struct {
-    flags:                StdVideoEncodeH264PictureInfoFlags;
-    seq_parameter_set_id: u8;
-    pic_parameter_set_id: u8;
-    idr_pic_id:           u16;
-    primary_pic_type:     StdVideoH264PictureType;
-    frame_num:            u32;
-    PicOrderCnt:          s32;
-    temporal_id:          u8;
-    reserved1:            [3] u8;
-    pRefLists:            *StdVideoEncodeH264ReferenceListsInfo;
-}
-
-StdVideoEncodeH264ReferenceInfo :: struct {
-    flags:               StdVideoEncodeH264ReferenceInfoFlags;
-    primary_pic_type:    StdVideoH264PictureType;
-    FrameNum:            u32;
-    PicOrderCnt:         s32;
-    long_term_pic_num:   u16;
-    long_term_frame_idx: u16;
-    temporal_id:         u8;
-}
-
-StdVideoEncodeH264SliceHeader :: struct {
-    flags:                         StdVideoEncodeH264SliceHeaderFlags;
-    first_mb_in_slice:             u32;
-    slice_type:                    StdVideoH264SliceType;
-    slice_alpha_c0_offset_div2:    s8;
-    slice_beta_offset_div2:        s8;
-    slice_qp_delta:                s8;
-    reserved1:                     u8;
-    cabac_init_idc:                StdVideoH264CabacInitIdc;
-    disable_deblocking_filter_idc: StdVideoH264DisableDeblockingFilterIdc;
-    pWeightTable:                  *StdVideoEncodeH264WeightTable;
-}
-
 VkVideoEncodeH264CapabilityFlagBitsKHR :: enum_flags u32 {
     HRD_COMPLIANCE_BIT_KHR                    :: 0x1;
     PREDICTION_WEIGHT_TABLE_GENERATED_BIT_KHR :: 0x2;
@@ -14191,622 +15835,6 @@ VkVideoEncodeH264GopRemainingFrameInfoKHR :: struct {
     gopRemainingI:         u32;
     gopRemainingP:         u32;
     gopRemainingB:         u32;
-}
-
-StdVideoH265ChromaFormatIdc :: enum u32 {
-    MONOCHROME :: 0;
-    _420       :: 1;
-    _422       :: 2;
-    _444       :: 3;
-    INVALID    :: 2147483647;
-    MAX_ENUM   :: 2147483647;
-
-    STD_VIDEO_H265_CHROMA_FORMAT_IDC_MONOCHROME :: MONOCHROME;
-    STD_VIDEO_H265_CHROMA_FORMAT_IDC_420        :: _420;
-    STD_VIDEO_H265_CHROMA_FORMAT_IDC_422        :: _422;
-    STD_VIDEO_H265_CHROMA_FORMAT_IDC_444        :: _444;
-    STD_VIDEO_H265_CHROMA_FORMAT_IDC_INVALID    :: INVALID;
-    STD_VIDEO_H265_CHROMA_FORMAT_IDC_MAX_ENUM   :: MAX_ENUM;
-}
-
-StdVideoH265ProfileIdc :: enum u32 {
-    MAIN                    :: 1;
-    MAIN_10                 :: 2;
-    MAIN_STILL_PICTURE      :: 3;
-    FORMAT_RANGE_EXTENSIONS :: 4;
-    SCC_EXTENSIONS          :: 9;
-    INVALID                 :: 2147483647;
-    MAX_ENUM                :: 2147483647;
-
-    STD_VIDEO_H265_PROFILE_IDC_MAIN                    :: MAIN;
-    STD_VIDEO_H265_PROFILE_IDC_MAIN_10                 :: MAIN_10;
-    STD_VIDEO_H265_PROFILE_IDC_MAIN_STILL_PICTURE      :: MAIN_STILL_PICTURE;
-    STD_VIDEO_H265_PROFILE_IDC_FORMAT_RANGE_EXTENSIONS :: FORMAT_RANGE_EXTENSIONS;
-    STD_VIDEO_H265_PROFILE_IDC_SCC_EXTENSIONS          :: SCC_EXTENSIONS;
-    STD_VIDEO_H265_PROFILE_IDC_INVALID                 :: INVALID;
-    STD_VIDEO_H265_PROFILE_IDC_MAX_ENUM                :: MAX_ENUM;
-}
-
-StdVideoH265LevelIdc :: enum u32 {
-    _1_0     :: 0;
-    _2_0     :: 1;
-    _2_1     :: 2;
-    _3_0     :: 3;
-    _3_1     :: 4;
-    _4_0     :: 5;
-    _4_1     :: 6;
-    _5_0     :: 7;
-    _5_1     :: 8;
-    _5_2     :: 9;
-    _6_0     :: 10;
-    _6_1     :: 11;
-    _6_2     :: 12;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_H265_LEVEL_IDC_1_0      :: _1_0;
-    STD_VIDEO_H265_LEVEL_IDC_2_0      :: _2_0;
-    STD_VIDEO_H265_LEVEL_IDC_2_1      :: _2_1;
-    STD_VIDEO_H265_LEVEL_IDC_3_0      :: _3_0;
-    STD_VIDEO_H265_LEVEL_IDC_3_1      :: _3_1;
-    STD_VIDEO_H265_LEVEL_IDC_4_0      :: _4_0;
-    STD_VIDEO_H265_LEVEL_IDC_4_1      :: _4_1;
-    STD_VIDEO_H265_LEVEL_IDC_5_0      :: _5_0;
-    STD_VIDEO_H265_LEVEL_IDC_5_1      :: _5_1;
-    STD_VIDEO_H265_LEVEL_IDC_5_2      :: _5_2;
-    STD_VIDEO_H265_LEVEL_IDC_6_0      :: _6_0;
-    STD_VIDEO_H265_LEVEL_IDC_6_1      :: _6_1;
-    STD_VIDEO_H265_LEVEL_IDC_6_2      :: _6_2;
-    STD_VIDEO_H265_LEVEL_IDC_INVALID  :: INVALID;
-    STD_VIDEO_H265_LEVEL_IDC_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoH265SliceType :: enum u32 {
-    B        :: 0;
-    P        :: 1;
-    I        :: 2;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_H265_SLICE_TYPE_B        :: B;
-    STD_VIDEO_H265_SLICE_TYPE_P        :: P;
-    STD_VIDEO_H265_SLICE_TYPE_I        :: I;
-    STD_VIDEO_H265_SLICE_TYPE_INVALID  :: INVALID;
-    STD_VIDEO_H265_SLICE_TYPE_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoH265PictureType :: enum u32 {
-    P        :: 0;
-    B        :: 1;
-    I        :: 2;
-    IDR      :: 3;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_H265_PICTURE_TYPE_P        :: P;
-    STD_VIDEO_H265_PICTURE_TYPE_B        :: B;
-    STD_VIDEO_H265_PICTURE_TYPE_I        :: I;
-    STD_VIDEO_H265_PICTURE_TYPE_IDR      :: IDR;
-    STD_VIDEO_H265_PICTURE_TYPE_INVALID  :: INVALID;
-    STD_VIDEO_H265_PICTURE_TYPE_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoH265AspectRatioIdc :: enum u32 {
-    UNSPECIFIED  :: 0;
-    SQUARE       :: 1;
-    _12_11       :: 2;
-    _10_11       :: 3;
-    _16_11       :: 4;
-    _40_33       :: 5;
-    _24_11       :: 6;
-    _20_11       :: 7;
-    _32_11       :: 8;
-    _80_33       :: 9;
-    _18_11       :: 10;
-    _15_11       :: 11;
-    _64_33       :: 12;
-    _160_99      :: 13;
-    _4_3         :: 14;
-    _3_2         :: 15;
-    _2_1         :: 16;
-    EXTENDED_SAR :: 255;
-    INVALID      :: 2147483647;
-    MAX_ENUM     :: 2147483647;
-
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_UNSPECIFIED  :: UNSPECIFIED;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_SQUARE       :: SQUARE;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_12_11        :: _12_11;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_10_11        :: _10_11;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_16_11        :: _16_11;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_40_33        :: _40_33;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_24_11        :: _24_11;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_20_11        :: _20_11;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_32_11        :: _32_11;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_80_33        :: _80_33;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_18_11        :: _18_11;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_15_11        :: _15_11;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_64_33        :: _64_33;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_160_99       :: _160_99;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_4_3          :: _4_3;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_3_2          :: _3_2;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_2_1          :: _2_1;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_EXTENDED_SAR :: EXTENDED_SAR;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_INVALID      :: INVALID;
-    STD_VIDEO_H265_ASPECT_RATIO_IDC_MAX_ENUM     :: MAX_ENUM;
-}
-
-StdVideoH265DecPicBufMgr :: struct {
-    max_latency_increase_plus1:   [7] u32;
-    max_dec_pic_buffering_minus1: [7] u8;
-    max_num_reorder_pics:         [7] u8;
-}
-
-StdVideoH265SubLayerHrdParameters :: struct {
-    bit_rate_value_minus1:    [32] u32;
-    cpb_size_value_minus1:    [32] u32;
-    cpb_size_du_value_minus1: [32] u32;
-    bit_rate_du_value_minus1: [32] u32;
-    cbr_flag:                 u32;
-}
-
-StdVideoH265HrdFlags :: struct {
-    __bitfield: u32;
-    /* 
-        nal_hrd_parameters_present_flag: u32; /* 1 bits */
-        vcl_hrd_parameters_present_flag: u32; /* 1 bits */
-        sub_pic_hrd_params_present_flag: u32; /* 1 bits */
-        sub_pic_cpb_params_in_pic_timing_sei_flag: u32; /* 1 bits */
-        fixed_pic_rate_general_flag: u32; /* 8 bits */
-        fixed_pic_rate_within_cvs_flag: u32; /* 8 bits */
-        low_delay_hrd_flag: u32; /* 8 bits */;
-    */
-}
-
-StdVideoH265HrdParameters :: struct {
-    flags:                                        StdVideoH265HrdFlags;
-    tick_divisor_minus2:                          u8;
-    du_cpb_removal_delay_increment_length_minus1: u8;
-    dpb_output_delay_du_length_minus1:            u8;
-    bit_rate_scale:                               u8;
-    cpb_size_scale:                               u8;
-    cpb_size_du_scale:                            u8;
-    initial_cpb_removal_delay_length_minus1:      u8;
-    au_cpb_removal_delay_length_minus1:           u8;
-    dpb_output_delay_length_minus1:               u8;
-    cpb_cnt_minus1:                               [7] u8;
-    elemental_duration_in_tc_minus1:              [7] u16;
-    reserved:                                     [3] u16;
-    pSubLayerHrdParametersNal:                    *StdVideoH265SubLayerHrdParameters;
-    pSubLayerHrdParametersVcl:                    *StdVideoH265SubLayerHrdParameters;
-}
-
-StdVideoH265VpsFlags :: struct {
-    __bitfield: u8;
-    /* 
-        vps_temporal_id_nesting_flag: u32; /* 1 bits */
-        vps_sub_layer_ordering_info_present_flag: u32; /* 1 bits */
-        vps_timing_info_present_flag: u32; /* 1 bits */
-        vps_poc_proportional_to_timing_flag: u32; /* 1 bits */;
-    */
-    #place __bitfield; StdVideoH265VpsFlags_alignment: u32;
-}
-
-StdVideoH265ProfileTierLevelFlags :: struct {
-    __bitfield: u8;
-    /* 
-        general_tier_flag: u32; /* 1 bits */
-        general_progressive_source_flag: u32; /* 1 bits */
-        general_interlaced_source_flag: u32; /* 1 bits */
-        general_non_packed_constraint_flag: u32; /* 1 bits */
-        general_frame_only_constraint_flag: u32; /* 1 bits */;
-    */
-    #place __bitfield; StdVideoH265ProfileTierLevelFlags_alignment: u32;
-}
-
-StdVideoH265ProfileTierLevel :: struct {
-    flags:               StdVideoH265ProfileTierLevelFlags;
-    general_profile_idc: StdVideoH265ProfileIdc;
-    general_level_idc:   StdVideoH265LevelIdc;
-}
-
-StdVideoH265VideoParameterSet :: struct {
-    flags:                             StdVideoH265VpsFlags;
-    vps_video_parameter_set_id:        u8;
-    vps_max_sub_layers_minus1:         u8;
-    reserved1:                         u8;
-    reserved2:                         u8;
-    vps_num_units_in_tick:             u32;
-    vps_time_scale:                    u32;
-    vps_num_ticks_poc_diff_one_minus1: u32;
-    reserved3:                         u32;
-    pDecPicBufMgr:                     *StdVideoH265DecPicBufMgr;
-    pHrdParameters:                    *StdVideoH265HrdParameters;
-    pProfileTierLevel:                 *StdVideoH265ProfileTierLevel;
-}
-
-StdVideoH265ScalingLists :: struct {
-    ScalingList4x4:         [6] [16] u8;
-    ScalingList8x8:         [6] [64] u8;
-    ScalingList16x16:       [6] [64] u8;
-    ScalingList32x32:       [2] [64] u8;
-    ScalingListDCCoef16x16: [6] u8;
-    ScalingListDCCoef32x32: [2] u8;
-}
-
-StdVideoH265SpsVuiFlags :: struct {
-    __bitfield: u32;
-    /* 
-        aspect_ratio_info_present_flag: u32; /* 1 bits */
-        overscan_info_present_flag: u32; /* 1 bits */
-        overscan_appropriate_flag: u32; /* 1 bits */
-        video_signal_type_present_flag: u32; /* 1 bits */
-        video_full_range_flag: u32; /* 1 bits */
-        colour_description_present_flag: u32; /* 1 bits */
-        chroma_loc_info_present_flag: u32; /* 1 bits */
-        neutral_chroma_indication_flag: u32; /* 1 bits */
-        field_seq_flag: u32; /* 1 bits */
-        frame_field_info_present_flag: u32; /* 1 bits */
-        default_display_window_flag: u32; /* 1 bits */
-        vui_timing_info_present_flag: u32; /* 1 bits */
-        vui_poc_proportional_to_timing_flag: u32; /* 1 bits */
-        vui_hrd_parameters_present_flag: u32; /* 1 bits */
-        bitstream_restriction_flag: u32; /* 1 bits */
-        tiles_fixed_structure_flag: u32; /* 1 bits */
-        motion_vectors_over_pic_boundaries_flag: u32; /* 1 bits */
-        restricted_ref_pic_lists_flag: u32; /* 1 bits */;
-    */
-}
-
-StdVideoH265SequenceParameterSetVui :: struct {
-    flags:                               StdVideoH265SpsVuiFlags;
-    aspect_ratio_idc:                    StdVideoH265AspectRatioIdc;
-    sar_width:                           u16;
-    sar_height:                          u16;
-    video_format:                        u8;
-    colour_primaries:                    u8;
-    transfer_characteristics:            u8;
-    matrix_coeffs:                       u8;
-    chroma_sample_loc_type_top_field:    u8;
-    chroma_sample_loc_type_bottom_field: u8;
-    reserved1:                           u8;
-    reserved2:                           u8;
-    def_disp_win_left_offset:            u16;
-    def_disp_win_right_offset:           u16;
-    def_disp_win_top_offset:             u16;
-    def_disp_win_bottom_offset:          u16;
-    vui_num_units_in_tick:               u32;
-    vui_time_scale:                      u32;
-    vui_num_ticks_poc_diff_one_minus1:   u32;
-    min_spatial_segmentation_idc:        u16;
-    reserved3:                           u16;
-    max_bytes_per_pic_denom:             u8;
-    max_bits_per_min_cu_denom:           u8;
-    log2_max_mv_length_horizontal:       u8;
-    log2_max_mv_length_vertical:         u8;
-    pHrdParameters:                      *StdVideoH265HrdParameters;
-}
-
-StdVideoH265PredictorPaletteEntries :: struct {
-    PredictorPaletteEntries: [3] [128] u16;
-}
-
-StdVideoH265SpsFlags :: struct {
-    __bitfield: u32;
-    /* 
-        sps_temporal_id_nesting_flag: u32; /* 1 bits */
-        separate_colour_plane_flag: u32; /* 1 bits */
-        conformance_window_flag: u32; /* 1 bits */
-        sps_sub_layer_ordering_info_present_flag: u32; /* 1 bits */
-        scaling_list_enabled_flag: u32; /* 1 bits */
-        sps_scaling_list_data_present_flag: u32; /* 1 bits */
-        amp_enabled_flag: u32; /* 1 bits */
-        sample_adaptive_offset_enabled_flag: u32; /* 1 bits */
-        pcm_enabled_flag: u32; /* 1 bits */
-        pcm_loop_filter_disabled_flag: u32; /* 1 bits */
-        long_term_ref_pics_present_flag: u32; /* 1 bits */
-        sps_temporal_mvp_enabled_flag: u32; /* 1 bits */
-        strong_intra_smoothing_enabled_flag: u32; /* 1 bits */
-        vui_parameters_present_flag: u32; /* 1 bits */
-        sps_extension_present_flag: u32; /* 1 bits */
-        sps_range_extension_flag: u32; /* 1 bits */
-        transform_skip_rotation_enabled_flag: u32; /* 1 bits */
-        transform_skip_context_enabled_flag: u32; /* 1 bits */
-        implicit_rdpcm_enabled_flag: u32; /* 1 bits */
-        explicit_rdpcm_enabled_flag: u32; /* 1 bits */
-        extended_precision_processing_flag: u32; /* 1 bits */
-        intra_smoothing_disabled_flag: u32; /* 1 bits */
-        high_precision_offsets_enabled_flag: u32; /* 1 bits */
-        persistent_rice_adaptation_enabled_flag: u32; /* 1 bits */
-        cabac_bypass_alignment_enabled_flag: u32; /* 1 bits */
-        sps_scc_extension_flag: u32; /* 1 bits */
-        sps_curr_pic_ref_enabled_flag: u32; /* 1 bits */
-        palette_mode_enabled_flag: u32; /* 1 bits */
-        sps_palette_predictor_initializers_present_flag: u32; /* 1 bits */
-        intra_boundary_filtering_disabled_flag: u32; /* 1 bits */;
-    */
-}
-
-StdVideoH265ShortTermRefPicSetFlags :: struct {
-    __bitfield: u8;
-    /* 
-        inter_ref_pic_set_prediction_flag: u32; /* 1 bits */
-        delta_rps_sign: u32; /* 1 bits */;
-    */
-    #place __bitfield; StdVideoH265ShortTermRefPicSetFlags_alignment: u32;
-}
-
-StdVideoH265ShortTermRefPicSet :: struct {
-    flags:                    StdVideoH265ShortTermRefPicSetFlags;
-    delta_idx_minus1:         u32;
-    use_delta_flag:           u16;
-    abs_delta_rps_minus1:     u16;
-    used_by_curr_pic_flag:    u16;
-    used_by_curr_pic_s0_flag: u16;
-    used_by_curr_pic_s1_flag: u16;
-    reserved1:                u16;
-    reserved2:                u8;
-    reserved3:                u8;
-    num_negative_pics:        u8;
-    num_positive_pics:        u8;
-    delta_poc_s0_minus1:      [16] u16;
-    delta_poc_s1_minus1:      [16] u16;
-}
-
-StdVideoH265LongTermRefPicsSps :: struct {
-    used_by_curr_pic_lt_sps_flag: u32;
-    lt_ref_pic_poc_lsb_sps:       [32] u32;
-}
-
-StdVideoH265SequenceParameterSet :: struct {
-    flags:                                         StdVideoH265SpsFlags;
-    chroma_format_idc:                             StdVideoH265ChromaFormatIdc;
-    pic_width_in_luma_samples:                     u32;
-    pic_height_in_luma_samples:                    u32;
-    sps_video_parameter_set_id:                    u8;
-    sps_max_sub_layers_minus1:                     u8;
-    sps_seq_parameter_set_id:                      u8;
-    bit_depth_luma_minus8:                         u8;
-    bit_depth_chroma_minus8:                       u8;
-    log2_max_pic_order_cnt_lsb_minus4:             u8;
-    log2_min_luma_coding_block_size_minus3:        u8;
-    log2_diff_max_min_luma_coding_block_size:      u8;
-    log2_min_luma_transform_block_size_minus2:     u8;
-    log2_diff_max_min_luma_transform_block_size:   u8;
-    max_transform_hierarchy_depth_inter:           u8;
-    max_transform_hierarchy_depth_intra:           u8;
-    num_short_term_ref_pic_sets:                   u8;
-    num_long_term_ref_pics_sps:                    u8;
-    pcm_sample_bit_depth_luma_minus1:              u8;
-    pcm_sample_bit_depth_chroma_minus1:            u8;
-    log2_min_pcm_luma_coding_block_size_minus3:    u8;
-    log2_diff_max_min_pcm_luma_coding_block_size:  u8;
-    reserved1:                                     u8;
-    reserved2:                                     u8;
-    palette_max_size:                              u8;
-    delta_palette_max_predictor_size:              u8;
-    motion_vector_resolution_control_idc:          u8;
-    sps_num_palette_predictor_initializers_minus1: u8;
-    conf_win_left_offset:                          u32;
-    conf_win_right_offset:                         u32;
-    conf_win_top_offset:                           u32;
-    conf_win_bottom_offset:                        u32;
-    pProfileTierLevel:                             *StdVideoH265ProfileTierLevel;
-    pDecPicBufMgr:                                 *StdVideoH265DecPicBufMgr;
-    pScalingLists:                                 *StdVideoH265ScalingLists;
-    pShortTermRefPicSet:                           *StdVideoH265ShortTermRefPicSet;
-    pLongTermRefPicsSps:                           *StdVideoH265LongTermRefPicsSps;
-    pSequenceParameterSetVui:                      *StdVideoH265SequenceParameterSetVui;
-    pPredictorPaletteEntries:                      *StdVideoH265PredictorPaletteEntries;
-}
-
-StdVideoH265PpsFlags :: struct {
-    __bitfield: u32;
-    /* 
-        dependent_slice_segments_enabled_flag: u32; /* 1 bits */
-        output_flag_present_flag: u32; /* 1 bits */
-        sign_data_hiding_enabled_flag: u32; /* 1 bits */
-        cabac_init_present_flag: u32; /* 1 bits */
-        constrained_intra_pred_flag: u32; /* 1 bits */
-        transform_skip_enabled_flag: u32; /* 1 bits */
-        cu_qp_delta_enabled_flag: u32; /* 1 bits */
-        pps_slice_chroma_qp_offsets_present_flag: u32; /* 1 bits */
-        weighted_pred_flag: u32; /* 1 bits */
-        weighted_bipred_flag: u32; /* 1 bits */
-        transquant_bypass_enabled_flag: u32; /* 1 bits */
-        tiles_enabled_flag: u32; /* 1 bits */
-        entropy_coding_sync_enabled_flag: u32; /* 1 bits */
-        uniform_spacing_flag: u32; /* 1 bits */
-        loop_filter_across_tiles_enabled_flag: u32; /* 1 bits */
-        pps_loop_filter_across_slices_enabled_flag: u32; /* 1 bits */
-        deblocking_filter_control_present_flag: u32; /* 1 bits */
-        deblocking_filter_override_enabled_flag: u32; /* 1 bits */
-        pps_deblocking_filter_disabled_flag: u32; /* 1 bits */
-        pps_scaling_list_data_present_flag: u32; /* 1 bits */
-        lists_modification_present_flag: u32; /* 1 bits */
-        slice_segment_header_extension_present_flag: u32; /* 1 bits */
-        pps_extension_present_flag: u32; /* 1 bits */
-        cross_component_prediction_enabled_flag: u32; /* 1 bits */
-        chroma_qp_offset_list_enabled_flag: u32; /* 1 bits */
-        pps_curr_pic_ref_enabled_flag: u32; /* 1 bits */
-        residual_adaptive_colour_transform_enabled_flag: u32; /* 1 bits */
-        pps_slice_act_qp_offsets_present_flag: u32; /* 1 bits */
-        pps_palette_predictor_initializers_present_flag: u32; /* 1 bits */
-        monochrome_palette_flag: u32; /* 1 bits */
-        pps_range_extension_flag: u32; /* 1 bits */;
-    */
-}
-
-StdVideoH265PictureParameterSet :: struct {
-    flags:                                     StdVideoH265PpsFlags;
-    pps_pic_parameter_set_id:                  u8;
-    pps_seq_parameter_set_id:                  u8;
-    sps_video_parameter_set_id:                u8;
-    num_extra_slice_header_bits:               u8;
-    num_ref_idx_l0_default_active_minus1:      u8;
-    num_ref_idx_l1_default_active_minus1:      u8;
-    init_qp_minus26:                           s8;
-    diff_cu_qp_delta_depth:                    u8;
-    pps_cb_qp_offset:                          s8;
-    pps_cr_qp_offset:                          s8;
-    pps_beta_offset_div2:                      s8;
-    pps_tc_offset_div2:                        s8;
-    log2_parallel_merge_level_minus2:          u8;
-    log2_max_transform_skip_block_size_minus2: u8;
-    diff_cu_chroma_qp_offset_depth:            u8;
-    chroma_qp_offset_list_len_minus1:          u8;
-    cb_qp_offset_list:                         [6] s8;
-    cr_qp_offset_list:                         [6] s8;
-    log2_sao_offset_scale_luma:                u8;
-    log2_sao_offset_scale_chroma:              u8;
-    pps_act_y_qp_offset_plus5:                 s8;
-    pps_act_cb_qp_offset_plus5:                s8;
-    pps_act_cr_qp_offset_plus3:                s8;
-    pps_num_palette_predictor_initializers:    u8;
-    luma_bit_depth_entry_minus8:               u8;
-    chroma_bit_depth_entry_minus8:             u8;
-    num_tile_columns_minus1:                   u8;
-    num_tile_rows_minus1:                      u8;
-    reserved1:                                 u8;
-    reserved2:                                 u8;
-    column_width_minus1:                       [19] u16;
-    row_height_minus1:                         [21] u16;
-    reserved3:                                 u32;
-    pScalingLists:                             *StdVideoH265ScalingLists;
-    pPredictorPaletteEntries:                  *StdVideoH265PredictorPaletteEntries;
-}
-
-StdVideoEncodeH265WeightTableFlags :: struct {
-    luma_weight_l0_flag:   u16;
-    chroma_weight_l0_flag: u16;
-    luma_weight_l1_flag:   u16;
-    chroma_weight_l1_flag: u16;
-}
-
-StdVideoEncodeH265WeightTable :: struct {
-    flags:                          StdVideoEncodeH265WeightTableFlags;
-    luma_log2_weight_denom:         u8;
-    delta_chroma_log2_weight_denom: s8;
-    delta_luma_weight_l0:           [15] s8;
-    luma_offset_l0:                 [15] s8;
-    delta_chroma_weight_l0:         [15] [2] s8;
-    delta_chroma_offset_l0:         [15] [2] s8;
-    delta_luma_weight_l1:           [15] s8;
-    luma_offset_l1:                 [15] s8;
-    delta_chroma_weight_l1:         [15] [2] s8;
-    delta_chroma_offset_l1:         [15] [2] s8;
-}
-
-StdVideoEncodeH265SliceSegmentHeaderFlags :: struct {
-    __bitfield: u32;
-    /* 
-        first_slice_segment_in_pic_flag: u32; /* 1 bits */
-        dependent_slice_segment_flag: u32; /* 1 bits */
-        slice_sao_luma_flag: u32; /* 1 bits */
-        slice_sao_chroma_flag: u32; /* 1 bits */
-        num_ref_idx_active_override_flag: u32; /* 1 bits */
-        mvd_l1_zero_flag: u32; /* 1 bits */
-        cabac_init_flag: u32; /* 1 bits */
-        cu_chroma_qp_offset_enabled_flag: u32; /* 1 bits */
-        deblocking_filter_override_flag: u32; /* 1 bits */
-        slice_deblocking_filter_disabled_flag: u32; /* 1 bits */
-        collocated_from_l0_flag: u32; /* 1 bits */
-        slice_loop_filter_across_slices_enabled_flag: u32; /* 1 bits */
-        reserved: u32; /* 20 bits */;
-    */
-}
-
-StdVideoEncodeH265SliceSegmentHeader :: struct {
-    flags:                  StdVideoEncodeH265SliceSegmentHeaderFlags;
-    slice_type:             StdVideoH265SliceType;
-    slice_segment_address:  u32;
-    collocated_ref_idx:     u8;
-    MaxNumMergeCand:        u8;
-    slice_cb_qp_offset:     s8;
-    slice_cr_qp_offset:     s8;
-    slice_beta_offset_div2: s8;
-    slice_tc_offset_div2:   s8;
-    slice_act_y_qp_offset:  s8;
-    slice_act_cb_qp_offset: s8;
-    slice_act_cr_qp_offset: s8;
-    slice_qp_delta:         s8;
-    reserved1:              u16;
-    pWeightTable:           *StdVideoEncodeH265WeightTable;
-}
-
-StdVideoEncodeH265ReferenceListsInfoFlags :: struct {
-    __bitfield: u32;
-    /* 
-        ref_pic_list_modification_flag_l0: u32; /* 1 bits */
-        ref_pic_list_modification_flag_l1: u32; /* 1 bits */
-        reserved: u32; /* 30 bits */;
-    */
-}
-
-StdVideoEncodeH265ReferenceListsInfo :: struct {
-    flags:                        StdVideoEncodeH265ReferenceListsInfoFlags;
-    num_ref_idx_l0_active_minus1: u8;
-    num_ref_idx_l1_active_minus1: u8;
-    RefPicList0:                  [15] u8;
-    RefPicList1:                  [15] u8;
-    list_entry_l0:                [15] u8;
-    list_entry_l1:                [15] u8;
-}
-
-StdVideoEncodeH265PictureInfoFlags :: struct {
-    __bitfield: u32;
-    /* 
-        is_reference: u32; /* 1 bits */
-        IrapPicFlag: u32; /* 1 bits */
-        used_for_long_term_reference: u32; /* 1 bits */
-        discardable_flag: u32; /* 1 bits */
-        cross_layer_bla_flag: u32; /* 1 bits */
-        pic_output_flag: u32; /* 1 bits */
-        no_output_of_prior_pics_flag: u32; /* 1 bits */
-        short_term_ref_pic_set_sps_flag: u32; /* 1 bits */
-        slice_temporal_mvp_enabled_flag: u32; /* 1 bits */
-        reserved: u32; /* 23 bits */;
-    */
-}
-
-StdVideoEncodeH265LongTermRefPics :: struct {
-    num_long_term_sps:          u8;
-    num_long_term_pics:         u8;
-    lt_idx_sps:                 [32] u8;
-    poc_lsb_lt:                 [16] u8;
-    used_by_curr_pic_lt_flag:   u16;
-    delta_poc_msb_present_flag: [48] u8;
-    delta_poc_msb_cycle_lt:     [48] u8;
-}
-
-StdVideoEncodeH265PictureInfo :: struct {
-    flags:                      StdVideoEncodeH265PictureInfoFlags;
-    pic_type:                   StdVideoH265PictureType;
-    sps_video_parameter_set_id: u8;
-    pps_seq_parameter_set_id:   u8;
-    pps_pic_parameter_set_id:   u8;
-    short_term_ref_pic_set_idx: u8;
-    PicOrderCntVal:             s32;
-    TemporalId:                 u8;
-    reserved1:                  [7] u8;
-    pRefLists:                  *StdVideoEncodeH265ReferenceListsInfo;
-    pShortTermRefPicSet:        *StdVideoH265ShortTermRefPicSet;
-    pLongTermRefPics:           *StdVideoEncodeH265LongTermRefPics;
-}
-
-StdVideoEncodeH265ReferenceInfoFlags :: struct {
-    __bitfield: u32;
-    /* 
-        used_for_long_term_reference: u32; /* 1 bits */
-        unused_for_reference: u32; /* 1 bits */
-        reserved: u32; /* 30 bits */;
-    */
-}
-
-StdVideoEncodeH265ReferenceInfo :: struct {
-    flags:          StdVideoEncodeH265ReferenceInfoFlags;
-    pic_type:       StdVideoH265PictureType;
-    PicOrderCntVal: s32;
-    TemporalId:     u8;
 }
 
 VkVideoEncodeH265CapabilityFlagBitsKHR :: enum_flags u32 {
@@ -15085,60 +16113,6 @@ VkVideoEncodeH265GopRemainingFrameInfoKHR :: struct {
     gopRemainingI:         u32;
     gopRemainingP:         u32;
     gopRemainingB:         u32;
-}
-
-StdVideoDecodeH264FieldOrderCount :: enum u32 {
-    TOP      :: 0;
-    BOTTOM   :: 1;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_TOP      :: TOP;
-    STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_BOTTOM   :: BOTTOM;
-    STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_INVALID  :: INVALID;
-    STD_VIDEO_DECODE_H264_FIELD_ORDER_COUNT_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoDecodeH264PictureInfoFlags :: struct {
-    __bitfield: u8;
-    /* 
-        field_pic_flag: u32; /* 1 bits */
-        is_intra: u32; /* 1 bits */
-        IdrPicFlag: u32; /* 1 bits */
-        bottom_field_flag: u32; /* 1 bits */
-        is_reference: u32; /* 1 bits */
-        complementary_field_pair: u32; /* 1 bits */;
-    */
-    #place __bitfield; StdVideoDecodeH264PictureInfoFlags_alignment: u32;
-}
-
-StdVideoDecodeH264PictureInfo :: struct {
-    flags:                StdVideoDecodeH264PictureInfoFlags;
-    seq_parameter_set_id: u8;
-    pic_parameter_set_id: u8;
-    reserved1:            u8;
-    reserved2:            u8;
-    frame_num:            u16;
-    idr_pic_id:           u16;
-    PicOrderCnt:          [2] s32;
-}
-
-StdVideoDecodeH264ReferenceInfoFlags :: struct {
-    __bitfield: u8;
-    /* 
-        top_field_flag: u32; /* 1 bits */
-        bottom_field_flag: u32; /* 1 bits */
-        used_for_long_term_reference: u32; /* 1 bits */
-        is_non_existing: u32; /* 1 bits */;
-    */
-    #place __bitfield; StdVideoDecodeH264ReferenceInfoFlags_alignment: u32;
-}
-
-StdVideoDecodeH264ReferenceInfo :: struct {
-    flags:       StdVideoDecodeH264ReferenceInfoFlags;
-    FrameNum:    u16;
-    reserved:    u16;
-    PicOrderCnt: [2] s32;
 }
 
 VkVideoDecodeH264PictureLayoutFlagBitsKHR :: enum_flags u32 {
@@ -15815,45 +16789,6 @@ VkPhysicalDeviceShaderClockFeaturesKHR :: struct {
     shaderDeviceClock:   VkBool32;
 }
 
-StdVideoDecodeH265PictureInfoFlags :: struct {
-    __bitfield: u8;
-    /* 
-        IrapPicFlag: u32; /* 1 bits */
-        IdrPicFlag: u32; /* 1 bits */
-        IsReference: u32; /* 1 bits */
-        short_term_ref_pic_set_sps_flag: u32; /* 1 bits */;
-    */
-    #place __bitfield; StdVideoDecodeH265PictureInfoFlags_alignment: u32;
-}
-
-StdVideoDecodeH265PictureInfo :: struct {
-    flags:                        StdVideoDecodeH265PictureInfoFlags;
-    sps_video_parameter_set_id:   u8;
-    pps_seq_parameter_set_id:     u8;
-    pps_pic_parameter_set_id:     u8;
-    NumDeltaPocsOfRefRpsIdx:      u8;
-    PicOrderCntVal:               s32;
-    NumBitsForSTRefPicSetInSlice: u16;
-    reserved:                     u16;
-    RefPicSetStCurrBefore:        [8] u8;
-    RefPicSetStCurrAfter:         [8] u8;
-    RefPicSetLtCurr:              [8] u8;
-}
-
-StdVideoDecodeH265ReferenceInfoFlags :: struct {
-    __bitfield: u8;
-    /* 
-        used_for_long_term_reference: u32; /* 1 bits */
-        unused_for_reference: u32; /* 1 bits */;
-    */
-    #place __bitfield; StdVideoDecodeH265ReferenceInfoFlags_alignment: u32;
-}
-
-StdVideoDecodeH265ReferenceInfo :: struct {
-    flags:          StdVideoDecodeH265ReferenceInfoFlags;
-    PicOrderCntVal: s32;
-}
-
 VkVideoDecodeH265ProfileInfoKHR :: struct {
     sType:         VkStructureType = .VIDEO_DECODE_H265_PROFILE_INFO_KHR;
     pNext:         *void;
@@ -16528,6 +17463,12 @@ VkTraceRaysIndirectCommand2KHR :: struct {
 
 PFN_vkCmdTraceRaysIndirect2KHR :: #type (commandBuffer: VkCommandBuffer, indirectDeviceAddress: VkDeviceAddress) -> void #c_call;
 
+VkPhysicalDeviceShaderUntypedPointersFeaturesKHR :: struct {
+    sType:                 VkStructureType = .PHYSICAL_DEVICE_SHADER_UNTYPED_POINTERS_FEATURES_KHR;
+    pNext:                 *void;
+    shaderUntypedPointers: VkBool32;
+}
+
 VkPhysicalDeviceMaintenance4FeaturesKHR :: VkPhysicalDeviceMaintenance4Features;
 
 VkPhysicalDeviceMaintenance4PropertiesKHR :: VkPhysicalDeviceMaintenance4Properties;
@@ -16946,586 +17887,6 @@ VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR :: struct {
     meshAndTaskShaderDerivatives: VkBool32;
 }
 
-StdVideoAV1Profile :: enum u32 {
-    MAIN         :: 0;
-    HIGH         :: 1;
-    PROFESSIONAL :: 2;
-    INVALID      :: 2147483647;
-    MAX_ENUM     :: 2147483647;
-
-    STD_VIDEO_AV1_PROFILE_MAIN         :: MAIN;
-    STD_VIDEO_AV1_PROFILE_HIGH         :: HIGH;
-    STD_VIDEO_AV1_PROFILE_PROFESSIONAL :: PROFESSIONAL;
-    STD_VIDEO_AV1_PROFILE_INVALID      :: INVALID;
-    STD_VIDEO_AV1_PROFILE_MAX_ENUM     :: MAX_ENUM;
-}
-
-StdVideoAV1Level :: enum u32 {
-    _2_0     :: 0;
-    _2_1     :: 1;
-    _2_2     :: 2;
-    _2_3     :: 3;
-    _3_0     :: 4;
-    _3_1     :: 5;
-    _3_2     :: 6;
-    _3_3     :: 7;
-    _4_0     :: 8;
-    _4_1     :: 9;
-    _4_2     :: 10;
-    _4_3     :: 11;
-    _5_0     :: 12;
-    _5_1     :: 13;
-    _5_2     :: 14;
-    _5_3     :: 15;
-    _6_0     :: 16;
-    _6_1     :: 17;
-    _6_2     :: 18;
-    _6_3     :: 19;
-    _7_0     :: 20;
-    _7_1     :: 21;
-    _7_2     :: 22;
-    _7_3     :: 23;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_AV1_LEVEL_2_0      :: _2_0;
-    STD_VIDEO_AV1_LEVEL_2_1      :: _2_1;
-    STD_VIDEO_AV1_LEVEL_2_2      :: _2_2;
-    STD_VIDEO_AV1_LEVEL_2_3      :: _2_3;
-    STD_VIDEO_AV1_LEVEL_3_0      :: _3_0;
-    STD_VIDEO_AV1_LEVEL_3_1      :: _3_1;
-    STD_VIDEO_AV1_LEVEL_3_2      :: _3_2;
-    STD_VIDEO_AV1_LEVEL_3_3      :: _3_3;
-    STD_VIDEO_AV1_LEVEL_4_0      :: _4_0;
-    STD_VIDEO_AV1_LEVEL_4_1      :: _4_1;
-    STD_VIDEO_AV1_LEVEL_4_2      :: _4_2;
-    STD_VIDEO_AV1_LEVEL_4_3      :: _4_3;
-    STD_VIDEO_AV1_LEVEL_5_0      :: _5_0;
-    STD_VIDEO_AV1_LEVEL_5_1      :: _5_1;
-    STD_VIDEO_AV1_LEVEL_5_2      :: _5_2;
-    STD_VIDEO_AV1_LEVEL_5_3      :: _5_3;
-    STD_VIDEO_AV1_LEVEL_6_0      :: _6_0;
-    STD_VIDEO_AV1_LEVEL_6_1      :: _6_1;
-    STD_VIDEO_AV1_LEVEL_6_2      :: _6_2;
-    STD_VIDEO_AV1_LEVEL_6_3      :: _6_3;
-    STD_VIDEO_AV1_LEVEL_7_0      :: _7_0;
-    STD_VIDEO_AV1_LEVEL_7_1      :: _7_1;
-    STD_VIDEO_AV1_LEVEL_7_2      :: _7_2;
-    STD_VIDEO_AV1_LEVEL_7_3      :: _7_3;
-    STD_VIDEO_AV1_LEVEL_INVALID  :: INVALID;
-    STD_VIDEO_AV1_LEVEL_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoAV1FrameType :: enum u32 {
-    KEY        :: 0;
-    INTER      :: 1;
-    INTRA_ONLY :: 2;
-    SWITCH     :: 3;
-    INVALID    :: 2147483647;
-    MAX_ENUM   :: 2147483647;
-
-    STD_VIDEO_AV1_FRAME_TYPE_KEY        :: KEY;
-    STD_VIDEO_AV1_FRAME_TYPE_INTER      :: INTER;
-    STD_VIDEO_AV1_FRAME_TYPE_INTRA_ONLY :: INTRA_ONLY;
-    STD_VIDEO_AV1_FRAME_TYPE_SWITCH     :: SWITCH;
-    STD_VIDEO_AV1_FRAME_TYPE_INVALID    :: INVALID;
-    STD_VIDEO_AV1_FRAME_TYPE_MAX_ENUM   :: MAX_ENUM;
-}
-
-StdVideoAV1ReferenceName :: enum u32 {
-    INTRA_FRAME   :: 0;
-    LAST_FRAME    :: 1;
-    LAST2_FRAME   :: 2;
-    LAST3_FRAME   :: 3;
-    GOLDEN_FRAME  :: 4;
-    BWDREF_FRAME  :: 5;
-    ALTREF2_FRAME :: 6;
-    ALTREF_FRAME  :: 7;
-    INVALID       :: 2147483647;
-    MAX_ENUM      :: 2147483647;
-
-    STD_VIDEO_AV1_REFERENCE_NAME_INTRA_FRAME   :: INTRA_FRAME;
-    STD_VIDEO_AV1_REFERENCE_NAME_LAST_FRAME    :: LAST_FRAME;
-    STD_VIDEO_AV1_REFERENCE_NAME_LAST2_FRAME   :: LAST2_FRAME;
-    STD_VIDEO_AV1_REFERENCE_NAME_LAST3_FRAME   :: LAST3_FRAME;
-    STD_VIDEO_AV1_REFERENCE_NAME_GOLDEN_FRAME  :: GOLDEN_FRAME;
-    STD_VIDEO_AV1_REFERENCE_NAME_BWDREF_FRAME  :: BWDREF_FRAME;
-    STD_VIDEO_AV1_REFERENCE_NAME_ALTREF2_FRAME :: ALTREF2_FRAME;
-    STD_VIDEO_AV1_REFERENCE_NAME_ALTREF_FRAME  :: ALTREF_FRAME;
-    STD_VIDEO_AV1_REFERENCE_NAME_INVALID       :: INVALID;
-    STD_VIDEO_AV1_REFERENCE_NAME_MAX_ENUM      :: MAX_ENUM;
-}
-
-StdVideoAV1InterpolationFilter :: enum u32 {
-    EIGHTTAP        :: 0;
-    EIGHTTAP_SMOOTH :: 1;
-    EIGHTTAP_SHARP  :: 2;
-    BILINEAR        :: 3;
-    SWITCHABLE      :: 4;
-    INVALID         :: 2147483647;
-    MAX_ENUM        :: 2147483647;
-
-    STD_VIDEO_AV1_INTERPOLATION_FILTER_EIGHTTAP        :: EIGHTTAP;
-    STD_VIDEO_AV1_INTERPOLATION_FILTER_EIGHTTAP_SMOOTH :: EIGHTTAP_SMOOTH;
-    STD_VIDEO_AV1_INTERPOLATION_FILTER_EIGHTTAP_SHARP  :: EIGHTTAP_SHARP;
-    STD_VIDEO_AV1_INTERPOLATION_FILTER_BILINEAR        :: BILINEAR;
-    STD_VIDEO_AV1_INTERPOLATION_FILTER_SWITCHABLE      :: SWITCHABLE;
-    STD_VIDEO_AV1_INTERPOLATION_FILTER_INVALID         :: INVALID;
-    STD_VIDEO_AV1_INTERPOLATION_FILTER_MAX_ENUM        :: MAX_ENUM;
-}
-
-StdVideoAV1TxMode :: enum u32 {
-    ONLY_4X4 :: 0;
-    LARGEST  :: 1;
-    SELECT   :: 2;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_AV1_TX_MODE_ONLY_4X4 :: ONLY_4X4;
-    STD_VIDEO_AV1_TX_MODE_LARGEST  :: LARGEST;
-    STD_VIDEO_AV1_TX_MODE_SELECT   :: SELECT;
-    STD_VIDEO_AV1_TX_MODE_INVALID  :: INVALID;
-    STD_VIDEO_AV1_TX_MODE_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoAV1FrameRestorationType :: enum u32 {
-    NONE       :: 0;
-    WIENER     :: 1;
-    SGRPROJ    :: 2;
-    SWITCHABLE :: 3;
-    INVALID    :: 2147483647;
-    MAX_ENUM   :: 2147483647;
-
-    STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_NONE       :: NONE;
-    STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_WIENER     :: WIENER;
-    STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_SGRPROJ    :: SGRPROJ;
-    STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_SWITCHABLE :: SWITCHABLE;
-    STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_INVALID    :: INVALID;
-    STD_VIDEO_AV1_FRAME_RESTORATION_TYPE_MAX_ENUM   :: MAX_ENUM;
-}
-
-StdVideoAV1ColorPrimaries :: enum u32 {
-    BT_709         :: 1;
-    UNSPECIFIED    :: 2;
-    BT_470_M       :: 4;
-    BT_470_B_G     :: 5;
-    BT_601         :: 6;
-    SMPTE_240      :: 7;
-    GENERIC_FILM   :: 8;
-    BT_2020        :: 9;
-    XYZ            :: 10;
-    SMPTE_431      :: 11;
-    SMPTE_432      :: 12;
-    EBU_3213       :: 22;
-    INVALID        :: 2147483647;
-
-    BT_UNSPECIFIED :: 2;
-    MAX_ENUM       :: 2147483647;
-
-    STD_VIDEO_AV1_COLOR_PRIMARIES_BT_709         :: BT_709;
-    STD_VIDEO_AV1_COLOR_PRIMARIES_UNSPECIFIED    :: UNSPECIFIED;
-    STD_VIDEO_AV1_COLOR_PRIMARIES_BT_470_M       :: BT_470_M;
-    STD_VIDEO_AV1_COLOR_PRIMARIES_BT_470_B_G     :: BT_470_B_G;
-    STD_VIDEO_AV1_COLOR_PRIMARIES_BT_601         :: BT_601;
-    STD_VIDEO_AV1_COLOR_PRIMARIES_SMPTE_240      :: SMPTE_240;
-    STD_VIDEO_AV1_COLOR_PRIMARIES_GENERIC_FILM   :: GENERIC_FILM;
-    STD_VIDEO_AV1_COLOR_PRIMARIES_BT_2020        :: BT_2020;
-    STD_VIDEO_AV1_COLOR_PRIMARIES_XYZ            :: XYZ;
-    STD_VIDEO_AV1_COLOR_PRIMARIES_SMPTE_431      :: SMPTE_431;
-    STD_VIDEO_AV1_COLOR_PRIMARIES_SMPTE_432      :: SMPTE_432;
-    STD_VIDEO_AV1_COLOR_PRIMARIES_EBU_3213       :: EBU_3213;
-    STD_VIDEO_AV1_COLOR_PRIMARIES_INVALID        :: INVALID;
-
-    STD_VIDEO_AV1_COLOR_PRIMARIES_BT_UNSPECIFIED :: BT_UNSPECIFIED;
-    STD_VIDEO_AV1_COLOR_PRIMARIES_MAX_ENUM       :: MAX_ENUM;
-}
-
-StdVideoAV1TransferCharacteristics :: enum u32 {
-    RESERVED_0     :: 0;
-    BT_709         :: 1;
-    UNSPECIFIED    :: 2;
-    RESERVED_3     :: 3;
-    BT_470_M       :: 4;
-    BT_470_B_G     :: 5;
-    BT_601         :: 6;
-    SMPTE_240      :: 7;
-    LINEAR         :: 8;
-    LOG_100        :: 9;
-    LOG_100_SQRT10 :: 10;
-    IEC_61966      :: 11;
-    BT_1361        :: 12;
-    SRGB           :: 13;
-    BT_2020_10_BIT :: 14;
-    BT_2020_12_BIT :: 15;
-    SMPTE_2084     :: 16;
-    SMPTE_428      :: 17;
-    HLG            :: 18;
-    INVALID        :: 2147483647;
-    MAX_ENUM       :: 2147483647;
-
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_RESERVED_0     :: RESERVED_0;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_709         :: BT_709;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_UNSPECIFIED    :: UNSPECIFIED;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_RESERVED_3     :: RESERVED_3;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_470_M       :: BT_470_M;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_470_B_G     :: BT_470_B_G;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_601         :: BT_601;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_SMPTE_240      :: SMPTE_240;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_LINEAR         :: LINEAR;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_LOG_100        :: LOG_100;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_LOG_100_SQRT10 :: LOG_100_SQRT10;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_IEC_61966      :: IEC_61966;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_1361        :: BT_1361;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_SRGB           :: SRGB;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_2020_10_BIT :: BT_2020_10_BIT;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_BT_2020_12_BIT :: BT_2020_12_BIT;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_SMPTE_2084     :: SMPTE_2084;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_SMPTE_428      :: SMPTE_428;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_HLG            :: HLG;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_INVALID        :: INVALID;
-    STD_VIDEO_AV1_TRANSFER_CHARACTERISTICS_MAX_ENUM       :: MAX_ENUM;
-}
-
-StdVideoAV1MatrixCoefficients :: enum u32 {
-    IDENTITY    :: 0;
-    BT_709      :: 1;
-    UNSPECIFIED :: 2;
-    RESERVED_3  :: 3;
-    FCC         :: 4;
-    BT_470_B_G  :: 5;
-    BT_601      :: 6;
-    SMPTE_240   :: 7;
-    SMPTE_YCGCO :: 8;
-    BT_2020_NCL :: 9;
-    BT_2020_CL  :: 10;
-    SMPTE_2085  :: 11;
-    CHROMAT_NCL :: 12;
-    CHROMAT_CL  :: 13;
-    ICTCP       :: 14;
-    INVALID     :: 2147483647;
-    MAX_ENUM    :: 2147483647;
-
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_IDENTITY    :: IDENTITY;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_BT_709      :: BT_709;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_UNSPECIFIED :: UNSPECIFIED;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_RESERVED_3  :: RESERVED_3;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_FCC         :: FCC;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_BT_470_B_G  :: BT_470_B_G;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_BT_601      :: BT_601;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_SMPTE_240   :: SMPTE_240;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_SMPTE_YCGCO :: SMPTE_YCGCO;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_BT_2020_NCL :: BT_2020_NCL;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_BT_2020_CL  :: BT_2020_CL;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_SMPTE_2085  :: SMPTE_2085;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_CHROMAT_NCL :: CHROMAT_NCL;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_CHROMAT_CL  :: CHROMAT_CL;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_ICTCP       :: ICTCP;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_INVALID     :: INVALID;
-    STD_VIDEO_AV1_MATRIX_COEFFICIENTS_MAX_ENUM    :: MAX_ENUM;
-}
-
-StdVideoAV1ChromaSamplePosition :: enum u32 {
-    UNKNOWN   :: 0;
-    VERTICAL  :: 1;
-    COLOCATED :: 2;
-    RESERVED  :: 3;
-    INVALID   :: 2147483647;
-    MAX_ENUM  :: 2147483647;
-
-    STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_UNKNOWN   :: UNKNOWN;
-    STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_VERTICAL  :: VERTICAL;
-    STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_COLOCATED :: COLOCATED;
-    STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_RESERVED  :: RESERVED;
-    STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_INVALID   :: INVALID;
-    STD_VIDEO_AV1_CHROMA_SAMPLE_POSITION_MAX_ENUM  :: MAX_ENUM;
-}
-
-StdVideoAV1ColorConfigFlags :: struct {
-    __bitfield: u32;
-    /* 
-        mono_chrome: u32; /* 1 bits */
-        color_range: u32; /* 1 bits */
-        separate_uv_delta_q: u32; /* 1 bits */
-        color_description_present_flag: u32; /* 1 bits */
-        reserved: u32; /* 28 bits */;
-    */
-}
-
-StdVideoAV1ColorConfig :: struct {
-    flags:                    StdVideoAV1ColorConfigFlags;
-    BitDepth:                 u8;
-    subsampling_x:            u8;
-    subsampling_y:            u8;
-    reserved1:                u8;
-    color_primaries:          StdVideoAV1ColorPrimaries;
-    transfer_characteristics: StdVideoAV1TransferCharacteristics;
-    matrix_coefficients:      StdVideoAV1MatrixCoefficients;
-    chroma_sample_position:   StdVideoAV1ChromaSamplePosition;
-}
-
-StdVideoAV1TimingInfoFlags :: struct {
-    __bitfield: u32;
-    /* 
-        equal_picture_interval: u32; /* 1 bits */
-        reserved: u32; /* 31 bits */;
-    */
-}
-
-StdVideoAV1TimingInfo :: struct {
-    flags:                         StdVideoAV1TimingInfoFlags;
-    num_units_in_display_tick:     u32;
-    time_scale:                    u32;
-    num_ticks_per_picture_minus_1: u32;
-}
-
-StdVideoAV1LoopFilterFlags :: struct {
-    __bitfield: u32;
-    /* 
-        loop_filter_delta_enabled: u32; /* 1 bits */
-        loop_filter_delta_update: u32; /* 1 bits */
-        reserved: u32; /* 30 bits */;
-    */
-}
-
-StdVideoAV1LoopFilter :: struct {
-    flags:                   StdVideoAV1LoopFilterFlags;
-    loop_filter_level:       [4] u8;
-    loop_filter_sharpness:   u8;
-    update_ref_delta:        u8;
-    loop_filter_ref_deltas:  [8] s8;
-    update_mode_delta:       u8;
-    loop_filter_mode_deltas: [2] s8;
-}
-
-StdVideoAV1QuantizationFlags :: struct {
-    __bitfield: u32;
-    /* 
-        using_qmatrix: u32; /* 1 bits */
-        diff_uv_delta: u32; /* 1 bits */
-        reserved: u32; /* 30 bits */;
-    */
-}
-
-StdVideoAV1Quantization :: struct {
-    flags:      StdVideoAV1QuantizationFlags;
-    base_q_idx: u8;
-    DeltaQYDc:  s8;
-    DeltaQUDc:  s8;
-    DeltaQUAc:  s8;
-    DeltaQVDc:  s8;
-    DeltaQVAc:  s8;
-    qm_y:       u8;
-    qm_u:       u8;
-    qm_v:       u8;
-}
-
-StdVideoAV1Segmentation :: struct {
-    FeatureEnabled: [8] u8;
-    FeatureData:    [8] [8] s16;
-}
-
-StdVideoAV1TileInfoFlags :: struct {
-    __bitfield: u32;
-    /* 
-        uniform_tile_spacing_flag: u32; /* 1 bits */
-        reserved: u32; /* 31 bits */;
-    */
-}
-
-StdVideoAV1TileInfo :: struct {
-    flags:                   StdVideoAV1TileInfoFlags;
-    TileCols:                u8;
-    TileRows:                u8;
-    context_update_tile_id:  u16;
-    tile_size_bytes_minus_1: u8;
-    reserved1:               [7] u8;
-    pMiColStarts:            *u16;
-    pMiRowStarts:            *u16;
-    pWidthInSbsMinus1:       *u16;
-    pHeightInSbsMinus1:      *u16;
-}
-
-StdVideoAV1CDEF :: struct {
-    cdef_damping_minus_3: u8;
-    cdef_bits:            u8;
-    cdef_y_pri_strength:  [8] u8;
-    cdef_y_sec_strength:  [8] u8;
-    cdef_uv_pri_strength: [8] u8;
-    cdef_uv_sec_strength: [8] u8;
-}
-
-StdVideoAV1LoopRestoration :: struct {
-    FrameRestorationType: [3] StdVideoAV1FrameRestorationType;
-    LoopRestorationSize:  [3] u16;
-}
-
-StdVideoAV1GlobalMotion :: struct {
-    GmType:    [8] u8;
-    gm_params: [8] [6] s32;
-}
-
-StdVideoAV1FilmGrainFlags :: struct {
-    __bitfield: u32;
-    /* 
-        chroma_scaling_from_luma: u32; /* 1 bits */
-        overlap_flag: u32; /* 1 bits */
-        clip_to_restricted_range: u32; /* 1 bits */
-        update_grain: u32; /* 1 bits */
-        reserved: u32; /* 28 bits */;
-    */
-}
-
-StdVideoAV1FilmGrain :: struct {
-    flags:                     StdVideoAV1FilmGrainFlags;
-    grain_scaling_minus_8:     u8;
-    ar_coeff_lag:              u8;
-    ar_coeff_shift_minus_6:    u8;
-    grain_scale_shift:         u8;
-    grain_seed:                u16;
-    film_grain_params_ref_idx: u8;
-    num_y_points:              u8;
-    point_y_value:             [14] u8;
-    point_y_scaling:           [14] u8;
-    num_cb_points:             u8;
-    point_cb_value:            [10] u8;
-    point_cb_scaling:          [10] u8;
-    num_cr_points:             u8;
-    point_cr_value:            [10] u8;
-    point_cr_scaling:          [10] u8;
-    ar_coeffs_y_plus_128:      [24] s8;
-    ar_coeffs_cb_plus_128:     [25] s8;
-    ar_coeffs_cr_plus_128:     [25] s8;
-    cb_mult:                   u8;
-    cb_luma_mult:              u8;
-    cb_offset:                 u16;
-    cr_mult:                   u8;
-    cr_luma_mult:              u8;
-    cr_offset:                 u16;
-}
-
-StdVideoAV1SequenceHeaderFlags :: struct {
-    __bitfield: u32;
-    /* 
-        still_picture: u32; /* 1 bits */
-        reduced_still_picture_header: u32; /* 1 bits */
-        use_128x128_superblock: u32; /* 1 bits */
-        enable_filter_intra: u32; /* 1 bits */
-        enable_intra_edge_filter: u32; /* 1 bits */
-        enable_interintra_compound: u32; /* 1 bits */
-        enable_masked_compound: u32; /* 1 bits */
-        enable_warped_motion: u32; /* 1 bits */
-        enable_dual_filter: u32; /* 1 bits */
-        enable_order_hint: u32; /* 1 bits */
-        enable_jnt_comp: u32; /* 1 bits */
-        enable_ref_frame_mvs: u32; /* 1 bits */
-        frame_id_numbers_present_flag: u32; /* 1 bits */
-        enable_superres: u32; /* 1 bits */
-        enable_cdef: u32; /* 1 bits */
-        enable_restoration: u32; /* 1 bits */
-        film_grain_params_present: u32; /* 1 bits */
-        timing_info_present_flag: u32; /* 1 bits */
-        initial_display_delay_present_flag: u32; /* 1 bits */
-        reserved: u32; /* 13 bits */;
-    */
-}
-
-StdVideoAV1SequenceHeader :: struct {
-    flags:                              StdVideoAV1SequenceHeaderFlags;
-    seq_profile:                        StdVideoAV1Profile;
-    frame_width_bits_minus_1:           u8;
-    frame_height_bits_minus_1:          u8;
-    max_frame_width_minus_1:            u16;
-    max_frame_height_minus_1:           u16;
-    delta_frame_id_length_minus_2:      u8;
-    additional_frame_id_length_minus_1: u8;
-    order_hint_bits_minus_1:            u8;
-    seq_force_integer_mv:               u8;
-    seq_force_screen_content_tools:     u8;
-    reserved1:                          [5] u8;
-    pColorConfig:                       *StdVideoAV1ColorConfig;
-    pTimingInfo:                        *StdVideoAV1TimingInfo;
-}
-
-StdVideoDecodeAV1PictureInfoFlags :: struct {
-    __bitfield: u32;
-    /* 
-        error_resilient_mode: u32; /* 1 bits */
-        disable_cdf_update: u32; /* 1 bits */
-        use_superres: u32; /* 1 bits */
-        render_and_frame_size_different: u32; /* 1 bits */
-        allow_screen_content_tools: u32; /* 1 bits */
-        is_filter_switchable: u32; /* 1 bits */
-        force_integer_mv: u32; /* 1 bits */
-        frame_size_override_flag: u32; /* 1 bits */
-        buffer_removal_time_present_flag: u32; /* 1 bits */
-        allow_intrabc: u32; /* 1 bits */
-        frame_refs_short_signaling: u32; /* 1 bits */
-        allow_high_precision_mv: u32; /* 1 bits */
-        is_motion_mode_switchable: u32; /* 1 bits */
-        use_ref_frame_mvs: u32; /* 1 bits */
-        disable_frame_end_update_cdf: u32; /* 1 bits */
-        allow_warped_motion: u32; /* 1 bits */
-        reduced_tx_set: u32; /* 1 bits */
-        reference_select: u32; /* 1 bits */
-        skip_mode_present: u32; /* 1 bits */
-        delta_q_present: u32; /* 1 bits */
-        delta_lf_present: u32; /* 1 bits */
-        delta_lf_multi: u32; /* 1 bits */
-        segmentation_enabled: u32; /* 1 bits */
-        segmentation_update_map: u32; /* 1 bits */
-        segmentation_temporal_update: u32; /* 1 bits */
-        segmentation_update_data: u32; /* 1 bits */
-        UsesLr: u32; /* 1 bits */
-        usesChromaLr: u32; /* 1 bits */
-        apply_grain: u32; /* 1 bits */
-        reserved: u32; /* 3 bits */;
-    */
-}
-
-StdVideoDecodeAV1PictureInfo :: struct {
-    flags:                StdVideoDecodeAV1PictureInfoFlags;
-    frame_type:           StdVideoAV1FrameType;
-    current_frame_id:     u32;
-    OrderHint:            u8;
-    primary_ref_frame:    u8;
-    refresh_frame_flags:  u8;
-    reserved1:            u8;
-    interpolation_filter: StdVideoAV1InterpolationFilter;
-    TxMode:               StdVideoAV1TxMode;
-    delta_q_res:          u8;
-    delta_lf_res:         u8;
-    SkipModeFrame:        [2] u8;
-    coded_denom:          u8;
-    reserved2:            [3] u8;
-    OrderHints:           [8] u8;
-    expectedFrameId:      [8] u32;
-    pTileInfo:            *StdVideoAV1TileInfo;
-    pQuantization:        *StdVideoAV1Quantization;
-    pSegmentation:        *StdVideoAV1Segmentation;
-    pLoopFilter:          *StdVideoAV1LoopFilter;
-    pCDEF:                *StdVideoAV1CDEF;
-    pLoopRestoration:     *StdVideoAV1LoopRestoration;
-    pGlobalMotion:        *StdVideoAV1GlobalMotion;
-    pFilmGrain:           *StdVideoAV1FilmGrain;
-}
-
-StdVideoDecodeAV1ReferenceInfoFlags :: struct {
-    __bitfield: u32;
-    /* 
-        disable_frame_end_update_cdf: u32; /* 1 bits */
-        segmentation_enabled: u32; /* 1 bits */
-        reserved: u32; /* 30 bits */;
-    */
-}
-
-StdVideoDecodeAV1ReferenceInfo :: struct {
-    flags:            StdVideoDecodeAV1ReferenceInfoFlags;
-    frame_type:       u8;
-    RefFrameSignBias: u8;
-    OrderHint:        u8;
-    SavedOrderHints:  [8] u8;
-}
-
 VkVideoDecodeAV1ProfileInfoKHR :: struct {
     sType:            VkStructureType = .VIDEO_DECODE_AV1_PROFILE_INFO_KHR;
     pNext:            *void;
@@ -17560,123 +17921,6 @@ VkVideoDecodeAV1DpbSlotInfoKHR :: struct {
     sType:             VkStructureType = .VIDEO_DECODE_AV1_DPB_SLOT_INFO_KHR;
     pNext:             *void;
     pStdReferenceInfo: *StdVideoDecodeAV1ReferenceInfo;
-}
-
-StdVideoEncodeAV1DecoderModelInfo :: struct {
-    buffer_delay_length_minus_1:            u8;
-    buffer_removal_time_length_minus_1:     u8;
-    frame_presentation_time_length_minus_1: u8;
-    reserved1:                              u8;
-    num_units_in_decoding_tick:             u32;
-}
-
-StdVideoEncodeAV1ExtensionHeader :: struct {
-    temporal_id: u8;
-    spatial_id:  u8;
-}
-
-StdVideoEncodeAV1OperatingPointInfoFlags :: struct {
-    __bitfield: u32;
-    /* 
-        decoder_model_present_for_this_op: u32; /* 1 bits */
-        low_delay_mode_flag: u32; /* 1 bits */
-        initial_display_delay_present_for_this_op: u32; /* 1 bits */
-        reserved: u32; /* 29 bits */;
-    */
-}
-
-StdVideoEncodeAV1OperatingPointInfo :: struct {
-    flags:                         StdVideoEncodeAV1OperatingPointInfoFlags;
-    operating_point_idc:           u16;
-    seq_level_idx:                 u8;
-    seq_tier:                      u8;
-    decoder_buffer_delay:          u32;
-    encoder_buffer_delay:          u32;
-    initial_display_delay_minus_1: u8;
-}
-
-StdVideoEncodeAV1PictureInfoFlags :: struct {
-    __bitfield: u32;
-    /* 
-        error_resilient_mode: u32; /* 1 bits */
-        disable_cdf_update: u32; /* 1 bits */
-        use_superres: u32; /* 1 bits */
-        render_and_frame_size_different: u32; /* 1 bits */
-        allow_screen_content_tools: u32; /* 1 bits */
-        is_filter_switchable: u32; /* 1 bits */
-        force_integer_mv: u32; /* 1 bits */
-        frame_size_override_flag: u32; /* 1 bits */
-        buffer_removal_time_present_flag: u32; /* 1 bits */
-        allow_intrabc: u32; /* 1 bits */
-        frame_refs_short_signaling: u32; /* 1 bits */
-        allow_high_precision_mv: u32; /* 1 bits */
-        is_motion_mode_switchable: u32; /* 1 bits */
-        use_ref_frame_mvs: u32; /* 1 bits */
-        disable_frame_end_update_cdf: u32; /* 1 bits */
-        allow_warped_motion: u32; /* 1 bits */
-        reduced_tx_set: u32; /* 1 bits */
-        skip_mode_present: u32; /* 1 bits */
-        delta_q_present: u32; /* 1 bits */
-        delta_lf_present: u32; /* 1 bits */
-        delta_lf_multi: u32; /* 1 bits */
-        segmentation_enabled: u32; /* 1 bits */
-        segmentation_update_map: u32; /* 1 bits */
-        segmentation_temporal_update: u32; /* 1 bits */
-        segmentation_update_data: u32; /* 1 bits */
-        UsesLr: u32; /* 1 bits */
-        usesChromaLr: u32; /* 1 bits */
-        show_frame: u32; /* 1 bits */
-        showable_frame: u32; /* 1 bits */
-        reserved: u32; /* 3 bits */;
-    */
-}
-
-StdVideoEncodeAV1PictureInfo :: struct {
-    flags:                   StdVideoEncodeAV1PictureInfoFlags;
-    frame_type:              StdVideoAV1FrameType;
-    frame_presentation_time: u32;
-    current_frame_id:        u32;
-    order_hint:              u8;
-    primary_ref_frame:       u8;
-    refresh_frame_flags:     u8;
-    coded_denom:             u8;
-    render_width_minus_1:    u16;
-    render_height_minus_1:   u16;
-    interpolation_filter:    StdVideoAV1InterpolationFilter;
-    TxMode:                  StdVideoAV1TxMode;
-    delta_q_res:             u8;
-    delta_lf_res:            u8;
-    ref_order_hint:          [8] u8;
-    ref_frame_idx:           [7] s8;
-    reserved1:               [3] u8;
-    delta_frame_id_minus_1:  [7] u32;
-    pTileInfo:               *StdVideoAV1TileInfo;
-    pQuantization:           *StdVideoAV1Quantization;
-    pSegmentation:           *StdVideoAV1Segmentation;
-    pLoopFilter:             *StdVideoAV1LoopFilter;
-    pCDEF:                   *StdVideoAV1CDEF;
-    pLoopRestoration:        *StdVideoAV1LoopRestoration;
-    pGlobalMotion:           *StdVideoAV1GlobalMotion;
-    pExtensionHeader:        *StdVideoEncodeAV1ExtensionHeader;
-    pBufferRemovalTimes:     *u32;
-}
-
-StdVideoEncodeAV1ReferenceInfoFlags :: struct {
-    __bitfield: u32;
-    /* 
-        disable_frame_end_update_cdf: u32; /* 1 bits */
-        segmentation_enabled: u32; /* 1 bits */
-        reserved: u32; /* 30 bits */;
-    */
-}
-
-StdVideoEncodeAV1ReferenceInfo :: struct {
-    flags:            StdVideoEncodeAV1ReferenceInfoFlags;
-    RefFrameId:       u32;
-    frame_type:       StdVideoAV1FrameType;
-    OrderHint:        u8;
-    reserved1:        [3] u8;
-    pExtensionHeader: *StdVideoEncodeAV1ExtensionHeader;
 }
 
 VkVideoEncodeAV1PredictionModeKHR :: enum u32 {
@@ -17903,219 +18147,6 @@ VkVideoEncodeAV1RateControlLayerInfoKHR :: struct {
     maxQIndex:       VkVideoEncodeAV1QIndexKHR;
     useMaxFrameSize: VkBool32;
     maxFrameSize:    VkVideoEncodeAV1FrameSizeKHR;
-}
-
-StdVideoVP9Profile :: enum u32 {
-    _0       :: 0;
-    _1       :: 1;
-    _2       :: 2;
-    _3       :: 3;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_VP9_PROFILE_0        :: _0;
-    STD_VIDEO_VP9_PROFILE_1        :: _1;
-    STD_VIDEO_VP9_PROFILE_2        :: _2;
-    STD_VIDEO_VP9_PROFILE_3        :: _3;
-    STD_VIDEO_VP9_PROFILE_INVALID  :: INVALID;
-    STD_VIDEO_VP9_PROFILE_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoVP9Level :: enum u32 {
-    _1_0     :: 0;
-    _1_1     :: 1;
-    _2_0     :: 2;
-    _2_1     :: 3;
-    _3_0     :: 4;
-    _3_1     :: 5;
-    _4_0     :: 6;
-    _4_1     :: 7;
-    _5_0     :: 8;
-    _5_1     :: 9;
-    _5_2     :: 10;
-    _6_0     :: 11;
-    _6_1     :: 12;
-    _6_2     :: 13;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_VP9_LEVEL_1_0      :: _1_0;
-    STD_VIDEO_VP9_LEVEL_1_1      :: _1_1;
-    STD_VIDEO_VP9_LEVEL_2_0      :: _2_0;
-    STD_VIDEO_VP9_LEVEL_2_1      :: _2_1;
-    STD_VIDEO_VP9_LEVEL_3_0      :: _3_0;
-    STD_VIDEO_VP9_LEVEL_3_1      :: _3_1;
-    STD_VIDEO_VP9_LEVEL_4_0      :: _4_0;
-    STD_VIDEO_VP9_LEVEL_4_1      :: _4_1;
-    STD_VIDEO_VP9_LEVEL_5_0      :: _5_0;
-    STD_VIDEO_VP9_LEVEL_5_1      :: _5_1;
-    STD_VIDEO_VP9_LEVEL_5_2      :: _5_2;
-    STD_VIDEO_VP9_LEVEL_6_0      :: _6_0;
-    STD_VIDEO_VP9_LEVEL_6_1      :: _6_1;
-    STD_VIDEO_VP9_LEVEL_6_2      :: _6_2;
-    STD_VIDEO_VP9_LEVEL_INVALID  :: INVALID;
-    STD_VIDEO_VP9_LEVEL_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoVP9FrameType :: enum u32 {
-    KEY      :: 0;
-    NON_KEY  :: 1;
-    INVALID  :: 2147483647;
-    MAX_ENUM :: 2147483647;
-
-    STD_VIDEO_VP9_FRAME_TYPE_KEY      :: KEY;
-    STD_VIDEO_VP9_FRAME_TYPE_NON_KEY  :: NON_KEY;
-    STD_VIDEO_VP9_FRAME_TYPE_INVALID  :: INVALID;
-    STD_VIDEO_VP9_FRAME_TYPE_MAX_ENUM :: MAX_ENUM;
-}
-
-StdVideoVP9ReferenceName :: enum u32 {
-    INTRA_FRAME  :: 0;
-    LAST_FRAME   :: 1;
-    GOLDEN_FRAME :: 2;
-    ALTREF_FRAME :: 3;
-    INVALID      :: 2147483647;
-    MAX_ENUM     :: 2147483647;
-
-    STD_VIDEO_VP9_REFERENCE_NAME_INTRA_FRAME  :: INTRA_FRAME;
-    STD_VIDEO_VP9_REFERENCE_NAME_LAST_FRAME   :: LAST_FRAME;
-    STD_VIDEO_VP9_REFERENCE_NAME_GOLDEN_FRAME :: GOLDEN_FRAME;
-    STD_VIDEO_VP9_REFERENCE_NAME_ALTREF_FRAME :: ALTREF_FRAME;
-    STD_VIDEO_VP9_REFERENCE_NAME_INVALID      :: INVALID;
-    STD_VIDEO_VP9_REFERENCE_NAME_MAX_ENUM     :: MAX_ENUM;
-}
-
-StdVideoVP9InterpolationFilter :: enum u32 {
-    EIGHTTAP        :: 0;
-    EIGHTTAP_SMOOTH :: 1;
-    EIGHTTAP_SHARP  :: 2;
-    BILINEAR        :: 3;
-    SWITCHABLE      :: 4;
-    INVALID         :: 2147483647;
-    MAX_ENUM        :: 2147483647;
-
-    STD_VIDEO_VP9_INTERPOLATION_FILTER_EIGHTTAP        :: EIGHTTAP;
-    STD_VIDEO_VP9_INTERPOLATION_FILTER_EIGHTTAP_SMOOTH :: EIGHTTAP_SMOOTH;
-    STD_VIDEO_VP9_INTERPOLATION_FILTER_EIGHTTAP_SHARP  :: EIGHTTAP_SHARP;
-    STD_VIDEO_VP9_INTERPOLATION_FILTER_BILINEAR        :: BILINEAR;
-    STD_VIDEO_VP9_INTERPOLATION_FILTER_SWITCHABLE      :: SWITCHABLE;
-    STD_VIDEO_VP9_INTERPOLATION_FILTER_INVALID         :: INVALID;
-    STD_VIDEO_VP9_INTERPOLATION_FILTER_MAX_ENUM        :: MAX_ENUM;
-}
-
-StdVideoVP9ColorSpace :: enum u32 {
-    UNKNOWN   :: 0;
-    BT_601    :: 1;
-    BT_709    :: 2;
-    SMPTE_170 :: 3;
-    SMPTE_240 :: 4;
-    BT_2020   :: 5;
-    RESERVED  :: 6;
-    RGB       :: 7;
-    INVALID   :: 2147483647;
-    MAX_ENUM  :: 2147483647;
-
-    STD_VIDEO_VP9_COLOR_SPACE_UNKNOWN   :: UNKNOWN;
-    STD_VIDEO_VP9_COLOR_SPACE_BT_601    :: BT_601;
-    STD_VIDEO_VP9_COLOR_SPACE_BT_709    :: BT_709;
-    STD_VIDEO_VP9_COLOR_SPACE_SMPTE_170 :: SMPTE_170;
-    STD_VIDEO_VP9_COLOR_SPACE_SMPTE_240 :: SMPTE_240;
-    STD_VIDEO_VP9_COLOR_SPACE_BT_2020   :: BT_2020;
-    STD_VIDEO_VP9_COLOR_SPACE_RESERVED  :: RESERVED;
-    STD_VIDEO_VP9_COLOR_SPACE_RGB       :: RGB;
-    STD_VIDEO_VP9_COLOR_SPACE_INVALID   :: INVALID;
-    STD_VIDEO_VP9_COLOR_SPACE_MAX_ENUM  :: MAX_ENUM;
-}
-
-StdVideoVP9ColorConfigFlags :: struct {
-    __bitfield: u32;
-    /* 
-        color_range: u32; /* 1 bits */
-        reserved: u32; /* 31 bits */;
-    */
-}
-
-StdVideoVP9ColorConfig :: struct {
-    flags:         StdVideoVP9ColorConfigFlags;
-    BitDepth:      u8;
-    subsampling_x: u8;
-    subsampling_y: u8;
-    reserved1:     u8;
-    color_space:   StdVideoVP9ColorSpace;
-}
-
-StdVideoVP9LoopFilterFlags :: struct {
-    __bitfield: u32;
-    /* 
-        loop_filter_delta_enabled: u32; /* 1 bits */
-        loop_filter_delta_update: u32; /* 1 bits */
-        reserved: u32; /* 30 bits */;
-    */
-}
-
-StdVideoVP9LoopFilter :: struct {
-    flags:                   StdVideoVP9LoopFilterFlags;
-    loop_filter_level:       u8;
-    loop_filter_sharpness:   u8;
-    update_ref_delta:        u8;
-    loop_filter_ref_deltas:  [4] s8;
-    update_mode_delta:       u8;
-    loop_filter_mode_deltas: [2] s8;
-}
-
-StdVideoVP9SegmentationFlags :: struct {
-    __bitfield: u32;
-    /* 
-        segmentation_update_map: u32; /* 1 bits */
-        segmentation_temporal_update: u32; /* 1 bits */
-        segmentation_update_data: u32; /* 1 bits */
-        segmentation_abs_or_delta_update: u32; /* 1 bits */
-        reserved: u32; /* 28 bits */;
-    */
-}
-
-StdVideoVP9Segmentation :: struct {
-    flags:                   StdVideoVP9SegmentationFlags;
-    segmentation_tree_probs: [7] u8;
-    segmentation_pred_prob:  [3] u8;
-    FeatureEnabled:          [8] u8;
-    FeatureData:             [8] [4] s16;
-}
-
-StdVideoDecodeVP9PictureInfoFlags :: struct {
-    __bitfield: u32;
-    /* 
-        error_resilient_mode: u32; /* 1 bits */
-        intra_only: u32; /* 1 bits */
-        allow_high_precision_mv: u32; /* 1 bits */
-        refresh_frame_context: u32; /* 1 bits */
-        frame_parallel_decoding_mode: u32; /* 1 bits */
-        segmentation_enabled: u32; /* 1 bits */
-        show_frame: u32; /* 1 bits */
-        UsePrevFrameMvs: u32; /* 1 bits */
-        reserved: u32; /* 24 bits */;
-    */
-}
-
-StdVideoDecodeVP9PictureInfo :: struct {
-    flags:                    StdVideoDecodeVP9PictureInfoFlags;
-    profile:                  StdVideoVP9Profile;
-    frame_type:               StdVideoVP9FrameType;
-    frame_context_idx:        u8;
-    reset_frame_context:      u8;
-    refresh_frame_flags:      u8;
-    ref_frame_sign_bias_mask: u8;
-    interpolation_filter:     StdVideoVP9InterpolationFilter;
-    base_q_idx:               u8;
-    delta_q_y_dc:             s8;
-    delta_q_uv_dc:            s8;
-    delta_q_uv_ac:            s8;
-    tile_cols_log2:           u8;
-    tile_rows_log2:           u8;
-    reserved1:                [3] u16;
-    pColorConfig:             *StdVideoVP9ColorConfig;
-    pLoopFilter:              *StdVideoVP9LoopFilter;
-    pSegmentation:            *StdVideoVP9Segmentation;
 }
 
 VkPhysicalDeviceVideoDecodeVP9FeaturesKHR :: struct {
@@ -18453,17 +18484,17 @@ VkAccessFlags3KHR :: VkFlags64;
 VkAccessFlagBits3KHR :: VkFlags64;
 VK_ACCESS_3_NONE_KHR: VkAccessFlagBits3KHR : 0;
 
-VkPhysicalDeviceMaintenance8FeaturesKHR :: struct {
-    sType:        VkStructureType = .PHYSICAL_DEVICE_MAINTENANCE_8_FEATURES_KHR;
-    pNext:        *void;
-    maintenance8: VkBool32;
-}
-
 VkMemoryBarrierAccessFlags3KHR :: struct {
     sType:          VkStructureType = .MEMORY_BARRIER_ACCESS_FLAGS_3_KHR;
     pNext:          *void;
     srcAccessMask3: VkAccessFlags3KHR;
     dstAccessMask3: VkAccessFlags3KHR;
+}
+
+VkPhysicalDeviceMaintenance8FeaturesKHR :: struct {
+    sType:        VkStructureType = .PHYSICAL_DEVICE_MAINTENANCE_8_FEATURES_KHR;
+    pNext:        *void;
+    maintenance8: VkBool32;
 }
 
 VkDefaultVertexAttributeValueKHR :: enum u32 {
@@ -19803,23 +19834,29 @@ VkRayTracingShaderGroupTypeKHR :: enum u32 {
 VkRayTracingShaderGroupTypeNV :: VkRayTracingShaderGroupTypeKHR;
 
 VkGeometryTypeKHR :: enum u32 {
-    TRIANGLES_KHR           :: 0;
-    AABBS_KHR               :: 1;
-    INSTANCES_KHR           :: 2;
-    SPHERES_NV              :: 1000429004;
-    LINEAR_SWEPT_SPHERES_NV :: 1000429005;
-    TRIANGLES_NV            :: 0;
-    AABBS_NV                :: 1;
-    MAX_ENUM_KHR            :: 2147483647;
+    TRIANGLES_KHR                        :: 0;
+    AABBS_KHR                            :: 1;
+    INSTANCES_KHR                        :: 2;
+    SPHERES_NV                           :: 1000429004;
+    LINEAR_SWEPT_SPHERES_NV              :: 1000429005;
 
-    VK_GEOMETRY_TYPE_TRIANGLES_KHR           :: TRIANGLES_KHR;
-    VK_GEOMETRY_TYPE_AABBS_KHR               :: AABBS_KHR;
-    VK_GEOMETRY_TYPE_INSTANCES_KHR           :: INSTANCES_KHR;
-    VK_GEOMETRY_TYPE_SPHERES_NV              :: SPHERES_NV;
-    VK_GEOMETRY_TYPE_LINEAR_SWEPT_SPHERES_NV :: LINEAR_SWEPT_SPHERES_NV;
-    VK_GEOMETRY_TYPE_TRIANGLES_NV            :: TRIANGLES_NV;
-    VK_GEOMETRY_TYPE_AABBS_NV                :: AABBS_NV;
-    VK_GEOMETRY_TYPE_MAX_ENUM_KHR            :: MAX_ENUM_KHR;
+    DENSE_GEOMETRY_FORMAT_TRIANGLES_AMDX :: 1000478000;
+
+    TRIANGLES_NV                         :: 0;
+    AABBS_NV                             :: 1;
+    MAX_ENUM_KHR                         :: 2147483647;
+
+    VK_GEOMETRY_TYPE_TRIANGLES_KHR                        :: TRIANGLES_KHR;
+    VK_GEOMETRY_TYPE_AABBS_KHR                            :: AABBS_KHR;
+    VK_GEOMETRY_TYPE_INSTANCES_KHR                        :: INSTANCES_KHR;
+    VK_GEOMETRY_TYPE_SPHERES_NV                           :: SPHERES_NV;
+    VK_GEOMETRY_TYPE_LINEAR_SWEPT_SPHERES_NV              :: LINEAR_SWEPT_SPHERES_NV;
+
+    VK_GEOMETRY_TYPE_DENSE_GEOMETRY_FORMAT_TRIANGLES_AMDX :: DENSE_GEOMETRY_FORMAT_TRIANGLES_AMDX;
+
+    VK_GEOMETRY_TYPE_TRIANGLES_NV                         :: TRIANGLES_NV;
+    VK_GEOMETRY_TYPE_AABBS_NV                             :: AABBS_NV;
+    VK_GEOMETRY_TYPE_MAX_ENUM_KHR                         :: MAX_ENUM_KHR;
 }
 
 VkGeometryTypeNV :: VkGeometryTypeKHR;
@@ -25875,6 +25912,32 @@ VkAccelerationStructureTrianglesDisplacementMicromapNV :: struct {
     pUsageCounts:                          *VkMicromapUsageEXT;
     ppUsageCounts:                         **VkMicromapUsageEXT;
     micromap:                              VkMicromapEXT;
+}
+
+VkCompressedTriangleFormatAMDX :: enum u32 {
+    DGF1_AMDX     :: 0;
+    MAX_ENUM_AMDX :: 2147483647;
+
+    VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_AMDX     :: DGF1_AMDX;
+    VK_COMPRESSED_TRIANGLE_FORMAT_MAX_ENUM_AMDX :: MAX_ENUM_AMDX;
+}
+
+VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX :: struct {
+    sType:               VkStructureType = .PHYSICAL_DEVICE_DENSE_GEOMETRY_FORMAT_FEATURES_AMDX;
+    pNext:               *void;
+    denseGeometryFormat: VkBool32;
+}
+
+VkAccelerationStructureDenseGeometryFormatTrianglesDataAMDX :: struct {
+    sType:             VkStructureType = .ACCELERATION_STRUCTURE_DENSE_GEOMETRY_FORMAT_TRIANGLES_DATA_AMDX;
+    pNext:             *void;
+    compressedData:    VkDeviceOrHostAddressConstKHR;
+    dataSize:          VkDeviceSize;
+    numTriangles:      u32;
+    numVertices:       u32;
+    maxPrimitiveIndex: u32;
+    maxGeometryIndex:  u32;
+    format:            VkCompressedTriangleFormatAMDX;
 }
 
 #scope_file

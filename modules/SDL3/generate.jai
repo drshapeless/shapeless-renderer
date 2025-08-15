@@ -17,7 +17,7 @@ build :: () {
 }
 
 generate_bindings :: () -> bool {
-
+    include_path : string;
     output_filename: string;
     opts: Generate_Bindings_Options;
 
@@ -49,9 +49,9 @@ EOF
             array_add(*opts.libraries, .{filename="SDL3"});
 
         } else #if OS == .LINUX {
-            opts.strip_flags = .FUNCTIONS_WITH_VALIST;
-
+            include_path = "/usr/include";
             output_filename = "linux/linux.jai";
+            opts.strip_flags = .FUNCTIONS_WITH_VALIST;
 
             FOOTER :: #string EOF
 libsdl3 :: #library,system "libSDL3.so.0";
@@ -61,14 +61,13 @@ EOF;
 
             array_add(*opts.libraries, .{filename="libSDL3.so.0"});
         } else #if OS == .MACOS {
-
             output_filename = "macos/macos.jai";
+            include_path = "/opt/homebrew/include";
             opts.strip_flags = .FUNCTIONS_WITH_VALIST;
 
             FOOTER :: #string EOF
 libsdl3 :: #library,system "libSDL3";
 EOF;
-
             array_add(*opts.library_search_paths, "/opt/homebrew/lib");
 
             opts.footer = FOOTER;
@@ -80,8 +79,9 @@ EOF;
             assert(false, "the OS % is currently unsupported. You might be able to add support for it though!", OS);
         }
 
-        array_add(*opts.include_paths, "include");
-        array_add(*opts.source_files, "include/SDL3/SDL.h");
+        array_add(*opts.include_paths, include_path);
+        array_add(*opts.source_files, sprint("%/SDL3/SDL.h", include_path));
+        array_add(*opts.source_files, sprint("%/SDL3/SDL_vulkan.h", include_path));
 
         array_add(*opts.strip_prefixes, "SDL_");
 

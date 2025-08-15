@@ -10,6 +10,7 @@ build :: () {
 }
 
 generate_bindings :: () -> bool {
+    include_path: string;
     output_filename: string;
     opts: Generate_Bindings_Options;
 
@@ -21,16 +22,17 @@ generate_bindings :: () -> bool {
         array_add(*opts.libraries, .{filename = "libSDL3_ttf.so.0"});
     } else #if OS == .MACOS {
         opts.strip_flags = .FUNCTIONS_WITH_VALIST;
+        include_path = "/opt/homebrew/include";
 
         array_add(*opts.library_search_paths, "/opt/homebrew/lib");
+        array_add(*opts.include_paths, include_path);
 
         array_add(*opts.libraries, .{filename="libSDL3_ttf.dylib"});
     } else {
         assert(false, "the OS % is currently unsupported. You might be able to add support for it though!", OS);
     }
 
-    array_add(*opts.include_paths, "include");
-    array_add(*opts.source_files, "include/SDL3_ttf/SDL_ttf.h");
+    array_add(*opts.source_files, sprint("%/SDL3_ttf/SDL_ttf.h", include_path));
 
     opts.visitor = visitor;
     opts.generate_compile_time_struct_checks = false;

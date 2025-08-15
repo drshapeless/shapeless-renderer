@@ -9,6 +9,7 @@
 AT_COMPILE_TIME   :: true;
 #if OS == .MACOS {
     vulkan_h_location :: "/opt/homebrew/include/vulkan/vulkan.h";
+    vk_video_directory :: "/opt/homebrew/include/vk_video";
 } else #if OS == .LINUX {
     vulkan_h_location :: "/usr/include/vulkan/vulkan.h";
     vk_video_directory :: "/usr/include/vk_video";

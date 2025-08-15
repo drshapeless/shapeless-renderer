@@ -2052,4 +2052,4 @@ LoadWEBPAnimation_IO :: (src: *IOStream) -> *Animation #foreign libsdl3_image "I
 
 #scope_file
 
-libsdl3_image :: #library,system "libSDL3_image";
+libsdl3_image :: #library "/opt/homebrew/lib/libSDL3_image";

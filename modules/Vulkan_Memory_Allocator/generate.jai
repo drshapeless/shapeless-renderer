@@ -32,7 +32,7 @@ compile_vma :: (os: Operating_System_Tag) -> bool {
         return build_cpp_dynamic_lib("linux/libvma", VMA_PATH, extra = .["-std=c++20", "-fno-exceptions", "-fno-rtti", "-Wno-nullability-completeness", "-lvulkan"]);
     case .MACOS;
         make_directory_if_it_does_not_exist("macos");
-        success := build_cpp_dynamic_lib("linux/libvma", VMA_PATH, extra = .["-std=c++20", "-fno-exceptions", "-fno-rtti", "-Wno-nullability-completeness", "-lvulkan"]);
+        success := build_cpp_dynamic_lib("macos/libvma", VMA_PATH, extra = .["-I/opt/homebrew/include", "-L/opt/homebrew/lib", "-std=c++20", "-fno-exceptions", "-fno-rtti", "-Wno-nullability-completeness", "-lvulkan"]);
         if !success return false;
 
         rpath_result := run_command("install_name_tool", "-change", "@rpath/libvulkan.1.dylib", "/opt/homebrew/lib/libvulkan.1.dylib", "macos/libvma.dylib");
@@ -69,6 +69,7 @@ generate :: (target_os: Operating_System_Tag) -> bool {
         array_add(*extra_clang_arguments, "-xc");
         array_add(*source_files, VMA_HEADER);
         array_add(*system_include_paths, ..get_default_system_include_paths());
+        array_add(*system_include_paths, "/opt/homebrew/include");
 
         alias_original_enum_names = false;
         log_stripped_declarations = false;
