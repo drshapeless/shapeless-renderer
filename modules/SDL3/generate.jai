@@ -60,6 +60,8 @@ EOF;
             opts.generate_library_declarations = false;
 
             array_add(*opts.libraries, .{filename="libSDL3.so.0"});
+
+            array_add(*opts.path_fragments_to_treat_as_non_system_paths, "SDL3");
         } else #if OS == .MACOS {
             output_filename = "macos/macos.jai";
             include_path = "/opt/homebrew/include";
