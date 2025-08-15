@@ -163,7 +163,7 @@ OpenFont :: (file: *u8, ptsize: float) -> *Font #foreign libsdl3_ttf "TTF_OpenFo
 *
 * \sa TTF_CloseFont
 */
-OpenFontIO :: (src: *SDL_IOStream, closeio: bool, ptsize: float) -> *Font #foreign libsdl3_ttf "TTF_OpenFontIO";
+OpenFontIO :: (src: *IOStream, closeio: bool, ptsize: float) -> *Font #foreign libsdl3_ttf "TTF_OpenFontIO";
 
 /**
 * Create a font with the specified properties.
@@ -208,7 +208,7 @@ OpenFontIO :: (src: *SDL_IOStream, closeio: bool, ptsize: float) -> *Font #forei
 *
 * \sa TTF_CloseFont
 */
-OpenFontWithProperties :: (props: SDL_PropertiesID) -> *Font #foreign libsdl3_ttf "TTF_OpenFontWithProperties";
+OpenFontWithProperties :: (props: PropertiesID) -> *Font #foreign libsdl3_ttf "TTF_OpenFontWithProperties";
 
 /**
 * Create a copy of an existing font.
@@ -253,7 +253,7 @@ CopyFont :: (existing_font: *Font) -> *Font #foreign libsdl3_ttf "TTF_CopyFont";
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetFontProperties :: (font: *Font) -> SDL_PropertiesID #foreign libsdl3_ttf "TTF_GetFontProperties";
+GetFontProperties :: (font: *Font) -> PropertiesID #foreign libsdl3_ttf "TTF_GetFontProperties";
 
 /**
 * Get the font generation.
@@ -1094,7 +1094,7 @@ ImageType :: enum u32 {
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetGlyphImage :: (font: *Font, ch: Uint32, image_type: *ImageType) -> *SDL_Surface #foreign libsdl3_ttf "TTF_GetGlyphImage";
+GetGlyphImage :: (font: *Font, ch: Uint32, image_type: *ImageType) -> *Surface #foreign libsdl3_ttf "TTF_GetGlyphImage";
 
 /**
 * Get the pixel image for a character index.
@@ -1114,7 +1114,7 @@ GetGlyphImage :: (font: *Font, ch: Uint32, image_type: *ImageType) -> *SDL_Surfa
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetGlyphImageForIndex :: (font: *Font, glyph_index: Uint32, image_type: *ImageType) -> *SDL_Surface #foreign libsdl3_ttf "TTF_GetGlyphImageForIndex";
+GetGlyphImageForIndex :: (font: *Font, glyph_index: Uint32, image_type: *ImageType) -> *Surface #foreign libsdl3_ttf "TTF_GetGlyphImageForIndex";
 
 /**
 * Query the metrics (dimensions) of a font's glyph for a UNICODE codepoint.
@@ -1278,7 +1278,7 @@ MeasureString :: (font: *Font, text: *u8, length: u64, max_width: s32, measured_
 * \sa TTF_RenderText_Solid
 * \sa TTF_RenderText_Solid_Wrapped
 */
-RenderText_Solid :: (font: *Font, text: *u8, length: u64, fg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf "TTF_RenderText_Solid";
+RenderText_Solid :: (font: *Font, text: *u8, length: u64, fg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_Solid";
 
 /**
 * Render word-wrapped UTF-8 text at fast quality to a new 8-bit surface.
@@ -1314,7 +1314,7 @@ RenderText_Solid :: (font: *Font, text: *u8, length: u64, fg: SDL_Color) -> *SDL
 * \sa TTF_RenderText_Shaded_Wrapped
 * \sa TTF_RenderText_Solid
 */
-RenderText_Solid_Wrapped :: (font: *Font, text: *u8, length: u64, fg: SDL_Color, wrapLength: s32) -> *SDL_Surface #foreign libsdl3_ttf "TTF_RenderText_Solid_Wrapped";
+RenderText_Solid_Wrapped :: (font: *Font, text: *u8, length: u64, fg: Color, wrapLength: s32) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_Solid_Wrapped";
 
 /**
 * Render a single 32-bit glyph at fast quality to a new 8-bit surface.
@@ -1343,7 +1343,7 @@ RenderText_Solid_Wrapped :: (font: *Font, text: *u8, length: u64, fg: SDL_Color,
 * \sa TTF_RenderGlyph_LCD
 * \sa TTF_RenderGlyph_Shaded
 */
-RenderGlyph_Solid :: (font: *Font, ch: Uint32, fg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf "TTF_RenderGlyph_Solid";
+RenderGlyph_Solid :: (font: *Font, ch: Uint32, fg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderGlyph_Solid";
 
 /**
 * Render UTF-8 text at high quality to a new 8-bit surface.
@@ -1381,7 +1381,7 @@ RenderGlyph_Solid :: (font: *Font, ch: Uint32, fg: SDL_Color) -> *SDL_Surface #f
 * \sa TTF_RenderText_Shaded_Wrapped
 * \sa TTF_RenderText_Solid
 */
-RenderText_Shaded :: (font: *Font, text: *u8, length: u64, fg: SDL_Color, bg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf "TTF_RenderText_Shaded";
+RenderText_Shaded :: (font: *Font, text: *u8, length: u64, fg: Color, bg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_Shaded";
 
 /**
 * Render word-wrapped UTF-8 text at high quality to a new 8-bit surface.
@@ -1419,7 +1419,7 @@ RenderText_Shaded :: (font: *Font, text: *u8, length: u64, fg: SDL_Color, bg: SD
 * \sa TTF_RenderText_Shaded
 * \sa TTF_RenderText_Solid_Wrapped
 */
-RenderText_Shaded_Wrapped :: (font: *Font, text: *u8, length: u64, fg: SDL_Color, bg: SDL_Color, wrap_width: s32) -> *SDL_Surface #foreign libsdl3_ttf "TTF_RenderText_Shaded_Wrapped";
+RenderText_Shaded_Wrapped :: (font: *Font, text: *u8, length: u64, fg: Color, bg: Color, wrap_width: s32) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_Shaded_Wrapped";
 
 /**
 * Render a single UNICODE codepoint at high quality to a new 8-bit surface.
@@ -1450,7 +1450,7 @@ RenderText_Shaded_Wrapped :: (font: *Font, text: *u8, length: u64, fg: SDL_Color
 * \sa TTF_RenderGlyph_LCD
 * \sa TTF_RenderGlyph_Solid
 */
-RenderGlyph_Shaded :: (font: *Font, ch: Uint32, fg: SDL_Color, bg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf "TTF_RenderGlyph_Shaded";
+RenderGlyph_Shaded :: (font: *Font, ch: Uint32, fg: Color, bg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderGlyph_Shaded";
 
 /**
 * Render UTF-8 text at high quality to a new ARGB surface.
@@ -1486,7 +1486,7 @@ RenderGlyph_Shaded :: (font: *Font, ch: Uint32, fg: SDL_Color, bg: SDL_Color) ->
 * \sa TTF_RenderText_Shaded
 * \sa TTF_RenderText_Solid
 */
-RenderText_Blended :: (font: *Font, text: *u8, length: u64, fg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf "TTF_RenderText_Blended";
+RenderText_Blended :: (font: *Font, text: *u8, length: u64, fg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_Blended";
 
 /**
 * Render word-wrapped UTF-8 text at high quality to a new ARGB surface.
@@ -1522,7 +1522,7 @@ RenderText_Blended :: (font: *Font, text: *u8, length: u64, fg: SDL_Color) -> *S
 * \sa TTF_RenderText_Shaded_Wrapped
 * \sa TTF_RenderText_Solid_Wrapped
 */
-RenderText_Blended_Wrapped :: (font: *Font, text: *u8, length: u64, fg: SDL_Color, wrap_width: s32) -> *SDL_Surface #foreign libsdl3_ttf "TTF_RenderText_Blended_Wrapped";
+RenderText_Blended_Wrapped :: (font: *Font, text: *u8, length: u64, fg: Color, wrap_width: s32) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_Blended_Wrapped";
 
 /**
 * Render a single UNICODE codepoint at high quality to a new ARGB surface.
@@ -1551,7 +1551,7 @@ RenderText_Blended_Wrapped :: (font: *Font, text: *u8, length: u64, fg: SDL_Colo
 * \sa TTF_RenderGlyph_Shaded
 * \sa TTF_RenderGlyph_Solid
 */
-RenderGlyph_Blended :: (font: *Font, ch: Uint32, fg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf "TTF_RenderGlyph_Blended";
+RenderGlyph_Blended :: (font: *Font, ch: Uint32, fg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderGlyph_Blended";
 
 /**
 * Render UTF-8 text at LCD subpixel quality to a new ARGB surface.
@@ -1588,7 +1588,7 @@ RenderGlyph_Blended :: (font: *Font, ch: Uint32, fg: SDL_Color) -> *SDL_Surface 
 * \sa TTF_RenderText_Shaded
 * \sa TTF_RenderText_Solid
 */
-RenderText_LCD :: (font: *Font, text: *u8, length: u64, fg: SDL_Color, bg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf "TTF_RenderText_LCD";
+RenderText_LCD :: (font: *Font, text: *u8, length: u64, fg: Color, bg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_LCD";
 
 /**
 * Render word-wrapped UTF-8 text at LCD subpixel quality to a new ARGB
@@ -1626,7 +1626,7 @@ RenderText_LCD :: (font: *Font, text: *u8, length: u64, fg: SDL_Color, bg: SDL_C
 * \sa TTF_RenderText_Shaded_Wrapped
 * \sa TTF_RenderText_Solid_Wrapped
 */
-RenderText_LCD_Wrapped :: (font: *Font, text: *u8, length: u64, fg: SDL_Color, bg: SDL_Color, wrap_width: s32) -> *SDL_Surface #foreign libsdl3_ttf "TTF_RenderText_LCD_Wrapped";
+RenderText_LCD_Wrapped :: (font: *Font, text: *u8, length: u64, fg: Color, bg: Color, wrap_width: s32) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_LCD_Wrapped";
 
 /**
 * Render a single UNICODE codepoint at LCD subpixel quality to a new ARGB
@@ -1657,7 +1657,7 @@ RenderText_LCD_Wrapped :: (font: *Font, text: *u8, length: u64, fg: SDL_Color, b
 * \sa TTF_RenderGlyph_Shaded
 * \sa TTF_RenderGlyph_Solid
 */
-RenderGlyph_LCD :: (font: *Font, ch: Uint32, fg: SDL_Color, bg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf "TTF_RenderGlyph_LCD";
+RenderGlyph_LCD :: (font: *Font, ch: Uint32, fg: Color, bg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderGlyph_LCD";
 
 TextEngine :: struct {}
 
@@ -1719,7 +1719,7 @@ CreateSurfaceTextEngine :: () -> *TextEngine #foreign libsdl3_ttf "TTF_CreateSur
 * \sa TTF_CreateSurfaceTextEngine
 * \sa TTF_CreateText
 */
-DrawSurfaceText :: (text: *Text, x: s32, y: s32, surface: *SDL_Surface) -> bool #foreign libsdl3_ttf "TTF_DrawSurfaceText";
+DrawSurfaceText :: (text: *Text, x: s32, y: s32, surface: *Surface) -> bool #foreign libsdl3_ttf "TTF_DrawSurfaceText";
 
 /**
 * Destroy a text engine created for drawing text on SDL surfaces.
@@ -1755,7 +1755,7 @@ DestroySurfaceTextEngine :: (engine: *TextEngine) -> void #foreign libsdl3_ttf "
 * \sa TTF_DrawRendererText
 * \sa TTF_CreateRendererTextEngineWithProperties
 */
-CreateRendererTextEngine :: (renderer: *SDL_Renderer) -> *TextEngine #foreign libsdl3_ttf "TTF_CreateRendererTextEngine";
+CreateRendererTextEngine :: (renderer: *Renderer) -> *TextEngine #foreign libsdl3_ttf "TTF_CreateRendererTextEngine";
 
 /**
 * Create a text engine for drawing text on an SDL renderer, with the
@@ -1781,7 +1781,7 @@ CreateRendererTextEngine :: (renderer: *SDL_Renderer) -> *TextEngine #foreign li
 * \sa TTF_DestroyRendererTextEngine
 * \sa TTF_DrawRendererText
 */
-CreateRendererTextEngineWithProperties :: (props: SDL_PropertiesID) -> *TextEngine #foreign libsdl3_ttf "TTF_CreateRendererTextEngineWithProperties";
+CreateRendererTextEngineWithProperties :: (props: PropertiesID) -> *TextEngine #foreign libsdl3_ttf "TTF_CreateRendererTextEngineWithProperties";
 
 /**
 * Draw text to an SDL renderer.
@@ -1843,7 +1843,7 @@ DestroyRendererTextEngine :: (engine: *TextEngine) -> void #foreign libsdl3_ttf 
 * \sa TTF_DestroyGPUTextEngine
 * \sa TTF_GetGPUTextDrawData
 */
-CreateGPUTextEngine :: (device: *SDL_GPUDevice) -> *TextEngine #foreign libsdl3_ttf "TTF_CreateGPUTextEngine";
+CreateGPUTextEngine :: (device: *GPUDevice) -> *TextEngine #foreign libsdl3_ttf "TTF_CreateGPUTextEngine";
 
 /**
 * Create a text engine for drawing text with the SDL GPU API, with the
@@ -1869,7 +1869,7 @@ CreateGPUTextEngine :: (device: *SDL_GPUDevice) -> *TextEngine #foreign libsdl3_
 * \sa TTF_DestroyGPUTextEngine
 * \sa TTF_GetGPUTextDrawData
 */
-CreateGPUTextEngineWithProperties :: (props: SDL_PropertiesID) -> *TextEngine #foreign libsdl3_ttf "TTF_CreateGPUTextEngineWithProperties";
+CreateGPUTextEngineWithProperties :: (props: PropertiesID) -> *TextEngine #foreign libsdl3_ttf "TTF_CreateGPUTextEngineWithProperties";
 
 /**
 * Draw sequence returned by TTF_GetGPUTextDrawData
@@ -1879,9 +1879,9 @@ CreateGPUTextEngineWithProperties :: (props: SDL_PropertiesID) -> *TextEngine #f
 * \sa TTF_GetGPUTextDrawData
 */
 GPUAtlasDrawSequence :: struct {
-    atlas_texture: *SDL_GPUTexture; /**< Texture atlas that stores the glyphs */
-    xy:            *SDL_FPoint; /**< An array of vertex positions */
-    uv:            *SDL_FPoint; /**< An array of normalized texture coordinates for each vertex */
+    atlas_texture: *GPUTexture; /**< Texture atlas that stores the glyphs */
+    xy:            *FPoint; /**< An array of vertex positions */
+    uv:            *FPoint; /**< An array of normalized texture coordinates for each vertex */
     num_vertices:  s32; /**< Number of vertices */
     indices:       *s32; /**< An array of indices into the 'vertices' arrays */
     num_indices:   s32; /**< Number of indices */
@@ -2020,7 +2020,7 @@ CreateText :: (engine: *TextEngine, font: *Font, text: *u8, length: u64) -> *Tex
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetTextProperties :: (text: *Text) -> SDL_PropertiesID #foreign libsdl3_ttf "TTF_GetTextProperties";
+GetTextProperties :: (text: *Text) -> PropertiesID #foreign libsdl3_ttf "TTF_GetTextProperties";
 
 /**
 * Set the text engine used by a text object.
@@ -2531,7 +2531,7 @@ SubString :: struct {
     length:        s32; /**< The byte length starting at the offset */
     line_index:    s32; /**< The index of the line that contains this substring */
     cluster_index: s32; /**< The internal cluster index, used for quickly iterating */
-    rect:          SDL_Rect; /**< The rectangle, relative to the top left of the text, containing the substring */
+    rect:          Rect; /**< The rectangle, relative to the top left of the text, containing the substring */
 }
 
 /**

@@ -79,7 +79,7 @@ Version :: () -> s32 #foreign libsdl3_image "IMG_Version";
 * \sa IMG_Load_IO
 * \sa SDL_DestroySurface
 */
-LoadTyped_IO :: (src: *SDL_IOStream, closeio: bool, type: *u8) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadTyped_IO";
+LoadTyped_IO :: (src: *IOStream, closeio: bool, type: *u8) -> *Surface #foreign libsdl3_image "IMG_LoadTyped_IO";
 
 /**
 * Load an image from a filesystem path into a software surface.
@@ -124,7 +124,7 @@ LoadTyped_IO :: (src: *SDL_IOStream, closeio: bool, type: *u8) -> *SDL_Surface #
 * \sa IMG_Load_IO
 * \sa SDL_DestroySurface
 */
-Load :: (file: *u8) -> *SDL_Surface #foreign libsdl3_image "IMG_Load";
+Load :: (file: *u8) -> *Surface #foreign libsdl3_image "IMG_Load";
 
 /**
 * Load an image from an SDL data source into a software surface.
@@ -178,7 +178,7 @@ Load :: (file: *u8) -> *SDL_Surface #foreign libsdl3_image "IMG_Load";
 * \sa IMG_LoadTyped_IO
 * \sa SDL_DestroySurface
 */
-Load_IO :: (src: *SDL_IOStream, closeio: bool) -> *SDL_Surface #foreign libsdl3_image "IMG_Load_IO";
+Load_IO :: (src: *IOStream, closeio: bool) -> *Surface #foreign libsdl3_image "IMG_Load_IO";
 
 /**
 * Load an image from a filesystem path into a GPU texture.
@@ -213,7 +213,7 @@ Load_IO :: (src: *SDL_IOStream, closeio: bool) -> *SDL_Surface #foreign libsdl3_
 * \sa IMG_LoadTextureTyped_IO
 * \sa IMG_LoadTexture_IO
 */
-LoadTexture :: (renderer: *SDL_Renderer, file: *u8) -> *SDL_Texture #foreign libsdl3_image "IMG_LoadTexture";
+LoadTexture :: (renderer: *Renderer, file: *u8) -> *Texture #foreign libsdl3_image "IMG_LoadTexture";
 
 /**
 * Load an image from an SDL data source into a GPU texture.
@@ -260,7 +260,7 @@ LoadTexture :: (renderer: *SDL_Renderer, file: *u8) -> *SDL_Texture #foreign lib
 * \sa IMG_LoadTextureTyped_IO
 * \sa SDL_DestroyTexture
 */
-LoadTexture_IO :: (renderer: *SDL_Renderer, src: *SDL_IOStream, closeio: bool) -> *SDL_Texture #foreign libsdl3_image "IMG_LoadTexture_IO";
+LoadTexture_IO :: (renderer: *Renderer, src: *IOStream, closeio: bool) -> *Texture #foreign libsdl3_image "IMG_LoadTexture_IO";
 
 /**
 * Load an image from an SDL data source into a GPU texture.
@@ -315,7 +315,7 @@ LoadTexture_IO :: (renderer: *SDL_Renderer, src: *SDL_IOStream, closeio: bool) -
 * \sa IMG_LoadTexture_IO
 * \sa SDL_DestroyTexture
 */
-LoadTextureTyped_IO :: (renderer: *SDL_Renderer, src: *SDL_IOStream, closeio: bool, type: *u8) -> *SDL_Texture #foreign libsdl3_image "IMG_LoadTextureTyped_IO";
+LoadTextureTyped_IO :: (renderer: *Renderer, src: *IOStream, closeio: bool, type: *u8) -> *Texture #foreign libsdl3_image "IMG_LoadTextureTyped_IO";
 
 /**
 * Detect AVIF image data on a readable/seekable SDL_IOStream.
@@ -359,7 +359,7 @@ LoadTextureTyped_IO :: (renderer: *SDL_Renderer, src: *SDL_IOStream, closeio: bo
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isAVIF :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isAVIF";
+isAVIF :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isAVIF";
 
 /**
 * Detect ICO image data on a readable/seekable SDL_IOStream.
@@ -402,7 +402,7 @@ isAVIF :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isAVIF";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isICO :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isICO";
+isICO :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isICO";
 
 /**
 * Detect CUR image data on a readable/seekable SDL_IOStream.
@@ -445,7 +445,7 @@ isICO :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isICO";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isCUR :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isCUR";
+isCUR :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isCUR";
 
 /**
 * Detect BMP image data on a readable/seekable SDL_IOStream.
@@ -488,7 +488,7 @@ isCUR :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isCUR";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isBMP :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isBMP";
+isBMP :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isBMP";
 
 /**
 * Detect GIF image data on a readable/seekable SDL_IOStream.
@@ -531,7 +531,7 @@ isBMP :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isBMP";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isGIF :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isGIF";
+isGIF :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isGIF";
 
 /**
 * Detect JPG image data on a readable/seekable SDL_IOStream.
@@ -574,7 +574,7 @@ isGIF :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isGIF";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isJPG :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isJPG";
+isJPG :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isJPG";
 
 /**
 * Detect JXL image data on a readable/seekable SDL_IOStream.
@@ -617,7 +617,7 @@ isJPG :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isJPG";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isJXL :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isJXL";
+isJXL :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isJXL";
 
 /**
 * Detect LBM image data on a readable/seekable SDL_IOStream.
@@ -660,7 +660,7 @@ isJXL :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isJXL";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isLBM :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isLBM";
+isLBM :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isLBM";
 
 /**
 * Detect PCX image data on a readable/seekable SDL_IOStream.
@@ -703,7 +703,7 @@ isLBM :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isLBM";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isPCX :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isPCX";
+isPCX :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isPCX";
 
 /**
 * Detect PNG image data on a readable/seekable SDL_IOStream.
@@ -746,7 +746,7 @@ isPCX :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isPCX";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isPNG :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isPNG";
+isPNG :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isPNG";
 
 /**
 * Detect PNM image data on a readable/seekable SDL_IOStream.
@@ -789,7 +789,7 @@ isPNG :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isPNG";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isPNM :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isPNM";
+isPNM :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isPNM";
 
 /**
 * Detect SVG image data on a readable/seekable SDL_IOStream.
@@ -832,7 +832,7 @@ isPNM :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isPNM";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isSVG :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isSVG";
+isSVG :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isSVG";
 
 /**
 * Detect QOI image data on a readable/seekable SDL_IOStream.
@@ -875,7 +875,7 @@ isSVG :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isSVG";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isQOI :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isQOI";
+isQOI :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isQOI";
 
 /**
 * Detect TIFF image data on a readable/seekable SDL_IOStream.
@@ -918,7 +918,7 @@ isQOI :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isQOI";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isTIF :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isTIF";
+isTIF :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isTIF";
 
 /**
 * Detect XCF image data on a readable/seekable SDL_IOStream.
@@ -961,7 +961,7 @@ isTIF :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isTIF";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isXCF :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isXCF";
+isXCF :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isXCF";
 
 /**
 * Detect XPM image data on a readable/seekable SDL_IOStream.
@@ -1004,7 +1004,7 @@ isXCF :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isXCF";
 * \sa IMG_isXV
 * \sa IMG_isWEBP
 */
-isXPM :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isXPM";
+isXPM :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isXPM";
 
 /**
 * Detect XV image data on a readable/seekable SDL_IOStream.
@@ -1047,7 +1047,7 @@ isXPM :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isXPM";
 * \sa IMG_isXPM
 * \sa IMG_isWEBP
 */
-isXV :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isXV";
+isXV :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isXV";
 
 /**
 * Detect WEBP image data on a readable/seekable SDL_IOStream.
@@ -1090,7 +1090,7 @@ isXV :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isXV";
 * \sa IMG_isXPM
 * \sa IMG_isXV
 */
-isWEBP :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isWEBP";
+isWEBP :: (src: *IOStream) -> bool #foreign libsdl3_image "IMG_isWEBP";
 
 /**
 * Load a AVIF image directly.
@@ -1124,7 +1124,7 @@ isWEBP :: (src: *SDL_IOStream) -> bool #foreign libsdl3_image "IMG_isWEBP";
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadAVIF_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadAVIF_IO";
+LoadAVIF_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadAVIF_IO";
 
 /**
 * Load a ICO image directly.
@@ -1158,7 +1158,7 @@ LoadAVIF_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadICO_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadICO_IO";
+LoadICO_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadICO_IO";
 
 /**
 * Load a CUR image directly.
@@ -1192,7 +1192,7 @@ LoadICO_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadCUR_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadCUR_IO";
+LoadCUR_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadCUR_IO";
 
 /**
 * Load a BMP image directly.
@@ -1226,7 +1226,7 @@ LoadCUR_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadBMP_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadBMP_IO";
+LoadBMP_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadBMP_IO";
 
 /**
 * Load a GIF image directly.
@@ -1260,7 +1260,7 @@ LoadBMP_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadGIF_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadGIF_IO";
+LoadGIF_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadGIF_IO";
 
 /**
 * Load a JPG image directly.
@@ -1294,7 +1294,7 @@ LoadGIF_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadJPG_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadJPG_IO";
+LoadJPG_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadJPG_IO";
 
 /**
 * Load a JXL image directly.
@@ -1328,7 +1328,7 @@ LoadJPG_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadJXL_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadJXL_IO";
+LoadJXL_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadJXL_IO";
 
 /**
 * Load a LBM image directly.
@@ -1362,7 +1362,7 @@ LoadJXL_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadLBM_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadLBM_IO";
+LoadLBM_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadLBM_IO";
 
 /**
 * Load a PCX image directly.
@@ -1396,7 +1396,7 @@ LoadLBM_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadPCX_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadPCX_IO";
+LoadPCX_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadPCX_IO";
 
 /**
 * Load a PNG image directly.
@@ -1430,7 +1430,7 @@ LoadPCX_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadPNG_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadPNG_IO";
+LoadPNG_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadPNG_IO";
 
 /**
 * Load a PNM image directly.
@@ -1464,7 +1464,7 @@ LoadPNG_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadPNM_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadPNM_IO";
+LoadPNM_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadPNM_IO";
 
 /**
 * Load a SVG image directly.
@@ -1498,7 +1498,7 @@ LoadPNM_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadSVG_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadSVG_IO";
+LoadSVG_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadSVG_IO";
 
 /**
 * Load a QOI image directly.
@@ -1532,7 +1532,7 @@ LoadSVG_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadQOI_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadQOI_IO";
+LoadQOI_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadQOI_IO";
 
 /**
 * Load a TGA image directly.
@@ -1566,7 +1566,7 @@ LoadQOI_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadTGA_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadTGA_IO";
+LoadTGA_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadTGA_IO";
 
 /**
 * Load a TIFF image directly.
@@ -1600,7 +1600,7 @@ LoadTGA_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadTIF_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadTIF_IO";
+LoadTIF_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadTIF_IO";
 
 /**
 * Load a XCF image directly.
@@ -1634,7 +1634,7 @@ LoadTIF_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadXCF_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadXCF_IO";
+LoadXCF_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadXCF_IO";
 
 /**
 * Load a XPM image directly.
@@ -1668,7 +1668,7 @@ LoadXCF_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXV_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadXPM_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadXPM_IO";
+LoadXPM_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadXPM_IO";
 
 /**
 * Load a XV image directly.
@@ -1702,7 +1702,7 @@ LoadXPM_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_L
 * \sa IMG_LoadXPM_IO
 * \sa IMG_LoadWEBP_IO
 */
-LoadXV_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadXV_IO";
+LoadXV_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadXV_IO";
 
 /**
 * Load a WEBP image directly.
@@ -1736,7 +1736,7 @@ LoadXV_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_Lo
 * \sa IMG_LoadXPM_IO
 * \sa IMG_LoadXV_IO
 */
-LoadWEBP_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadWEBP_IO";
+LoadWEBP_IO :: (src: *IOStream) -> *Surface #foreign libsdl3_image "IMG_LoadWEBP_IO";
 
 /**
 * Load an SVG image, scaled to a specific size.
@@ -1757,7 +1757,7 @@ LoadWEBP_IO :: (src: *SDL_IOStream) -> *SDL_Surface #foreign libsdl3_image "IMG_
 *
 * \since This function is available since SDL_image 3.0.0.
 */
-LoadSizedSVG_IO :: (src: *SDL_IOStream, width: s32, height: s32) -> *SDL_Surface #foreign libsdl3_image "IMG_LoadSizedSVG_IO";
+LoadSizedSVG_IO :: (src: *IOStream, width: s32, height: s32) -> *Surface #foreign libsdl3_image "IMG_LoadSizedSVG_IO";
 
 /**
 * Load an XPM image from a memory array.
@@ -1776,7 +1776,7 @@ LoadSizedSVG_IO :: (src: *SDL_IOStream, width: s32, height: s32) -> *SDL_Surface
 *
 * \sa IMG_ReadXPMFromArrayToRGB888
 */
-ReadXPMFromArray :: (xpm: **u8) -> *SDL_Surface #foreign libsdl3_image "IMG_ReadXPMFromArray";
+ReadXPMFromArray :: (xpm: **u8) -> *Surface #foreign libsdl3_image "IMG_ReadXPMFromArray";
 
 /**
 * Load an XPM image from a memory array.
@@ -1795,7 +1795,7 @@ ReadXPMFromArray :: (xpm: **u8) -> *SDL_Surface #foreign libsdl3_image "IMG_Read
 *
 * \sa IMG_ReadXPMFromArray
 */
-ReadXPMFromArrayToRGB888 :: (xpm: **u8) -> *SDL_Surface #foreign libsdl3_image "IMG_ReadXPMFromArrayToRGB888";
+ReadXPMFromArrayToRGB888 :: (xpm: **u8) -> *Surface #foreign libsdl3_image "IMG_ReadXPMFromArrayToRGB888";
 
 /**
 * Save an SDL_Surface into a AVIF image file.
@@ -1813,7 +1813,7 @@ ReadXPMFromArrayToRGB888 :: (xpm: **u8) -> *SDL_Surface #foreign libsdl3_image "
 *
 * \sa IMG_SaveAVIF_IO
 */
-SaveAVIF :: (surface: *SDL_Surface, file: *u8, quality: s32) -> bool #foreign libsdl3_image "IMG_SaveAVIF";
+SaveAVIF :: (surface: *Surface, file: *u8, quality: s32) -> bool #foreign libsdl3_image "IMG_SaveAVIF";
 
 /**
 * Save an SDL_Surface into AVIF image data, via an SDL_IOStream.
@@ -1836,7 +1836,7 @@ SaveAVIF :: (surface: *SDL_Surface, file: *u8, quality: s32) -> bool #foreign li
 *
 * \sa IMG_SaveAVIF
 */
-SaveAVIF_IO :: (surface: *SDL_Surface, dst: *SDL_IOStream, closeio: bool, quality: s32) -> bool #foreign libsdl3_image "IMG_SaveAVIF_IO";
+SaveAVIF_IO :: (surface: *Surface, dst: *IOStream, closeio: bool, quality: s32) -> bool #foreign libsdl3_image "IMG_SaveAVIF_IO";
 
 /**
 * Save an SDL_Surface into a PNG image file.
@@ -1852,7 +1852,7 @@ SaveAVIF_IO :: (surface: *SDL_Surface, dst: *SDL_IOStream, closeio: bool, qualit
 *
 * \sa IMG_SavePNG_IO
 */
-SavePNG :: (surface: *SDL_Surface, file: *u8) -> bool #foreign libsdl3_image "IMG_SavePNG";
+SavePNG :: (surface: *Surface, file: *u8) -> bool #foreign libsdl3_image "IMG_SavePNG";
 
 /**
 * Save an SDL_Surface into PNG image data, via an SDL_IOStream.
@@ -1873,7 +1873,7 @@ SavePNG :: (surface: *SDL_Surface, file: *u8) -> bool #foreign libsdl3_image "IM
 *
 * \sa IMG_SavePNG
 */
-SavePNG_IO :: (surface: *SDL_Surface, dst: *SDL_IOStream, closeio: bool) -> bool #foreign libsdl3_image "IMG_SavePNG_IO";
+SavePNG_IO :: (surface: *Surface, dst: *IOStream, closeio: bool) -> bool #foreign libsdl3_image "IMG_SavePNG_IO";
 
 /**
 * Save an SDL_Surface into a JPEG image file.
@@ -1891,7 +1891,7 @@ SavePNG_IO :: (surface: *SDL_Surface, dst: *SDL_IOStream, closeio: bool) -> bool
 *
 * \sa IMG_SaveJPG_IO
 */
-SaveJPG :: (surface: *SDL_Surface, file: *u8, quality: s32) -> bool #foreign libsdl3_image "IMG_SaveJPG";
+SaveJPG :: (surface: *Surface, file: *u8, quality: s32) -> bool #foreign libsdl3_image "IMG_SaveJPG";
 
 /**
 * Save an SDL_Surface into JPEG image data, via an SDL_IOStream.
@@ -1914,7 +1914,7 @@ SaveJPG :: (surface: *SDL_Surface, file: *u8, quality: s32) -> bool #foreign lib
 *
 * \sa IMG_SaveJPG
 */
-SaveJPG_IO :: (surface: *SDL_Surface, dst: *SDL_IOStream, closeio: bool, quality: s32) -> bool #foreign libsdl3_image "IMG_SaveJPG_IO";
+SaveJPG_IO :: (surface: *Surface, dst: *IOStream, closeio: bool, quality: s32) -> bool #foreign libsdl3_image "IMG_SaveJPG_IO";
 
 /**
 * Animated image support
@@ -1925,7 +1925,7 @@ Animation :: struct {
     w:      s32;
     h:      s32;
     count:  s32;
-    frames: **SDL_Surface;
+    frames: **Surface;
     delays: *s32;
 }
 
@@ -1963,7 +1963,7 @@ LoadAnimation :: (file: *u8) -> *Animation #foreign libsdl3_image "IMG_LoadAnima
 *
 * \sa IMG_FreeAnimation
 */
-LoadAnimation_IO :: (src: *SDL_IOStream, closeio: bool) -> *Animation #foreign libsdl3_image "IMG_LoadAnimation_IO";
+LoadAnimation_IO :: (src: *IOStream, closeio: bool) -> *Animation #foreign libsdl3_image "IMG_LoadAnimation_IO";
 
 /**
 * Load an animation from an SDL datasource
@@ -1993,7 +1993,7 @@ LoadAnimation_IO :: (src: *SDL_IOStream, closeio: bool) -> *Animation #foreign l
 * \sa IMG_LoadAnimation_IO
 * \sa IMG_FreeAnimation
 */
-LoadAnimationTyped_IO :: (src: *SDL_IOStream, closeio: bool, type: *u8) -> *Animation #foreign libsdl3_image "IMG_LoadAnimationTyped_IO";
+LoadAnimationTyped_IO :: (src: *IOStream, closeio: bool, type: *u8) -> *Animation #foreign libsdl3_image "IMG_LoadAnimationTyped_IO";
 
 /**
 * Dispose of an IMG_Animation and free its resources.
@@ -2028,7 +2028,7 @@ FreeAnimation :: (anim: *Animation) -> void #foreign libsdl3_image "IMG_FreeAnim
 * \sa IMG_LoadAnimationTyped_IO
 * \sa IMG_FreeAnimation
 */
-LoadGIFAnimation_IO :: (src: *SDL_IOStream) -> *Animation #foreign libsdl3_image "IMG_LoadGIFAnimation_IO";
+LoadGIFAnimation_IO :: (src: *IOStream) -> *Animation #foreign libsdl3_image "IMG_LoadGIFAnimation_IO";
 
 /**
 * Load a WEBP animation directly.
@@ -2048,7 +2048,7 @@ LoadGIFAnimation_IO :: (src: *SDL_IOStream) -> *Animation #foreign libsdl3_image
 * \sa IMG_LoadAnimationTyped_IO
 * \sa IMG_FreeAnimation
 */
-LoadWEBPAnimation_IO :: (src: *SDL_IOStream) -> *Animation #foreign libsdl3_image "IMG_LoadWEBPAnimation_IO";
+LoadWEBPAnimation_IO :: (src: *IOStream) -> *Animation #foreign libsdl3_image "IMG_LoadWEBPAnimation_IO";
 
 #scope_file
 

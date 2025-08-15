@@ -36,6 +36,7 @@ generate_bindings :: () -> bool {
     opts.generate_compile_time_struct_checks = false;
 
     array_add(*opts.strip_prefixes, "TTF_");
+    array_add(*opts.strip_prefixes, "SDL_");
 
     return generate_bindings(opts, output_filename);
 }
