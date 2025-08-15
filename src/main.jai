@@ -22,5 +22,5 @@ main :: () {
     log("window created");
 
     renderer: Renderer;
-    renderer_init(*renderer);
+    init_renderer(*renderer, window);
 }
