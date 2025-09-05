@@ -116,9 +116,9 @@ VkDeviceCreateInfo :: struct {
     queueCreateInfoCount: u32;
     pQueueCreateInfos: *VkDeviceQueueCreateInfo;
     enabledLayerCount: u32;
-    ppEnabledLayerNames: *u8; /* Ordered list of layer names to be enabled */
+    ppEnabledLayerNames: **u8; /* Ordered list of layer names to be enabled */
     enabledExtensionCount: u32;
-    ppEnabledExtensionNames: *u8;
+    ppEnabledExtensionNames: **u8;
     pEnabledFeatures: *VkPhysicalDeviceFeatures;
 }
 
@@ -128,9 +128,9 @@ VkInstanceCreateInfo :: struct {
     flags: VkInstanceCreateFlags;
     pApplicationInfo: *VkApplicationInfo;
     enabledLayerCount: u32;
-    ppEnabledLayerNames: *u8; /* Ordered list of layer names to be enabled */
+    ppEnabledLayerNames: **u8; /* Ordered list of layer names to be enabled */
     enabledExtensionCount: u32;
-    ppEnabledExtensionNames: *u8; /* Extension names to be enabled */
+    ppEnabledExtensionNames: **u8; /* Extension names to be enabled */
 }
 
 VkQueueFamilyProperties :: struct {
@@ -5964,7 +5964,7 @@ VkAccelerationStructureBuildGeometryInfoKHR :: struct {
     dstAccelerationStructure: VkAccelerationStructureKHR;
     geometryCount: u32;
     pGeometries: *VkAccelerationStructureGeometryKHR;
-    ppGeometries: *VkAccelerationStructureGeometryKHR;
+    ppGeometries: **VkAccelerationStructureGeometryKHR;
     scratchData: VkDeviceOrHostAddressKHR;
 }
 
@@ -8340,9 +8340,9 @@ VkCuLaunchInfoNVX :: struct {
     blockDimZ: u32;
     sharedMemBytes: u32;
     paramCount: u64;
-    pParams: *void;
+    pParams: **void;
     extraCount: u64;
-    pExtras: *void;
+    pExtras: **void;
 }
 
 VkPhysicalDeviceDescriptorBufferFeaturesEXT :: struct {
@@ -8741,9 +8741,9 @@ VkCudaLaunchInfoNV :: struct {
     blockDimZ: u32;
     sharedMemBytes: u32;
     paramCount: u64;
-    pParams: *void;
+    pParams: **void;
     extraCount: u64;
-    pExtras: *void;
+    pExtras: **void;
 }
 
 VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT :: struct {
@@ -9108,7 +9108,7 @@ VkMicromapBuildInfoEXT :: struct {
     dstMicromap: VkMicromapEXT;
     usageCountsCount: u32;
     pUsageCounts: *VkMicromapUsageEXT;
-    ppUsageCounts: *VkMicromapUsageEXT;
+    ppUsageCounts: **VkMicromapUsageEXT;
     data: VkDeviceOrHostAddressConstKHR;
     scratchData: VkDeviceOrHostAddressKHR;
     triangleArray: VkDeviceOrHostAddressConstKHR;
@@ -9200,7 +9200,7 @@ VkAccelerationStructureTrianglesOpacityMicromapEXT :: struct {
     baseTriangle: u32;
     usageCountsCount: u32;
     pUsageCounts: *VkMicromapUsageEXT;
-    ppUsageCounts: *VkMicromapUsageEXT;
+    ppUsageCounts: **VkMicromapUsageEXT;
     micromap: VkMicromapEXT;
 }
 
@@ -9233,7 +9233,7 @@ VkAccelerationStructureTrianglesDisplacementMicromapNV :: struct {
     baseTriangle: u32;
     usageCountsCount: u32;
     pUsageCounts: *VkMicromapUsageEXT;
-    ppUsageCounts: *VkMicromapUsageEXT;
+    ppUsageCounts: **VkMicromapUsageEXT;
     micromap: VkMicromapEXT;
 }
 

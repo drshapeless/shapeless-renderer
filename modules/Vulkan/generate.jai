@@ -27,6 +27,9 @@ vk_unions            : [..]VK_Union;
 
 vk_vendors : [..]string;
 
+bitmask_depends : [..]string;
+outputted_flags : [..]string;
+
 generate :: () {
     at := current_time_monotonic();
     start_time := to_float64_seconds(at);
@@ -46,10 +49,10 @@ generate :: () {
     generation_time := to_float64_seconds(current_time_monotonic());
     log("Finished generation in      % seconds", generation_time - xml_parse_time);
 
-    output_types();
     output_structures();
     output_function_pointers();
     output_enums();
+    output_types();
     output_unions();
     output_constants();
     if DYNAMIC_LOADER {
@@ -201,6 +204,17 @@ handle_bitmask :: (node: Node) {
         assert(name.count > 0);
         assert(alias.count > 0);
     } else {
+        requires := get_attr(node, "requires");
+        if contains(requires, "FlagBits") {
+            array_add(*bitmask_depends, requires);
+            return;
+        }
+        bitvalues := get_attr(node, "bitvalues");
+        if contains(bitvalues, "FlagBits") {
+            array_add(*bitmask_depends, bitvalues);
+            return;
+        }
+
         for child : node.children {
             if child.type == .NODE {
                 if child.tag_name == {
@@ -356,7 +370,7 @@ handle_struct :: (node: Node) {
                         if begins_with(s, "[") && ends_with(s, "]") {
                             vk_member.array_prefix = s;
                         } else if begins_with(s, "*") {
-                            vk_member.number_of_pointer = count_pointer(s);
+                            vk_member.number_of_pointer = count_pointer(s, false);
                         } else if contains(s, ":") {
                             // I hate Nvidia for making things
                             // complicated by introducing bitfield.
@@ -800,6 +814,14 @@ output_types :: () {
             append(*sb, name);
             append(*sb, "_T;\n");
         } else {
+            // Another check to make sure Flags does not declare twice.
+            if contains(name, "Flags") {
+                for flag : outputted_flags {
+                    if name == flag {
+                        continue t;
+                    }
+                }
+            }
             append(*sb, name);
             append(*sb, " :: ");
             if alias.count > 0 {
@@ -1010,17 +1032,44 @@ output_enums :: () {
     sb: String_Builder;
 
     for e : vk_enums {
-        append(*sb, e.name);
-        append(*sb, " :: ");
+        // If it is a empty enum, it is a vendor opaque enum, let the
+        // type deal with it. But in some case, an empty enum is
+        // needed, fuck.
+        if e.members.count == 0 {
+            is_needed := false;
+            for depend : bitmask_depends {
+                if depend == e.name {
+                    is_needed = true;
+                    break;
+                }
+            }
+            if !is_needed {
+                continue;
+            }
+        }
         if e.alias.count > 0 {
+            append(*sb, e.name);
+            append(*sb, " :: ");
             append(*sb, e.alias);
             append(*sb, ";\n\n");
         } else {
             if e.is_enum_flags {
+                new_name := replace(e.name, "FlagBits", "Flags");
+                array_add(*outputted_flags, new_name);
+                // Alias FlagBits to Flags for compatibility
+                append(*sb, e.name);
+                append(*sb, " :: ");
+                append(*sb, new_name);
+                append(*sb, ";\n");
+
+                append(*sb, new_name);
+                append(*sb, " :: ");
                 append(*sb, "enum_flags ");
                 append(*sb, e.type);
                 append(*sb, " {\n");
             } else {
+                append(*sb, e.name);
+                append(*sb, " :: ");
                 // Check if any member of this enum has a negative value
                 has_negative := false;
                 for m : e.members {

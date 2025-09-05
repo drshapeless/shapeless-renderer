@@ -168,7 +168,8 @@ VkPipelineCacheHeaderVersion :: enum u32 {
     SAFETY_CRITICAL_ONE :: 1000298001;
 }
 
-VkPipelineCacheCreateFlagBits :: enum_flags u32 {
+VkPipelineCacheCreateFlagBits :: VkPipelineCacheCreateFlags;
+VkPipelineCacheCreateFlags :: enum_flags u32 {
     EXTERNALLY_SYNCHRONIZED           :: 1 << 0;
     READ_ONLY                         :: 1 << 1;
     USE_APPLICATION_STORAGE           :: 1 << 2;
@@ -2390,7 +2391,8 @@ VkAntiLagStageAMD :: enum u32 {
     PRESENT :: 1;
 }
 
-VkQueueFlagBits :: enum_flags u32 {
+VkQueueFlagBits :: VkQueueFlags;
+VkQueueFlags :: enum_flags u32 {
     GRAPHICS         :: 1 << 0; /* Queue supports graphics operations */
     COMPUTE          :: 1 << 1; /* Queue supports compute operations */
     TRANSFER         :: 1 << 2; /* Queue supports transfer operations */
@@ -2404,26 +2406,30 @@ VkQueueFlagBits :: enum_flags u32 {
     DATA_GRAPH_ARM   :: 1 << 10;
 }
 
-VkCullModeFlagBits :: enum_flags u32 {
+VkCullModeFlagBits :: VkCullModeFlags;
+VkCullModeFlags :: enum_flags u32 {
     NONE           :: 0;
     FRONT          :: 1 << 0;
     BACK           :: 1 << 1;
     FRONT_AND_BACK :: 0x00000003;
 }
 
-VkRenderPassCreateFlagBits :: enum_flags u32 {
+VkRenderPassCreateFlagBits :: VkRenderPassCreateFlags;
+VkRenderPassCreateFlags :: enum_flags u32 {
     RESERVED_0_KHR                   :: 1 << 0;
     TRANSFORM_QCOM                   :: 1 << 1;
     PER_LAYER_FRAGMENT_DENSITY_VALVE :: 1 << 2;
 }
 
-VkDeviceQueueCreateFlagBits :: enum_flags u32 {
+VkDeviceQueueCreateFlagBits :: VkDeviceQueueCreateFlags;
+VkDeviceQueueCreateFlags :: enum_flags u32 {
     PROTECTED       :: 1 << 0; /* Queue is a protected-capable device queue */
     RESERVED_1_QCOM :: 1 << 1;
     RESERVED_2_EXT  :: 1 << 2;
 }
 
-VkMemoryPropertyFlagBits :: enum_flags u32 {
+VkMemoryPropertyFlagBits :: VkMemoryPropertyFlags;
+VkMemoryPropertyFlags :: enum_flags u32 {
     DEVICE_LOCAL        :: 1 << 0; /* If otherwise stated, then allocate memory on device */
     HOST_VISIBLE        :: 1 << 1; /* Memory is mappable by host */
     HOST_COHERENT       :: 1 << 2; /* Memory will have i/o coherency. If not set, application may need to use vkFlushMappedMemoryRanges and vkInvalidateMappedMemoryRanges to flush/invalidate host cache */
@@ -2435,7 +2441,8 @@ VkMemoryPropertyFlagBits :: enum_flags u32 {
     RDMA_CAPABLE_NV     :: 1 << 8;
 }
 
-VkMemoryHeapFlagBits :: enum_flags u32 {
+VkMemoryHeapFlagBits :: VkMemoryHeapFlags;
+VkMemoryHeapFlags :: enum_flags u32 {
     DEVICE_LOCAL       :: 1 << 0; /* If set, heap represents device memory */
     MULTI_INSTANCE     :: 1 << 1; /* If set, heap allocations allocate multiple instances by default */
     SEU_SAFE           :: 1 << 2;
@@ -2443,7 +2450,8 @@ VkMemoryHeapFlagBits :: enum_flags u32 {
     TILE_MEMORY_QCOM   :: 1 << 3;
 }
 
-VkAccessFlagBits :: enum_flags u32 {
+VkAccessFlagBits :: VkAccessFlags;
+VkAccessFlags :: enum_flags u32 {
     INDIRECT_COMMAND_READ                     :: 1 << 0; /* Controls coherency of indirect command reads */
     INDEX_READ                                :: 1 << 1; /* Controls coherency of index reads */
     VERTEX_ATTRIBUTE_READ                     :: 1 << 2; /* Controls coherency of vertex attribute reads */
@@ -2481,7 +2489,8 @@ VkAccessFlagBits :: enum_flags u32 {
     COMMAND_PREPROCESS_WRITE_EXT              :: 1 << 18;
 }
 
-VkBufferUsageFlagBits :: enum_flags u32 {
+VkBufferUsageFlagBits :: VkBufferUsageFlags;
+VkBufferUsageFlags :: enum_flags u32 {
     TRANSFER_SRC                                     :: 1 << 0; /* Can be used as a source of transfer operations */
     TRANSFER_DST                                     :: 1 << 1; /* Can be used as a destination of transfer operations */
     UNIFORM_TEXEL_BUFFER                             :: 1 << 2; /* Can be used as TBO */
@@ -2515,7 +2524,8 @@ VkBufferUsageFlagBits :: enum_flags u32 {
     TILE_MEMORY_QCOM                                 :: 1 << 27;
 }
 
-VkBufferUsageFlagBits2 :: enum_flags u64 {
+VkBufferUsageFlagBits2 :: VkBufferUsageFlags2;
+VkBufferUsageFlags2 :: enum_flags u64 {
     TRANSFER_SRC                                     :: 1 << 0;
     TRANSFER_DST                                     :: 1 << 1;
     UNIFORM_TEXEL_BUFFER                             :: 1 << 2;
@@ -2561,7 +2571,8 @@ VkBufferUsageFlagBits2 :: enum_flags u64 {
     PREPROCESS_BUFFER_EXT                            :: 1 << 31;
 }
 
-VkBufferCreateFlagBits :: enum_flags u32 {
+VkBufferCreateFlagBits :: VkBufferCreateFlags;
+VkBufferCreateFlags :: enum_flags u32 {
     SPARSE_BINDING                       :: 1 << 0; /* Buffer should support sparse backing */
     SPARSE_RESIDENCY                     :: 1 << 1; /* Buffer should support sparse backing with partial residency */
     SPARSE_ALIASED                       :: 1 << 2; /* Buffer should support constant data access to physical memory ranges mapped into multiple locations of sparse buffers */
@@ -2573,7 +2584,8 @@ VkBufferCreateFlagBits :: enum_flags u32 {
     VIDEO_PROFILE_INDEPENDENT_KHR        :: 1 << 6;
 }
 
-VkShaderStageFlagBits :: enum_flags u32 {
+VkShaderStageFlagBits :: VkShaderStageFlags;
+VkShaderStageFlags :: enum_flags u32 {
     VERTEX                  :: 1 << 0;
     TESSELLATION_CONTROL    :: 1 << 1;
     TESSELLATION_EVALUATION :: 1 << 2;
@@ -2603,7 +2615,8 @@ VkShaderStageFlagBits :: enum_flags u32 {
     RESERVED_15_NV          :: 1 << 15;
 }
 
-VkImageUsageFlagBits :: enum_flags u32 {
+VkImageUsageFlagBits :: VkImageUsageFlags;
+VkImageUsageFlags :: enum_flags u32 {
     TRANSFER_SRC                            :: 1 << 0; /* Can be used as a source of transfer operations */
     TRANSFER_DST                            :: 1 << 1; /* Can be used as a destination of transfer operations */
     SAMPLED                                 :: 1 << 2; /* Can be sampled from (SAMPLED_IMAGE and COMBINED_IMAGE_SAMPLER descriptor types) */
@@ -2634,7 +2647,8 @@ VkImageUsageFlagBits :: enum_flags u32 {
     VIDEO_ENCODE_EMPHASIS_MAP_KHR           :: 1 << 26;
 }
 
-VkImageCreateFlagBits :: enum_flags u32 {
+VkImageCreateFlagBits :: VkImageCreateFlags;
+VkImageCreateFlags :: enum_flags u32 {
     SPARSE_BINDING                            :: 1 << 0; /* Image should support sparse backing */
     SPARSE_RESIDENCY                          :: 1 << 1; /* Image should support sparse backing with partial residency */
     SPARSE_ALIASED                            :: 1 << 2; /* Image should support constant data access to physical memory ranges mapped into multiple locations of sparse images */
@@ -2664,13 +2678,15 @@ VkImageCreateFlagBits :: enum_flags u32 {
     FRAGMENT_DENSITY_MAP_OFFSET_EXT           :: 1 << 15;
 }
 
-VkImageViewCreateFlagBits :: enum_flags u32 {
+VkImageViewCreateFlagBits :: VkImageViewCreateFlags;
+VkImageViewCreateFlags :: enum_flags u32 {
     FRAGMENT_DENSITY_MAP_DYNAMIC_EXT     :: 1 << 0;
     DESCRIPTOR_BUFFER_CAPTURE_REPLAY_EXT :: 1 << 2;
     FRAGMENT_DENSITY_MAP_DEFERRED_EXT    :: 1 << 1;
 }
 
-VkSamplerCreateFlagBits :: enum_flags u32 {
+VkSamplerCreateFlagBits :: VkSamplerCreateFlags;
+VkSamplerCreateFlags :: enum_flags u32 {
     SUBSAMPLED_EXT                       :: 1 << 0;
     SUBSAMPLED_COARSE_RECONSTRUCTION_EXT :: 1 << 1;
     DESCRIPTOR_BUFFER_CAPTURE_REPLAY_EXT :: 1 << 3;
@@ -2678,7 +2694,8 @@ VkSamplerCreateFlagBits :: enum_flags u32 {
     IMAGE_PROCESSING_QCOM                :: 1 << 4;
 }
 
-VkPipelineCreateFlagBits :: enum_flags u32 {
+VkPipelineCreateFlagBits :: VkPipelineCreateFlags;
+VkPipelineCreateFlags :: enum_flags u32 {
     DISABLE_OPTIMIZATION                                                        :: 1 << 0;
     ALLOW_DERIVATIVES                                                           :: 1 << 1;
     DERIVATIVE                                                                  :: 1 << 2;
@@ -2720,7 +2737,8 @@ VkPipelineCreateFlagBits :: enum_flags u32 {
     PROTECTED_ACCESS_ONLY_EXT                                                   :: PROTECTED_ACCESS_ONLY;
 }
 
-VkPipelineCreateFlagBits2 :: enum_flags u64 {
+VkPipelineCreateFlagBits2 :: VkPipelineCreateFlags2;
+VkPipelineCreateFlags2 :: enum_flags u64 {
     DISABLE_OPTIMIZATION                                  :: 1 << 0;
     ALLOW_DERIVATIVES                                     :: 1 << 1;
     DERIVATIVE                                            :: 1 << 2;
@@ -2778,7 +2796,8 @@ VkPipelineCreateFlagBits2 :: enum_flags u64 {
     RESERVED_43_EXT                                       :: 1 << 43;
 }
 
-VkPipelineShaderStageCreateFlagBits :: enum_flags u32 {
+VkPipelineShaderStageCreateFlagBits :: VkPipelineShaderStageCreateFlags;
+VkPipelineShaderStageCreateFlags :: enum_flags u32 {
     ALLOW_VARYING_SUBGROUP_SIZE     :: 1 << 0;
     REQUIRE_FULL_SUBGROUPS          :: 1 << 1;
     ALLOW_VARYING_SUBGROUP_SIZE_EXT :: ALLOW_VARYING_SUBGROUP_SIZE;
@@ -2786,21 +2805,21 @@ VkPipelineShaderStageCreateFlagBits :: enum_flags u32 {
     RESERVED_3_KHR                  :: 1 << 3;
 }
 
-VkColorComponentFlagBits :: enum_flags u32 {
+VkColorComponentFlagBits :: VkColorComponentFlags;
+VkColorComponentFlags :: enum_flags u32 {
     R :: 1 << 0;
     G :: 1 << 1;
     B :: 1 << 2;
     A :: 1 << 3;
 }
 
-VkFenceCreateFlagBits :: enum_flags u32 {
+VkFenceCreateFlagBits :: VkFenceCreateFlags;
+VkFenceCreateFlags :: enum_flags u32 {
     SIGNALED :: 1 << 0;
 }
 
-VkSemaphoreCreateFlagBits :: enum_flags u32 {
-}
-
-VkFormatFeatureFlagBits :: enum_flags u32 {
+VkFormatFeatureFlagBits :: VkFormatFeatureFlags;
+VkFormatFeatureFlags :: enum_flags u32 {
     SAMPLED_IMAGE                                                               :: 1 << 0; /* Format can be used for sampled images (SAMPLED_IMAGE and COMBINED_IMAGE_SAMPLER descriptor types) */
     STORAGE_IMAGE                                                               :: 1 << 1; /* Format can be used for storage images (STORAGE_IMAGE descriptor type) */
     STORAGE_IMAGE_ATOMIC                                                        :: 1 << 2; /* Format supports atomic operations in case it is used for storage images */
@@ -2845,11 +2864,13 @@ VkFormatFeatureFlagBits :: enum_flags u32 {
     VIDEO_ENCODE_DPB_KHR                                                        :: 1 << 28;
 }
 
-VkQueryControlFlagBits :: enum_flags u32 {
+VkQueryControlFlagBits :: VkQueryControlFlags;
+VkQueryControlFlags :: enum_flags u32 {
     PRECISE :: 1 << 0; /* Require precise results to be collected by the query */
 }
 
-VkQueryResultFlagBits :: enum_flags u32 {
+VkQueryResultFlagBits :: VkQueryResultFlags;
+VkQueryResultFlags :: enum_flags u32 {
     e64               :: 1 << 0; /* Results of the queries are written to the destination buffer as 64-bit values */
     WAIT              :: 1 << 1; /* Results of the queries are waited on before proceeding with the result copy */
     WITH_AVAILABILITY :: 1 << 2; /* Besides the results of the query, the availability of the results is also written */
@@ -2857,13 +2878,15 @@ VkQueryResultFlagBits :: enum_flags u32 {
     WITH_STATUS_KHR   :: 1 << 4;
 }
 
-VkCommandBufferUsageFlagBits :: enum_flags u32 {
+VkCommandBufferUsageFlagBits :: VkCommandBufferUsageFlags;
+VkCommandBufferUsageFlags :: enum_flags u32 {
     ONE_TIME_SUBMIT      :: 1 << 0;
     RENDER_PASS_CONTINUE :: 1 << 1;
     SIMULTANEOUS_USE     :: 1 << 2; /* Command buffer may be submitted/executed more than once simultaneously */
 }
 
-VkQueryPipelineStatisticFlagBits :: enum_flags u32 {
+VkQueryPipelineStatisticFlagBits :: VkQueryPipelineStatisticFlags;
+VkQueryPipelineStatisticFlags :: enum_flags u32 {
     INPUT_ASSEMBLY_VERTICES                    :: 1 << 0; /* Optional */
     INPUT_ASSEMBLY_PRIMITIVES                  :: 1 << 1; /* Optional */
     VERTEX_SHADER_INVOCATIONS                  :: 1 << 2; /* Optional */
@@ -2880,11 +2903,13 @@ VkQueryPipelineStatisticFlagBits :: enum_flags u32 {
     CLUSTER_CULLING_SHADER_INVOCATIONS_HUAWEI  :: 1 << 13;
 }
 
-VkMemoryMapFlagBits :: enum_flags u32 {
+VkMemoryMapFlagBits :: VkMemoryMapFlags;
+VkMemoryMapFlags :: enum_flags u32 {
     PLACED_EXT :: 1 << 0;
 }
 
-VkImageAspectFlagBits :: enum_flags u32 {
+VkImageAspectFlagBits :: VkImageAspectFlags;
+VkImageAspectFlags :: enum_flags u32 {
     COLOR              :: 1 << 0;
     DEPTH              :: 1 << 1;
     STENCIL            :: 1 << 2;
@@ -2903,17 +2928,20 @@ VkImageAspectFlagBits :: enum_flags u32 {
     NONE_KHR           :: NONE;
 }
 
-VkSparseImageFormatFlagBits :: enum_flags u32 {
+VkSparseImageFormatFlagBits :: VkSparseImageFormatFlags;
+VkSparseImageFormatFlags :: enum_flags u32 {
     SINGLE_MIPTAIL         :: 1 << 0; /* Image uses a single mip tail region for all array layers */
     ALIGNED_MIP_SIZE       :: 1 << 1; /* Image requires mip level dimensions to be an integer multiple of the sparse image block dimensions for non-tail mip levels. */
     NONSTANDARD_BLOCK_SIZE :: 1 << 2; /* Image uses a non-standard sparse image block dimensions */
 }
 
-VkSparseMemoryBindFlagBits :: enum_flags u32 {
+VkSparseMemoryBindFlagBits :: VkSparseMemoryBindFlags;
+VkSparseMemoryBindFlags :: enum_flags u32 {
     METADATA :: 1 << 0; /* Operation binds resource metadata to memory */
 }
 
-VkPipelineStageFlagBits :: enum_flags u32 {
+VkPipelineStageFlagBits :: VkPipelineStageFlags;
+VkPipelineStageFlags :: enum_flags u32 {
     TOP_OF_PIPE                          :: 1 << 0; /* Before subsequent commands are processed */
     DRAW_INDIRECT                        :: 1 << 1; /* Draw/DispatchIndirect command fetch */
     VERTEX_INPUT                         :: 1 << 2; /* Vertex/index fetch */
@@ -2950,22 +2978,26 @@ VkPipelineStageFlagBits :: enum_flags u32 {
     COMMAND_PREPROCESS_EXT               :: 1 << 17;
 }
 
-VkCommandPoolCreateFlagBits :: enum_flags u32 {
+VkCommandPoolCreateFlagBits :: VkCommandPoolCreateFlags;
+VkCommandPoolCreateFlags :: enum_flags u32 {
     TRANSIENT            :: 1 << 0; /* Command buffers have a short lifetime */
     RESET_COMMAND_BUFFER :: 1 << 1; /* Command buffers may release their memory individually */
     PROTECTED            :: 1 << 2; /* Command buffers allocated from pool are protected command buffers */
 }
 
-VkCommandPoolResetFlagBits :: enum_flags u32 {
+VkCommandPoolResetFlagBits :: VkCommandPoolResetFlags;
+VkCommandPoolResetFlags :: enum_flags u32 {
     RELEASE_RESOURCES  :: 1 << 0; /* Release resources owned by the pool */
     RESERVED_1_COREAVI :: 1 << 1;
 }
 
-VkCommandBufferResetFlagBits :: enum_flags u32 {
+VkCommandBufferResetFlagBits :: VkCommandBufferResetFlags;
+VkCommandBufferResetFlags :: enum_flags u32 {
     RELEASE_RESOURCES :: 1 << 0; /* Release resources owned by the buffer */
 }
 
-VkSampleCountFlagBits :: enum_flags u32 {
+VkSampleCountFlagBits :: VkSampleCountFlags;
+VkSampleCountFlags :: enum_flags u32 {
     e1  :: 1 << 0; /* Sample count 1 supported */
     e2  :: 1 << 1; /* Sample count 2 supported */
     e4  :: 1 << 2; /* Sample count 4 supported */
@@ -2975,20 +3007,23 @@ VkSampleCountFlagBits :: enum_flags u32 {
     e64 :: 1 << 6; /* Sample count 64 supported */
 }
 
-VkAttachmentDescriptionFlagBits :: enum_flags u32 {
+VkAttachmentDescriptionFlagBits :: VkAttachmentDescriptionFlags;
+VkAttachmentDescriptionFlags :: enum_flags u32 {
     MAY_ALIAS      :: 1 << 0; /* The attachment may alias physical memory of another attachment in the same render pass */
     RESERVED_1_KHR :: 1 << 1;
     RESERVED_2_KHR :: 1 << 2;
 }
 
-VkStencilFaceFlagBits :: enum_flags u32 {
+VkStencilFaceFlagBits :: VkStencilFaceFlags;
+VkStencilFaceFlags :: enum_flags u32 {
     FRONT                     :: 1 << 0; /* Front face */
     BACK                      :: 1 << 1; /* Back face */
     FRONT_AND_BACK            :: 0x00000003; /* Front and back faces */
     VK_STENCIL_FRONT_AND_BACK :: FRONT_AND_BACK;
 }
 
-VkDescriptorPoolCreateFlagBits :: enum_flags u32 {
+VkDescriptorPoolCreateFlagBits :: VkDescriptorPoolCreateFlags;
+VkDescriptorPoolCreateFlags :: enum_flags u32 {
     FREE_DESCRIPTOR_SET           :: 1 << 0; /* Descriptor sets may be freed individually */
     UPDATE_AFTER_BIND             :: 1 << 1;
     UPDATE_AFTER_BIND_EXT         :: UPDATE_AFTER_BIND;
@@ -2998,7 +3033,8 @@ VkDescriptorPoolCreateFlagBits :: enum_flags u32 {
     ALLOW_OVERALLOCATION_POOLS_NV :: 1 << 4;
 }
 
-VkDependencyFlagBits :: enum_flags u32 {
+VkDependencyFlagBits :: VkDependencyFlags;
+VkDependencyFlags :: enum_flags u32 {
     BY_REGION                                          :: 1 << 0; /* Dependency is per pixel region  */
     DEVICE_GROUP                                       :: 1 << 2; /* Dependency is across devices */
     VIEW_LOCAL                                         :: 1 << 1;
@@ -3017,7 +3053,8 @@ VkSemaphoreType :: enum u32 {
     TIMELINE_KHR :: TIMELINE;
 }
 
-VkSemaphoreWaitFlagBits :: enum_flags u32 {
+VkSemaphoreWaitFlagBits :: VkSemaphoreWaitFlags;
+VkSemaphoreWaitFlags :: enum_flags u32 {
     ANY     :: 1 << 0;
     ANY_KHR :: ANY;
 }
@@ -3054,21 +3091,24 @@ VkColorSpaceKHR :: enum u32 {
     DISPLAY_NATIVE_AMD           :: 1000213000;
 }
 
-VkDisplayPlaneAlphaFlagBitsKHR :: enum_flags u32 {
+VkDisplayPlaneAlphaFlagBitsKHR :: VkDisplayPlaneAlphaFlagsKHR;
+VkDisplayPlaneAlphaFlagsKHR :: enum_flags u32 {
     OPAQUE                  :: 1 << 0;
     GLOBAL                  :: 1 << 1;
     PER_PIXEL               :: 1 << 2;
     PER_PIXEL_PREMULTIPLIED :: 1 << 3;
 }
 
-VkCompositeAlphaFlagBitsKHR :: enum_flags u32 {
+VkCompositeAlphaFlagBitsKHR :: VkCompositeAlphaFlagsKHR;
+VkCompositeAlphaFlagsKHR :: enum_flags u32 {
     OPAQUE          :: 1 << 0;
     PRE_MULTIPLIED  :: 1 << 1;
     POST_MULTIPLIED :: 1 << 2;
     INHERIT         :: 1 << 3;
 }
 
-VkSurfaceTransformFlagBitsKHR :: enum_flags u32 {
+VkSurfaceTransformFlagBitsKHR :: VkSurfaceTransformFlagsKHR;
+VkSurfaceTransformFlagsKHR :: enum_flags u32 {
     IDENTITY                     :: 1 << 0;
     ROTATE_90                    :: 1 << 1;
     ROTATE_180                   :: 1 << 2;
@@ -3087,7 +3127,8 @@ VkDisplaySurfaceStereoTypeNV :: enum u32 {
     INBAND_DISPLAYPORT :: 3;
 }
 
-VkSwapchainImageUsageFlagBitsANDROID :: enum_flags u32 {
+VkSwapchainImageUsageFlagBitsANDROID :: VkSwapchainImageUsageFlagsANDROID;
+VkSwapchainImageUsageFlagsANDROID :: enum_flags u32 {
     SHARED :: 1 << 0;
 }
 
@@ -3102,7 +3143,8 @@ VkTimeDomainKHR :: enum u32 {
     QUERY_PERFORMANCE_COUNTER_EXT :: QUERY_PERFORMANCE_COUNTER;
 }
 
-VkDebugReportFlagBitsEXT :: enum_flags u32 {
+VkDebugReportFlagBitsEXT :: VkDebugReportFlagsEXT;
+VkDebugReportFlagsEXT :: enum_flags u32 {
     INFORMATION         :: 1 << 0;
     WARNING             :: 1 << 1;
     PERFORMANCE_WARNING :: 1 << 2;
@@ -3177,20 +3219,23 @@ VkRasterizationOrderAMD :: enum u32 {
     RELAXED :: 1;
 }
 
-VkExternalMemoryHandleTypeFlagBitsNV :: enum_flags u32 {
+VkExternalMemoryHandleTypeFlagBitsNV :: VkExternalMemoryHandleTypeFlagsNV;
+VkExternalMemoryHandleTypeFlagsNV :: enum_flags u32 {
     OPAQUE_WIN32     :: 1 << 0;
     OPAQUE_WIN32_KMT :: 1 << 1;
     D3D11_IMAGE      :: 1 << 2;
     D3D11_IMAGE_KMT  :: 1 << 3;
 }
 
-VkExternalMemoryFeatureFlagBitsNV :: enum_flags u32 {
+VkExternalMemoryFeatureFlagBitsNV :: VkExternalMemoryFeatureFlagsNV;
+VkExternalMemoryFeatureFlagsNV :: enum_flags u32 {
     DEDICATED_ONLY :: 1 << 0;
     EXPORTABLE     :: 1 << 1;
     IMPORTABLE     :: 1 << 2;
 }
 
-VkClusterAccelerationStructureIndexFormatFlagBitsNV :: enum_flags u32 {
+VkClusterAccelerationStructureIndexFormatFlagBitsNV :: VkClusterAccelerationStructureIndexFormatFlagsNV;
+VkClusterAccelerationStructureIndexFormatFlagsNV :: enum_flags u32 {
     e8BIT  :: 1 << 0;
     e16BIT :: 1 << 1;
     e32BIT :: 1 << 2;
@@ -3217,17 +3262,20 @@ VkClusterAccelerationStructureOpModeNV :: enum u32 {
     COMPUTE_SIZES         :: 2;
 }
 
-VkClusterAccelerationStructureClusterFlagBitsNV :: enum_flags u32 {
+VkClusterAccelerationStructureClusterFlagBitsNV :: VkClusterAccelerationStructureClusterFlagsNV;
+VkClusterAccelerationStructureClusterFlagsNV :: enum_flags u32 {
     ALLOW_DISABLE_OPACITY_MICROMAPS :: 1 << 0;
 }
 
-VkClusterAccelerationStructureGeometryFlagBitsNV :: enum_flags u32 {
+VkClusterAccelerationStructureGeometryFlagBitsNV :: VkClusterAccelerationStructureGeometryFlagsNV;
+VkClusterAccelerationStructureGeometryFlagsNV :: enum_flags u32 {
     CULL_DISABLE                   :: 1 << 0;
     NO_DUPLICATE_ANYHIT_INVOCATION :: 1 << 1;
     OPAQUE                         :: 1 << 2;
 }
 
-VkClusterAccelerationStructureAddressResolutionFlagBitsNV :: enum_flags u32 {
+VkClusterAccelerationStructureAddressResolutionFlagBitsNV :: VkClusterAccelerationStructureAddressResolutionFlagsNV;
+VkClusterAccelerationStructureAddressResolutionFlagsNV :: enum_flags u32 {
     NONE                         :: 0;
     INDIRECTED_DST_IMPLICIT_DATA :: 1 << 0;
     INDIRECTED_SCRATCH_DATA      :: 1 << 1;
@@ -3272,7 +3320,8 @@ VkLayerSettingTypeEXT :: enum u32 {
     STRING  :: 7;
 }
 
-VkSubgroupFeatureFlagBits :: enum_flags u32 {
+VkSubgroupFeatureFlagBits :: VkSubgroupFeatureFlags;
+VkSubgroupFeatureFlags :: enum_flags u32 {
     BASIC                :: 1 << 0; /* Basic subgroup operations */
     VOTE                 :: 1 << 1; /* Vote subgroup operations */
     ARITHMETIC           :: 1 << 2; /* Arithmetic subgroup operations */
@@ -3288,13 +3337,15 @@ VkSubgroupFeatureFlagBits :: enum_flags u32 {
     ROTATE_CLUSTERED_KHR :: ROTATE_CLUSTERED;
 }
 
-VkIndirectCommandsLayoutUsageFlagBitsNV :: enum_flags u32 {
+VkIndirectCommandsLayoutUsageFlagBitsNV :: VkIndirectCommandsLayoutUsageFlagsNV;
+VkIndirectCommandsLayoutUsageFlagsNV :: enum_flags u32 {
     EXPLICIT_PREPROCESS :: 1 << 0;
     INDEXED_SEQUENCES   :: 1 << 1;
     UNORDERED_SEQUENCES :: 1 << 2;
 }
 
-VkIndirectStateFlagBitsNV :: enum_flags u32 {
+VkIndirectStateFlagBitsNV :: VkIndirectStateFlagsNV;
+VkIndirectStateFlagsNV :: enum_flags u32 {
     FLAG_FRONTFACE :: 1 << 0;
 }
 
@@ -3312,11 +3363,13 @@ VkIndirectCommandsTokenTypeNV :: enum u32 {
     DISPATCH        :: 1000428004;
 }
 
-VkPrivateDataSlotCreateFlagBits :: enum_flags u32 {
+VkPrivateDataSlotCreateFlagBits :: VkPrivateDataSlotCreateFlags;
+VkPrivateDataSlotCreateFlags :: enum_flags u32 {
     RESERVED_0_NV :: 1 << 0;
 }
 
-VkDescriptorSetLayoutCreateFlagBits :: enum_flags u32 {
+VkDescriptorSetLayoutCreateFlagBits :: VkDescriptorSetLayoutCreateFlags;
+VkDescriptorSetLayoutCreateFlags :: enum_flags u32 {
     UPDATE_AFTER_BIND_POOL          :: 1 << 1;
     PUSH_DESCRIPTOR                 :: 1 << 0;
     PUSH_DESCRIPTOR_KHR             :: PUSH_DESCRIPTOR; /* Descriptors are pushed via flink:vkCmdPushDescriptorSet */
@@ -3330,7 +3383,8 @@ VkDescriptorSetLayoutCreateFlagBits :: enum_flags u32 {
     PER_STAGE_NV                    :: 1 << 6;
 }
 
-VkExternalMemoryHandleTypeFlagBits :: enum_flags u32 {
+VkExternalMemoryHandleTypeFlagBits :: VkExternalMemoryHandleTypeFlags;
+VkExternalMemoryHandleTypeFlags :: enum_flags u32 {
     OPAQUE_FD                       :: 1 << 0;
     OPAQUE_WIN32                    :: 1 << 1;
     OPAQUE_WIN32_KMT                :: 1 << 2;
@@ -3359,7 +3413,8 @@ VkExternalMemoryHandleTypeFlagBits :: enum_flags u32 {
     MTLHEAP_EXT                     :: 1 << 18;
 }
 
-VkExternalMemoryFeatureFlagBits :: enum_flags u32 {
+VkExternalMemoryFeatureFlagBits :: VkExternalMemoryFeatureFlags;
+VkExternalMemoryFeatureFlags :: enum_flags u32 {
     DEDICATED_ONLY     :: 1 << 0;
     EXPORTABLE         :: 1 << 1;
     IMPORTABLE         :: 1 << 2;
@@ -3368,7 +3423,8 @@ VkExternalMemoryFeatureFlagBits :: enum_flags u32 {
     IMPORTABLE_KHR     :: IMPORTABLE;
 }
 
-VkExternalSemaphoreHandleTypeFlagBits :: enum_flags u32 {
+VkExternalSemaphoreHandleTypeFlagBits :: VkExternalSemaphoreHandleTypeFlags;
+VkExternalSemaphoreHandleTypeFlags :: enum_flags u32 {
     OPAQUE_FD            :: 1 << 0;
     OPAQUE_WIN32         :: 1 << 1;
     OPAQUE_WIN32_KMT     :: 1 << 2;
@@ -3384,19 +3440,22 @@ VkExternalSemaphoreHandleTypeFlagBits :: enum_flags u32 {
     SCI_SYNC_OBJ_NV      :: 1 << 5;
 }
 
-VkExternalSemaphoreFeatureFlagBits :: enum_flags u32 {
+VkExternalSemaphoreFeatureFlagBits :: VkExternalSemaphoreFeatureFlags;
+VkExternalSemaphoreFeatureFlags :: enum_flags u32 {
     EXPORTABLE     :: 1 << 0;
     IMPORTABLE     :: 1 << 1;
     EXPORTABLE_KHR :: EXPORTABLE;
     IMPORTABLE_KHR :: IMPORTABLE;
 }
 
-VkSemaphoreImportFlagBits :: enum_flags u32 {
+VkSemaphoreImportFlagBits :: VkSemaphoreImportFlags;
+VkSemaphoreImportFlags :: enum_flags u32 {
     TEMPORARY     :: 1 << 0;
     TEMPORARY_KHR :: TEMPORARY;
 }
 
-VkExternalFenceHandleTypeFlagBits :: enum_flags u32 {
+VkExternalFenceHandleTypeFlagBits :: VkExternalFenceHandleTypeFlags;
+VkExternalFenceHandleTypeFlags :: enum_flags u32 {
     OPAQUE_FD            :: 1 << 0;
     OPAQUE_WIN32         :: 1 << 1;
     OPAQUE_WIN32_KMT     :: 1 << 2;
@@ -3409,19 +3468,22 @@ VkExternalFenceHandleTypeFlagBits :: enum_flags u32 {
     SCI_SYNC_FENCE_NV    :: 1 << 5;
 }
 
-VkExternalFenceFeatureFlagBits :: enum_flags u32 {
+VkExternalFenceFeatureFlagBits :: VkExternalFenceFeatureFlags;
+VkExternalFenceFeatureFlags :: enum_flags u32 {
     EXPORTABLE     :: 1 << 0;
     IMPORTABLE     :: 1 << 1;
     EXPORTABLE_KHR :: EXPORTABLE;
     IMPORTABLE_KHR :: IMPORTABLE;
 }
 
-VkFenceImportFlagBits :: enum_flags u32 {
+VkFenceImportFlagBits :: VkFenceImportFlags;
+VkFenceImportFlags :: enum_flags u32 {
     TEMPORARY     :: 1 << 0;
     TEMPORARY_KHR :: TEMPORARY;
 }
 
-VkSurfaceCounterFlagBitsEXT :: enum_flags u32 {
+VkSurfaceCounterFlagBitsEXT :: VkSurfaceCounterFlagsEXT;
+VkSurfaceCounterFlagsEXT :: enum_flags u32 {
     VBLANK :: 1 << 0;
 }
 
@@ -3439,7 +3501,8 @@ VkDisplayEventTypeEXT :: enum u32 {
     FIRST_PIXEL_OUT :: 0;
 }
 
-VkPeerMemoryFeatureFlagBits :: enum_flags u32 {
+VkPeerMemoryFeatureFlagBits :: VkPeerMemoryFeatureFlags;
+VkPeerMemoryFeatureFlags :: enum_flags u32 {
     COPY_SRC        :: 1 << 0; /* Can read with vkCmdCopy commands */
     COPY_DST        :: 1 << 1; /* Can write with vkCmdCopy commands */
     GENERIC_SRC     :: 1 << 2; /* Can read with any access type/command */
@@ -3450,7 +3513,8 @@ VkPeerMemoryFeatureFlagBits :: enum_flags u32 {
     GENERIC_DST_KHR :: GENERIC_DST;
 }
 
-VkMemoryAllocateFlagBits :: enum_flags u32 {
+VkMemoryAllocateFlagBits :: VkMemoryAllocateFlags;
+VkMemoryAllocateFlags :: enum_flags u32 {
     DEVICE_MASK                       :: 1 << 0; /* Force allocation on specific devices */
     DEVICE_ADDRESS                    :: 1 << 1;
     DEVICE_ADDRESS_CAPTURE_REPLAY     :: 1 << 2;
@@ -3460,14 +3524,16 @@ VkMemoryAllocateFlagBits :: enum_flags u32 {
     ZERO_INITIALIZE_EXT               :: 1 << 3;
 }
 
-VkDeviceGroupPresentModeFlagBitsKHR :: enum_flags u32 {
+VkDeviceGroupPresentModeFlagBitsKHR :: VkDeviceGroupPresentModeFlagsKHR;
+VkDeviceGroupPresentModeFlagsKHR :: enum_flags u32 {
     LOCAL              :: 1 << 0; /* Present from local memory */
     REMOTE             :: 1 << 1; /* Present from remote memory */
     SUM                :: 1 << 2; /* Present sum of local and/or remote memory */
     LOCAL_MULTI_DEVICE :: 1 << 3; /* Each physical device presents from local memory */
 }
 
-VkSwapchainCreateFlagBitsKHR :: enum_flags u32 {
+VkSwapchainCreateFlagBitsKHR :: VkSwapchainCreateFlagsKHR;
+VkSwapchainCreateFlagsKHR :: enum_flags u32 {
     SPLIT_INSTANCE_BIND_REGIONS    :: 1 << 0; /* Allow images with VK_IMAGE_CREATE_SPLIT_INSTANCE_BIND_REGIONS_BIT */
     PROTECTED                      :: 1 << 1; /* Swapchain is protected */
     MUTABLE_FORMAT                 :: 1 << 2;
@@ -3495,7 +3561,8 @@ VkDiscardRectangleModeEXT :: enum u32 {
     EXCLUSIVE :: 1;
 }
 
-VkSubpassDescriptionFlagBits :: enum_flags u32 {
+VkSubpassDescriptionFlagBits :: VkSubpassDescriptionFlags;
+VkSubpassDescriptionFlags :: enum_flags u32 {
     PER_VIEW_ATTRIBUTES_NVX                           :: 1 << 0;
     PER_VIEW_POSITION_X_ONLY_NVX                      :: 1 << 1;
     FRAGMENT_REGION_QCOM                              :: 1 << 2;
@@ -3604,14 +3671,16 @@ VkQueueGlobalPriority :: enum u32 {
     REALTIME_KHR :: REALTIME;
 }
 
-VkDebugUtilsMessageSeverityFlagBitsEXT :: enum_flags u32 {
+VkDebugUtilsMessageSeverityFlagBitsEXT :: VkDebugUtilsMessageSeverityFlagsEXT;
+VkDebugUtilsMessageSeverityFlagsEXT :: enum_flags u32 {
     VERBOSE :: 1 << 0;
     INFO    :: 1 << 4;
     WARNING :: 1 << 8;
     ERROR   :: 1 << 12;
 }
 
-VkDebugUtilsMessageTypeFlagBitsEXT :: enum_flags u32 {
+VkDebugUtilsMessageTypeFlagBitsEXT :: VkDebugUtilsMessageTypeFlagsEXT;
+VkDebugUtilsMessageTypeFlagsEXT :: enum_flags u32 {
     GENERAL                :: 1 << 0;
     VALIDATION             :: 1 << 1;
     PERFORMANCE            :: 1 << 2;
@@ -3624,7 +3693,8 @@ VkConservativeRasterizationModeEXT :: enum u32 {
     UNDERESTIMATE :: 2;
 }
 
-VkDescriptorBindingFlagBits :: enum_flags u32 {
+VkDescriptorBindingFlagBits :: VkDescriptorBindingFlags;
+VkDescriptorBindingFlags :: enum_flags u32 {
     UPDATE_AFTER_BIND               :: 1 << 0;
     UPDATE_UNUSED_WHILE_PENDING     :: 1 << 1;
     PARTIALLY_BOUND                 :: 1 << 2;
@@ -3699,11 +3769,13 @@ Driver IDs are now represented as enums instead of the old
     BROADCOM_PROPRIETARY_KHR      :: BROADCOM_PROPRIETARY;
 }
 
-VkConditionalRenderingFlagBitsEXT :: enum_flags u32 {
+VkConditionalRenderingFlagBitsEXT :: VkConditionalRenderingFlagsEXT;
+VkConditionalRenderingFlagsEXT :: enum_flags u32 {
     INVERTED :: 1 << 0;
 }
 
-VkResolveModeFlagBits :: enum_flags u32 {
+VkResolveModeFlagBits :: VkResolveModeFlags;
+VkResolveModeFlags :: enum_flags u32 {
     NONE                               :: 0;
     SAMPLE_ZERO                        :: 1 << 0;
     AVERAGE                            :: 1 << 1;
@@ -3740,7 +3812,8 @@ VkCoarseSampleOrderTypeNV :: enum u32 {
     SAMPLE_MAJOR :: 3;
 }
 
-VkGeometryInstanceFlagBitsKHR :: enum_flags u32 {
+VkGeometryInstanceFlagBitsKHR :: VkGeometryInstanceFlagsKHR;
+VkGeometryInstanceFlagsKHR :: enum_flags u32 {
     TRIANGLE_FACING_CULL_DISABLE       :: 1 << 0;
     TRIANGLE_FLIP_FACING               :: 1 << 1;
     FORCE_OPAQUE                       :: 1 << 2;
@@ -3754,14 +3827,16 @@ VkGeometryInstanceFlagBitsKHR :: enum_flags u32 {
     DISABLE_OPACITY_MICROMAPS_EXT      :: 1 << 5;
 }
 
-VkGeometryFlagBitsKHR :: enum_flags u32 {
+VkGeometryFlagBitsKHR :: VkGeometryFlagsKHR;
+VkGeometryFlagsKHR :: enum_flags u32 {
     OPAQUE                             :: 1 << 0;
     NO_DUPLICATE_ANY_HIT_INVOCATION    :: 1 << 1;
     OPAQUE_NV                          :: OPAQUE;
     NO_DUPLICATE_ANY_HIT_INVOCATION_NV :: NO_DUPLICATE_ANY_HIT_INVOCATION;
 }
 
-VkBuildAccelerationStructureFlagBitsKHR :: enum_flags u32 {
+VkBuildAccelerationStructureFlagBitsKHR :: VkBuildAccelerationStructureFlagsKHR;
+VkBuildAccelerationStructureFlagsKHR :: enum_flags u32 {
     ALLOW_UPDATE                           :: 1 << 0;
     ALLOW_COMPACTION                       :: 1 << 1;
     PREFER_FAST_TRACE                      :: 1 << 2;
@@ -3780,7 +3855,8 @@ VkBuildAccelerationStructureFlagBitsKHR :: enum_flags u32 {
     ALLOW_DATA_ACCESS                      :: 1 << 11;
 }
 
-VkAccelerationStructureCreateFlagBitsKHR :: enum_flags u32 {
+VkAccelerationStructureCreateFlagBitsKHR :: VkAccelerationStructureCreateFlagsKHR;
+VkAccelerationStructureCreateFlagsKHR :: enum_flags u32 {
     DEVICE_ADDRESS_CAPTURE_REPLAY        :: 1 << 0;
     DESCRIPTOR_BUFFER_CAPTURE_REPLAY_EXT :: 1 << 3;
     MOTION_NV                            :: 1 << 2;
@@ -3857,23 +3933,27 @@ VkMemoryOverallocationBehaviorAMD :: enum u32 {
     DISALLOWED :: 2;
 }
 
-VkFramebufferCreateFlagBits :: enum_flags u32 {
+VkFramebufferCreateFlagBits :: VkFramebufferCreateFlags;
+VkFramebufferCreateFlags :: enum_flags u32 {
     IMAGELESS     :: 1 << 0;
     IMAGELESS_KHR :: IMAGELESS;
 }
 
-VkQueryPoolCreateFlagBits :: enum_flags u32 {
+VkQueryPoolCreateFlagBits :: VkQueryPoolCreateFlags;
+VkQueryPoolCreateFlags :: enum_flags u32 {
     RESET_KHR :: 1 << 0;
 }
 
-VkDeviceDiagnosticsConfigFlagBitsNV :: enum_flags u32 {
+VkDeviceDiagnosticsConfigFlagBitsNV :: VkDeviceDiagnosticsConfigFlagsNV;
+VkDeviceDiagnosticsConfigFlagsNV :: enum_flags u32 {
     ENABLE_SHADER_DEBUG_INFO      :: 1 << 0;
     ENABLE_RESOURCE_TRACKING      :: 1 << 1;
     ENABLE_AUTOMATIC_CHECKPOINTS  :: 1 << 2;
     ENABLE_SHADER_ERROR_REPORTING :: 1 << 3;
 }
 
-VkPipelineCreationFeedbackFlagBits :: enum_flags u32 {
+VkPipelineCreationFeedbackFlagBits :: VkPipelineCreationFeedbackFlags;
+VkPipelineCreationFeedbackFlags :: enum_flags u32 {
     VALID                              :: 1 << 0;
     APPLICATION_PIPELINE_CACHE_HIT     :: 1 << 1;
     BASE_PIPELINE_ACCELERATION         :: 1 << 2;
@@ -3898,7 +3978,8 @@ VkPerformanceCounterScopeKHR :: enum u32 {
     VK_QUERY_SCOPE_COMMAND        :: COMMAND;
 }
 
-VkMemoryDecompressionMethodFlagBitsNV :: enum_flags u64 {
+VkMemoryDecompressionMethodFlagBitsNV :: VkMemoryDecompressionMethodFlagsNV;
+VkMemoryDecompressionMethodFlagsNV :: enum_flags u64 {
     GDEFLATE_1_0 :: 1 << 0;
 }
 
@@ -3925,18 +4006,22 @@ VkPerformanceCounterStorageKHR :: enum u32 {
     FLOAT64 :: 5;
 }
 
-VkPerformanceCounterDescriptionFlagBitsKHR :: enum_flags u32 {
+VkPerformanceCounterDescriptionFlagBitsKHR :: VkPerformanceCounterDescriptionFlagsKHR;
+VkPerformanceCounterDescriptionFlagsKHR :: enum_flags u32 {
     PERFORMANCE_IMPACTING :: 1 << 0;
     CONCURRENTLY_IMPACTED :: 1 << 1;
 }
 
-VkAcquireProfilingLockFlagBitsKHR :: enum_flags u32 {
+VkAcquireProfilingLockFlagBitsKHR :: VkAcquireProfilingLockFlagsKHR;
+VkAcquireProfilingLockFlagsKHR :: enum_flags u32 {
 }
 
-VkShaderCorePropertiesFlagBitsAMD :: enum_flags u32 {
+VkShaderCorePropertiesFlagBitsAMD :: VkShaderCorePropertiesFlagsAMD;
+VkShaderCorePropertiesFlagsAMD :: enum_flags u32 {
 }
 
-VkRefreshObjectFlagBitsKHR :: enum_flags u32 {
+VkRefreshObjectFlagBitsKHR :: VkRefreshObjectFlagsKHR;
+VkRefreshObjectFlagsKHR :: enum_flags u32 {
 }
 
 VkPerformanceConfigurationTypeINTEL :: enum u32 {
@@ -3996,10 +4081,8 @@ VkLineRasterizationMode :: enum u32 {
     RECTANGULAR_SMOOTH_KHR :: RECTANGULAR_SMOOTH;
 }
 
-VkShaderModuleCreateFlagBits :: enum_flags u32 {
-}
-
-VkPipelineCompilerControlFlagBitsAMD :: enum_flags u32 {
+VkPipelineCompilerControlFlagBitsAMD :: VkPipelineCompilerControlFlagsAMD;
+VkPipelineCompilerControlFlagsAMD :: enum_flags u32 {
 }
 
 VkFaultLevel :: enum u32 {
@@ -4023,7 +4106,8 @@ VkFaultQueryBehavior :: enum u32 {
     GET_AND_CLEAR_ALL_FAULTS :: 0;
 }
 
-VkToolPurposeFlagBits :: enum_flags u32 {
+VkToolPurposeFlagBits :: VkToolPurposeFlags;
+VkToolPurposeFlags :: enum_flags u32 {
     VALIDATION              :: 1 << 0;
     PROFILING               :: 1 << 1;
     TRACING                 :: 1 << 2;
@@ -4087,7 +4171,8 @@ VkSubpassMergeStatusEXT :: enum u32 {
     NOT_MERGED_UNSPECIFIED                   :: 13;
 }
 
-VkAccessFlagBits2 :: enum_flags u64 {
+VkAccessFlagBits2 :: VkAccessFlags2;
+VkAccessFlags2 :: enum_flags u64 {
     NONE                                      :: 0;
     INDIRECT_COMMAND_READ                     :: 1 << 0;
     INDEX_READ                                :: 1 << 1;
@@ -4174,7 +4259,8 @@ bitpos 17-31 are specified by extensions to the original VkAccessFlagBits enum
     RESERVED_56_NV                            :: 1 << 56;
 }
 
-VkPipelineStageFlagBits2 :: enum_flags u64 {
+VkPipelineStageFlagBits2 :: VkPipelineStageFlags2;
+VkPipelineStageFlags2 :: enum_flags u64 {
     NONE                                 :: 0;
     TOP_OF_PIPE                          :: 1 << 0;
     DRAW_INDIRECT                        :: 1 << 1;
@@ -4261,17 +4347,20 @@ bitpos 17-31 are specified by extensions to the original VkPipelineStageFlagBits
     RESERVED_45_NV                       :: 1 << 45;
 }
 
-VkSubmitFlagBits :: enum_flags u32 {
+VkSubmitFlagBits :: VkSubmitFlags;
+VkSubmitFlags :: enum_flags u32 {
     PROTECTED     :: 1 << 0;
     PROTECTED_KHR :: PROTECTED;
 }
 
-VkEventCreateFlagBits :: enum_flags u32 {
+VkEventCreateFlagBits :: VkEventCreateFlags;
+VkEventCreateFlags :: enum_flags u32 {
     DEVICE_ONLY     :: 1 << 0;
     DEVICE_ONLY_KHR :: DEVICE_ONLY;
 }
 
-VkPipelineLayoutCreateFlagBits :: enum_flags u32 {
+VkPipelineLayoutCreateFlagBits :: VkPipelineLayoutCreateFlags;
+VkPipelineLayoutCreateFlags :: enum_flags u32 {
     RESERVED_0_AMD       :: 1 << 0;
     INDEPENDENT_SETS_EXT :: 1 << 1;
 }
@@ -4302,26 +4391,30 @@ VkAccelerationStructureMotionInstanceTypeNV :: enum u32 {
     SRT_MOTION    :: 2;
 }
 
-VkPipelineColorBlendStateCreateFlagBits :: enum_flags u32 {
+VkPipelineColorBlendStateCreateFlagBits :: VkPipelineColorBlendStateCreateFlags;
+VkPipelineColorBlendStateCreateFlags :: enum_flags u32 {
     RASTERIZATION_ORDER_ATTACHMENT_ACCESS_ARM :: RASTERIZATION_ORDER_ATTACHMENT_ACCESS_EXT;
     RASTERIZATION_ORDER_ATTACHMENT_ACCESS_EXT :: 1 << 0;
 }
 
-VkPipelineDepthStencilStateCreateFlagBits :: enum_flags u32 {
+VkPipelineDepthStencilStateCreateFlagBits :: VkPipelineDepthStencilStateCreateFlags;
+VkPipelineDepthStencilStateCreateFlags :: enum_flags u32 {
     RASTERIZATION_ORDER_ATTACHMENT_DEPTH_ACCESS_ARM   :: RASTERIZATION_ORDER_ATTACHMENT_DEPTH_ACCESS_EXT;
     RASTERIZATION_ORDER_ATTACHMENT_STENCIL_ACCESS_ARM :: RASTERIZATION_ORDER_ATTACHMENT_STENCIL_ACCESS_EXT;
     RASTERIZATION_ORDER_ATTACHMENT_DEPTH_ACCESS_EXT   :: 1 << 0;
     RASTERIZATION_ORDER_ATTACHMENT_STENCIL_ACCESS_EXT :: 1 << 1;
 }
 
-VkGraphicsPipelineLibraryFlagBitsEXT :: enum_flags u32 {
+VkGraphicsPipelineLibraryFlagBitsEXT :: VkGraphicsPipelineLibraryFlagsEXT;
+VkGraphicsPipelineLibraryFlagsEXT :: enum_flags u32 {
     VERTEX_INPUT_INTERFACE    :: 1 << 0;
     PRE_RASTERIZATION_SHADERS :: 1 << 1;
     FRAGMENT_SHADER           :: 1 << 2;
     FRAGMENT_OUTPUT_INTERFACE :: 1 << 3;
 }
 
-VkDeviceAddressBindingFlagBitsEXT :: enum_flags u32 {
+VkDeviceAddressBindingFlagBitsEXT :: VkDeviceAddressBindingFlagsEXT;
+VkDeviceAddressBindingFlagsEXT :: enum_flags u32 {
     INTERNAL_OBJECT :: 1 << 0;
 }
 
@@ -4330,11 +4423,13 @@ VkDeviceAddressBindingTypeEXT :: enum u32 {
     UNBIND :: 1;
 }
 
-VkFrameBoundaryFlagBitsEXT :: enum_flags u32 {
+VkFrameBoundaryFlagBitsEXT :: VkFrameBoundaryFlagsEXT;
+VkFrameBoundaryFlagsEXT :: enum_flags u32 {
     FRAME_END :: 1 << 0;
 }
 
-VkPresentScalingFlagBitsKHR :: enum_flags u32 {
+VkPresentScalingFlagBitsKHR :: VkPresentScalingFlagsKHR;
+VkPresentScalingFlagsKHR :: enum_flags u32 {
     ONE_TO_ONE               :: 1 << 0;
     ONE_TO_ONE_EXT           :: ONE_TO_ONE;
     ASPECT_RATIO_STRETCH     :: 1 << 1;
@@ -4343,7 +4438,8 @@ VkPresentScalingFlagBitsKHR :: enum_flags u32 {
     STRETCH_EXT              :: STRETCH;
 }
 
-VkPresentGravityFlagBitsKHR :: enum_flags u32 {
+VkPresentGravityFlagBitsKHR :: VkPresentGravityFlagsKHR;
+VkPresentGravityFlagsKHR :: enum_flags u32 {
     MIN          :: 1 << 0;
     MIN_EXT      :: MIN;
     MAX          :: 1 << 1;
@@ -4352,11 +4448,13 @@ VkPresentGravityFlagBitsKHR :: enum_flags u32 {
     CENTERED_EXT :: CENTERED;
 }
 
-VkPhysicalDeviceSchedulingControlsFlagBitsARM :: enum_flags u64 {
+VkPhysicalDeviceSchedulingControlsFlagBitsARM :: VkPhysicalDeviceSchedulingControlsFlagsARM;
+VkPhysicalDeviceSchedulingControlsFlagsARM :: enum_flags u64 {
     SHADER_CORE_COUNT :: 1 << 0;
 }
 
-VkVideoCodecOperationFlagBitsKHR :: enum_flags u32 {
+VkVideoCodecOperationFlagBitsKHR :: VkVideoCodecOperationFlagsKHR;
+VkVideoCodecOperationFlagsKHR :: enum_flags u32 {
     NONE        :: 0;
     ENCODE_H264 :: 1 << 16;
     ENCODE_H265 :: 1 << 17;
@@ -4367,7 +4465,8 @@ VkVideoCodecOperationFlagBitsKHR :: enum_flags u32 {
     DECODE_VP9  :: 1 << 3;
 }
 
-VkVideoChromaSubsamplingFlagBitsKHR :: enum_flags u32 {
+VkVideoChromaSubsamplingFlagBitsKHR :: VkVideoChromaSubsamplingFlagsKHR;
+VkVideoChromaSubsamplingFlagsKHR :: enum_flags u32 {
     INVALID    :: 0;
     MONOCHROME :: 1 << 0;
     e420       :: 1 << 1;
@@ -4375,19 +4474,22 @@ VkVideoChromaSubsamplingFlagBitsKHR :: enum_flags u32 {
     e444       :: 1 << 3;
 }
 
-VkVideoComponentBitDepthFlagBitsKHR :: enum_flags u32 {
+VkVideoComponentBitDepthFlagBitsKHR :: VkVideoComponentBitDepthFlagsKHR;
+VkVideoComponentBitDepthFlagsKHR :: enum_flags u32 {
     INVALID :: 0;
     e8      :: 1 << 0;
     e10     :: 1 << 2;
     e12     :: 1 << 4;
 }
 
-VkVideoCapabilityFlagBitsKHR :: enum_flags u32 {
+VkVideoCapabilityFlagBitsKHR :: VkVideoCapabilityFlagsKHR;
+VkVideoCapabilityFlagsKHR :: enum_flags u32 {
     PROTECTED_CONTENT         :: 1 << 0;
     SEPARATE_REFERENCE_IMAGES :: 1 << 1;
 }
 
-VkVideoSessionCreateFlagBitsKHR :: enum_flags u32 {
+VkVideoSessionCreateFlagBitsKHR :: VkVideoSessionCreateFlagsKHR;
+VkVideoSessionCreateFlagsKHR :: enum_flags u32 {
     PROTECTED_CONTENT                    :: 1 << 0;
     ALLOW_ENCODE_PARAMETER_OPTIMIZATIONS :: 1 << 1;
     INLINE_QUERIES                       :: 1 << 2;
@@ -4396,17 +4498,20 @@ VkVideoSessionCreateFlagBitsKHR :: enum_flags u32 {
     INLINE_SESSION_PARAMETERS            :: 1 << 5;
 }
 
-VkVideoSessionParametersCreateFlagBitsKHR :: enum_flags u32 {
+VkVideoSessionParametersCreateFlagBitsKHR :: VkVideoSessionParametersCreateFlagsKHR;
+VkVideoSessionParametersCreateFlagsKHR :: enum_flags u32 {
     QUANTIZATION_MAP_COMPATIBLE :: 1 << 0;
 }
 
-VkVideoDecodeH264PictureLayoutFlagBitsKHR :: enum_flags u32 {
+VkVideoDecodeH264PictureLayoutFlagBitsKHR :: VkVideoDecodeH264PictureLayoutFlagsKHR;
+VkVideoDecodeH264PictureLayoutFlagsKHR :: enum_flags u32 {
     PROGRESSIVE                  :: 0;
     INTERLACED_INTERLEAVED_LINES :: 1 << 0;
     INTERLACED_SEPARATE_PLANES   :: 1 << 1;
 }
 
-VkVideoCodingControlFlagBitsKHR :: enum_flags u32 {
+VkVideoCodingControlFlagBitsKHR :: VkVideoCodingControlFlagsKHR;
+VkVideoCodingControlFlagsKHR :: enum_flags u32 {
     RESET                :: 1 << 0;
     ENCODE_RATE_CONTROL  :: 1 << 1;
     ENCODE_QUALITY_LEVEL :: 1 << 2;
@@ -4419,25 +4524,29 @@ VkQueryResultStatusKHR :: enum s32 {
     INSUFFICIENT_BITSTREAM_BUFFER_RANGE :: -1000299000;
 }
 
-VkVideoDecodeUsageFlagBitsKHR :: enum_flags u32 {
+VkVideoDecodeUsageFlagBitsKHR :: VkVideoDecodeUsageFlagsKHR;
+VkVideoDecodeUsageFlagsKHR :: enum_flags u32 {
     DEFAULT     :: 0;
     TRANSCODING :: 1 << 0;
     OFFLINE     :: 1 << 1;
     STREAMING   :: 1 << 2;
 }
 
-VkVideoDecodeCapabilityFlagBitsKHR :: enum_flags u32 {
+VkVideoDecodeCapabilityFlagBitsKHR :: VkVideoDecodeCapabilityFlagsKHR;
+VkVideoDecodeCapabilityFlagsKHR :: enum_flags u32 {
     DPB_AND_OUTPUT_COINCIDE :: 1 << 0;
     DPB_AND_OUTPUT_DISTINCT :: 1 << 1;
 }
 
-VkVideoEncodeFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeFlagBitsKHR :: VkVideoEncodeFlagsKHR;
+VkVideoEncodeFlagsKHR :: enum_flags u32 {
     INTRA_REFRESH               :: 1 << 2;
     WITH_QUANTIZATION_DELTA_MAP :: 1 << 0;
     WITH_EMPHASIS_MAP           :: 1 << 1;
 }
 
-VkVideoEncodeUsageFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeUsageFlagBitsKHR :: VkVideoEncodeUsageFlagsKHR;
+VkVideoEncodeUsageFlagsKHR :: enum_flags u32 {
     DEFAULT      :: 0;
     TRANSCODING  :: 1 << 0;
     STREAMING    :: 1 << 1;
@@ -4445,7 +4554,8 @@ VkVideoEncodeUsageFlagBitsKHR :: enum_flags u32 {
     CONFERENCING :: 1 << 3;
 }
 
-VkVideoEncodeContentFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeContentFlagBitsKHR :: VkVideoEncodeContentFlagsKHR;
+VkVideoEncodeContentFlagsKHR :: enum_flags u32 {
     DEFAULT  :: 0;
     CAMERA   :: 1 << 0;
     DESKTOP  :: 1 << 1;
@@ -4460,14 +4570,16 @@ VkVideoEncodeTuningModeKHR :: enum u32 {
     LOSSLESS          :: 4;
 }
 
-VkVideoEncodeCapabilityFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeCapabilityFlagBitsKHR :: VkVideoEncodeCapabilityFlagsKHR;
+VkVideoEncodeCapabilityFlagsKHR :: enum_flags u32 {
     PRECEDING_EXTERNALLY_ENCODED_BYTES            :: 1 << 0;
     INSUFFICIENT_BITSTREAM_BUFFER_RANGE_DETECTION :: 1 << 1;
     QUANTIZATION_DELTA_MAP                        :: 1 << 2;
     EMPHASIS_MAP                                  :: 1 << 3;
 }
 
-VkVideoEncodeFeedbackFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeFeedbackFlagBitsKHR :: VkVideoEncodeFeedbackFlagsKHR;
+VkVideoEncodeFeedbackFlagsKHR :: enum_flags u32 {
     BITSTREAM_BUFFER_OFFSET :: 1 << 0;
     BITSTREAM_BYTES_WRITTEN :: 1 << 1;
     BITSTREAM_HAS_OVERRIDES :: 1 << 2;
@@ -4480,14 +4592,16 @@ VkVideoEncodeFeedbackFlagBitsKHR :: enum_flags u32 {
     RESERVED_9              :: 1 << 9;
 }
 
-VkVideoEncodeRateControlModeFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeRateControlModeFlagBitsKHR :: VkVideoEncodeRateControlModeFlagsKHR;
+VkVideoEncodeRateControlModeFlagsKHR :: enum_flags u32 {
     DEFAULT  :: 0;
     DISABLED :: 1 << 0;
     CBR      :: 1 << 1;
     VBR      :: 1 << 2;
 }
 
-VkVideoEncodeIntraRefreshModeFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeIntraRefreshModeFlagBitsKHR :: VkVideoEncodeIntraRefreshModeFlagsKHR;
+VkVideoEncodeIntraRefreshModeFlagsKHR :: enum_flags u32 {
     NONE                  :: 0;
     PER_PICTURE_PARTITION :: 1 << 0;
     BLOCK_BASED           :: 1 << 1;
@@ -4495,7 +4609,8 @@ VkVideoEncodeIntraRefreshModeFlagBitsKHR :: enum_flags u32 {
     BLOCK_COLUMN_BASED    :: 1 << 3;
 }
 
-VkVideoEncodeH264CapabilityFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeH264CapabilityFlagBitsKHR :: VkVideoEncodeH264CapabilityFlagsKHR;
+VkVideoEncodeH264CapabilityFlagsKHR :: enum_flags u32 {
     HRD_COMPLIANCE                    :: 1 << 0;
     PREDICTION_WEIGHT_TABLE_GENERATED :: 1 << 1;
     ROW_UNALIGNED_SLICE               :: 1 << 2;
@@ -4509,7 +4624,8 @@ VkVideoEncodeH264CapabilityFlagBitsKHR :: enum_flags u32 {
     MB_QP_DIFF_WRAPAROUND             :: 1 << 9;
 }
 
-VkVideoEncodeH264StdFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeH264StdFlagBitsKHR :: VkVideoEncodeH264StdFlagsKHR;
+VkVideoEncodeH264StdFlagsKHR :: enum_flags u32 {
     SEPARATE_COLOR_PLANE_FLAG_SET            :: 1 << 0;
     QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG_SET :: 1 << 1;
     SCALING_MATRIX_PRESENT_FLAG_SET          :: 1 << 2;
@@ -4532,7 +4648,8 @@ VkVideoEncodeH264StdFlagBitsKHR :: enum_flags u32 {
     DIFFERENT_SLICE_QP_DELTA                 :: 1 << 20;
 }
 
-VkVideoEncodeH264RateControlFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeH264RateControlFlagBitsKHR :: VkVideoEncodeH264RateControlFlagsKHR;
+VkVideoEncodeH264RateControlFlagsKHR :: enum_flags u32 {
     ATTEMPT_HRD_COMPLIANCE        :: 1 << 0;
     REGULAR_GOP                   :: 1 << 1;
     REFERENCE_PATTERN_FLAT        :: 1 << 2;
@@ -4540,7 +4657,8 @@ VkVideoEncodeH264RateControlFlagBitsKHR :: enum_flags u32 {
     TEMPORAL_LAYER_PATTERN_DYADIC :: 1 << 4;
 }
 
-VkHostImageCopyFlagBits :: enum_flags u32 {
+VkHostImageCopyFlagBits :: VkHostImageCopyFlags;
+VkHostImageCopyFlags :: enum_flags u32 {
     MEMCPY     :: 1 << 0;
     MEMCPY_EXT :: MEMCPY;
 }
@@ -4551,7 +4669,8 @@ VkPartitionedAccelerationStructureOpTypeNV :: enum u32 {
     WRITE_PARTITION_TRANSLATION :: 2;
 }
 
-VkPartitionedAccelerationStructureInstanceFlagBitsNV :: enum_flags u32 {
+VkPartitionedAccelerationStructureInstanceFlagBitsNV :: VkPartitionedAccelerationStructureInstanceFlagsNV;
+VkPartitionedAccelerationStructureInstanceFlagsNV :: enum_flags u32 {
     FLAG_TRIANGLE_FACING_CULL_DISABLE :: 1 << 0;
     FLAG_TRIANGLE_FLIP_FACING         :: 1 << 1;
     FLAG_FORCE_OPAQUE                 :: 1 << 2;
@@ -4559,10 +4678,8 @@ VkPartitionedAccelerationStructureInstanceFlagBitsNV :: enum_flags u32 {
     FLAG_ENABLE_EXPLICIT_BOUNDING_BOX :: 1 << 4;
 }
 
-VkImageFormatConstraintsFlagBitsFUCHSIA :: enum_flags u32 {
-}
-
-VkImageConstraintsInfoFlagBitsFUCHSIA :: enum_flags u32 {
+VkImageConstraintsInfoFlagBitsFUCHSIA :: VkImageConstraintsInfoFlagsFUCHSIA;
+VkImageConstraintsInfoFlagsFUCHSIA :: enum_flags u32 {
     CPU_READ_RARELY    :: 1 << 0;
     CPU_READ_OFTEN     :: 1 << 1;
     CPU_WRITE_RARELY   :: 1 << 2;
@@ -4570,7 +4687,8 @@ VkImageConstraintsInfoFlagBitsFUCHSIA :: enum_flags u32 {
     PROTECTED_OPTIONAL :: 1 << 4;
 }
 
-VkFormatFeatureFlagBits2 :: enum_flags u64 {
+VkFormatFeatureFlagBits2 :: VkFormatFeatureFlags2;
+VkFormatFeatureFlags2 :: enum_flags u64 {
     SAMPLED_IMAGE                                                               :: 1 << 0;
     STORAGE_IMAGE                                                               :: 1 << 1;
     STORAGE_IMAGE_ATOMIC                                                        :: 1 << 2;
@@ -4661,7 +4779,8 @@ bitpos 13 is an extension interaction with VK_EXT_filter_cubic"
     RESERVED_58_ARM                                                             :: 1 << 58;
 }
 
-VkRenderingFlagBits :: enum_flags u32 {
+VkRenderingFlagBits :: VkRenderingFlags;
+VkRenderingFlags :: enum_flags u32 {
     CONTENTS_SECONDARY_COMMAND_BUFFERS     :: 1 << 0;
     SUSPENDING                             :: 1 << 1;
     RESUMING                               :: 1 << 2;
@@ -4677,7 +4796,8 @@ VkRenderingFlagBits :: enum_flags u32 {
     RESERVED_8_KHR                         :: 1 << 8;
 }
 
-VkVideoEncodeH265CapabilityFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeH265CapabilityFlagBitsKHR :: VkVideoEncodeH265CapabilityFlagsKHR;
+VkVideoEncodeH265CapabilityFlagsKHR :: enum_flags u32 {
     HRD_COMPLIANCE                    :: 1 << 0;
     PREDICTION_WEIGHT_TABLE_GENERATED :: 1 << 1;
     ROW_UNALIGNED_SLICE_SEGMENT       :: 1 << 2;
@@ -4692,7 +4812,8 @@ VkVideoEncodeH265CapabilityFlagBitsKHR :: enum_flags u32 {
     CU_QP_DIFF_WRAPAROUND             :: 1 << 10;
 }
 
-VkVideoEncodeH265StdFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeH265StdFlagBitsKHR :: VkVideoEncodeH265StdFlagsKHR;
+VkVideoEncodeH265StdFlagsKHR :: enum_flags u32 {
     SEPARATE_COLOR_PLANE_FLAG_SET                :: 1 << 0;
     SAMPLE_ADAPTIVE_OFFSET_ENABLED_FLAG_SET      :: 1 << 1;
     SCALING_LIST_DATA_PRESENT_FLAG_SET           :: 1 << 2;
@@ -4716,7 +4837,8 @@ VkVideoEncodeH265StdFlagBitsKHR :: enum_flags u32 {
     DIFFERENT_SLICE_QP_DELTA                     :: 1 << 20;
 }
 
-VkVideoEncodeH265RateControlFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeH265RateControlFlagBitsKHR :: VkVideoEncodeH265RateControlFlagsKHR;
+VkVideoEncodeH265RateControlFlagsKHR :: enum_flags u32 {
     ATTEMPT_HRD_COMPLIANCE            :: 1 << 0;
     REGULAR_GOP                       :: 1 << 1;
     REFERENCE_PATTERN_FLAT            :: 1 << 2;
@@ -4724,20 +4846,23 @@ VkVideoEncodeH265RateControlFlagBitsKHR :: enum_flags u32 {
     TEMPORAL_SUB_LAYER_PATTERN_DYADIC :: 1 << 4;
 }
 
-VkVideoEncodeH265CtbSizeFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeH265CtbSizeFlagBitsKHR :: VkVideoEncodeH265CtbSizeFlagsKHR;
+VkVideoEncodeH265CtbSizeFlagsKHR :: enum_flags u32 {
     e16 :: 1 << 0;
     e32 :: 1 << 1;
     e64 :: 1 << 2;
 }
 
-VkVideoEncodeH265TransformBlockSizeFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeH265TransformBlockSizeFlagBitsKHR :: VkVideoEncodeH265TransformBlockSizeFlagsKHR;
+VkVideoEncodeH265TransformBlockSizeFlagsKHR :: enum_flags u32 {
     e4  :: 1 << 0;
     e8  :: 1 << 1;
     e16 :: 1 << 2;
     e32 :: 1 << 3;
 }
 
-VkVideoEncodeAV1CapabilityFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeAV1CapabilityFlagBitsKHR :: VkVideoEncodeAV1CapabilityFlagsKHR;
+VkVideoEncodeAV1CapabilityFlagsKHR :: enum_flags u32 {
     PER_RATE_CONTROL_GROUP_MIN_MAX_Q_INDEX :: 1 << 0;
     GENERATE_OBU_EXTENSION_HEADER          :: 1 << 1;
     PRIMARY_REFERENCE_CDF_ONLY             :: 1 << 2;
@@ -4746,21 +4871,24 @@ VkVideoEncodeAV1CapabilityFlagBitsKHR :: enum_flags u32 {
     COMPOUND_PREDICTION_INTRA_REFRESH      :: 1 << 5;
 }
 
-VkVideoEncodeAV1StdFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeAV1StdFlagBitsKHR :: VkVideoEncodeAV1StdFlagsKHR;
+VkVideoEncodeAV1StdFlagsKHR :: enum_flags u32 {
     UNIFORM_TILE_SPACING_FLAG_SET :: 1 << 0;
     SKIP_MODE_PRESENT_UNSET       :: 1 << 1;
     PRIMARY_REF_FRAME             :: 1 << 2;
     DELTA_Q                       :: 1 << 3;
 }
 
-VkVideoEncodeAV1RateControlFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeAV1RateControlFlagBitsKHR :: VkVideoEncodeAV1RateControlFlagsKHR;
+VkVideoEncodeAV1RateControlFlagsKHR :: enum_flags u32 {
     REGULAR_GOP                   :: 1 << 0;
     TEMPORAL_LAYER_PATTERN_DYADIC :: 1 << 1;
     REFERENCE_PATTERN_FLAT        :: 1 << 2;
     REFERENCE_PATTERN_DYADIC      :: 1 << 3;
 }
 
-VkVideoEncodeAV1SuperblockSizeFlagBitsKHR :: enum_flags u32 {
+VkVideoEncodeAV1SuperblockSizeFlagBitsKHR :: VkVideoEncodeAV1SuperblockSizeFlagsKHR;
+VkVideoEncodeAV1SuperblockSizeFlagsKHR :: enum_flags u32 {
     e64  :: 1 << 0;
     e128 :: 1 << 1;
 }
@@ -4778,7 +4906,8 @@ VkVideoEncodeAV1RateControlGroupKHR :: enum u32 {
     BIPREDICTIVE :: 2;
 }
 
-VkExportMetalObjectTypeFlagBitsEXT :: enum_flags u32 {
+VkExportMetalObjectTypeFlagBitsEXT :: VkExportMetalObjectTypeFlagsEXT;
+VkExportMetalObjectTypeFlagsEXT :: enum_flags u32 {
     METAL_DEVICE        :: 1 << 0;
     METAL_COMMAND_QUEUE :: 1 << 1;
     METAL_BUFFER        :: 1 << 2;
@@ -4787,18 +4916,21 @@ VkExportMetalObjectTypeFlagBitsEXT :: enum_flags u32 {
     METAL_SHARED_EVENT  :: 1 << 5;
 }
 
-VkInstanceCreateFlagBits :: enum_flags u32 {
+VkInstanceCreateFlagBits :: VkInstanceCreateFlags;
+VkInstanceCreateFlags :: enum_flags u32 {
     ENUMERATE_PORTABILITY_KHR :: 1 << 0;
 }
 
-VkImageCompressionFlagBitsEXT :: enum_flags u32 {
+VkImageCompressionFlagBitsEXT :: VkImageCompressionFlagsEXT;
+VkImageCompressionFlagsEXT :: enum_flags u32 {
     DEFAULT             :: 0;
     FIXED_RATE_DEFAULT  :: 1 << 0;
     FIXED_RATE_EXPLICIT :: 1 << 1;
     DISABLED            :: 1 << 2;
 }
 
-VkImageCompressionFixedRateFlagBitsEXT :: enum_flags u32 {
+VkImageCompressionFixedRateFlagBitsEXT :: VkImageCompressionFixedRateFlagsEXT;
+VkImageCompressionFixedRateFlagsEXT :: enum_flags u32 {
     NONE   :: 0;
     e1BPC  :: 1 << 0;
     e2BPC  :: 1 << 1;
@@ -4848,7 +4980,8 @@ VkPipelineRobustnessImageBehavior :: enum u32 {
     ROBUST_IMAGE_ACCESS_2_EXT :: ROBUST_IMAGE_ACCESS_2;
 }
 
-VkOpticalFlowGridSizeFlagBitsNV :: enum_flags u32 {
+VkOpticalFlowGridSizeFlagBitsNV :: VkOpticalFlowGridSizeFlagsNV;
+VkOpticalFlowGridSizeFlagsNV :: enum_flags u32 {
     UNKNOWN :: 0;
     e1X1    :: 1 << 0;
     e2X2    :: 1 << 1;
@@ -4856,7 +4989,8 @@ VkOpticalFlowGridSizeFlagBitsNV :: enum_flags u32 {
     e8X8    :: 1 << 3;
 }
 
-VkOpticalFlowUsageFlagBitsNV :: enum_flags u32 {
+VkOpticalFlowUsageFlagBitsNV :: VkOpticalFlowUsageFlagsNV;
+VkOpticalFlowUsageFlagsNV :: enum_flags u32 {
     UNKNOWN     :: 0;
     INPUT       :: 1 << 0;
     OUTPUT      :: 1 << 1;
@@ -4884,7 +5018,8 @@ VkOpticalFlowSessionBindingPointNV :: enum u32 {
     GLOBAL_FLOW          :: 8;
 }
 
-VkOpticalFlowSessionCreateFlagBitsNV :: enum_flags u32 {
+VkOpticalFlowSessionCreateFlagBitsNV :: VkOpticalFlowSessionCreateFlagsNV;
+VkOpticalFlowSessionCreateFlagsNV :: enum_flags u32 {
     ENABLE_HINT        :: 1 << 0;
     ENABLE_COST        :: 1 << 1;
     ENABLE_GLOBAL_FLOW :: 1 << 2;
@@ -4892,7 +5027,8 @@ VkOpticalFlowSessionCreateFlagBitsNV :: enum_flags u32 {
     BOTH_DIRECTIONS    :: 1 << 4;
 }
 
-VkOpticalFlowExecuteFlagBitsNV :: enum_flags u32 {
+VkOpticalFlowExecuteFlagBitsNV :: VkOpticalFlowExecuteFlagsNV;
+VkOpticalFlowExecuteFlagsNV :: enum_flags u32 {
     DISABLE_TEMPORAL_HINTS :: 1 << 0;
 }
 
@@ -4901,13 +5037,15 @@ VkMicromapTypeEXT :: enum u32 {
     DISPLACEMENT_MICROMAP_NV :: 1000397000;
 }
 
-VkBuildMicromapFlagBitsEXT :: enum_flags u32 {
+VkBuildMicromapFlagBitsEXT :: VkBuildMicromapFlagsEXT;
+VkBuildMicromapFlagsEXT :: enum_flags u32 {
     PREFER_FAST_TRACE :: 1 << 0;
     PREFER_FAST_BUILD :: 1 << 1;
     ALLOW_COMPACTION  :: 1 << 2;
 }
 
-VkMicromapCreateFlagBitsEXT :: enum_flags u32 {
+VkMicromapCreateFlagBitsEXT :: VkMicromapCreateFlagsEXT;
+VkMicromapCreateFlagsEXT :: enum_flags u32 {
     DEVICE_ADDRESS_CAPTURE_REPLAY :: 1 << 0;
 }
 
@@ -4955,7 +5093,8 @@ VkDeviceFaultVendorBinaryHeaderVersionEXT :: enum u32 {
     ONE :: 1;
 }
 
-VkIndirectCommandsLayoutUsageFlagBitsEXT :: enum_flags u32 {
+VkIndirectCommandsLayoutUsageFlagBitsEXT :: VkIndirectCommandsLayoutUsageFlagsEXT;
+VkIndirectCommandsLayoutUsageFlagsEXT :: enum_flags u32 {
     EXPLICIT_PREPROCESS :: 1 << 0;
     UNORDERED_SEQUENCES :: 1 << 1;
 }
@@ -4965,7 +5104,8 @@ VkIndirectExecutionSetInfoTypeEXT :: enum u32 {
     SHADER_OBJECTS :: 1;
 }
 
-VkIndirectCommandsInputModeFlagBitsEXT :: enum_flags u32 {
+VkIndirectCommandsInputModeFlagBitsEXT :: VkIndirectCommandsInputModeFlagsEXT;
+VkIndirectCommandsInputModeFlagsEXT :: enum_flags u32 {
     VULKAN_INDEX_BUFFER :: 1 << 0;
     DXGI_INDEX_BUFFER   :: 1 << 1;
 }
@@ -4994,7 +5134,8 @@ VkDisplacementMicromapFormatNV :: enum u32 {
     e1024_TRIANGLES_128_BYTES :: 3;
 }
 
-VkShaderCreateFlagBitsEXT :: enum_flags u32 {
+VkShaderCreateFlagBitsEXT :: VkShaderCreateFlagsEXT;
+VkShaderCreateFlagsEXT :: enum_flags u32 {
     LINK_STAGE                       :: 1 << 0;
     RESERVED_10_KHR                  :: 1 << 10;
     RESERVED_11_KHR                  :: 1 << 11;
@@ -5107,11 +5248,13 @@ VkOutOfBandQueueTypeNV :: enum u32 {
     PRESENT :: 1;
 }
 
-VkMemoryUnmapFlagBits :: enum_flags u32 {
+VkMemoryUnmapFlagBits :: VkMemoryUnmapFlags;
+VkMemoryUnmapFlags :: enum_flags u32 {
     RESERVE_EXT :: 1 << 0;
 }
 
-VkWaylandSurfaceCreateFlagBitsKHR :: enum_flags u32 {
+VkWaylandSurfaceCreateFlagBitsKHR :: VkWaylandSurfaceCreateFlagsKHR;
+VkWaylandSurfaceCreateFlagsKHR :: enum_flags u32 {
     DISABLE_COLOR_MANAGEMENT :: 1 << 0;
 }
 
@@ -5120,11 +5263,13 @@ VkDepthClampModeEXT :: enum u32 {
     USER_DEFINED_RANGE :: 1;
 }
 
-VkAccessFlagBits3KHR :: enum_flags u64 {
+VkAccessFlagBits3KHR :: VkAccessFlags3KHR;
+VkAccessFlags3KHR :: enum_flags u64 {
     VK_ACCESS_3_NONE :: 0;
 }
 
-VkTileShadingRenderPassFlagBitsQCOM :: enum_flags u32 {
+VkTileShadingRenderPassFlagBitsQCOM :: VkTileShadingRenderPassFlagsQCOM;
+VkTileShadingRenderPassFlagsQCOM :: enum_flags u32 {
     ENABLE             :: 1 << 0;
     PER_TILE_EXECUTION :: 1 << 1;
 }
@@ -5136,13 +5281,15 @@ VkCooperativeVectorMatrixLayoutNV :: enum u32 {
     TRAINING_OPTIMAL    :: 3;
 }
 
-VkTensorCreateFlagBitsARM :: enum_flags u64 {
+VkTensorCreateFlagBitsARM :: VkTensorCreateFlagsARM;
+VkTensorCreateFlagsARM :: enum_flags u64 {
     MUTABLE_FORMAT                   :: 1 << 0;
     PROTECTED                        :: 1 << 1;
     DESCRIPTOR_BUFFER_CAPTURE_REPLAY :: 1 << 2;
 }
 
-VkTensorUsageFlagBitsARM :: enum_flags u64 {
+VkTensorUsageFlagBitsARM :: VkTensorUsageFlagsARM;
+VkTensorUsageFlagsARM :: enum_flags u64 {
     SHADER         :: 1 << 1; /* Tensor written/read through shader descriptor */
     TRANSFER_SRC   :: 1 << 2; /* Tensor can be src of a transfer operation */
     TRANSFER_DST   :: 1 << 3; /* Tensor can be dst of a transfer operation */
@@ -5155,7 +5302,8 @@ VkTensorTilingARM :: enum u32 {
     LINEAR  :: 1;
 }
 
-VkTensorViewCreateFlagBitsARM :: enum_flags u64 {
+VkTensorViewCreateFlagBitsARM :: VkTensorViewCreateFlagsARM;
+VkTensorViewCreateFlagsARM :: enum_flags u64 {
     DESCRIPTOR_BUFFER_CAPTURE_REPLAY :: 1 << 0;
 }
 
@@ -5164,7 +5312,8 @@ VkDefaultVertexAttributeValueKHR :: enum u32 {
     ZERO_ZERO_ZERO_ONE  :: 1;
 }
 
-VkDataGraphPipelineSessionCreateFlagBitsARM :: enum_flags u64 {
+VkDataGraphPipelineSessionCreateFlagBitsARM :: VkDataGraphPipelineSessionCreateFlagsARM;
+VkDataGraphPipelineSessionCreateFlagsARM :: enum_flags u64 {
     PROTECTED :: 1 << 0;
 }
 
@@ -5181,7 +5330,8 @@ VkDataGraphPipelinePropertyARM :: enum u32 {
     IDENTIFIER   :: 1;
 }
 
-VkDataGraphPipelineDispatchFlagBitsARM :: enum_flags u64 {
+VkDataGraphPipelineDispatchFlagBitsARM :: VkDataGraphPipelineDispatchFlagsARM;
+VkDataGraphPipelineDispatchFlagsARM :: enum_flags u64 {
 }
 
 VkPhysicalDeviceDataGraphProcessingEngineTypeARM :: enum u32 {
