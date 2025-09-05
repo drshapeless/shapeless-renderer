@@ -70,7 +70,7 @@ init_device :: (using renderer: *Renderer) {
             }
 
             if !found {
-                assert(false, "instance layer not supported: %", validation_layer);
+                assert(false, "instance layer not supported: %", to_string(validation_layer));
             }
         }
 
