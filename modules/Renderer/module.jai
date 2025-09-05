@@ -18,7 +18,7 @@ VALIDATION_LAYERS :: (*u8).["VK_LAYER_KHRONOS_validation"];
 init_device :: (using renderer: *Renderer) {
     vk_allocator = null;
 
-    vk_load_proc_addresses_global(xx sdl.Vulkan_GetVkGetInstanceProcAddr());
+    vk_load_global_functions(xx sdl.Vulkan_GetVkGetInstanceProcAddr());
 
     application_info:= VkApplicationInfo.{
         pApplicationName = "shapeless renderer",
@@ -88,7 +88,7 @@ init_device :: (using renderer: *Renderer) {
     log("creating vulkan instance...");
     VK_CHECK(vkCreateInstance(*create_info, vk_allocator, *instance));
 
-    vk_load_proc_addresses_instance(instance);
+    vk_load_instance_functions(instance);
 
     #if ENABLE_VALIDATION {
         log("creating vulkan debug messenger...");
@@ -108,7 +108,7 @@ debug_utils_callback :: (
     pCallbackData: *VkDebugUtilsMessengerCallbackDataEXT,
     pUserData: *void
 ) -> VkBool32 #c_call {
-    if messageSeverity >= .WARNING_BIT_EXT {
+    if messageSeverity >= .WARNING {
         push_context {
             log("%", to_string(pCallbackData.pMessage));
         }
@@ -117,8 +117,8 @@ debug_utils_callback :: (
 }
 
 debug_utils_messenger_create_info :: VkDebugUtilsMessengerCreateInfoEXT.{
-    messageSeverity = .VERBOSE_BIT_EXT | .INFO_BIT_EXT | .WARNING_BIT_EXT | .ERROR_BIT_EXT,
-    messageType = .GENERAL_BIT_EXT | .VALIDATION_BIT_EXT | .PERFORMANCE_BIT_EXT,
+    messageSeverity = VkDebugUtilsMessageSeverityFlagBitsEXT.VERBOSE | .INFO | .WARNING | .ERROR,
+    messageType = .GENERAL | .VALIDATION | .PERFORMANCE,
     pfnUserCallback = debug_utils_callback,
     pUserData = null,
 };
