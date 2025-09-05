@@ -1,0 +1,11 @@
+PFN_vkInternalAllocationNotification :: #type (pUserData: *void, size: u64, allocationType: VkInternalAllocationType, allocationScope: VkSystemAllocationScope) -> void #c_call;
+PFN_vkInternalFreeNotification :: #type (pUserData: *void, size: u64, allocationType: VkInternalAllocationType, allocationScope: VkSystemAllocationScope) -> void #c_call;
+PFN_vkReallocationFunction :: #type (pUserData: *void, pOriginal: *void, size: u64, alignment: u64, allocationScope: VkSystemAllocationScope) -> *void #c_call;
+PFN_vkAllocationFunction :: #type (pUserData: *void, size: u64, alignment: u64, allocationScope: VkSystemAllocationScope) -> *void #c_call;
+PFN_vkFreeFunction :: #type (pUserData: *void, pMemory: *void) -> void #c_call;
+PFN_vkVoidFunction :: #type () -> void #c_call;
+PFN_vkDebugReportCallbackEXT :: #type (flags: VkDebugReportFlagsEXT, objectType: VkDebugReportObjectTypeEXT, object: u64, location: u64, messageCode: s32, pLayerPrefix: *u8, pMessage: *u8, pUserData: *void) -> VkBool32 #c_call;
+PFN_vkDebugUtilsMessengerCallbackEXT :: #type (messageSeverity: VkDebugUtilsMessageSeverityFlagBitsEXT, messageTypes: VkDebugUtilsMessageTypeFlagsEXT, pCallbackData: *VkDebugUtilsMessengerCallbackDataEXT, pUserData: *void) -> VkBool32 #c_call;
+PFN_vkFaultCallbackFunction :: #type (unrecordedFaults: VkBool32, faultCount: u32, pFaults: *VkFaultData) -> void #c_call;
+PFN_vkDeviceMemoryReportCallbackEXT :: #type (pCallbackData: *VkDeviceMemoryReportCallbackDataEXT, pUserData: *void) -> void #c_call;
+PFN_vkGetInstanceProcAddrLUNARG :: #type (instance: VkInstance, pName: *u8) -> PFN_vkVoidFunction #c_call;

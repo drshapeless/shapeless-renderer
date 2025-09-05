@@ -1,33 +1,57 @@
-/*
+// These are some external type that I don't bother to generate
+xcb_visualid_t      :: u32;
+xcb_window_t        :: u32;
+zx_handle_t         :: u32;
+GgpFrameToken       :: u64;
+GgpStreamDescriptor :: u64;
 
-Vulkan API bindings.
+XID      :: u64;
+Window   :: XID;
+Display  :: struct {};
+RROutput :: XID;
+VisualID :: XID;
 
-WARNING: These Vulkan bindings are mostly unused and untested.
-This code is here as a starting point for anyone who wants to use Vulkan, but you can expect to do a significant
-amount of work to get things going well.
+// Opaque structs
+wl_surface         :: struct {}; // Opaque struct defined by Wayland
+wl_display         :: struct {}; // Opaque struct defined by Wayland
+xcb_connection_t   :: struct {}; // Opaque struct defined by xcb
 
-*/
+_screen_window     :: struct {}; // QNX
+_screen_context    :: struct {}; // QNX
+_screen_buffer     :: struct {}; // QNX
+AHardwareBuffer    :: struct {}; // Android
+ANativeWindow      :: struct {}; // Android
+CAMetalLayer       :: struct {}; // Apple
+IOSurfaceRef       :: struct {}; // Opaque struct defined by Apple’s CoreGraphics framework
+IDirectFB          :: struct {}; // FB
+IDirectFBSurface   :: struct {}; // FB
+OHNativeWindow     :: struct {};
+MTLBuffer_id       :: *void;
+MTLCommandQueue_id :: *void;
+MTLDevice_id       :: *void;
+MTLTexture_id      :: *void;
+MTLSharedEvent_id  :: *void;
+NvSciSyncAttrList  :: *void;
+NvSciSyncObj       :: *void;
+NvSciSyncFence     :: *void;
+NvSciBufAttrList   :: *void;
+NvSciBufObj        :: *void;
 
-#module_parameters(USE_VULKAN_1_1 := true);  // #import this with USE_VULKAN_1_1 == false if your driver doesn't have those routines.
+// Windows shit, if you are using win32, fix it yourself.
+HINSTANCE           :: *void;
+HWND                :: *void;
+HMONITOR            :: *void;
+HANDLE              :: *void;
+LPCWSTR             :: *u16;
+SECURITY_ATTRIBUTES :: struct {};
+DWORD               :: u32;
+LONG                :: s64;
+LUID :: struct {
+    LowPart:  DWORD;
+    HighPart: LONG;
+}
 
-VK_NULL_HANDLE                    :: null;
-
-VK_TRUE:                   VkBool32: 1;
-VK_FALSE:                  VkBool32: 0;
-
-VK_WHOLE_SIZE:             u64: xx ~0;
-VK_ATTACHMENT_UNUSED:      u32: 0xffff_ffff;
-VK_QUEUE_FAMILY_IGNORED:   u32: 0xffff_ffff;
-VK_REMAINING_ARRAY_LAYERS: u32: 0xffff_ffff;
-VK_REMAINING_MIP_LEVELS:   u32: 0xffff_ffff;
-VK_SUBPASS_EXTERNAL:       u32: 0xffff_ffff;
-
-VK_MAX_PHYSICAL_DEVICE_NAME_SIZE: u32: 256;
-VK_UUID_SIZE:                     u32: 16;
-VK_MAX_MEMORY_TYPES:              u32: 32;
-VK_MAX_MEMORY_HEAPS:              u32: 16;
-VK_MAX_EXTENSION_NAME_SIZE:       u32: 256;
-VK_MAX_DESCRIPTION_SIZE:          u32: 256;
+VK_NULL_HANDLE :: null;
 
 // These defines are deprecated by vulkan 1.2:
 VK_MAKE_VERSION :: (major: u32, minor: u32, patch: u32) -> u32 {
@@ -53,25 +77,21 @@ VK_API_VERSION_MAJOR   :: (version: u32) -> u32 { return (version >> 22) & 0x3ff
 VK_API_VERSION_MINOR   :: (version: u32) -> u32 { return (version >> 12) & 0x3ff; }
 VK_API_VERSION_PATCH   :: (version: u32) -> u32 { return version & 0xfff; }
 
-// Do not support windows for now as I don't have a Windows machine.
-#if OS == .WINDOWS {
-    // #load "generated_windows.jai";
-    // #load "windows_extras.jai";
+// Some basetype I don't bother to process.
+VkRemoteAddressNV :: *void;
+VkSampleMask      :: u32;
+VkBool32          :: u32;
+VkFlags           :: u32;
+VkFlags64         :: u64;
+VkDeviceSize      :: u64;
+VkDeviceAddress   :: u64;
 
-    // vkCreateWin32SurfaceKHR :: (instance: VkInstance, pCreateInfo: *VkWin32SurfaceCreateInfoKHR, pAllocator: *VkAllocationCallbacks, pSurface: *VkSurfaceKHR) -> VkResult #foreign libvulkan;
-    // vkGetPhysicalDeviceWin32PresentationSupportKHR :: (physicalDevice: VkPhysicalDevice, queueFamilyIndex: u32) -> VkBool32 #foreign libvulkan;
-    // #scope_file
-    // libvulkan :: #library "win/vulkan-1";
-    #assert false  "Unsupported OS";
-} else #if OS == .LINUX || OS == .ANDROID {
-    #load "generated_linux.jai";
-    // libvulkan :: #system_library "libvulkan";
-} else #if OS == .MACOS {
-    #load "generated_macos.jai";
-} else {
-    #assert false  "Unsupported OS";
-}
-
-// We want to load the function by hand.
-// I feel guilty to steal them from Odin.
-#load "functions.jai";
+#load "constants.jai";
+#load "types.jai";
+#load "structures.jai";
+#load "enums.jai";
+#load "unions.jai";
+#load "function_pointers.jai";
+#load "video.jai";
+#load "dynamic_functions.jai";
+#load "dynamic_loader.jai";
