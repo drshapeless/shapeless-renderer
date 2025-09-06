@@ -4,14 +4,15 @@ sdl :: #import "SDL3";
 #import "Renderer";
 
 main :: () {
+    log("Initializing SDL...");
     ok := sdl.Init(.VIDEO);
     if !ok {
         log("cannot init sdl");
         return;
     }
-    log("sdl initialized");
     defer sdl.Quit();
 
+    log("Creating SDL Window...");
     window := sdl.CreateWindow("shapeless", 800, 600, .RESIZABLE | .VULKAN);
     if window == null {
         log("cannot create window %", to_string(sdl.GetError()));
@@ -19,8 +20,7 @@ main :: () {
     }
     defer sdl.DestroyWindow(window);
 
-    log("window created");
-
     renderer: Renderer;
     init_renderer(*renderer, window);
+    defer destroy_renderer(*renderer);
 }

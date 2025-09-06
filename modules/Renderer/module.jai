@@ -5,17 +5,31 @@ Renderer :: struct {
     vk_allocator: *VkAllocationCallbacks;
     instance: VkInstance;
     debug_messenger: VkDebugUtilsMessengerEXT;
+    physical_device: VkPhysicalDevice;
+    properties: VkPhysicalDeviceProperties;
+    surface: VkSurfaceKHR;
+    device: VkDevice;
 }
 
 init_renderer :: (using renderer: *Renderer, sdl_window: *sdl.Window) {
-    init_device(renderer);
+    window = sdl_window;
+    init_instance(renderer);
+}
+
+destroy_renderer :: (using renderer: *Renderer) {
+    #if ENABLE_VALIDATION {
+        log("Destorying debug messenger...");
+        vkDestroyDebugUtilsMessengerEXT(instance, debug_messenger, vk_allocator);
+    }
+    log("Destroying instance...");
+    vkDestroyInstance(instance, vk_allocator);
 }
 
 #scope_file
 
 VALIDATION_LAYERS :: (*u8).["VK_LAYER_KHRONOS_validation"];
 
-init_device :: (using renderer: *Renderer) {
+init_instance :: (using renderer: *Renderer) {
     vk_allocator = null;
 
     vk_load_global_functions(xx sdl.Vulkan_GetVkGetInstanceProcAddr());
@@ -33,11 +47,14 @@ init_device :: (using renderer: *Renderer) {
     };
 
     #if OS == .MACOS {
-        create_info.flags |= .ENUMERATE_PORTABILITY_BIT_KHR;
+        create_info.flags |= .ENUMERATE_PORTABILITY_KHR;
     }
 
     extension_count: u32 = 0;
     sdl_extensions := sdl.Vulkan_GetInstanceExtensions(*extension_count);
+
+    push_allocator(temp);
+    defer reset_temporary_storage();
 
     #if ENABLE_VALIDATION {
         extension_names: [..]*u8;
@@ -46,7 +63,6 @@ init_device :: (using renderer: *Renderer) {
         }
 
         debug_extension_name := to_c_string(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-        defer free(debug_extension_name);
 
         array_add(*extension_names, debug_extension_name);
 
@@ -55,7 +71,6 @@ init_device :: (using renderer: *Renderer) {
         VK_CHECK(vkEnumerateInstanceLayerProperties(*available_layer_count, null));
 
         available_layers := NewArray(available_layer_count, VkLayerProperties);
-        defer free(available_layers.data);
         VK_CHECK(vkEnumerateInstanceLayerProperties(*available_layer_count, available_layers.data));
 
         for validation_layer: VALIDATION_LAYERS {
@@ -98,10 +113,6 @@ init_device :: (using renderer: *Renderer) {
     }
 }
 
-VK_CHECK :: (result: VkResult, loc := #caller_location) {
-    assert(result == .SUCCESS, "VK_CHECK failed: %", result, loc = loc);
-}
-
 debug_utils_callback :: (
     messageSeverity: VkDebugUtilsMessageSeverityFlagBitsEXT,
     messageTypes: VkDebugUtilsMessageTypeFlagsEXT,
@@ -117,14 +128,55 @@ debug_utils_callback :: (
 }
 
 debug_utils_messenger_create_info :: VkDebugUtilsMessengerCreateInfoEXT.{
-    messageSeverity = VkDebugUtilsMessageSeverityFlagBitsEXT.VERBOSE | .INFO | .WARNING | .ERROR,
+    messageSeverity = .VERBOSE | .INFO | .WARNING | .ERROR,
     messageType = .GENERAL | .VALIDATION | .PERFORMANCE,
     pfnUserCallback = debug_utils_callback,
     pUserData = null,
 };
+
+get_physical_device :: (using renderer: *Renderer) {
+    log("picking physical device...");
+    physical_device_count : u32;
+    vkEnumeratePhysicalDevices(instance, *physical_device_count, null);
+    assert(physical_device_count > 0, "There is no GPU");
+
+    physical_devices := NewArray(physical_device_count, VkPhysicalDevice);
+    vkEnumeratePhysicalDevices(instance, *physical_device_count, physical_devices.data);
+
+    assert(physical_device_count == 1, "There are more than one GPU, deal with that!");
+
+    physical_device = physical_devices[0];
+    vkGetPhysicalDeviceProperties(physical_device, *properties);
+}
+
+init_surface :: (using renderer: *Renderer) {
+    ok := sdl.Vulkan_CreateSurface(window, instance, vk_allocator, *surface);
+    assert(ok);
+}
+
+init_device :: (using renderer: *Renderer) {
+    priority := 1.0;
+    device_info : VkDeviceCreateInfo;
+
+    #if OS == .MACOS {
+        queue_create_info := VkDeviceQueueCreateInfo.{
+            queueFamilyIndex = 0,
+            queueCount       = 1,
+            pQueuePriorities = *priority,
+        };
+        device_info = VkDeviceCreateInfo.{
+            queueCreateInfoCount = 1,
+            pQueueCreateInfos = *queue_create_info,
+
+        };
+    } else {
+
+    }
+}
 
 #import "Vulkan";
 #import "Vulkan_Memory_Allocator";
 #import "Basic";
 #import "String";
 sdl :: #import "SDL3";
+#import,file "common.jai";
