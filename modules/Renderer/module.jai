@@ -5,18 +5,43 @@ Renderer :: struct {
     vk_allocator: *VkAllocationCallbacks;
     instance: VkInstance;
     debug_messenger: VkDebugUtilsMessengerEXT;
-    physical_device: VkPhysicalDevice;
+    pdev: VkPhysicalDevice;
     properties: VkPhysicalDeviceProperties;
     surface: VkSurfaceKHR;
-    device: VkDevice;
+    dev: VkDevice;
+
+    // Family and queue
+    graphics_family: u32;
+    graphics_queue: VkQueue;
+    present_family: u32;
+    present_queue: VkQueue;
+    compute_family: u32;
+    compute_queue: VkQueue;
+    transfer_family: u32;
+    transfer_queue: VkQueue;
+
+    vma_allocator: VmaAllocator;
 }
 
 init_renderer :: (using renderer: *Renderer, sdl_window: *sdl.Window) {
     window = sdl_window;
     init_instance(renderer);
+    get_physical_device(renderer);
+    init_surface(renderer);
+    init_device(renderer);
+    init_vma(renderer);
 }
 
 destroy_renderer :: (using renderer: *Renderer) {
+    log("Destroying vma allocator...");
+    vmaDestroyAllocator(vma_allocator);
+
+    log("Destroying device...");
+    vkDestroyDevice(dev, vk_allocator);
+
+    log("Destroying surface...");
+    sdl.Vulkan_DestroySurface(xx instance, xx surface, xx vk_allocator);
+
     #if ENABLE_VALIDATION {
         log("Destorying debug messenger...");
         vkDestroyDebugUtilsMessengerEXT(instance, debug_messenger, vk_allocator);
@@ -143,14 +168,27 @@ get_physical_device :: (using renderer: *Renderer) {
     physical_devices := NewArray(physical_device_count, VkPhysicalDevice);
     vkEnumeratePhysicalDevices(instance, *physical_device_count, physical_devices.data);
 
-    assert(physical_device_count == 1, "There are more than one GPU, deal with that!");
+    if physical_device_count > 1 {
+        for d : physical_devices {
+            props : VkPhysicalDeviceProperties;
+            vkGetPhysicalDeviceProperties(d, *props);
 
-    physical_device = physical_devices[0];
-    vkGetPhysicalDeviceProperties(physical_device, *properties);
+            if props.deviceType == .DISCRETE_GPU {
+                pdev = d;
+            }
+        }
+
+    } else {
+        assert(physical_device_count == 1);
+        pdev = physical_devices[0];
+    }
+
+    vkGetPhysicalDeviceProperties(pdev, *properties);
 }
 
 init_surface :: (using renderer: *Renderer) {
-    ok := sdl.Vulkan_CreateSurface(window, instance, vk_allocator, *surface);
+    // Mismatch binding types between SDL3 and Vulkan
+    ok := sdl.Vulkan_CreateSurface(window, xx instance, xx vk_allocator, xx *surface);
     assert(ok);
 }
 
@@ -170,8 +208,140 @@ init_device :: (using renderer: *Renderer) {
 
         };
     } else {
+        // In my 9070XT, I only have two separate queue.
+        // So squeeze compute and transfer queue together.
+        indices := find_queue_families(pdev, surface);
+        queue_infos: [2]VkDeviceQueueCreateInfo;
+        queue_infos[0] = VkDeviceQueueCreateInfo.{
+            queueFamilyIndex = indices.graphics,
+            queueCount       = 1,
+            pQueuePriorities = *priority,
+        };
+        queue_infos[1] = VkDeviceQueueCreateInfo.{
+            queueFamilyIndex = indices.compute,
+            queueCount       = 1,
+            pQueuePriorities = *priority,
+        };
 
+        device_info = VkDeviceCreateInfo.{
+            queueCreateInfoCount = 2,
+            pQueueCreateInfos = queue_infos.data,
+        };
     }
+
+    dynamic_state3_features := VkPhysicalDeviceExtendedDynamicState3FeaturesEXT.{
+        extendedDynamicState3PolygonMode = VK_TRUE,
+    };
+
+    features13 := VkPhysicalDeviceVulkan13Features.{
+        pNext = *dynamic_state3_features,
+        dynamicRendering = VK_TRUE,
+        synchronization2 = VK_TRUE,
+    };
+
+    features12 := VkPhysicalDeviceVulkan12Features.{
+        pNext = *features13,
+        bufferDeviceAddress = VK_TRUE,
+        descriptorIndexing = VK_TRUE,
+    };
+
+    device_features := VkPhysicalDeviceFeatures2.{
+        pNext = *features12,
+        features = .{samplerAnisotropy = VK_TRUE, fillModeNonSolid = VK_TRUE},
+    };
+
+    device_info.pNext = *device_features;
+    device_info.pEnabledFeatures = null;
+
+    log("creating vulkan logical device...");
+    VK_CHECK(vkCreateDevice(pdev, *device_info, vk_allocator, *dev));
+
+    vk_load_device_functions(dev);
+
+    graphics_family = 0;
+    vkGetDeviceQueue(dev, 0, 0, *graphics_queue);
+    present_family = graphics_family;
+    present_queue = graphics_queue;
+
+    #if OS == .MACOS {
+        compute_family = graphics_family;
+        compute_queue = graphics_queue;
+        present_family = graphics_family;
+        present_queue = graphics_queue;
+    } else {
+        compute_family = 0;
+        vkGetDeviceQueue(dev, 0, 0, *compute_queue);
+        transfer_family = compute_family;
+        transfer_queue = compute_queue;
+    }
+}
+
+init_vma :: (using renderer: *Renderer) {
+    log("creating vam allocator...");
+    vma_vulkan_functions := VmaVulkanFunctions.{
+        vkGetInstanceProcAddr = vkGetInstanceProcAddr,
+        vkGetDeviceProcAddr = vkGetDeviceProcAddr,
+    };
+    allocator_info := VmaAllocatorCreateInfo.{
+        vulkanApiVersion = VK_API_VERSION_1_3,
+        physicalDevice   = pdev,
+        device           = dev,
+        instance         = instance,
+        flags            = VMA_BUFFER_DEVICE_ADDRESS,
+        pVulkanFunctions = *vma_vulkan_functions,
+    };
+    VK_CHECK(vmaCreateAllocator(*allocator_info, *vma_allocator));
+}
+
+QueueFamilyIndices :: struct {
+    graphics : u32;
+    present  : u32;
+    compute  : u32;
+    transfer : u32;
+}
+
+find_queue_families :: (pdevice: VkPhysicalDevice, surface: VkSurfaceKHR) -> QueueFamilyIndices {
+    indices: QueueFamilyIndices;
+
+    queue_family_count: u32;
+    vkGetPhysicalDeviceQueueFamilyProperties(pdevice, *queue_family_count, null);
+
+    queue_families := NewArray(queue_family_count, VkQueueFamilyProperties);
+    vkGetPhysicalDeviceQueueFamilyProperties(pdevice, *queue_family_count, queue_families.data);
+    defer array_free(queue_families);
+
+    present_found := false;
+    compute_found := false;
+    transfer_found := false;
+
+    for i : 0..queue_family_count - 1 {
+        if present_found && compute_found && transfer_found {
+            break;
+        }
+
+        if queue_families[i].queueFlags & .GRAPHICS {
+            present_support: VkBool32;
+            vkGetPhysicalDeviceSurfaceSupportKHR(pdevice, i, surface, *present_support);
+            if present_support {
+                indices.graphics = i;
+                indices.present = i;
+                present_found = true;
+            }
+        } else {
+            if queue_families[i].queueFlags & .COMPUTE {
+                indices.compute = i;
+                compute_found = true;
+            }
+
+            if queue_families[i].queueFlags & .TRANSFER {
+                indices.transfer = i;
+                transfer_found = true;
+            }
+        }
+    }
+
+    assert(present_found && compute_found && transfer_found, "Not all queue families are found");
+    return indices;
 }
 
 #import "Vulkan";
