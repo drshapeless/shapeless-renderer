@@ -17,13 +17,6 @@ OUTPUT_EXECUTABLE_NAME := "shapeless-renderer";
 
     #if OS == .MACOS {
         compiler_add_library_search_directory("/opt/homebrew/lib");
-
-        // on macos, especially in eshell, it will complain about
-        // "Failed to load Vulkan Portability library", link the
-        // vulkan library manually to suppress the error.
-        linker_commands: [1]string;
-        linker_commands[0] = "-lvulkan";
-        options.additional_linker_arguments = linker_commands;
     }
     set_build_options(options, w);
 
