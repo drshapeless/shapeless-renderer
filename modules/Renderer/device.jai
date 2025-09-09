@@ -43,6 +43,8 @@ Renderer :: struct {
     frames              : []FrameData;
     current_frame_index : u32;
     current_image_index : u32;
+
+
 }
 
 init_renderer :: (using renderer: *Renderer, sdl_window: *sdl.Window) {
