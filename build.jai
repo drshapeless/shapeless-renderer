@@ -17,6 +17,8 @@ OUTPUT_EXECUTABLE_NAME := "shapeless-renderer";
 
     #if OS == .MACOS {
         compiler_add_library_search_directory("/opt/homebrew/lib");
+        make_directory_if_it_does_not_exist("macos");
+        copy_file("modules/Vulkan_Memory_Allocator/macos/libvma.dylib", "macos/libvma.dylib");
     }
     set_build_options(options, w);
 
@@ -47,3 +49,4 @@ message_loop :: () {
 #import "Basic";
 #import "Compiler";
 #import "File_Utilities";
+#import "File";
