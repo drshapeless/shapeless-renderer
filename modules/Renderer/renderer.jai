@@ -1097,6 +1097,78 @@ acquire_next_image :: (using renderer: *Renderer) -> VkResult {
     return vkAcquireNextImage2KHR(dev, *info, *current_image_index);
 }
 
+create_command_pool :: (using renderer: *Renderer) {
+    log("Creating command pools...");
+
+    cmd_pool_info := VkCommandPoolCreateInfo.{
+        flags = .TRANSIENT | .RESET_COMMAND_BUFFER,
+        queueFamilyIndex = graphics_family,
+    };
+    VK_CHECK(vkCreateCommandPool(dev, *cmd_pool_info, vk_allocator, *graphics_command_pool));
+
+    cmd_pool_info.queueFamilyIndex = transfer_family;
+    VK_CHECK(vkCreateCommandPool(dev, *cmd_pool_info, vk_allocator, *transfer_command_pool));
+}
+
+destroy_command_pool :: (using renderer: *Renderer) {
+    vkDestroyCommandPool(dev, graphics_command_pool, vk_allocator);
+    vkDestroyCommandPool(dev, transfer_command_pool, vk_allocator);
+}
+
+create_draw_images :: (using renderer: *Renderer) {
+    log("Creating draw images...");
+    draw_extent = get_window_extent(window);
+    image_extent := VkExtent3D.{
+        width = draw_extent.width,
+        height = draw_extent.height,
+        depth = 1,
+    };
+    draw_image = create_image(renderer, image_extent, .R16G16B16A16_SFLOAT, .TRANSFER_SRC | .STORAGE | .COLOR_ATTACHMENT, false, 1);
+    depth_image = create_image(renderer, image_extent, .D32_SFLOAT, .DEPTH_STENCIL_ATTACHMENT, false, 1);
+}
+
+destroy_draw_images :: (using renderer: *Renderer) {
+    log("Destroying draw images...");
+    destroy_image(renderer, *draw_image);
+    destroy_image(renderer, *depth_image);
+}
+
+set_clear_color :: (using renderer: *Renderer, color: [4]float) {
+    clear_color.color.float32_ = color;
+}
+
+load_shader_module :: (using renderer: *Renderer, file_path: string) -> VkShaderModule {
+    data, ok := read_entire_file(file_path);
+    assert(ok, "cannot read file %", file_path);
+
+    create_info := VkShaderModuleCreateInfo.{
+        codeSize = data.count,
+        pCode = data.data,
+    };
+
+    shader_module : VkShaderModule;
+    VK_CHECK(vkCreateShaderModule(dev, *create_info, vk_allocator, *shader_module));
+
+    return shader_module;
+}
+
+destroy_shader_module :: (using renderer: *Renderer, module: VkShaderModule) {
+    vkDestroyShaderModule(dev, module, vk_allocator);
+}
+
+begin_draw :: (using renderer: *Renderer) -> bool {
+    current_frame := get_current_frame(renderer);
+
+    VK_CHECK(vkWaitForFences(dev, 1, *current_frame.render_fence, VK_TRUE, U64_MAX));
+    VK_CHECK(vkResetFences(dev, 1, *current_frame.render_fence));
+
+    // TODO: Flush frame data here
+
+    descriptor_allocator_clear_descriptors(*current_frame.descriptor_allocator, renderer);
+
+
+}
+
 #scope_file
 
 #import "Vulkan";
@@ -1105,3 +1177,4 @@ acquire_next_image :: (using renderer: *Renderer) -> VkResult {
 #import "String";
 sdl :: #import "SDL3";
 #import "Math";
+#import "File";
