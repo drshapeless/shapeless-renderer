@@ -43,6 +43,15 @@ Renderer :: struct {
     frames              : []FrameData;
     current_frame_index : u32;
     current_image_index : u32;
+
+    // Other
+    draw_image            : Image;
+    depth_image           : Image;
+    clear_color           : VkClearValue;
+    draw_extent           : VkExtent2D;
+    transfer_command_pool : VkCommandPool;
+    graphics_command_pool : VkCommandPool;
+    cmd                   : VkCommandBuffer;
 }
 
 VALIDATION_LAYERS :: (*u8).["VK_LAYER_KHRONOS_validation"];
@@ -57,6 +66,10 @@ SWAPCHAIN_IMAGE_USAGE    : VkImageUsageFlags : .TRANSFER_DST | .COLOR_ATTACHMENT
 } else {
     ENABLED_EXTENSION_NAMES :: (*u8).[VK_KHR_SWAPCHAIN_EXTENSION_NAME,
     VK_EXT_EXTENDED_DYNAMIC_STATE_3_EXTENSION_NAME];
+}
+
+VK_CHECK :: (result: VkResult, loc := #caller_location) {
+    assert(result == .SUCCESS, "VK_CHECK failed: %", result, loc = loc);
 }
 
 init_renderer :: (using renderer: *Renderer, sdl_window: *sdl.Window) {
@@ -1002,6 +1015,86 @@ pipeline_builder_add_dynamic_state :: (using builder: *PipelineBuilder, state: V
 
 pipeline_builder_clear_dynamic_state :: (using builder: *PipelineBuilder) {
     array_reset_keeping_memory(*dynamic_states);
+}
+
+create_image :: (using renderer: *Renderer, extent: VkExtent3D, format: VkFormat, usage: VkImageUsageFlags, mippmapped: bool, array_layers: u32) -> Image {
+    image := Image.{
+        format = format,
+        extent = extent,
+    };
+
+    img_info := VkImageCreateInfo.{
+        imageType   = .e2D,
+        format      = format,
+        extent      = extent,
+        mipLevels   = 1,
+        arrayLayers = array_layers,
+        samples     = .e1,
+        tiling      = .OPTIMAL,
+        usage       = usage,
+    };
+
+    if mippmapped {
+        // There is no log2 in Jai, WTF.
+        img_info.mipLevels = xx floor(log(max(extent.width, extent.height)) / log(2));
+    }
+
+    alloc_info := VmaAllocationCreateInfo.{
+        usage = .GPU_ONLY,
+        requiredFlags = .DEVICE_LOCAL,
+    };
+
+    VK_CHECK(vmaCreateImage(vma_allocator, *img_info, *alloc_info, *image.img, *image.allocation, null));
+
+    aspect_flag := VkImageAspectFlags.COLOR;
+    if format == .D32_SFLOAT {
+        aspect_flag = .DPETH;
+    }
+
+    view_info := VkImageViewCreateInfo.{
+        image = image.img,
+        viewType = .e2D,
+        format = format,
+        subresourceRange = .{
+            aspectMask = aspect_flag,
+            baseMipLevel = 0,
+            levelCount = img_info.mipLevels,
+            baseArrayLayer = 0,
+            layerCount = array_layers,
+        },
+    };
+
+    if array_layers > 1 {
+        view_info.viewType = .e2D_ARRAY;
+    }
+
+    VK_CHECK(vkCreateImageView(dev, *view_info, vk_allocator, *image.img_view));
+    return image;
+}
+
+destroy_image :: (using renderer: *Renderer, image: *Image) {
+    vkDestroyImageView(dev, image.img_view, vk_allocator);
+    vmaDestroyImage(vma_allocator, image.img, image.allocation);
+}
+
+get_current_frame :: (using renderer: *Renderer) -> *FrameData {
+    return *frames[current_frame_index];
+}
+
+get_current_image :: (using renderer: *Renderer) -> VkImage {
+    return images[current_image_index];
+}
+
+acquire_next_image :: (using renderer: *Renderer) -> VkResult {
+    info := VkAcquireNextImageInfoKHR.{
+        swapchain = swapchain,
+        timeout = U64_MAX,
+        semaphore = get_current_frame(renderer).swapchain_semaphore,
+        fence = 0,
+        deviceMask = 1,
+    };
+
+    return vkAcquireNextImage2KHR(dev, *info, *current_image_index);
 }
 
 #scope_file
