@@ -220,13 +220,13 @@ init_instance :: (using renderer: *Renderer) {
         create_info.ppEnabledExtensionNames = sdl_extensions;
     }
 
-    log("creating vulkan instance...");
+    log("Creating vulkan instance...");
     VK_CHECK(vkCreateInstance(*create_info, vk_allocator, *instance));
 
     vk_load_instance_functions(instance);
 
     #if ENABLE_VALIDATION {
-        log("creating vulkan debug messenger...");
+        log("Creating vulkan debug messenger...");
         VK_CHECK(
             vkCreateDebugUtilsMessengerEXT(instance, *debug_info, vk_allocator, *debug_messenger)
         );
@@ -255,7 +255,7 @@ debug_utils_messenger_create_info :: VkDebugUtilsMessengerCreateInfoEXT.{
 };
 
 get_physical_device :: (using renderer: *Renderer) {
-    log("picking physical device...");
+    log("Picking physical device...");
     physical_device_count : u32;
     vkEnumeratePhysicalDevices(instance, *physical_device_count, null);
     assert(physical_device_count > 0, "There is no GPU");
@@ -274,7 +274,7 @@ get_physical_device :: (using renderer: *Renderer) {
         }
     } else {
         assert(physical_device_count == 1);
-        log("using the only gpu");
+        log("Using the only gpu");
         pdev = physical_devices[0];
     }
 
@@ -350,7 +350,7 @@ init_device :: (using renderer: *Renderer) {
     device_info.enabledExtensionCount = xx ENABLED_EXTENSION_NAMES.count;
     device_info.ppEnabledExtensionNames = ENABLED_EXTENSION_NAMES.data;
 
-    log("creating vulkan logical device...");
+    log("Creating vulkan logical device...");
     VK_CHECK(vkCreateDevice(pdev, *device_info, vk_allocator, *dev));
 
     vk_load_device_functions(dev);
@@ -374,7 +374,7 @@ init_device :: (using renderer: *Renderer) {
 }
 
 init_vma :: (using renderer: *Renderer) {
-    log("creating vam allocator...");
+    log("Creating vam allocator...");
     vma_vulkan_functions := VmaVulkanFunctions.{
         vkGetInstanceProcAddr = vkGetInstanceProcAddr,
         vkGetDeviceProcAddr = vkGetDeviceProcAddr,
@@ -497,7 +497,7 @@ create_swapchain :: (using renderer: *Renderer, extent: VkExtent2D, old_swapchai
         oldSwapchain = old_swapchain,
     };
 
-    log("creating swapchain...");
+    log("Creating swapchain...");
     VK_CHECK(vkCreateSwapchainKHR(dev, *create_info, vk_allocator, *swapchain));
     image_format = surface_format.format;
 }
@@ -572,10 +572,10 @@ choose_swap_extent :: (capabilities: *VkSurfaceCapabilitiesKHR, extent: VkExtent
 }
 
 get_swapchain_images :: (using renderer: *Renderer) {
-    log("getting swapchain images... count: %", image_count);
+    log("Getting swapchain images... count: %", image_count);
     VK_CHECK(vkGetSwapchainImagesKHR(dev, swapchain, *image_count, images.data));
 
-    log("creating swapchain image views...");
+    log("Creating swapchain image views...");
     for i : 0..image_count - 1 {
         view_info := VkImageViewCreateInfo.{
             image = images[i],
@@ -636,7 +636,7 @@ init_swapchain_descriptor_pools :: (using renderer: *Renderer) {
 }
 
 cleanup_swapchain :: (using renderer: *Renderer) {
-    log("destroying swapchain...");
+    log("Destroying swapchain...");
     for i : 0..image_count - 1 {
         vkDestroyImageView(dev, image_views[i], vk_allocator);
     }
@@ -644,7 +644,7 @@ cleanup_swapchain :: (using renderer: *Renderer) {
 }
 
 recreate_swapchain :: (using renderer: *Renderer) {
-    log("recreating swapchain...");
+    log("Recreating swapchain...");
     for i : 0..image_count - 1 {
         vkDestroyImageView(dev, image_views[i], vk_allocator);
     }
