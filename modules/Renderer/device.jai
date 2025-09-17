@@ -159,7 +159,7 @@ init_instance :: (using renderer: *Renderer) {
         applicationVersion = #run VK_MAKE_API_VERSION(0, 1, 0, 0),
         pEngineName = "shapeless engine",
         engineVersion = #run VK_MAKE_API_VERSION(0, 1, 0, 0),
-        apiVersion = VK_API_VERSION_1_3
+        apiVersion = VK_API_VERSION_1_4,
     };
 
     create_info := VkInstanceCreateInfo.{
@@ -272,9 +272,9 @@ get_physical_device :: (using renderer: *Renderer) {
                 pdev = d;
             }
         }
-
     } else {
         assert(physical_device_count == 1);
+        log("using the only gpu");
         pdev = physical_devices[0];
     }
 
