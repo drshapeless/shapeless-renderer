@@ -1292,7 +1292,7 @@ SDL_MAJOR_VERSION :: 3;
 
 SDL_MINOR_VERSION :: 2;
 
-SDL_MICRO_VERSION :: 20;
+SDL_MICRO_VERSION :: 22;
 
 /**
 * A signed 8-bit integer type.
@@ -3321,7 +3321,7 @@ utf8strnlen :: (str: *u8, bytes: u64) -> u64 #foreign libsdl3 "SDL_utf8strnlen";
 * Convert an integer into a string.
 *
 * This requires a radix to specified for string format. Specifying 10
-* produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+* produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 * to 36.
 *
 * Note that this function will overflow a buffer if `str` is not large enough
@@ -3349,7 +3349,7 @@ itoa :: (value: s32, str: *u8, radix: s32) -> *u8 #foreign libsdl3 "SDL_itoa";
 * Convert an unsigned integer into a string.
 *
 * This requires a radix to specified for string format. Specifying 10
-* produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+* produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 * to 36.
 *
 * Note that this function will overflow a buffer if `str` is not large enough
@@ -3377,7 +3377,7 @@ uitoa :: (value: u32, str: *u8, radix: s32) -> *u8 #foreign libsdl3 "SDL_uitoa";
 * Convert a long integer into a string.
 *
 * This requires a radix to specified for string format. Specifying 10
-* produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+* produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 * to 36.
 *
 * Note that this function will overflow a buffer if `str` is not large enough
@@ -3405,7 +3405,7 @@ ltoa :: (value: s64, str: *u8, radix: s32) -> *u8 #foreign libsdl3 "SDL_ltoa";
 * Convert an unsigned long integer into a string.
 *
 * This requires a radix to specified for string format. Specifying 10
-* produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+* produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 * to 36.
 *
 * Note that this function will overflow a buffer if `str` is not large enough
@@ -3433,7 +3433,7 @@ ultoa :: (value: u64, str: *u8, radix: s32) -> *u8 #foreign libsdl3 "SDL_ultoa";
 * Convert a long long integer into a string.
 *
 * This requires a radix to specified for string format. Specifying 10
-* produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+* produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 * to 36.
 *
 * Note that this function will overflow a buffer if `str` is not large enough
@@ -3461,7 +3461,7 @@ lltoa :: (value: s64, str: *u8, radix: s32) -> *u8 #foreign libsdl3 "SDL_lltoa";
 * Convert an unsigned long long integer into a string.
 *
 * This requires a radix to specified for string format. Specifying 10
-* produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+* produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 * to 36.
 *
 * Note that this function will overflow a buffer if `str` is not large enough
@@ -3811,7 +3811,7 @@ strcasecmp :: (str1: *u8, str2: *u8) -> s32 #foreign libsdl3 "SDL_strcasecmp";
 strncasecmp :: (str1: *u8, str2: *u8, maxlen: u64) -> s32 #foreign libsdl3 "SDL_strncasecmp";
 
 /**
-* Searches a string for the first occurence of any character contained in a
+* Searches a string for the first occurrence of any character contained in a
 * breakset, and returns a pointer from the string to that character.
 *
 * \param str The null-terminated string to be searched. Must not be NULL, and
@@ -3819,7 +3819,7 @@ strncasecmp :: (str1: *u8, str2: *u8, maxlen: u64) -> s32 #foreign libsdl3 "SDL_
 * \param breakset A null-terminated string containing the list of characters
 *                 to look for. Must not be NULL, and must not overlap with
 *                 `str`.
-* \returns A pointer to the location, in str, of the first occurence of a
+* \returns A pointer to the location, in str, of the first occurrence of a
 *          character present in the breakset, or NULL if none is found.
 *
 * \threadsafety It is safe to call this function from any thread.
@@ -5615,7 +5615,7 @@ iconv_close :: (cd: iconv_t) -> s32 #foreign libsdl3 "SDL_iconv_close";
 * This function converts text between encodings, reading from and writing to
 * a buffer.
 *
-* It returns the number of succesful conversions on success. On error,
+* It returns the number of successful conversions on success. On error,
 * SDL_ICONV_E2BIG is returned when the output buffer is too small, or
 * SDL_ICONV_EILSEQ is returned when an invalid input sequence is encountered,
 * or SDL_ICONV_EINVAL is returned when an incomplete input sequence is
@@ -14236,7 +14236,7 @@ CameraSpec :: struct {
     width:                 s32; /**< Frame width */
     height:                s32; /**< Frame height */
     framerate_numerator:   s32; /**< Frame rate numerator ((num / denom) == FPS, (denom / num) == duration in seconds) */
-    framerate_denominator: s32; /**< Frame rate demoninator ((num / denom) == FPS, (denom / num) == duration in seconds) */
+    framerate_denominator: s32; /**< Frame rate denominator ((num / denom) == FPS, (denom / num) == duration in seconds) */
 }
 
 /**
@@ -16382,7 +16382,7 @@ GetWindowParent :: (window: *Window) -> *Window #foreign libsdl3 "SDL_GetWindowP
 * - `SDL_PROP_WINDOW_COCOA_WINDOW_POINTER`: the `(__unsafe_unretained)`
 *   NSWindow associated with the window
 * - `SDL_PROP_WINDOW_COCOA_METAL_VIEW_TAG_NUMBER`: the NSInteger tag
-*   assocated with metal views on the window
+*   associated with metal views on the window
 *
 * On OpenVR:
 *
@@ -18630,6 +18630,7 @@ SensorType :: enum s32 {
     GYRO_L  :: 4;
     ACCEL_R :: 5;
     GYRO_R  :: 6;
+    COUNT   :: 7;
 
     SDL_SENSOR_INVALID :: INVALID;
     SDL_SENSOR_UNKNOWN :: UNKNOWN;
@@ -18639,6 +18640,7 @@ SensorType :: enum s32 {
     SDL_SENSOR_GYRO_L  :: GYRO_L;
     SDL_SENSOR_ACCEL_R :: ACCEL_R;
     SDL_SENSOR_GYRO_R  :: GYRO_R;
+    SDL_SENSOR_COUNT   :: COUNT;
 }
 
 /**
@@ -27535,7 +27537,7 @@ SetGPUTextureName :: (device: *GPUDevice, texture: *GPUTexture, text: *u8) -> vo
 InsertGPUDebugLabel :: (command_buffer: *GPUCommandBuffer, text: *u8) -> void #foreign libsdl3 "SDL_InsertGPUDebugLabel";
 
 /**
-* Begins a debug group with an arbitary name.
+* Begins a debug group with an arbitrary name.
 *
 * Used for denoting groups of calls when viewing the command buffer
 * callstream in a graphics debugging tool.
@@ -34495,7 +34497,7 @@ RenderDebugText :: (renderer: *Renderer, x: float, y: float, str: *u8) -> bool #
 * Draw debug text to an SDL_Renderer.
 *
 * This function will render a printf()-style format string to a renderer.
-* Note that this is a convinence function for debugging, with severe
+* Note that this is a convenience function for debugging, with severe
 * limitations, and is not intended to be used for production apps and games.
 *
 * For the full list of limitations and other useful information, see
@@ -36068,6 +36070,134 @@ GetVersion :: () -> s32 #foreign libsdl3 "SDL_GetVersion";
 * \sa SDL_GetVersion
 */
 GetRevision :: () -> *u8 #foreign libsdl3 "SDL_GetRevision";
+
+/**
+* The prototype for the application's main() function
+*
+* \param argc an ANSI-C style main function's argc.
+* \param argv an ANSI-C style main function's argv.
+* \returns an ANSI-C main return code; generally 0 is considered successful
+*          program completion, and small non-zero values are considered
+*          errors.
+*
+* \since This datatype is available since SDL 3.2.0.
+*/
+main_func :: #type (argc: s32, argv: **u8) -> s32 #c_call;
+
+/**
+* An app-supplied function for program entry.
+*
+* Apps do not directly create this function; they should create a standard
+* ANSI-C `main` function instead. If SDL needs to insert some startup code
+* before `main` runs, or the platform doesn't actually _use_ a function
+* called "main", SDL will do some macro magic to redefine `main` to
+* `SDL_main` and provide its own `main`.
+*
+* Apps should include `SDL_main.h` in the same file as their `main` function,
+* and they should not use that symbol for anything else in that file, as it
+* might get redefined.
+*
+* This function is only provided by the app if it isn't using
+* SDL_MAIN_USE_CALLBACKS.
+*
+* Program startup is a surprisingly complex topic. Please see
+* [README/main-functions](README/main-functions), (or
+* docs/README-main-functions.md in the source tree) for a more detailed
+* explanation.
+*
+* \param argc an ANSI-C style main function's argc.
+* \param argv an ANSI-C style main function's argv.
+* \returns an ANSI-C main return code; generally 0 is considered successful
+*          program completion, and small non-zero values are considered
+*          errors.
+*
+* \threadsafety This is the program entry point.
+*
+* \since This function is available since SDL 3.2.0.
+*/
+main :: (argc: s32, argv: **u8) -> s32 #foreign __UnknownLib "SDL_main";
+
+/**
+* Circumvent failure of SDL_Init() when not using SDL_main() as an entry
+* point.
+*
+* This function is defined in SDL_main.h, along with the preprocessor rule to
+* redefine main() as SDL_main(). Thus to ensure that your main() function
+* will not be changed it is necessary to define SDL_MAIN_HANDLED before
+* including SDL.h.
+*
+* \since This function is available since SDL 3.2.0.
+*
+* \sa SDL_Init
+*/
+SetMainReady :: () -> void #foreign libsdl3 "SDL_SetMainReady";
+
+/**
+* Initializes and launches an SDL application, by doing platform-specific
+* initialization before calling your mainFunction and cleanups after it
+* returns, if that is needed for a specific platform, otherwise it just calls
+* mainFunction.
+*
+* You can use this if you want to use your own main() implementation without
+* using SDL_main (like when using SDL_MAIN_HANDLED). When using this, you do
+* *not* need SDL_SetMainReady().
+*
+* \param argc the argc parameter from the application's main() function, or 0
+*             if the platform's main-equivalent has no argc.
+* \param argv the argv parameter from the application's main() function, or
+*             NULL if the platform's main-equivalent has no argv.
+* \param mainFunction your SDL app's C-style main(). NOT the function you're
+*                     calling this from! Its name doesn't matter; it doesn't
+*                     literally have to be `main`.
+* \param reserved should be NULL (reserved for future use, will probably be
+*                 platform-specific then).
+* \returns the return value from mainFunction: 0 on success, otherwise
+*          failure; SDL_GetError() might have more information on the
+*          failure.
+*
+* \threadsafety Generally this is called once, near startup, from the
+*               process's initial thread.
+*
+* \since This function is available since SDL 3.2.0.
+*/
+RunApp :: (argc: s32, argv: **u8, mainFunction: main_func, reserved: *void) -> s32 #foreign libsdl3 "SDL_RunApp";
+
+/**
+* An entry point for SDL's use in SDL_MAIN_USE_CALLBACKS.
+*
+* Generally, you should not call this function directly. This only exists to
+* hand off work into SDL as soon as possible, where it has a lot more control
+* and functionality available, and make the inline code in SDL_main.h as
+* small as possible.
+*
+* Not all platforms use this, it's actual use is hidden in a magic
+* header-only library, and you should not call this directly unless you
+* _really_ know what you're doing.
+*
+* \param argc standard Unix main argc.
+* \param argv standard Unix main argv.
+* \param appinit the application's SDL_AppInit function.
+* \param appiter the application's SDL_AppIterate function.
+* \param appevent the application's SDL_AppEvent function.
+* \param appquit the application's SDL_AppQuit function.
+* \returns standard Unix main return value.
+*
+* \threadsafety It is not safe to call this anywhere except as the only
+*               function call in SDL_main.
+*
+* \since This function is available since SDL 3.2.0.
+*/
+EnterAppMainCallbacks :: (argc: s32, argv: **u8, appinit: AppInit_func, appiter: AppIterate_func, appevent: AppEvent_func, appquit: AppQuit_func) -> s32 #foreign libsdl3 "SDL_EnterAppMainCallbacks";
+
+/**
+* Callback from the application to let the suspend continue.
+*
+* This function is only needed for Xbox GDK support; all other platforms will
+* do nothing and set an "unsupported" error message.
+*
+* \since This function is available since SDL 3.2.0.
+*/
+GDKSuspendComplete :: () -> void #foreign libsdl3 "SDL_GDKSuspendComplete";
 
 VkInstance_T :: struct {}
 VkInstance :: *VkInstance_T;

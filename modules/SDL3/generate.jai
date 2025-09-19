@@ -83,6 +83,7 @@ EOF;
 
         array_add(*opts.include_paths, include_path);
         array_add(*opts.source_files, sprint("%/SDL3/SDL.h", include_path));
+        array_add(*opts.source_files, sprint("%/SDL3/SDL_main.h", include_path));
         array_add(*opts.source_files, sprint("%/SDL3/SDL_vulkan.h", include_path));
 
         array_add(*opts.strip_prefixes, "SDL_");
