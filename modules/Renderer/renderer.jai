@@ -1184,6 +1184,110 @@ begin_draw :: (using renderer: *Renderer) -> bool {
     VK_CHECK(vkBeginCommandBuffer(cmd, *cmd_begin_info));
 
     transition_image(cmd, draw_image.img, .UNDEFINED, .GENERAL);
+
+    color_attachment := VkRenderingAttachmentInfo.{
+        imageView   = draw_image.img_view,
+        imageLayout = .GENERAL,
+        loadOp      = .CLEAR,
+        storeOp     = .STORE,
+        clearValue  = clear_color,
+    };
+
+    depth_attachment := VkRenderingAttachmentInfo.{
+        imageView = depth_image.img_view,
+        imageLayout = .DEPTH_ATTACHMENT_OPTIMAL,
+        loadOp = .CLEAR,
+        storeOp = .STORE,
+        clearValue = .{depthStencil = .{depth = 1}},
+    };
+
+    rendering_info := VkRenderingInfo.{
+        renderArea = .{offset = .{0, 0}, extent = draw_extent},
+        layoutCount = 1,
+        colorAttachmentCount = 1,
+        pColorAttachmentCount = *color_attachment,
+        pDepthAttachment = *depth_attachment,
+        pStencilAttachment = null,
+    };
+
+    vkCmdBeginRendering(cmd, *rendering_info);
+
+    viewport := VkViewport.{
+        x = 0,
+        y = 0,
+        width = draw_extent.width,
+        height = draw_extent.height,
+        minDepth = 0,
+        maxDepth = 1,
+    };
+
+    vkCmdSetViewport(cmd, 0, 1, *viewport);
+
+    scissor := VkRect2D.{
+        offset = .{0, 0},
+        extent = draw_extent,
+    };
+    vkCmdSetScissor(cmd, 0, 1, *scissor);
+
+    return true;
+}
+
+end_draw :: (using renderer: *Renderer) {
+    current_frame := get_current_frame(renderer);
+    assert(cmd != null, "cmd is null, you should not be here");
+
+    vkCmdEndRendering(cmd);
+
+    current_image := get_current_image(renderer);
+    transition_image(cmd, draw_image.img, .GENERAL, .TRANSFER_SRC_OPTIMAL);
+    transition_image(cmd, current_image, .UNDEFINED, .TRANSFER_DST_OPTIMAL);
+    copy_image(cmd, draw_image.img, current_image, draw_extent, extent);
+    transition_image(cmd, current_image, .TRANSFER_DST_OPTIMAL, .PRESENT_SRC_KHR);
+
+    VK_CHECK(vkEndCommandBuffer(cmd));
+    cmd_info := VkCommandBufferSubmitInfo.{
+        commandBuffer = cmd,
+    };
+    wait_info := VkSemaphoreSubmitInfo.{
+        semaphore = current_frame.swapchain_semaphore,
+        value = 1,
+        stageMask = .COLOR_ATTACHMENT_OUTPUT,
+    };
+
+    signal_info := VkSemaphoreSubmitInfo.{
+        semaphore = current_frame.render_semaphore,
+        value = 1,
+        stageMask = .ALL_GRAPHICS,
+    };
+
+    submit := VkSubmitInfo2.{
+        waitSemaphoreInfoCount = 1,
+        pWaitSemaphoreInfos = *wait_info,
+        commandBufferInfoCount = 1,
+        pCommandBufferInfos = *cmd_info,
+        signalSemaphoreInfoCount = 1,
+        pSignalSemaphoreInfos = *signal_info,
+    };
+
+    VK_CHECK(vkQueueSubmit2(graphics_queue, 1, *submit, current_frame.render_fence));
+    present_info := VkPresentInfoKHR.{
+        waitSemaphoreCount = 1,
+        pWaitSemaphores = *current_frame.render_semaphore,
+        swapchainCount = 1,
+        pSwapchains = *swapchain,
+        pImageIndices = *current_image_index,
+    };
+
+    result := vkQueuePresentKHR(graphics_queue, *present_info);
+    if result == .ERROR_OUT_OF_DATE_KHR {
+        resize_requested = true;
+        return;
+    } else {
+        assert(result == .SUBOPTIMAL_KHR || result == .SUCCESS, "present failed");
+    }
+
+    current_frame_index = (current_frame_index + 1) % image_count;
+    cmd = null;
 }
 
 #scope_file
