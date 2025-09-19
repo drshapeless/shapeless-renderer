@@ -52,6 +52,7 @@ Renderer :: struct {
     transfer_command_pool : VkCommandPool;
     graphics_command_pool : VkCommandPool;
     cmd                   : VkCommandBuffer;
+    resize_request        : bool;
 }
 
 VALIDATION_LAYERS :: (*u8).["VK_LAYER_KHRONOS_validation"];
@@ -1166,7 +1167,23 @@ begin_draw :: (using renderer: *Renderer) -> bool {
 
     descriptor_allocator_clear_descriptors(*current_frame.descriptor_allocator, renderer);
 
+    VK_CHECK(vkResetCommandBuffer(current_frame.cmd, 0));
+    result := acquire_next_image(renderer);
+    if result == .ERROR_OUT_OF_DATE_KHR {
+        resize_request = true;
+        return false;
+    } else {
+        assert(result == .SUBOPTIMAL_KHR || result == .SUCCESS, "acquire image failed %", result);
+    }
 
+    cmd = current_frame.cmd;
+
+    cmd_begin_info := VkCommandBufferBeginInfo.{
+        flags = .ONE_TIME_SUBMIT,
+    };
+    VK_CHECK(vkBeginCommandBuffer(cmd, *cmd_begin_info));
+
+    transition_image(cmd, draw_image.img, .UNDEFINED, .GENERAL);
 }
 
 #scope_file
