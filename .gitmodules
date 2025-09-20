@@ -1,6 +1,3 @@
 [submodule "modules/Vulkan"]
 	path = modules/Vulkan
 	url = git@github.com:drshapeless/vulkan-jai-binding.git
-[submodule "modules/SDL3"]
-	path = modules/SDL3
-	url = https://github.com/overlord-systems/jai-sdl3.git
