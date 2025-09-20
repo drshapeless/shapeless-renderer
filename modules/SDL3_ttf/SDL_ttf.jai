@@ -79,9 +79,9 @@ SDL_AUDIO_MASK_BIG_ENDIAN :: 1<<12;
 
 SDL_AUDIO_MASK_SIGNED :: 1<<15;
 
-SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK :: cast(AudioDeviceID) 0xFFFFFFFF;
+SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK :: cast(SDL_AudioDeviceID) 0xFFFFFFFF;
 
-SDL_AUDIO_DEVICE_DEFAULT_RECORDING :: cast(AudioDeviceID) 0xFFFFFFFE;
+SDL_AUDIO_DEVICE_DEFAULT_RECORDING :: cast(SDL_AudioDeviceID) 0xFFFFFFFE;
 
 SDL_BLENDMODE_NONE :: 0x00000000;
 SDL_BLENDMODE_BLEND :: 0x00000001;
@@ -540,13 +540,13 @@ SDL_BUTTON_RIGHT :: 3;
 SDL_BUTTON_X1 :: 4;
 SDL_BUTTON_X2 :: 5;
 
-SDL_TOUCH_MOUSEID :: cast,trunc(MouseID) -1;
+SDL_TOUCH_MOUSEID :: cast,trunc(SDL_MouseID) -1;
 
-SDL_MOUSE_TOUCHID :: cast,trunc(TouchID) -1;
+SDL_MOUSE_TOUCHID :: cast,trunc(SDL_TouchID) -1;
 
-SDL_PEN_MOUSEID :: cast,trunc(MouseID) -2;
+SDL_PEN_MOUSEID :: cast,trunc(SDL_MouseID) -2;
 
-SDL_PEN_TOUCHID :: cast,trunc(TouchID) -2;
+SDL_PEN_TOUCHID :: cast,trunc(SDL_TouchID) -2;
 
 SDL_PEN_INPUT_DOWN :: 1 << 0;
 SDL_PEN_INPUT_BUTTON_1 :: 1 << 1;
@@ -1301,7 +1301,7 @@ SDL_MAJOR_VERSION :: 3;
 
 SDL_MINOR_VERSION :: 2;
 
-SDL_MICRO_VERSION :: 20;
+SDL_MICRO_VERSION :: 22;
 
 SDL_TTF_MAJOR_VERSION :: 3;
 SDL_TTF_MINOR_VERSION :: 2;
@@ -1423,15 +1423,15 @@ Uint64 :: u64;
 * \sa SDL_MAX_SINT64
 * \sa SDL_MIN_SINT64
 */
-Time :: Sint64;
+SDL_Time :: Sint64;
 
-alignment_test :: struct {
+SDL_alignment_test :: struct {
     a: Uint8;
     b: *void;
 }
 
 /* TODO: include/SDL_stdinc.h:390: error: size of array 'SDL_dummy_enum' is negative */
-DUMMY_ENUM :: enum u32 {
+SDL_DUMMY_ENUM :: enum u32 {
     DUMMY_ENUM_VALUE :: 0;
 }
 
@@ -1461,7 +1461,7 @@ DUMMY_ENUM :: enum u32 {
 * \sa SDL_realloc
 * \sa SDL_aligned_alloc
 */
-malloc :: (size: u64) -> *void #foreign libsdl3_ttf "SDL_malloc";
+SDL_malloc :: (size: u64) -> *void #foreign libsdl3_ttf;
 
 /**
 * Allocate a zero-initialized array.
@@ -1486,7 +1486,7 @@ malloc :: (size: u64) -> *void #foreign libsdl3_ttf "SDL_malloc";
 * \sa SDL_malloc
 * \sa SDL_realloc
 */
-calloc :: (nmemb: u64, size: u64) -> *void #foreign libsdl3_ttf "SDL_calloc";
+SDL_calloc :: (nmemb: u64, size: u64) -> *void #foreign libsdl3_ttf;
 
 /**
 * Change the size of allocated memory.
@@ -1526,7 +1526,7 @@ calloc :: (nmemb: u64, size: u64) -> *void #foreign libsdl3_ttf "SDL_calloc";
 * \sa SDL_malloc
 * \sa SDL_calloc
 */
-realloc :: (mem: *void, size: u64) -> *void #foreign libsdl3_ttf "SDL_realloc";
+SDL_realloc :: (mem: *void, size: u64) -> *void #foreign libsdl3_ttf;
 
 /**
 * Free allocated memory.
@@ -1546,7 +1546,7 @@ realloc :: (mem: *void, size: u64) -> *void #foreign libsdl3_ttf "SDL_realloc";
 * \sa SDL_calloc
 * \sa SDL_realloc
 */
-free :: (mem: *void) -> void #foreign libsdl3_ttf "SDL_free";
+SDL_free :: (mem: *void) -> void #foreign libsdl3_ttf;
 
 /**
 * A callback used to implement SDL_malloc().
@@ -1565,7 +1565,7 @@ free :: (mem: *void) -> void #foreign libsdl3_ttf "SDL_free";
 * \sa SDL_GetMemoryFunctions
 * \sa SDL_SetMemoryFunctions
 */
-malloc_func :: #type (size: u64) -> *void #c_call;
+SDL_malloc_func :: #type (size: u64) -> *void #c_call;
 
 /**
 * A callback used to implement SDL_calloc().
@@ -1586,7 +1586,7 @@ malloc_func :: #type (size: u64) -> *void #c_call;
 * \sa SDL_GetMemoryFunctions
 * \sa SDL_SetMemoryFunctions
 */
-calloc_func :: #type (nmemb: u64, size: u64) -> *void #c_call;
+SDL_calloc_func :: #type (nmemb: u64, size: u64) -> *void #c_call;
 
 /**
 * A callback used to implement SDL_realloc().
@@ -1607,7 +1607,7 @@ calloc_func :: #type (nmemb: u64, size: u64) -> *void #c_call;
 * \sa SDL_GetMemoryFunctions
 * \sa SDL_SetMemoryFunctions
 */
-realloc_func :: #type (mem: *void, size: u64) -> *void #c_call;
+SDL_realloc_func :: #type (mem: *void, size: u64) -> *void #c_call;
 
 /**
 * A callback used to implement SDL_free().
@@ -1625,7 +1625,7 @@ realloc_func :: #type (mem: *void, size: u64) -> *void #c_call;
 * \sa SDL_GetMemoryFunctions
 * \sa SDL_SetMemoryFunctions
 */
-free_func :: #type (mem: *void) -> void #c_call;
+SDL_free_func :: #type (mem: *void) -> void #c_call;
 
 /**
 * Get the original set of SDL memory functions.
@@ -1644,7 +1644,7 @@ free_func :: #type (mem: *void) -> void #c_call;
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetOriginalMemoryFunctions :: (malloc_func: *malloc_func, calloc_func: *calloc_func, realloc_func: *realloc_func, free_func: *free_func) -> void #foreign libsdl3_ttf "SDL_GetOriginalMemoryFunctions";
+SDL_GetOriginalMemoryFunctions :: (malloc_func: *SDL_malloc_func, calloc_func: *SDL_calloc_func, realloc_func: *SDL_realloc_func, free_func: *SDL_free_func) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the current set of SDL memory functions.
@@ -1663,7 +1663,7 @@ GetOriginalMemoryFunctions :: (malloc_func: *malloc_func, calloc_func: *calloc_f
 * \sa SDL_SetMemoryFunctions
 * \sa SDL_GetOriginalMemoryFunctions
 */
-GetMemoryFunctions :: (malloc_func: *malloc_func, calloc_func: *calloc_func, realloc_func: *realloc_func, free_func: *free_func) -> void #foreign libsdl3_ttf "SDL_GetMemoryFunctions";
+SDL_GetMemoryFunctions :: (malloc_func: *SDL_malloc_func, calloc_func: *SDL_calloc_func, realloc_func: *SDL_realloc_func, free_func: *SDL_free_func) -> void #foreign libsdl3_ttf;
 
 /**
 * Replace SDL's memory allocation functions with a custom set.
@@ -1691,7 +1691,7 @@ GetMemoryFunctions :: (malloc_func: *malloc_func, calloc_func: *calloc_func, rea
 * \sa SDL_GetMemoryFunctions
 * \sa SDL_GetOriginalMemoryFunctions
 */
-SetMemoryFunctions :: (malloc_func: malloc_func, calloc_func: calloc_func, realloc_func: realloc_func, free_func: free_func) -> bool #foreign libsdl3_ttf "SDL_SetMemoryFunctions";
+SDL_SetMemoryFunctions :: (malloc_func: SDL_malloc_func, calloc_func: SDL_calloc_func, realloc_func: SDL_realloc_func, free_func: SDL_free_func) -> bool #foreign libsdl3_ttf;
 
 /**
 * Allocate memory aligned to a specific alignment.
@@ -1715,7 +1715,7 @@ SetMemoryFunctions :: (malloc_func: malloc_func, calloc_func: calloc_func, reall
 *
 * \sa SDL_aligned_free
 */
-aligned_alloc :: (alignment: u64, size: u64) -> *void #foreign libsdl3_ttf "SDL_aligned_alloc";
+SDL_aligned_alloc :: (alignment: u64, size: u64) -> *void #foreign libsdl3_ttf;
 
 /**
 * Free memory allocated by SDL_aligned_alloc().
@@ -1733,7 +1733,7 @@ aligned_alloc :: (alignment: u64, size: u64) -> *void #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_aligned_alloc
 */
-aligned_free :: (mem: *void) -> void #foreign libsdl3_ttf "SDL_aligned_free";
+SDL_aligned_free :: (mem: *void) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the number of outstanding (unfreed) allocations.
@@ -1745,9 +1745,9 @@ aligned_free :: (mem: *void) -> void #foreign libsdl3_ttf "SDL_aligned_free";
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetNumAllocations :: () -> s32 #foreign libsdl3_ttf "SDL_GetNumAllocations";
+SDL_GetNumAllocations :: () -> s32 #foreign libsdl3_ttf;
 
-Environment :: struct {}
+SDL_Environment :: struct {}
 
 /**
 * Get the process environment.
@@ -1770,7 +1770,7 @@ Environment :: struct {}
 * \sa SDL_SetEnvironmentVariable
 * \sa SDL_UnsetEnvironmentVariable
 */
-GetEnvironment :: () -> *Environment #foreign libsdl3_ttf "SDL_GetEnvironment";
+SDL_GetEnvironment :: () -> *SDL_Environment #foreign libsdl3_ttf;
 
 /**
 * Create a set of environment variables
@@ -1792,7 +1792,7 @@ GetEnvironment :: () -> *Environment #foreign libsdl3_ttf "SDL_GetEnvironment";
 * \sa SDL_UnsetEnvironmentVariable
 * \sa SDL_DestroyEnvironment
 */
-CreateEnvironment :: (populated: bool) -> *Environment #foreign libsdl3_ttf "SDL_CreateEnvironment";
+SDL_CreateEnvironment :: (populated: bool) -> *SDL_Environment #foreign libsdl3_ttf;
 
 /**
 * Get the value of a variable in the environment.
@@ -1812,7 +1812,7 @@ CreateEnvironment :: (populated: bool) -> *Environment #foreign libsdl3_ttf "SDL
 * \sa SDL_SetEnvironmentVariable
 * \sa SDL_UnsetEnvironmentVariable
 */
-GetEnvironmentVariable :: (env: *Environment, name: *u8) -> *u8 #foreign libsdl3_ttf "SDL_GetEnvironmentVariable";
+SDL_GetEnvironmentVariable :: (env: *SDL_Environment, name: *u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get all variables in the environment.
@@ -1833,7 +1833,7 @@ GetEnvironmentVariable :: (env: *Environment, name: *u8) -> *u8 #foreign libsdl3
 * \sa SDL_SetEnvironmentVariable
 * \sa SDL_UnsetEnvironmentVariable
 */
-GetEnvironmentVariables :: (env: *Environment) -> **u8 #foreign libsdl3_ttf "SDL_GetEnvironmentVariables";
+SDL_GetEnvironmentVariables :: (env: *SDL_Environment) -> **u8 #foreign libsdl3_ttf;
 
 /**
 * Set the value of a variable in the environment.
@@ -1857,7 +1857,7 @@ GetEnvironmentVariables :: (env: *Environment) -> **u8 #foreign libsdl3_ttf "SDL
 * \sa SDL_GetEnvironmentVariables
 * \sa SDL_UnsetEnvironmentVariable
 */
-SetEnvironmentVariable :: (env: *Environment, name: *u8, value: *u8, overwrite: bool) -> bool #foreign libsdl3_ttf "SDL_SetEnvironmentVariable";
+SDL_SetEnvironmentVariable :: (env: *SDL_Environment, name: *u8, value: *u8, overwrite: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Clear a variable from the environment.
@@ -1878,7 +1878,7 @@ SetEnvironmentVariable :: (env: *Environment, name: *u8, value: *u8, overwrite: 
 * \sa SDL_SetEnvironmentVariable
 * \sa SDL_UnsetEnvironmentVariable
 */
-UnsetEnvironmentVariable :: (env: *Environment, name: *u8) -> bool #foreign libsdl3_ttf "SDL_UnsetEnvironmentVariable";
+SDL_UnsetEnvironmentVariable :: (env: *SDL_Environment, name: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Destroy a set of environment variables.
@@ -1892,7 +1892,7 @@ UnsetEnvironmentVariable :: (env: *Environment, name: *u8) -> bool #foreign libs
 *
 * \sa SDL_CreateEnvironment
 */
-DestroyEnvironment :: (env: *Environment) -> void #foreign libsdl3_ttf "SDL_DestroyEnvironment";
+SDL_DestroyEnvironment :: (env: *SDL_Environment) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the value of a variable in the environment.
@@ -1907,7 +1907,7 @@ DestroyEnvironment :: (env: *Environment) -> void #foreign libsdl3_ttf "SDL_Dest
 *
 * \since This function is available since SDL 3.2.0.
 */
-getenv :: (name: *u8) -> *u8 #foreign libsdl3_ttf "SDL_getenv";
+SDL_getenv :: (name: *u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the value of a variable in the environment.
@@ -1926,7 +1926,7 @@ getenv :: (name: *u8) -> *u8 #foreign libsdl3_ttf "SDL_getenv";
 *
 * \sa SDL_getenv
 */
-getenv_unsafe :: (name: *u8) -> *u8 #foreign libsdl3_ttf "SDL_getenv_unsafe";
+SDL_getenv_unsafe :: (name: *u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Set the value of a variable in the environment.
@@ -1944,7 +1944,7 @@ getenv_unsafe :: (name: *u8) -> *u8 #foreign libsdl3_ttf "SDL_getenv_unsafe";
 *
 * \sa SDL_SetEnvironmentVariable
 */
-setenv_unsafe :: (name: *u8, value: *u8, overwrite: s32) -> s32 #foreign libsdl3_ttf "SDL_setenv_unsafe";
+SDL_setenv_unsafe :: (name: *u8, value: *u8, overwrite: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Clear a variable from the environment.
@@ -1959,7 +1959,7 @@ setenv_unsafe :: (name: *u8, value: *u8, overwrite: s32) -> s32 #foreign libsdl3
 *
 * \sa SDL_UnsetEnvironmentVariable
 */
-unsetenv_unsafe :: (name: *u8) -> s32 #foreign libsdl3_ttf "SDL_unsetenv_unsafe";
+SDL_unsetenv_unsafe :: (name: *u8) -> s32 #foreign libsdl3_ttf;
 
 /**
 * A callback used with SDL sorting and binary search functions.
@@ -1975,7 +1975,7 @@ unsetenv_unsafe :: (name: *u8) -> s32 #foreign libsdl3_ttf "SDL_unsetenv_unsafe"
 * \sa SDL_bsearch
 * \sa SDL_qsort
 */
-CompareCallback :: #type (a: *void, b: *void) -> s32 #c_call;
+SDL_CompareCallback :: #type (a: *void, b: *void) -> s32 #c_call;
 
 /**
 * Sort an array.
@@ -2021,7 +2021,7 @@ CompareCallback :: #type (a: *void, b: *void) -> s32 #c_call;
 * \sa SDL_bsearch
 * \sa SDL_qsort_r
 */
-qsort :: (base: *void, nmemb: u64, size: u64, compare: CompareCallback) -> void #foreign libsdl3_ttf "SDL_qsort";
+SDL_qsort :: (base: *void, nmemb: u64, size: u64, compare: SDL_CompareCallback) -> void #foreign libsdl3_ttf;
 
 /**
 * Perform a binary search on a previously sorted array.
@@ -2071,7 +2071,7 @@ qsort :: (base: *void, nmemb: u64, size: u64, compare: CompareCallback) -> void 
 * \sa SDL_bsearch_r
 * \sa SDL_qsort
 */
-bsearch :: (key: *void, base: *void, nmemb: u64, size: u64, compare: CompareCallback) -> *void #foreign libsdl3_ttf "SDL_bsearch";
+SDL_bsearch :: (key: *void, base: *void, nmemb: u64, size: u64, compare: SDL_CompareCallback) -> *void #foreign libsdl3_ttf;
 
 /**
 * A callback used with SDL sorting and binary search functions.
@@ -2088,7 +2088,7 @@ bsearch :: (key: *void, base: *void, nmemb: u64, size: u64, compare: CompareCall
 * \sa SDL_qsort_r
 * \sa SDL_bsearch_r
 */
-CompareCallback_r :: #type (userdata: *void, a: *void, b: *void) -> s32 #c_call;
+SDL_CompareCallback_r :: #type (userdata: *void, a: *void, b: *void) -> s32 #c_call;
 
 /**
 * Sort an array, passing a userdata pointer to the compare function.
@@ -2141,7 +2141,7 @@ CompareCallback_r :: #type (userdata: *void, a: *void, b: *void) -> s32 #c_call;
 * \sa SDL_bsearch_r
 * \sa SDL_qsort
 */
-qsort_r :: (base: *void, nmemb: u64, size: u64, compare: CompareCallback_r, userdata: *void) -> void #foreign libsdl3_ttf "SDL_qsort_r";
+SDL_qsort_r :: (base: *void, nmemb: u64, size: u64, compare: SDL_CompareCallback_r, userdata: *void) -> void #foreign libsdl3_ttf;
 
 /**
 * Perform a binary search on a previously sorted array, passing a userdata
@@ -2199,7 +2199,7 @@ qsort_r :: (base: *void, nmemb: u64, size: u64, compare: CompareCallback_r, user
 * \sa SDL_bsearch
 * \sa SDL_qsort_r
 */
-bsearch_r :: (key: *void, base: *void, nmemb: u64, size: u64, compare: CompareCallback_r, userdata: *void) -> *void #foreign libsdl3_ttf "SDL_bsearch_r";
+SDL_bsearch_r :: (key: *void, base: *void, nmemb: u64, size: u64, compare: SDL_CompareCallback_r, userdata: *void) -> *void #foreign libsdl3_ttf;
 
 /**
 * Compute the absolute value of `x`.
@@ -2211,7 +2211,7 @@ bsearch_r :: (key: *void, base: *void, nmemb: u64, size: u64, compare: CompareCa
 *
 * \since This function is available since SDL 3.2.0.
 */
-abs :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_abs";
+SDL_abs :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Query if a character is alphabetic (a letter).
@@ -2226,7 +2226,7 @@ abs :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_abs";
 *
 * \since This function is available since SDL 3.2.0.
 */
-isalpha :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isalpha";
+SDL_isalpha :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Query if a character is alphabetic (a letter) or a number.
@@ -2241,7 +2241,7 @@ isalpha :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isalpha";
 *
 * \since This function is available since SDL 3.2.0.
 */
-isalnum :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isalnum";
+SDL_isalnum :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Report if a character is blank (a space or tab).
@@ -2256,7 +2256,7 @@ isalnum :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isalnum";
 *
 * \since This function is available since SDL 3.2.0.
 */
-isblank :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isblank";
+SDL_isblank :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Report if a character is a control character.
@@ -2271,7 +2271,7 @@ isblank :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isblank";
 *
 * \since This function is available since SDL 3.2.0.
 */
-iscntrl :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_iscntrl";
+SDL_iscntrl :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Report if a character is a numeric digit.
@@ -2286,7 +2286,7 @@ iscntrl :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_iscntrl";
 *
 * \since This function is available since SDL 3.2.0.
 */
-isdigit :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isdigit";
+SDL_isdigit :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Report if a character is a hexadecimal digit.
@@ -2301,7 +2301,7 @@ isdigit :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isdigit";
 *
 * \since This function is available since SDL 3.2.0.
 */
-isxdigit :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isxdigit";
+SDL_isxdigit :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Report if a character is a punctuation mark.
@@ -2319,7 +2319,7 @@ isxdigit :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isxdigit";
 * \sa SDL_isgraph
 * \sa SDL_isalnum
 */
-ispunct :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_ispunct";
+SDL_ispunct :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Report if a character is whitespace.
@@ -2341,7 +2341,7 @@ ispunct :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_ispunct";
 *
 * \since This function is available since SDL 3.2.0.
 */
-isspace :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isspace";
+SDL_isspace :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Report if a character is upper case.
@@ -2356,7 +2356,7 @@ isspace :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isspace";
 *
 * \since This function is available since SDL 3.2.0.
 */
-isupper :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isupper";
+SDL_isupper :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Report if a character is lower case.
@@ -2371,7 +2371,7 @@ isupper :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isupper";
 *
 * \since This function is available since SDL 3.2.0.
 */
-islower :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_islower";
+SDL_islower :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Report if a character is "printable".
@@ -2390,7 +2390,7 @@ islower :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_islower";
 *
 * \since This function is available since SDL 3.2.0.
 */
-isprint :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isprint";
+SDL_isprint :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Report if a character is any "printable" except space.
@@ -2411,7 +2411,7 @@ isprint :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isprint";
 *
 * \sa SDL_isprint
 */
-isgraph :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isgraph";
+SDL_isgraph :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Convert low-ASCII English letters to uppercase.
@@ -2429,7 +2429,7 @@ isgraph :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_isgraph";
 *
 * \since This function is available since SDL 3.2.0.
 */
-toupper :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_toupper";
+SDL_toupper :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Convert low-ASCII English letters to lowercase.
@@ -2447,7 +2447,7 @@ toupper :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_toupper";
 *
 * \since This function is available since SDL 3.2.0.
 */
-tolower :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_tolower";
+SDL_tolower :: (x: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Calculate a CRC-16 value.
@@ -2468,7 +2468,7 @@ tolower :: (x: s32) -> s32 #foreign libsdl3_ttf "SDL_tolower";
 *
 * \since This function is available since SDL 3.2.0.
 */
-crc16 :: (crc: Uint16, data: *void, len: u64) -> Uint16 #foreign libsdl3_ttf "SDL_crc16";
+SDL_crc16 :: (crc: Uint16, data: *void, len: u64) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Calculate a CRC-32 value.
@@ -2489,7 +2489,7 @@ crc16 :: (crc: Uint16, data: *void, len: u64) -> Uint16 #foreign libsdl3_ttf "SD
 *
 * \since This function is available since SDL 3.2.0.
 */
-crc32 :: (crc: Uint32, data: *void, len: u64) -> Uint32 #foreign libsdl3_ttf "SDL_crc32";
+SDL_crc32 :: (crc: Uint32, data: *void, len: u64) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Calculate a 32-bit MurmurHash3 value for a block of data.
@@ -2515,7 +2515,7 @@ crc32 :: (crc: Uint32, data: *void, len: u64) -> Uint32 #foreign libsdl3_ttf "SD
 *
 * \since This function is available since SDL 3.2.0.
 */
-murmur3_32 :: (data: *void, len: u64, seed: Uint32) -> Uint32 #foreign libsdl3_ttf "SDL_murmur3_32";
+SDL_murmur3_32 :: (data: *void, len: u64, seed: Uint32) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Copy non-overlapping memory.
@@ -2535,7 +2535,7 @@ murmur3_32 :: (data: *void, len: u64, seed: Uint32) -> Uint32 #foreign libsdl3_t
 *
 * \sa SDL_memmove
 */
-memcpy :: (dst: *void, src: *void, len: u64) -> *void #foreign libsdl3_ttf "SDL_memcpy";
+SDL_memcpy :: (dst: *void, src: *void, len: u64) -> *void #foreign libsdl3_ttf;
 
 /**
 * Copy memory ranges that might overlap.
@@ -2554,7 +2554,7 @@ memcpy :: (dst: *void, src: *void, len: u64) -> *void #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_memcpy
 */
-memmove :: (dst: *void, src: *void, len: u64) -> *void #foreign libsdl3_ttf "SDL_memmove";
+SDL_memmove :: (dst: *void, src: *void, len: u64) -> *void #foreign libsdl3_ttf;
 
 /**
 * Initialize all bytes of buffer of memory to a specific value.
@@ -2574,7 +2574,7 @@ memmove :: (dst: *void, src: *void, len: u64) -> *void #foreign libsdl3_ttf "SDL
 *
 * \since This function is available since SDL 3.2.0.
 */
-memset :: (dst: *void, c: s32, len: u64) -> *void #foreign libsdl3_ttf "SDL_memset";
+SDL_memset :: (dst: *void, c: s32, len: u64) -> *void #foreign libsdl3_ttf;
 
 /**
 * Initialize all 32-bit words of buffer of memory to a specific value.
@@ -2594,7 +2594,7 @@ memset :: (dst: *void, c: s32, len: u64) -> *void #foreign libsdl3_ttf "SDL_mems
 *
 * \since This function is available since SDL 3.2.0.
 */
-memset4 :: (dst: *void, val: Uint32, dwords: u64) -> *void #foreign libsdl3_ttf "SDL_memset4";
+SDL_memset4 :: (dst: *void, val: Uint32, dwords: u64) -> *void #foreign libsdl3_ttf;
 
 /**
 * Compare two buffers of memory.
@@ -2610,7 +2610,7 @@ memset4 :: (dst: *void, val: Uint32, dwords: u64) -> *void #foreign libsdl3_ttf 
 *
 * \since This function is available since SDL 3.2.0.
 */
-memcmp :: (s1: *void, s2: *void, len: u64) -> s32 #foreign libsdl3_ttf "SDL_memcmp";
+SDL_memcmp :: (s1: *void, s2: *void, len: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * This works exactly like wcslen() but doesn't require access to a C runtime.
@@ -2637,7 +2637,7 @@ memcmp :: (s1: *void, s2: *void, len: u64) -> s32 #foreign libsdl3_ttf "SDL_memc
 * \sa SDL_utf8strlen
 * \sa SDL_utf8strnlen
 */
-wcslen :: (wstr: *s32) -> u64 #foreign libsdl3_ttf "SDL_wcslen";
+SDL_wcslen :: (wstr: *s32) -> u64 #foreign libsdl3_ttf;
 
 /**
 * This works exactly like wcsnlen() but doesn't require access to a C
@@ -2668,7 +2668,7 @@ wcslen :: (wstr: *s32) -> u64 #foreign libsdl3_ttf "SDL_wcslen";
 * \sa SDL_utf8strlen
 * \sa SDL_utf8strnlen
 */
-wcsnlen :: (wstr: *s32, maxlen: u64) -> u64 #foreign libsdl3_ttf "SDL_wcsnlen";
+SDL_wcsnlen :: (wstr: *s32, maxlen: u64) -> u64 #foreign libsdl3_ttf;
 
 /**
 * Copy a wide string.
@@ -2695,7 +2695,7 @@ wcsnlen :: (wstr: *s32, maxlen: u64) -> u64 #foreign libsdl3_ttf "SDL_wcsnlen";
 *
 * \sa SDL_wcslcat
 */
-wcslcpy :: (dst: *s32, src: *s32, maxlen: u64) -> u64 #foreign libsdl3_ttf "SDL_wcslcpy";
+SDL_wcslcpy :: (dst: *s32, src: *s32, maxlen: u64) -> u64 #foreign libsdl3_ttf;
 
 /**
 * Concatenate wide strings.
@@ -2724,7 +2724,7 @@ wcslcpy :: (dst: *s32, src: *s32, maxlen: u64) -> u64 #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_wcslcpy
 */
-wcslcat :: (dst: *s32, src: *s32, maxlen: u64) -> u64 #foreign libsdl3_ttf "SDL_wcslcat";
+SDL_wcslcat :: (dst: *s32, src: *s32, maxlen: u64) -> u64 #foreign libsdl3_ttf;
 
 /**
 * Allocate a copy of a wide string.
@@ -2742,7 +2742,7 @@ wcslcat :: (dst: *s32, src: *s32, maxlen: u64) -> u64 #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-wcsdup :: (wstr: *s32) -> *s32 #foreign libsdl3_ttf "SDL_wcsdup";
+SDL_wcsdup :: (wstr: *s32) -> *s32 #foreign libsdl3_ttf;
 
 /**
 * Search a wide string for the first instance of a specific substring.
@@ -2762,7 +2762,7 @@ wcsdup :: (wstr: *s32) -> *s32 #foreign libsdl3_ttf "SDL_wcsdup";
 *
 * \since This function is available since SDL 3.2.0.
 */
-wcsstr :: (haystack: *s32, needle: *s32) -> *s32 #foreign libsdl3_ttf "SDL_wcsstr";
+SDL_wcsstr :: (haystack: *s32, needle: *s32) -> *s32 #foreign libsdl3_ttf;
 
 /**
 * Search a wide string, up to n wide chars, for the first instance of a
@@ -2787,7 +2787,7 @@ wcsstr :: (haystack: *s32, needle: *s32) -> *s32 #foreign libsdl3_ttf "SDL_wcsst
 *
 * \since This function is available since SDL 3.2.0.
 */
-wcsnstr :: (haystack: *s32, needle: *s32, maxlen: u64) -> *s32 #foreign libsdl3_ttf "SDL_wcsnstr";
+SDL_wcsnstr :: (haystack: *s32, needle: *s32, maxlen: u64) -> *s32 #foreign libsdl3_ttf;
 
 /**
 * Compare two null-terminated wide strings.
@@ -2806,7 +2806,7 @@ wcsnstr :: (haystack: *s32, needle: *s32, maxlen: u64) -> *s32 #foreign libsdl3_
 *
 * \since This function is available since SDL 3.2.0.
 */
-wcscmp :: (str1: *s32, str2: *s32) -> s32 #foreign libsdl3_ttf "SDL_wcscmp";
+SDL_wcscmp :: (str1: *s32, str2: *s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Compare two wide strings up to a number of wchar_t values.
@@ -2837,7 +2837,7 @@ wcscmp :: (str1: *s32, str2: *s32) -> s32 #foreign libsdl3_ttf "SDL_wcscmp";
 *
 * \since This function is available since SDL 3.2.0.
 */
-wcsncmp :: (str1: *s32, str2: *s32, maxlen: u64) -> s32 #foreign libsdl3_ttf "SDL_wcsncmp";
+SDL_wcsncmp :: (str1: *s32, str2: *s32, maxlen: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Compare two null-terminated wide strings, case-insensitively.
@@ -2867,7 +2867,7 @@ wcsncmp :: (str1: *s32, str2: *s32, maxlen: u64) -> s32 #foreign libsdl3_ttf "SD
 *
 * \since This function is available since SDL 3.2.0.
 */
-wcscasecmp :: (str1: *s32, str2: *s32) -> s32 #foreign libsdl3_ttf "SDL_wcscasecmp";
+SDL_wcscasecmp :: (str1: *s32, str2: *s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Compare two wide strings, case-insensitively, up to a number of wchar_t.
@@ -2909,7 +2909,7 @@ wcscasecmp :: (str1: *s32, str2: *s32) -> s32 #foreign libsdl3_ttf "SDL_wcscasec
 *
 * \since This function is available since SDL 3.2.0.
 */
-wcsncasecmp :: (str1: *s32, str2: *s32, maxlen: u64) -> s32 #foreign libsdl3_ttf "SDL_wcsncasecmp";
+SDL_wcsncasecmp :: (str1: *s32, str2: *s32, maxlen: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Parse a `long` from a wide string.
@@ -2936,7 +2936,7 @@ wcsncasecmp :: (str1: *s32, str2: *s32, maxlen: u64) -> s32 #foreign libsdl3_ttf
 *
 * \sa SDL_strtol
 */
-wcstol :: (str: *s32, endp: **s32, base: s32) -> s64 #foreign libsdl3_ttf "SDL_wcstol";
+SDL_wcstol :: (str: *s32, endp: **s32, base: s32) -> s64 #foreign libsdl3_ttf;
 
 /**
 * This works exactly like strlen() but doesn't require access to a C runtime.
@@ -2956,7 +2956,7 @@ wcstol :: (str: *s32, endp: **s32, base: s32) -> s64 #foreign libsdl3_ttf "SDL_w
 * \sa SDL_utf8strlen
 * \sa SDL_utf8strnlen
 */
-strlen :: (str: *u8) -> u64 #foreign libsdl3_ttf "SDL_strlen";
+SDL_strlen :: (str: *u8) -> u64 #foreign libsdl3_ttf;
 
 /**
 * This works exactly like strnlen() but doesn't require access to a C
@@ -2980,7 +2980,7 @@ strlen :: (str: *u8) -> u64 #foreign libsdl3_ttf "SDL_strlen";
 * \sa SDL_utf8strlen
 * \sa SDL_utf8strnlen
 */
-strnlen :: (str: *u8, maxlen: u64) -> u64 #foreign libsdl3_ttf "SDL_strnlen";
+SDL_strnlen :: (str: *u8, maxlen: u64) -> u64 #foreign libsdl3_ttf;
 
 /**
 * Copy a string.
@@ -3009,7 +3009,7 @@ strnlen :: (str: *u8, maxlen: u64) -> u64 #foreign libsdl3_ttf "SDL_strnlen";
 * \sa SDL_strlcat
 * \sa SDL_utf8strlcpy
 */
-strlcpy :: (dst: *u8, src: *u8, maxlen: u64) -> u64 #foreign libsdl3_ttf "SDL_strlcpy";
+SDL_strlcpy :: (dst: *u8, src: *u8, maxlen: u64) -> u64 #foreign libsdl3_ttf;
 
 /**
 * Copy an UTF-8 string.
@@ -3037,7 +3037,7 @@ strlcpy :: (dst: *u8, src: *u8, maxlen: u64) -> u64 #foreign libsdl3_ttf "SDL_st
 *
 * \sa SDL_strlcpy
 */
-utf8strlcpy :: (dst: *u8, src: *u8, dst_bytes: u64) -> u64 #foreign libsdl3_ttf "SDL_utf8strlcpy";
+SDL_utf8strlcpy :: (dst: *u8, src: *u8, dst_bytes: u64) -> u64 #foreign libsdl3_ttf;
 
 /**
 * Concatenate strings.
@@ -3065,7 +3065,7 @@ utf8strlcpy :: (dst: *u8, src: *u8, dst_bytes: u64) -> u64 #foreign libsdl3_ttf 
 *
 * \sa SDL_strlcpy
 */
-strlcat :: (dst: *u8, src: *u8, maxlen: u64) -> u64 #foreign libsdl3_ttf "SDL_strlcat";
+SDL_strlcat :: (dst: *u8, src: *u8, maxlen: u64) -> u64 #foreign libsdl3_ttf;
 
 /**
 * Allocate a copy of a string.
@@ -3083,7 +3083,7 @@ strlcat :: (dst: *u8, src: *u8, maxlen: u64) -> u64 #foreign libsdl3_ttf "SDL_st
 *
 * \since This function is available since SDL 3.2.0.
 */
-strdup :: (str: *u8) -> *u8 #foreign libsdl3_ttf "SDL_strdup";
+SDL_strdup :: (str: *u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Allocate a copy of a string, up to n characters.
@@ -3108,7 +3108,7 @@ strdup :: (str: *u8) -> *u8 #foreign libsdl3_ttf "SDL_strdup";
 *
 * \since This function is available since SDL 3.2.0.
 */
-strndup :: (str: *u8, maxlen: u64) -> *u8 #foreign libsdl3_ttf "SDL_strndup";
+SDL_strndup :: (str: *u8, maxlen: u64) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Reverse a string's contents.
@@ -3129,7 +3129,7 @@ strndup :: (str: *u8, maxlen: u64) -> *u8 #foreign libsdl3_ttf "SDL_strndup";
 *
 * \since This function is available since SDL 3.2.0.
 */
-strrev :: (str: *u8) -> *u8 #foreign libsdl3_ttf "SDL_strrev";
+SDL_strrev :: (str: *u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Convert a string to uppercase.
@@ -3150,7 +3150,7 @@ strrev :: (str: *u8) -> *u8 #foreign libsdl3_ttf "SDL_strrev";
 *
 * \sa SDL_strlwr
 */
-strupr :: (str: *u8) -> *u8 #foreign libsdl3_ttf "SDL_strupr";
+SDL_strupr :: (str: *u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Convert a string to lowercase.
@@ -3171,7 +3171,7 @@ strupr :: (str: *u8) -> *u8 #foreign libsdl3_ttf "SDL_strupr";
 *
 * \sa SDL_strupr
 */
-strlwr :: (str: *u8) -> *u8 #foreign libsdl3_ttf "SDL_strlwr";
+SDL_strlwr :: (str: *u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Search a string for the first instance of a specific byte.
@@ -3191,7 +3191,7 @@ strlwr :: (str: *u8) -> *u8 #foreign libsdl3_ttf "SDL_strlwr";
 *
 * \since This function is available since SDL 3.2.0.
 */
-strchr :: (str: *u8, c: s32) -> *u8 #foreign libsdl3_ttf "SDL_strchr";
+SDL_strchr :: (str: *u8, c: s32) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Search a string for the last instance of a specific byte.
@@ -3210,7 +3210,7 @@ strchr :: (str: *u8, c: s32) -> *u8 #foreign libsdl3_ttf "SDL_strchr";
 *
 * \since This function is available since SDL 3.2.0.
 */
-strrchr :: (str: *u8, c: s32) -> *u8 #foreign libsdl3_ttf "SDL_strrchr";
+SDL_strrchr :: (str: *u8, c: s32) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Search a string for the first instance of a specific substring.
@@ -3230,7 +3230,7 @@ strrchr :: (str: *u8, c: s32) -> *u8 #foreign libsdl3_ttf "SDL_strrchr";
 *
 * \since This function is available since SDL 3.2.0.
 */
-strstr :: (haystack: *u8, needle: *u8) -> *u8 #foreign libsdl3_ttf "SDL_strstr";
+SDL_strstr :: (haystack: *u8, needle: *u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Search a string, up to n bytes, for the first instance of a specific
@@ -3253,7 +3253,7 @@ strstr :: (haystack: *u8, needle: *u8) -> *u8 #foreign libsdl3_ttf "SDL_strstr";
 *
 * \since This function is available since SDL 3.2.0.
 */
-strnstr :: (haystack: *u8, needle: *u8, maxlen: u64) -> *u8 #foreign libsdl3_ttf "SDL_strnstr";
+SDL_strnstr :: (haystack: *u8, needle: *u8, maxlen: u64) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Search a UTF-8 string for the first instance of a specific substring,
@@ -3281,7 +3281,7 @@ strnstr :: (haystack: *u8, needle: *u8, maxlen: u64) -> *u8 #foreign libsdl3_ttf
 *
 * \since This function is available since SDL 3.2.0.
 */
-strcasestr :: (haystack: *u8, needle: *u8) -> *u8 #foreign libsdl3_ttf "SDL_strcasestr";
+SDL_strcasestr :: (haystack: *u8, needle: *u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * This works exactly like strtok_r() but doesn't require access to a C
@@ -3310,7 +3310,7 @@ strcasestr :: (haystack: *u8, needle: *u8) -> *u8 #foreign libsdl3_ttf "SDL_strc
 *
 * \since This function is available since SDL 3.2.0.
 */
-strtok_r :: (str: *u8, delim: *u8, saveptr: **u8) -> *u8 #foreign libsdl3_ttf "SDL_strtok_r";
+SDL_strtok_r :: (str: *u8, delim: *u8, saveptr: **u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Count the number of codepoints in a UTF-8 string.
@@ -3338,7 +3338,7 @@ strtok_r :: (str: *u8, delim: *u8, saveptr: **u8) -> *u8 #foreign libsdl3_ttf "S
 * \sa SDL_utf8strnlen
 * \sa SDL_strlen
 */
-utf8strlen :: (str: *u8) -> u64 #foreign libsdl3_ttf "SDL_utf8strlen";
+SDL_utf8strlen :: (str: *u8) -> u64 #foreign libsdl3_ttf;
 
 /**
 * Count the number of codepoints in a UTF-8 string, up to n bytes.
@@ -3371,13 +3371,13 @@ utf8strlen :: (str: *u8) -> u64 #foreign libsdl3_ttf "SDL_utf8strlen";
 * \sa SDL_utf8strlen
 * \sa SDL_strnlen
 */
-utf8strnlen :: (str: *u8, bytes: u64) -> u64 #foreign libsdl3_ttf "SDL_utf8strnlen";
+SDL_utf8strnlen :: (str: *u8, bytes: u64) -> u64 #foreign libsdl3_ttf;
 
 /**
 * Convert an integer into a string.
 *
 * This requires a radix to specified for string format. Specifying 10
-* produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+* produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 * to 36.
 *
 * Note that this function will overflow a buffer if `str` is not large enough
@@ -3399,13 +3399,13 @@ utf8strnlen :: (str: *u8, bytes: u64) -> u64 #foreign libsdl3_ttf "SDL_utf8strnl
 * \sa SDL_ltoa
 * \sa SDL_lltoa
 */
-itoa :: (value: s32, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf "SDL_itoa";
+SDL_itoa :: (value: s32, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Convert an unsigned integer into a string.
 *
 * This requires a radix to specified for string format. Specifying 10
-* produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+* produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 * to 36.
 *
 * Note that this function will overflow a buffer if `str` is not large enough
@@ -3427,13 +3427,13 @@ itoa :: (value: s32, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf "SDL_itoa
 * \sa SDL_ultoa
 * \sa SDL_ulltoa
 */
-uitoa :: (value: u32, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf "SDL_uitoa";
+SDL_uitoa :: (value: u32, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Convert a long integer into a string.
 *
 * This requires a radix to specified for string format. Specifying 10
-* produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+* produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 * to 36.
 *
 * Note that this function will overflow a buffer if `str` is not large enough
@@ -3455,13 +3455,13 @@ uitoa :: (value: u32, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf "SDL_uit
 * \sa SDL_itoa
 * \sa SDL_lltoa
 */
-ltoa :: (value: s64, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf "SDL_ltoa";
+SDL_ltoa :: (value: s64, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Convert an unsigned long integer into a string.
 *
 * This requires a radix to specified for string format. Specifying 10
-* produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+* produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 * to 36.
 *
 * Note that this function will overflow a buffer if `str` is not large enough
@@ -3483,13 +3483,13 @@ ltoa :: (value: s64, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf "SDL_ltoa
 * \sa SDL_uitoa
 * \sa SDL_ulltoa
 */
-ultoa :: (value: u64, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf "SDL_ultoa";
+SDL_ultoa :: (value: u64, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Convert a long long integer into a string.
 *
 * This requires a radix to specified for string format. Specifying 10
-* produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+* produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 * to 36.
 *
 * Note that this function will overflow a buffer if `str` is not large enough
@@ -3511,13 +3511,13 @@ ultoa :: (value: u64, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf "SDL_ult
 * \sa SDL_itoa
 * \sa SDL_ltoa
 */
-lltoa :: (value: s64, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf "SDL_lltoa";
+SDL_lltoa :: (value: s64, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Convert an unsigned long long integer into a string.
 *
 * This requires a radix to specified for string format. Specifying 10
-* produces a decimal number, 16 hexidecimal, etc. Must be in the range of 2
+* produces a decimal number, 16 hexadecimal, etc. Must be in the range of 2
 * to 36.
 *
 * Note that this function will overflow a buffer if `str` is not large enough
@@ -3539,7 +3539,7 @@ lltoa :: (value: s64, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf "SDL_llt
 * \sa SDL_uitoa
 * \sa SDL_ultoa
 */
-ulltoa :: (value: u64, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf "SDL_ulltoa";
+SDL_ulltoa :: (value: u64, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Parse an `int` from a string.
@@ -3562,7 +3562,7 @@ ulltoa :: (value: u64, str: *u8, radix: s32) -> *u8 #foreign libsdl3_ttf "SDL_ul
 * \sa SDL_strtod
 * \sa SDL_itoa
 */
-atoi :: (str: *u8) -> s32 #foreign libsdl3_ttf "SDL_atoi";
+SDL_atoi :: (str: *u8) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Parse a `double` from a string.
@@ -3584,7 +3584,7 @@ atoi :: (str: *u8) -> s32 #foreign libsdl3_ttf "SDL_atoi";
 * \sa SDL_strtoull
 * \sa SDL_strtod
 */
-atof :: (str: *u8) -> float64 #foreign libsdl3_ttf "SDL_atof";
+SDL_atof :: (str: *u8) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Parse a `long` from a string.
@@ -3618,7 +3618,7 @@ atof :: (str: *u8) -> float64 #foreign libsdl3_ttf "SDL_atof";
 * \sa SDL_ltoa
 * \sa SDL_wcstol
 */
-strtol :: (str: *u8, endp: **u8, base: s32) -> s64 #foreign libsdl3_ttf "SDL_strtol";
+SDL_strtol :: (str: *u8, endp: **u8, base: s32) -> s64 #foreign libsdl3_ttf;
 
 /**
 * Parse an `unsigned long` from a string.
@@ -3651,7 +3651,7 @@ strtol :: (str: *u8, endp: **u8, base: s32) -> s64 #foreign libsdl3_ttf "SDL_str
 * \sa SDL_strtod
 * \sa SDL_ultoa
 */
-strtoul :: (str: *u8, endp: **u8, base: s32) -> u64 #foreign libsdl3_ttf "SDL_strtoul";
+SDL_strtoul :: (str: *u8, endp: **u8, base: s32) -> u64 #foreign libsdl3_ttf;
 
 /**
 * Parse a `long long` from a string.
@@ -3684,7 +3684,7 @@ strtoul :: (str: *u8, endp: **u8, base: s32) -> u64 #foreign libsdl3_ttf "SDL_st
 * \sa SDL_strtod
 * \sa SDL_lltoa
 */
-strtoll :: (str: *u8, endp: **u8, base: s32) -> s64 #foreign libsdl3_ttf "SDL_strtoll";
+SDL_strtoll :: (str: *u8, endp: **u8, base: s32) -> s64 #foreign libsdl3_ttf;
 
 /**
 * Parse an `unsigned long long` from a string.
@@ -3718,7 +3718,7 @@ strtoll :: (str: *u8, endp: **u8, base: s32) -> s64 #foreign libsdl3_ttf "SDL_st
 * \sa SDL_strtod
 * \sa SDL_ulltoa
 */
-strtoull :: (str: *u8, endp: **u8, base: s32) -> u64 #foreign libsdl3_ttf "SDL_strtoull";
+SDL_strtoull :: (str: *u8, endp: **u8, base: s32) -> u64 #foreign libsdl3_ttf;
 
 /**
 * Parse a `double` from a string.
@@ -3747,7 +3747,7 @@ strtoull :: (str: *u8, endp: **u8, base: s32) -> u64 #foreign libsdl3_ttf "SDL_s
 * \sa SDL_strtoul
 * \sa SDL_strtoull
 */
-strtod :: (str: *u8, endp: **u8) -> float64 #foreign libsdl3_ttf "SDL_strtod";
+SDL_strtod :: (str: *u8, endp: **u8) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compare two null-terminated UTF-8 strings.
@@ -3767,7 +3767,7 @@ strtod :: (str: *u8, endp: **u8) -> float64 #foreign libsdl3_ttf "SDL_strtod";
 *
 * \since This function is available since SDL 3.2.0.
 */
-strcmp :: (str1: *u8, str2: *u8) -> s32 #foreign libsdl3_ttf "SDL_strcmp";
+SDL_strcmp :: (str1: *u8, str2: *u8) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Compare two UTF-8 strings up to a number of bytes.
@@ -3797,7 +3797,7 @@ strcmp :: (str1: *u8, str2: *u8) -> s32 #foreign libsdl3_ttf "SDL_strcmp";
 *
 * \since This function is available since SDL 3.2.0.
 */
-strncmp :: (str1: *u8, str2: *u8, maxlen: u64) -> s32 #foreign libsdl3_ttf "SDL_strncmp";
+SDL_strncmp :: (str1: *u8, str2: *u8, maxlen: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Compare two null-terminated UTF-8 strings, case-insensitively.
@@ -3825,7 +3825,7 @@ strncmp :: (str1: *u8, str2: *u8, maxlen: u64) -> s32 #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-strcasecmp :: (str1: *u8, str2: *u8) -> s32 #foreign libsdl3_ttf "SDL_strcasecmp";
+SDL_strcasecmp :: (str1: *u8, str2: *u8) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Compare two UTF-8 strings, case-insensitively, up to a number of bytes.
@@ -3864,10 +3864,10 @@ strcasecmp :: (str1: *u8, str2: *u8) -> s32 #foreign libsdl3_ttf "SDL_strcasecmp
 *
 * \since This function is available since SDL 3.2.0.
 */
-strncasecmp :: (str1: *u8, str2: *u8, maxlen: u64) -> s32 #foreign libsdl3_ttf "SDL_strncasecmp";
+SDL_strncasecmp :: (str1: *u8, str2: *u8, maxlen: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
-* Searches a string for the first occurence of any character contained in a
+* Searches a string for the first occurrence of any character contained in a
 * breakset, and returns a pointer from the string to that character.
 *
 * \param str The null-terminated string to be searched. Must not be NULL, and
@@ -3875,14 +3875,14 @@ strncasecmp :: (str1: *u8, str2: *u8, maxlen: u64) -> s32 #foreign libsdl3_ttf "
 * \param breakset A null-terminated string containing the list of characters
 *                 to look for. Must not be NULL, and must not overlap with
 *                 `str`.
-* \returns A pointer to the location, in str, of the first occurence of a
+* \returns A pointer to the location, in str, of the first occurrence of a
 *          character present in the breakset, or NULL if none is found.
 *
 * \threadsafety It is safe to call this function from any thread.
 *
 * \since This function is available since SDL 3.2.0.
 */
-strpbrk :: (str: *u8, breakset: *u8) -> *u8 #foreign libsdl3_ttf "SDL_strpbrk";
+SDL_strpbrk :: (str: *u8, breakset: *u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Decode a UTF-8 string, one Unicode codepoint at a time.
@@ -3927,7 +3927,7 @@ strpbrk :: (str: *u8, breakset: *u8) -> *u8 #foreign libsdl3_ttf "SDL_strpbrk";
 *
 * \since This function is available since SDL 3.2.0.
 */
-StepUTF8 :: (pstr: **u8, pslen: *u64) -> Uint32 #foreign libsdl3_ttf "SDL_StepUTF8";
+SDL_StepUTF8 :: (pstr: **u8, pslen: *u64) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Decode a UTF-8 string in reverse, one Unicode codepoint at a time.
@@ -3958,7 +3958,7 @@ StepUTF8 :: (pstr: **u8, pslen: *u64) -> Uint32 #foreign libsdl3_ttf "SDL_StepUT
 *
 * \since This function is available since SDL 3.2.0.
 */
-StepBackUTF8 :: (start: *u8, pstr: **u8) -> Uint32 #foreign libsdl3_ttf "SDL_StepBackUTF8";
+SDL_StepBackUTF8 :: (start: *u8, pstr: **u8) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Convert a single Unicode codepoint to UTF-8.
@@ -3987,7 +3987,7 @@ StepBackUTF8 :: (start: *u8, pstr: **u8) -> Uint32 #foreign libsdl3_ttf "SDL_Ste
 *
 * \since This function is available since SDL 3.2.0.
 */
-UCS4ToUTF8 :: (codepoint: Uint32, dst: *u8) -> *u8 #foreign libsdl3_ttf "SDL_UCS4ToUTF8";
+SDL_UCS4ToUTF8 :: (codepoint: Uint32, dst: *u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * This works exactly like sscanf() but doesn't require access to a C runtime.
@@ -4004,14 +4004,14 @@ UCS4ToUTF8 :: (codepoint: Uint32, dst: *u8) -> *u8 #foreign libsdl3_ttf "SDL_UCS
 *
 * \since This function is available since SDL 3.2.0.
 */
-sscanf_CFormat :: (text: *u8, fmt: *u8, __args: ..Any) -> s32 #foreign libsdl3_ttf "SDL_sscanf";
-sscanf :: (text: *u8, fmt: string, __args: ..Any) -> s32 {
+SDL_sscanf_CFormat :: (text: *u8, fmt: *u8, __args: ..Any) -> s32 #foreign libsdl3_ttf "SDL_sscanf";
+SDL_sscanf :: (text: *u8, fmt: string, __args: ..Any) -> s32 {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    return sscanf_CFormat(text, "%s", formatted_text.data);
+    return SDL_sscanf_CFormat(text, "%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -4045,14 +4045,14 @@ sscanf :: (text: *u8, fmt: string, __args: ..Any) -> s32 {
 *
 * \since This function is available since SDL 3.2.0.
 */
-snprintf_CFormat :: (text: *u8, maxlen: u64, fmt: *u8, __args: ..Any) -> s32 #foreign libsdl3_ttf "SDL_snprintf";
-snprintf :: (text: *u8, maxlen: u64, fmt: string, __args: ..Any) -> s32 {
+SDL_snprintf_CFormat :: (text: *u8, maxlen: u64, fmt: *u8, __args: ..Any) -> s32 #foreign libsdl3_ttf "SDL_snprintf";
+SDL_snprintf :: (text: *u8, maxlen: u64, fmt: string, __args: ..Any) -> s32 {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    return snprintf_CFormat(text, maxlen, "%s", formatted_text.data);
+    return SDL_snprintf_CFormat(text, maxlen, "%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -4087,7 +4087,7 @@ snprintf :: (text: *u8, maxlen: u64, fmt: string, __args: ..Any) -> s32 {
 *
 * \since This function is available since SDL 3.2.0.
 */
-swprintf :: (text: *s32, maxlen: u64, fmt: *s32, __args: ..Any) -> s32 #foreign libsdl3_ttf "SDL_swprintf";
+SDL_swprintf :: (text: *s32, maxlen: u64, fmt: *s32, __args: ..Any) -> s32 #foreign libsdl3_ttf;
 
 /**
 * This works exactly like asprintf() but doesn't require access to a C
@@ -4116,14 +4116,14 @@ swprintf :: (text: *s32, maxlen: u64, fmt: *s32, __args: ..Any) -> s32 #foreign 
 *
 * \since This function is available since SDL 3.2.0.
 */
-asprintf_CFormat :: (strp: **u8, fmt: *u8, __args: ..Any) -> s32 #foreign libsdl3_ttf "SDL_asprintf";
-asprintf :: (strp: **u8, fmt: string, __args: ..Any) -> s32 {
+SDL_asprintf_CFormat :: (strp: **u8, fmt: *u8, __args: ..Any) -> s32 #foreign libsdl3_ttf "SDL_asprintf";
+SDL_asprintf :: (strp: **u8, fmt: string, __args: ..Any) -> s32 {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    return asprintf_CFormat(strp, "%s", formatted_text.data);
+    return SDL_asprintf_CFormat(strp, "%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -4144,7 +4144,7 @@ asprintf :: (strp: **u8, fmt: string, __args: ..Any) -> s32 {
 * \sa SDL_rand_bits
 * \sa SDL_randf
 */
-srand :: (seed: Uint64) -> void #foreign libsdl3_ttf "SDL_srand";
+SDL_srand :: (seed: Uint64) -> void #foreign libsdl3_ttf;
 
 /**
 * Generate a pseudo-random number less than n for positive n
@@ -4178,7 +4178,7 @@ srand :: (seed: Uint64) -> void #foreign libsdl3_ttf "SDL_srand";
 * \sa SDL_srand
 * \sa SDL_randf
 */
-rand :: (n: Sint32) -> Sint32 #foreign libsdl3_ttf "SDL_rand";
+SDL_rand :: (n: Sint32) -> Sint32 #foreign libsdl3_ttf;
 
 /**
 * Generate a uniform pseudo-random floating point number less than 1.0
@@ -4201,7 +4201,7 @@ rand :: (n: Sint32) -> Sint32 #foreign libsdl3_ttf "SDL_rand";
 * \sa SDL_srand
 * \sa SDL_rand
 */
-randf :: () -> float #foreign libsdl3_ttf "SDL_randf";
+SDL_randf :: () -> float #foreign libsdl3_ttf;
 
 /**
 * Generate 32 pseudo-random bits.
@@ -4224,7 +4224,7 @@ randf :: () -> float #foreign libsdl3_ttf "SDL_randf";
 * \sa SDL_randf
 * \sa SDL_srand
 */
-rand_bits :: () -> Uint32 #foreign libsdl3_ttf "SDL_rand_bits";
+SDL_rand_bits :: () -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Generate a pseudo-random number less than n for positive n
@@ -4259,7 +4259,7 @@ rand_bits :: () -> Uint32 #foreign libsdl3_ttf "SDL_rand_bits";
 * \sa SDL_rand_bits_r
 * \sa SDL_randf_r
 */
-rand_r :: (state: *Uint64, n: Sint32) -> Sint32 #foreign libsdl3_ttf "SDL_rand_r";
+SDL_rand_r :: (state: *Uint64, n: Sint32) -> Sint32 #foreign libsdl3_ttf;
 
 /**
 * Generate a uniform pseudo-random floating point number less than 1.0
@@ -4286,7 +4286,7 @@ rand_r :: (state: *Uint64, n: Sint32) -> Sint32 #foreign libsdl3_ttf "SDL_rand_r
 * \sa SDL_rand_r
 * \sa SDL_randf
 */
-randf_r :: (state: *Uint64) -> float #foreign libsdl3_ttf "SDL_randf_r";
+SDL_randf_r :: (state: *Uint64) -> float #foreign libsdl3_ttf;
 
 /**
 * Generate 32 pseudo-random bits.
@@ -4311,7 +4311,7 @@ randf_r :: (state: *Uint64) -> float #foreign libsdl3_ttf "SDL_randf_r";
 * \sa SDL_rand_r
 * \sa SDL_randf_r
 */
-rand_bits_r :: (state: *Uint64) -> Uint32 #foreign libsdl3_ttf "SDL_rand_bits_r";
+SDL_rand_bits_r :: (state: *Uint64) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Compute the arc cosine of `x`.
@@ -4341,7 +4341,7 @@ rand_bits_r :: (state: *Uint64) -> Uint32 #foreign libsdl3_ttf "SDL_rand_bits_r"
 * \sa SDL_asin
 * \sa SDL_cos
 */
-acos :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_acos";
+SDL_acos :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compute the arc cosine of `x`.
@@ -4371,7 +4371,7 @@ acos :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_acos";
 * \sa SDL_asinf
 * \sa SDL_cosf
 */
-acosf :: (x: float) -> float #foreign libsdl3_ttf "SDL_acosf";
+SDL_acosf :: (x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Compute the arc sine of `x`.
@@ -4401,7 +4401,7 @@ acosf :: (x: float) -> float #foreign libsdl3_ttf "SDL_acosf";
 * \sa SDL_acos
 * \sa SDL_sin
 */
-asin :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_asin";
+SDL_asin :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compute the arc sine of `x`.
@@ -4431,7 +4431,7 @@ asin :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_asin";
 * \sa SDL_acosf
 * \sa SDL_sinf
 */
-asinf :: (x: float) -> float #foreign libsdl3_ttf "SDL_asinf";
+SDL_asinf :: (x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Compute the arc tangent of `x`.
@@ -4463,7 +4463,7 @@ asinf :: (x: float) -> float #foreign libsdl3_ttf "SDL_asinf";
 * \sa SDL_atan2
 * \sa SDL_tan
 */
-atan :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_atan";
+SDL_atan :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compute the arc tangent of `x`.
@@ -4495,7 +4495,7 @@ atan :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_atan";
 * \sa SDL_atan2f
 * \sa SDL_tanf
 */
-atanf :: (x: float) -> float #foreign libsdl3_ttf "SDL_atanf";
+SDL_atanf :: (x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Compute the arc tangent of `y / x`, using the signs of x and y to adjust
@@ -4531,7 +4531,7 @@ atanf :: (x: float) -> float #foreign libsdl3_ttf "SDL_atanf";
 * \sa SDL_atan
 * \sa SDL_tan
 */
-atan2 :: (y: float64, x: float64) -> float64 #foreign libsdl3_ttf "SDL_atan2";
+SDL_atan2 :: (y: float64, x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compute the arc tangent of `y / x`, using the signs of x and y to adjust
@@ -4567,7 +4567,7 @@ atan2 :: (y: float64, x: float64) -> float64 #foreign libsdl3_ttf "SDL_atan2";
 * \sa SDL_atan
 * \sa SDL_tan
 */
-atan2f :: (y: float, x: float) -> float #foreign libsdl3_ttf "SDL_atan2f";
+SDL_atan2f :: (y: float, x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Compute the ceiling of `x`.
@@ -4595,7 +4595,7 @@ atan2f :: (y: float, x: float) -> float #foreign libsdl3_ttf "SDL_atan2f";
 * \sa SDL_round
 * \sa SDL_lround
 */
-ceil :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_ceil";
+SDL_ceil :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compute the ceiling of `x`.
@@ -4623,7 +4623,7 @@ ceil :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_ceil";
 * \sa SDL_roundf
 * \sa SDL_lroundf
 */
-ceilf :: (x: float) -> float #foreign libsdl3_ttf "SDL_ceilf";
+SDL_ceilf :: (x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Copy the sign of one floating-point value to another.
@@ -4649,7 +4649,7 @@ ceilf :: (x: float) -> float #foreign libsdl3_ttf "SDL_ceilf";
 * \sa SDL_copysignf
 * \sa SDL_fabs
 */
-copysign :: (x: float64, y: float64) -> float64 #foreign libsdl3_ttf "SDL_copysign";
+SDL_copysign :: (x: float64, y: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Copy the sign of one floating-point value to another.
@@ -4675,7 +4675,7 @@ copysign :: (x: float64, y: float64) -> float64 #foreign libsdl3_ttf "SDL_copysi
 * \sa SDL_copysign
 * \sa SDL_fabsf
 */
-copysignf :: (x: float, y: float) -> float #foreign libsdl3_ttf "SDL_copysignf";
+SDL_copysignf :: (x: float, y: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Compute the cosine of `x`.
@@ -4703,7 +4703,7 @@ copysignf :: (x: float, y: float) -> float #foreign libsdl3_ttf "SDL_copysignf";
 * \sa SDL_acos
 * \sa SDL_sin
 */
-cos :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_cos";
+SDL_cos :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compute the cosine of `x`.
@@ -4731,7 +4731,7 @@ cos :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_cos";
 * \sa SDL_acosf
 * \sa SDL_sinf
 */
-cosf :: (x: float) -> float #foreign libsdl3_ttf "SDL_cosf";
+SDL_cosf :: (x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Compute the exponential of `x`.
@@ -4763,7 +4763,7 @@ cosf :: (x: float) -> float #foreign libsdl3_ttf "SDL_cosf";
 * \sa SDL_expf
 * \sa SDL_log
 */
-exp :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_exp";
+SDL_exp :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compute the exponential of `x`.
@@ -4795,7 +4795,7 @@ exp :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_exp";
 * \sa SDL_exp
 * \sa SDL_logf
 */
-expf :: (x: float) -> float #foreign libsdl3_ttf "SDL_expf";
+SDL_expf :: (x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Compute the absolute value of `x`
@@ -4816,7 +4816,7 @@ expf :: (x: float) -> float #foreign libsdl3_ttf "SDL_expf";
 *
 * \sa SDL_fabsf
 */
-fabs :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_fabs";
+SDL_fabs :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compute the absolute value of `x`
@@ -4837,7 +4837,7 @@ fabs :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_fabs";
 *
 * \sa SDL_fabs
 */
-fabsf :: (x: float) -> float #foreign libsdl3_ttf "SDL_fabsf";
+SDL_fabsf :: (x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Compute the floor of `x`.
@@ -4865,7 +4865,7 @@ fabsf :: (x: float) -> float #foreign libsdl3_ttf "SDL_fabsf";
 * \sa SDL_round
 * \sa SDL_lround
 */
-floor :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_floor";
+SDL_floor :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compute the floor of `x`.
@@ -4893,7 +4893,7 @@ floor :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_floor";
 * \sa SDL_roundf
 * \sa SDL_lroundf
 */
-floorf :: (x: float) -> float #foreign libsdl3_ttf "SDL_floorf";
+SDL_floorf :: (x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Truncate `x` to an integer.
@@ -4922,7 +4922,7 @@ floorf :: (x: float) -> float #foreign libsdl3_ttf "SDL_floorf";
 * \sa SDL_round
 * \sa SDL_lround
 */
-trunc :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_trunc";
+SDL_trunc :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Truncate `x` to an integer.
@@ -4951,7 +4951,7 @@ trunc :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_trunc";
 * \sa SDL_roundf
 * \sa SDL_lroundf
 */
-truncf :: (x: float) -> float #foreign libsdl3_ttf "SDL_truncf";
+SDL_truncf :: (x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Return the floating-point remainder of `x / y`
@@ -4981,7 +4981,7 @@ truncf :: (x: float) -> float #foreign libsdl3_ttf "SDL_truncf";
 * \sa SDL_round
 * \sa SDL_lround
 */
-fmod :: (x: float64, y: float64) -> float64 #foreign libsdl3_ttf "SDL_fmod";
+SDL_fmod :: (x: float64, y: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Return the floating-point remainder of `x / y`
@@ -5011,7 +5011,7 @@ fmod :: (x: float64, y: float64) -> float64 #foreign libsdl3_ttf "SDL_fmod";
 * \sa SDL_roundf
 * \sa SDL_lroundf
 */
-fmodf :: (x: float, y: float) -> float #foreign libsdl3_ttf "SDL_fmodf";
+SDL_fmodf :: (x: float, y: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Return whether the value is infinity.
@@ -5025,7 +5025,7 @@ fmodf :: (x: float, y: float) -> float #foreign libsdl3_ttf "SDL_fmodf";
 *
 * \sa SDL_isinff
 */
-isinf :: (x: float64) -> s32 #foreign libsdl3_ttf "SDL_isinf";
+SDL_isinf :: (x: float64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Return whether the value is infinity.
@@ -5039,7 +5039,7 @@ isinf :: (x: float64) -> s32 #foreign libsdl3_ttf "SDL_isinf";
 *
 * \sa SDL_isinf
 */
-isinff :: (x: float) -> s32 #foreign libsdl3_ttf "SDL_isinff";
+SDL_isinff :: (x: float) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Return whether the value is NaN.
@@ -5053,7 +5053,7 @@ isinff :: (x: float) -> s32 #foreign libsdl3_ttf "SDL_isinff";
 *
 * \sa SDL_isnanf
 */
-isnan :: (x: float64) -> s32 #foreign libsdl3_ttf "SDL_isnan";
+SDL_isnan :: (x: float64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Return whether the value is NaN.
@@ -5067,7 +5067,7 @@ isnan :: (x: float64) -> s32 #foreign libsdl3_ttf "SDL_isnan";
 *
 * \sa SDL_isnan
 */
-isnanf :: (x: float) -> s32 #foreign libsdl3_ttf "SDL_isnanf";
+SDL_isnanf :: (x: float) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Compute the natural logarithm of `x`.
@@ -5097,7 +5097,7 @@ isnanf :: (x: float) -> s32 #foreign libsdl3_ttf "SDL_isnanf";
 * \sa SDL_log10
 * \sa SDL_exp
 */
-log :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_log";
+SDL_log :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compute the natural logarithm of `x`.
@@ -5126,7 +5126,7 @@ log :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_log";
 * \sa SDL_log
 * \sa SDL_expf
 */
-logf :: (x: float) -> float #foreign libsdl3_ttf "SDL_logf";
+SDL_logf :: (x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Compute the base-10 logarithm of `x`.
@@ -5156,7 +5156,7 @@ logf :: (x: float) -> float #foreign libsdl3_ttf "SDL_logf";
 * \sa SDL_log
 * \sa SDL_pow
 */
-log10 :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_log10";
+SDL_log10 :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compute the base-10 logarithm of `x`.
@@ -5186,7 +5186,7 @@ log10 :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_log10";
 * \sa SDL_logf
 * \sa SDL_powf
 */
-log10f :: (x: float) -> float #foreign libsdl3_ttf "SDL_log10f";
+SDL_log10f :: (x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Split `x` into integer and fractional parts
@@ -5206,7 +5206,7 @@ log10f :: (x: float) -> float #foreign libsdl3_ttf "SDL_log10f";
 * \sa SDL_trunc
 * \sa SDL_fmod
 */
-modf :: (x: float64, y: *float64) -> float64 #foreign libsdl3_ttf "SDL_modf";
+SDL_modf :: (x: float64, y: *float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Split `x` into integer and fractional parts
@@ -5226,7 +5226,7 @@ modf :: (x: float64, y: *float64) -> float64 #foreign libsdl3_ttf "SDL_modf";
 * \sa SDL_truncf
 * \sa SDL_fmodf
 */
-modff :: (x: float, y: *float) -> float #foreign libsdl3_ttf "SDL_modff";
+SDL_modff :: (x: float, y: *float) -> float #foreign libsdl3_ttf;
 
 /**
 * Raise `x` to the power `y`
@@ -5258,7 +5258,7 @@ modff :: (x: float, y: *float) -> float #foreign libsdl3_ttf "SDL_modff";
 * \sa SDL_exp
 * \sa SDL_log
 */
-pow :: (x: float64, y: float64) -> float64 #foreign libsdl3_ttf "SDL_pow";
+SDL_pow :: (x: float64, y: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Raise `x` to the power `y`
@@ -5290,7 +5290,7 @@ pow :: (x: float64, y: float64) -> float64 #foreign libsdl3_ttf "SDL_pow";
 * \sa SDL_expf
 * \sa SDL_logf
 */
-powf :: (x: float, y: float) -> float #foreign libsdl3_ttf "SDL_powf";
+SDL_powf :: (x: float, y: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Round `x` to the nearest integer.
@@ -5319,7 +5319,7 @@ powf :: (x: float, y: float) -> float #foreign libsdl3_ttf "SDL_powf";
 * \sa SDL_ceil
 * \sa SDL_trunc
 */
-round :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_round";
+SDL_round :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Round `x` to the nearest integer.
@@ -5348,7 +5348,7 @@ round :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_round";
 * \sa SDL_ceilf
 * \sa SDL_truncf
 */
-roundf :: (x: float) -> float #foreign libsdl3_ttf "SDL_roundf";
+SDL_roundf :: (x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Round `x` to the nearest integer representable as a long
@@ -5377,7 +5377,7 @@ roundf :: (x: float) -> float #foreign libsdl3_ttf "SDL_roundf";
 * \sa SDL_ceil
 * \sa SDL_trunc
 */
-lround :: (x: float64) -> s64 #foreign libsdl3_ttf "SDL_lround";
+SDL_lround :: (x: float64) -> s64 #foreign libsdl3_ttf;
 
 /**
 * Round `x` to the nearest integer representable as a long
@@ -5406,7 +5406,7 @@ lround :: (x: float64) -> s64 #foreign libsdl3_ttf "SDL_lround";
 * \sa SDL_ceilf
 * \sa SDL_truncf
 */
-lroundf :: (x: float) -> s64 #foreign libsdl3_ttf "SDL_lroundf";
+SDL_lroundf :: (x: float) -> s64 #foreign libsdl3_ttf;
 
 /**
 * Scale `x` by an integer power of two.
@@ -5431,7 +5431,7 @@ lroundf :: (x: float) -> s64 #foreign libsdl3_ttf "SDL_lroundf";
 * \sa SDL_scalbnf
 * \sa SDL_pow
 */
-scalbn :: (x: float64, n: s32) -> float64 #foreign libsdl3_ttf "SDL_scalbn";
+SDL_scalbn :: (x: float64, n: s32) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Scale `x` by an integer power of two.
@@ -5456,7 +5456,7 @@ scalbn :: (x: float64, n: s32) -> float64 #foreign libsdl3_ttf "SDL_scalbn";
 * \sa SDL_scalbn
 * \sa SDL_powf
 */
-scalbnf :: (x: float, n: s32) -> float #foreign libsdl3_ttf "SDL_scalbnf";
+SDL_scalbnf :: (x: float, n: s32) -> float #foreign libsdl3_ttf;
 
 /**
 * Compute the sine of `x`.
@@ -5484,7 +5484,7 @@ scalbnf :: (x: float, n: s32) -> float #foreign libsdl3_ttf "SDL_scalbnf";
 * \sa SDL_asin
 * \sa SDL_cos
 */
-sin :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_sin";
+SDL_sin :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compute the sine of `x`.
@@ -5512,7 +5512,7 @@ sin :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_sin";
 * \sa SDL_asinf
 * \sa SDL_cosf
 */
-sinf :: (x: float) -> float #foreign libsdl3_ttf "SDL_sinf";
+SDL_sinf :: (x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Compute the square root of `x`.
@@ -5538,7 +5538,7 @@ sinf :: (x: float) -> float #foreign libsdl3_ttf "SDL_sinf";
 *
 * \sa SDL_sqrtf
 */
-sqrt :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_sqrt";
+SDL_sqrt :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compute the square root of `x`.
@@ -5564,7 +5564,7 @@ sqrt :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_sqrt";
 *
 * \sa SDL_sqrt
 */
-sqrtf :: (x: float) -> float #foreign libsdl3_ttf "SDL_sqrtf";
+SDL_sqrtf :: (x: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Compute the tangent of `x`.
@@ -5594,7 +5594,7 @@ sqrtf :: (x: float) -> float #foreign libsdl3_ttf "SDL_sqrtf";
 * \sa SDL_atan
 * \sa SDL_atan2
 */
-tan :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_tan";
+SDL_tan :: (x: float64) -> float64 #foreign libsdl3_ttf;
 
 /**
 * Compute the tangent of `x`.
@@ -5624,9 +5624,9 @@ tan :: (x: float64) -> float64 #foreign libsdl3_ttf "SDL_tan";
 * \sa SDL_atanf
 * \sa SDL_atan2f
 */
-tanf :: (x: float) -> float #foreign libsdl3_ttf "SDL_tanf";
+SDL_tanf :: (x: float) -> float #foreign libsdl3_ttf;
 
-iconv_data_t :: struct {}
+SDL_iconv_data_t :: struct {}
 /**
 * An opaque handle representing string encoding conversion state.
 *
@@ -5634,7 +5634,7 @@ iconv_data_t :: struct {}
 *
 * \sa SDL_iconv_open
 */
-iconv_t :: *iconv_data_t;
+SDL_iconv_t :: *SDL_iconv_data_t;
 
 /**
 * This function allocates a context for the specified character set
@@ -5651,7 +5651,7 @@ iconv_t :: *iconv_data_t;
 * \sa SDL_iconv_close
 * \sa SDL_iconv_string
 */
-iconv_open :: (tocode: *u8, fromcode: *u8) -> iconv_t #foreign libsdl3_ttf "SDL_iconv_open";
+SDL_iconv_open :: (tocode: *u8, fromcode: *u8) -> SDL_iconv_t #foreign libsdl3_ttf;
 
 /**
 * This function frees a context used for character set conversion.
@@ -5665,13 +5665,13 @@ iconv_open :: (tocode: *u8, fromcode: *u8) -> iconv_t #foreign libsdl3_ttf "SDL_
 * \sa SDL_iconv_open
 * \sa SDL_iconv_string
 */
-iconv_close :: (cd: iconv_t) -> s32 #foreign libsdl3_ttf "SDL_iconv_close";
+SDL_iconv_close :: (cd: SDL_iconv_t) -> s32 #foreign libsdl3_ttf;
 
 /**
 * This function converts text between encodings, reading from and writing to
 * a buffer.
 *
-* It returns the number of succesful conversions on success. On error,
+* It returns the number of successful conversions on success. On error,
 * SDL_ICONV_E2BIG is returned when the output buffer is too small, or
 * SDL_ICONV_EILSEQ is returned when an invalid input sequence is encountered,
 * or SDL_ICONV_EINVAL is returned when an incomplete input sequence is
@@ -5703,7 +5703,7 @@ iconv_close :: (cd: iconv_t) -> s32 #foreign libsdl3_ttf "SDL_iconv_close";
 * \sa SDL_iconv_close
 * \sa SDL_iconv_string
 */
-iconv :: (cd: iconv_t, inbuf: **u8, inbytesleft: *u64, outbuf: **u8, outbytesleft: *u64) -> u64 #foreign libsdl3_ttf "SDL_iconv";
+SDL_iconv :: (cd: SDL_iconv_t, inbuf: **u8, inbytesleft: *u64, outbuf: **u8, outbytesleft: *u64) -> u64 #foreign libsdl3_ttf;
 
 /**
 * Helper function to convert a string's encoding in one call.
@@ -5730,7 +5730,7 @@ iconv :: (cd: iconv_t, inbuf: **u8, inbytesleft: *u64, outbuf: **u8, outbyteslef
 * \sa SDL_iconv_close
 * \sa SDL_iconv
 */
-iconv_string :: (tocode: *u8, fromcode: *u8, inbuf: *u8, inbytesleft: u64) -> *u8 #foreign libsdl3_ttf "SDL_iconv_string";
+SDL_iconv_string :: (tocode: *u8, fromcode: *u8, inbuf: *u8, inbytesleft: u64) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Multiply two integers, checking for overflow.
@@ -5749,12 +5749,12 @@ iconv_string :: (tocode: *u8, fromcode: *u8, inbuf: *u8, inbytesleft: u64) -> *u
 *
 * \since This function is available since SDL 3.2.0.
 */
-size_mul_check_overflow :: (a: u64, b: u64, ret: *u64) -> bool #foreign __UnknownLib "SDL_size_mul_check_overflow";
+SDL_size_mul_check_overflow :: (a: u64, b: u64, ret: *u64) -> bool #foreign __UnknownLib;
 
 /* This needs to be wrapped in an inline rather than being a direct #define,
 * because __builtin_mul_overflow() is type-generic, but we want to be
 * consistent about interpreting a and b as size_t. */
-size_mul_check_overflow_builtin :: (a: u64, b: u64, ret: *u64) -> bool #foreign __UnknownLib "SDL_size_mul_check_overflow_builtin";
+SDL_size_mul_check_overflow_builtin :: (a: u64, b: u64, ret: *u64) -> bool #foreign __UnknownLib;
 
 /**
 * Add two integers, checking for overflow.
@@ -5773,13 +5773,13 @@ size_mul_check_overflow_builtin :: (a: u64, b: u64, ret: *u64) -> bool #foreign 
 *
 * \since This function is available since SDL 3.2.0.
 */
-size_add_check_overflow :: (a: u64, b: u64, ret: *u64) -> bool #foreign __UnknownLib "SDL_size_add_check_overflow";
+SDL_size_add_check_overflow :: (a: u64, b: u64, ret: *u64) -> bool #foreign __UnknownLib;
 
 /* This needs to be wrapped in an inline rather than being a direct #define,
 * the same as the call to __builtin_mul_overflow() above. */
-size_add_check_overflow_builtin :: (a: u64, b: u64, ret: *u64) -> bool #foreign __UnknownLib "SDL_size_add_check_overflow_builtin";
+SDL_size_add_check_overflow_builtin :: (a: u64, b: u64, ret: *u64) -> bool #foreign __UnknownLib;
 
-FunctionPointer :: #type () -> void #c_call;
+SDL_FunctionPointer :: #type () -> void #c_call;
 
 /**
 * Possible outcomes from a triggered assertion.
@@ -5794,7 +5794,7 @@ FunctionPointer :: #type () -> void #c_call;
 *
 * \since This enum is available since SDL 3.2.0.
 */
-AssertState :: enum u32 {
+SDL_AssertState :: enum u32 {
     RETRY         :: 0;
     BREAK         :: 1;
     ABORT         :: 2;
@@ -5817,14 +5817,14 @@ AssertState :: enum u32 {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-AssertData :: struct {
+SDL_AssertData :: struct {
     always_ignore: bool; /**< true if app should always continue when assertion is triggered. */
     trigger_count: u32; /**< Number of times this assertion has been triggered. */
     condition:     *u8; /**< A string of this assert's test code. */
     filename:      *u8; /**< The source file where this assert lives. */
     linenum:       s32; /**< The line in `filename` where this assert lives. */
     function:      *u8; /**< The name of the function where this assert lives. */
-    next:          *AssertData; /**< next item in the linked list. */
+    next:          *SDL_AssertData; /**< next item in the linked list. */
 }
 
 /**
@@ -5842,7 +5842,7 @@ AssertData :: struct {
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReportAssertion :: (data: *AssertData, func: *u8, file: *u8, line: s32) -> AssertState #foreign libsdl3_ttf "SDL_ReportAssertion";
+SDL_ReportAssertion :: (data: *SDL_AssertData, func: *u8, file: *u8, line: s32) -> SDL_AssertState #foreign libsdl3_ttf;
 
 /**
 * A callback that fires when an SDL assertion fails.
@@ -5857,7 +5857,7 @@ ReportAssertion :: (data: *AssertData, func: *u8, file: *u8, line: s32) -> Asser
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-AssertionHandler :: #type (data: *AssertData, userdata: *void) -> AssertState #c_call;
+SDL_AssertionHandler :: #type (data: *SDL_AssertData, userdata: *void) -> SDL_AssertState #c_call;
 
 /**
 * Set an application-defined assertion handler.
@@ -5882,7 +5882,7 @@ AssertionHandler :: #type (data: *AssertData, userdata: *void) -> AssertState #c
 *
 * \sa SDL_GetAssertionHandler
 */
-SetAssertionHandler :: (handler: AssertionHandler, userdata: *void) -> void #foreign libsdl3_ttf "SDL_SetAssertionHandler";
+SDL_SetAssertionHandler :: (handler: SDL_AssertionHandler, userdata: *void) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the default assertion handler.
@@ -5901,7 +5901,7 @@ SetAssertionHandler :: (handler: AssertionHandler, userdata: *void) -> void #for
 *
 * \sa SDL_GetAssertionHandler
 */
-GetDefaultAssertionHandler :: () -> AssertionHandler #foreign libsdl3_ttf "SDL_GetDefaultAssertionHandler";
+SDL_GetDefaultAssertionHandler :: () -> SDL_AssertionHandler #foreign libsdl3_ttf;
 
 /**
 * Get the current assertion handler.
@@ -5926,7 +5926,7 @@ GetDefaultAssertionHandler :: () -> AssertionHandler #foreign libsdl3_ttf "SDL_G
 *
 * \sa SDL_SetAssertionHandler
 */
-GetAssertionHandler :: (puserdata: **void) -> AssertionHandler #foreign libsdl3_ttf "SDL_GetAssertionHandler";
+SDL_GetAssertionHandler :: (puserdata: **void) -> SDL_AssertionHandler #foreign libsdl3_ttf;
 
 /**
 * Get a list of all assertion failures.
@@ -5960,7 +5960,7 @@ GetAssertionHandler :: (puserdata: **void) -> AssertionHandler #foreign libsdl3_
 *
 * \sa SDL_ResetAssertionReport
 */
-GetAssertionReport :: () -> *AssertData #foreign libsdl3_ttf "SDL_GetAssertionReport";
+SDL_GetAssertionReport :: () -> *SDL_AssertData #foreign libsdl3_ttf;
 
 /**
 * Clear the list of all assertion failures.
@@ -5978,16 +5978,16 @@ GetAssertionReport :: () -> *AssertData #foreign libsdl3_ttf "SDL_GetAssertionRe
 *
 * \sa SDL_GetAssertionReport
 */
-ResetAssertionReport :: () -> void #foreign libsdl3_ttf "SDL_ResetAssertionReport";
+SDL_ResetAssertionReport :: () -> void #foreign libsdl3_ttf;
 
-AsyncIO :: struct {}
+SDL_AsyncIO :: struct {}
 
 /**
 * Types of asynchronous I/O tasks.
 *
 * \since This enum is available since SDL 3.2.0.
 */
-AsyncIOTaskType :: enum u32 {
+SDL_AsyncIOTaskType :: enum u32 {
     READ  :: 0;
     WRITE :: 1;
     CLOSE :: 2;
@@ -6002,7 +6002,7 @@ AsyncIOTaskType :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-AsyncIOResult :: enum u32 {
+SDL_AsyncIOResult :: enum u32 {
     COMPLETE :: 0;
     FAILURE  :: 1;
     CANCELED :: 2;
@@ -6017,10 +6017,10 @@ AsyncIOResult :: enum u32 {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-AsyncIOOutcome :: struct {
-    asyncio:           *AsyncIO; /**< what generated this task. This pointer will be invalid if it was closed! */
-    type:              AsyncIOTaskType; /**< What sort of task was this? Read, write, etc? */
-    result:            AsyncIOResult; /**< the result of the work (success, failure, cancellation). */
+SDL_AsyncIOOutcome :: struct {
+    asyncio:           *SDL_AsyncIO; /**< what generated this task. This pointer will be invalid if it was closed! */
+    type:              SDL_AsyncIOTaskType; /**< What sort of task was this? Read, write, etc? */
+    result:            SDL_AsyncIOResult; /**< the result of the work (success, failure, cancellation). */
     buffer:            *void; /**< buffer where data was read/written. */
     offset:            Uint64; /**< offset in the SDL_AsyncIO where data was read/written. */
     bytes_requested:   Uint64; /**< number of bytes the task was to read/write. */
@@ -6028,7 +6028,7 @@ AsyncIOOutcome :: struct {
     userdata:          *void; /**< pointer provided by the app when starting the task */
 }
 
-AsyncIOQueue :: struct {}
+SDL_AsyncIOQueue :: struct {}
 
 /**
 * Use this function to create a new SDL_AsyncIO object for reading from
@@ -6067,7 +6067,7 @@ AsyncIOQueue :: struct {}
 * \sa SDL_ReadAsyncIO
 * \sa SDL_WriteAsyncIO
 */
-AsyncIOFromFile :: (file: *u8, mode: *u8) -> *AsyncIO #foreign libsdl3_ttf "SDL_AsyncIOFromFile";
+SDL_AsyncIOFromFile :: (file: *u8, mode: *u8) -> *SDL_AsyncIO #foreign libsdl3_ttf;
 
 /**
 * Use this function to get the size of the data stream in an SDL_AsyncIO.
@@ -6084,7 +6084,7 @@ AsyncIOFromFile :: (file: *u8, mode: *u8) -> *AsyncIO #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetAsyncIOSize :: (asyncio: *AsyncIO) -> Sint64 #foreign libsdl3_ttf "SDL_GetAsyncIOSize";
+SDL_GetAsyncIOSize :: (asyncio: *SDL_AsyncIO) -> Sint64 #foreign libsdl3_ttf;
 
 /**
 * Start an async read.
@@ -6122,7 +6122,7 @@ GetAsyncIOSize :: (asyncio: *AsyncIO) -> Sint64 #foreign libsdl3_ttf "SDL_GetAsy
 * \sa SDL_WriteAsyncIO
 * \sa SDL_CreateAsyncIOQueue
 */
-ReadAsyncIO :: (asyncio: *AsyncIO, ptr: *void, offset: Uint64, size: Uint64, queue: *AsyncIOQueue, userdata: *void) -> bool #foreign libsdl3_ttf "SDL_ReadAsyncIO";
+SDL_ReadAsyncIO :: (asyncio: *SDL_AsyncIO, ptr: *void, offset: Uint64, size: Uint64, queue: *SDL_AsyncIOQueue, userdata: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Start an async write.
@@ -6159,7 +6159,7 @@ ReadAsyncIO :: (asyncio: *AsyncIO, ptr: *void, offset: Uint64, size: Uint64, que
 * \sa SDL_ReadAsyncIO
 * \sa SDL_CreateAsyncIOQueue
 */
-WriteAsyncIO :: (asyncio: *AsyncIO, ptr: *void, offset: Uint64, size: Uint64, queue: *AsyncIOQueue, userdata: *void) -> bool #foreign libsdl3_ttf "SDL_WriteAsyncIO";
+SDL_WriteAsyncIO :: (asyncio: *SDL_AsyncIO, ptr: *void, offset: Uint64, size: Uint64, queue: *SDL_AsyncIOQueue, userdata: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Close and free any allocated resources for an async I/O object.
@@ -6208,7 +6208,7 @@ WriteAsyncIO :: (asyncio: *AsyncIO, ptr: *void, offset: Uint64, size: Uint64, qu
 *
 * \since This function is available since SDL 3.2.0.
 */
-CloseAsyncIO :: (asyncio: *AsyncIO, flush: bool, queue: *AsyncIOQueue, userdata: *void) -> bool #foreign libsdl3_ttf "SDL_CloseAsyncIO";
+SDL_CloseAsyncIO :: (asyncio: *SDL_AsyncIO, flush: bool, queue: *SDL_AsyncIOQueue, userdata: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Create a task queue for tracking multiple I/O operations.
@@ -6227,7 +6227,7 @@ CloseAsyncIO :: (asyncio: *AsyncIO, flush: bool, queue: *AsyncIOQueue, userdata:
 * \sa SDL_GetAsyncIOResult
 * \sa SDL_WaitAsyncIOResult
 */
-CreateAsyncIOQueue :: () -> *AsyncIOQueue #foreign libsdl3_ttf "SDL_CreateAsyncIOQueue";
+SDL_CreateAsyncIOQueue :: () -> *SDL_AsyncIOQueue #foreign libsdl3_ttf;
 
 /**
 * Destroy a previously-created async I/O task queue.
@@ -6257,7 +6257,7 @@ CreateAsyncIOQueue :: () -> *AsyncIOQueue #foreign libsdl3_ttf "SDL_CreateAsyncI
 *
 * \since This function is available since SDL 3.2.0.
 */
-DestroyAsyncIOQueue :: (queue: *AsyncIOQueue) -> void #foreign libsdl3_ttf "SDL_DestroyAsyncIOQueue";
+SDL_DestroyAsyncIOQueue :: (queue: *SDL_AsyncIOQueue) -> void #foreign libsdl3_ttf;
 
 /**
 * Query an async I/O task queue for completed tasks.
@@ -6283,7 +6283,7 @@ DestroyAsyncIOQueue :: (queue: *AsyncIOQueue) -> void #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_WaitAsyncIOResult
 */
-GetAsyncIOResult :: (queue: *AsyncIOQueue, outcome: *AsyncIOOutcome) -> bool #foreign libsdl3_ttf "SDL_GetAsyncIOResult";
+SDL_GetAsyncIOResult :: (queue: *SDL_AsyncIOQueue, outcome: *SDL_AsyncIOOutcome) -> bool #foreign libsdl3_ttf;
 
 /**
 * Block until an async I/O task queue has a completed task.
@@ -6327,7 +6327,7 @@ GetAsyncIOResult :: (queue: *AsyncIOQueue, outcome: *AsyncIOOutcome) -> bool #fo
 *
 * \sa SDL_SignalAsyncIOQueue
 */
-WaitAsyncIOResult :: (queue: *AsyncIOQueue, outcome: *AsyncIOOutcome, timeoutMS: Sint32) -> bool #foreign libsdl3_ttf "SDL_WaitAsyncIOResult";
+SDL_WaitAsyncIOResult :: (queue: *SDL_AsyncIOQueue, outcome: *SDL_AsyncIOOutcome, timeoutMS: Sint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Wake up any threads that are blocking in SDL_WaitAsyncIOResult().
@@ -6351,7 +6351,7 @@ WaitAsyncIOResult :: (queue: *AsyncIOQueue, outcome: *AsyncIOOutcome, timeoutMS:
 *
 * \sa SDL_WaitAsyncIOResult
 */
-SignalAsyncIOQueue :: (queue: *AsyncIOQueue) -> void #foreign libsdl3_ttf "SDL_SignalAsyncIOQueue";
+SDL_SignalAsyncIOQueue :: (queue: *SDL_AsyncIOQueue) -> void #foreign libsdl3_ttf;
 
 /**
 * Load all the data from a file path, asynchronously.
@@ -6383,7 +6383,7 @@ SignalAsyncIOQueue :: (queue: *AsyncIOQueue) -> void #foreign libsdl3_ttf "SDL_S
 *
 * \sa SDL_LoadFile_IO
 */
-LoadFileAsync :: (file: *u8, queue: *AsyncIOQueue, userdata: *void) -> bool #foreign libsdl3_ttf "SDL_LoadFileAsync";
+SDL_LoadFileAsync :: (file: *u8, queue: *SDL_AsyncIOQueue, userdata: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * An atomic spinlock.
@@ -6404,7 +6404,7 @@ LoadFileAsync :: (file: *u8, queue: *AsyncIOQueue, userdata: *void) -> bool #for
 * Porting Note: The spin lock functions and type are required and can not be
 * emulated because they are used in the atomic emulation code.
 */
-SpinLock :: s32;
+SDL_SpinLock :: s32;
 
 /**
 * Try to lock a spin lock by setting it to a non-zero value.
@@ -6422,7 +6422,7 @@ SpinLock :: s32;
 * \sa SDL_LockSpinlock
 * \sa SDL_UnlockSpinlock
 */
-TryLockSpinlock :: (lock: *SpinLock) -> bool #foreign libsdl3_ttf "SDL_TryLockSpinlock";
+SDL_TryLockSpinlock :: (lock: *SDL_SpinLock) -> bool #foreign libsdl3_ttf;
 
 /**
 * Lock a spin lock by setting it to a non-zero value.
@@ -6439,7 +6439,7 @@ TryLockSpinlock :: (lock: *SpinLock) -> bool #foreign libsdl3_ttf "SDL_TryLockSp
 * \sa SDL_TryLockSpinlock
 * \sa SDL_UnlockSpinlock
 */
-LockSpinlock :: (lock: *SpinLock) -> void #foreign libsdl3_ttf "SDL_LockSpinlock";
+SDL_LockSpinlock :: (lock: *SDL_SpinLock) -> void #foreign libsdl3_ttf;
 
 /**
 * Unlock a spin lock by setting it to 0.
@@ -6458,7 +6458,7 @@ LockSpinlock :: (lock: *SpinLock) -> void #foreign libsdl3_ttf "SDL_LockSpinlock
 * \sa SDL_LockSpinlock
 * \sa SDL_TryLockSpinlock
 */
-UnlockSpinlock :: (lock: *SpinLock) -> void #foreign libsdl3_ttf "SDL_UnlockSpinlock";
+SDL_UnlockSpinlock :: (lock: *SDL_SpinLock) -> void #foreign libsdl3_ttf;
 
 /**
 * Insert a memory release barrier (function version).
@@ -6478,7 +6478,7 @@ UnlockSpinlock :: (lock: *SpinLock) -> void #foreign libsdl3_ttf "SDL_UnlockSpin
 *
 * \sa SDL_MemoryBarrierRelease
 */
-MemoryBarrierReleaseFunction :: () -> void #foreign libsdl3_ttf "SDL_MemoryBarrierReleaseFunction";
+SDL_MemoryBarrierReleaseFunction :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Insert a memory acquire barrier (function version).
@@ -6498,7 +6498,7 @@ MemoryBarrierReleaseFunction :: () -> void #foreign libsdl3_ttf "SDL_MemoryBarri
 *
 * \sa SDL_MemoryBarrierAcquire
 */
-MemoryBarrierAcquireFunction :: () -> void #foreign libsdl3_ttf "SDL_MemoryBarrierAcquireFunction";
+SDL_MemoryBarrierAcquireFunction :: () -> void #foreign libsdl3_ttf;
 
 /**
 * A type representing an atomic integer value.
@@ -6527,7 +6527,7 @@ MemoryBarrierAcquireFunction :: () -> void #foreign libsdl3_ttf "SDL_MemoryBarri
 * \sa SDL_SetAtomicInt
 * \sa SDL_AddAtomicInt
 */
-AtomicInt :: struct {
+SDL_AtomicInt :: struct {
     value: s32;
 }
 
@@ -6549,7 +6549,7 @@ AtomicInt :: struct {
 * \sa SDL_GetAtomicInt
 * \sa SDL_SetAtomicInt
 */
-CompareAndSwapAtomicInt :: (a: *AtomicInt, oldval: s32, newval: s32) -> bool #foreign libsdl3_ttf "SDL_CompareAndSwapAtomicInt";
+SDL_CompareAndSwapAtomicInt :: (a: *SDL_AtomicInt, oldval: s32, newval: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set an atomic variable to a value.
@@ -6569,7 +6569,7 @@ CompareAndSwapAtomicInt :: (a: *AtomicInt, oldval: s32, newval: s32) -> bool #fo
 *
 * \sa SDL_GetAtomicInt
 */
-SetAtomicInt :: (a: *AtomicInt, v: s32) -> s32 #foreign libsdl3_ttf "SDL_SetAtomicInt";
+SDL_SetAtomicInt :: (a: *SDL_AtomicInt, v: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the value of an atomic variable.
@@ -6586,7 +6586,7 @@ SetAtomicInt :: (a: *AtomicInt, v: s32) -> s32 #foreign libsdl3_ttf "SDL_SetAtom
 *
 * \sa SDL_SetAtomicInt
 */
-GetAtomicInt :: (a: *AtomicInt) -> s32 #foreign libsdl3_ttf "SDL_GetAtomicInt";
+SDL_GetAtomicInt :: (a: *SDL_AtomicInt) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Add to an atomic variable.
@@ -6607,7 +6607,7 @@ GetAtomicInt :: (a: *AtomicInt) -> s32 #foreign libsdl3_ttf "SDL_GetAtomicInt";
 * \sa SDL_AtomicDecRef
 * \sa SDL_AtomicIncRef
 */
-AddAtomicInt :: (a: *AtomicInt, v: s32) -> s32 #foreign libsdl3_ttf "SDL_AddAtomicInt";
+SDL_AddAtomicInt :: (a: *SDL_AtomicInt, v: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * A type representing an atomic unsigned 32-bit value.
@@ -6635,7 +6635,7 @@ AddAtomicInt :: (a: *AtomicInt, v: s32) -> s32 #foreign libsdl3_ttf "SDL_AddAtom
 * \sa SDL_GetAtomicU32
 * \sa SDL_SetAtomicU32
 */
-AtomicU32 :: struct {
+SDL_AtomicU32 :: struct {
     value: Uint32;
 }
 
@@ -6657,7 +6657,7 @@ AtomicU32 :: struct {
 * \sa SDL_GetAtomicU32
 * \sa SDL_SetAtomicU32
 */
-CompareAndSwapAtomicU32 :: (a: *AtomicU32, oldval: Uint32, newval: Uint32) -> bool #foreign libsdl3_ttf "SDL_CompareAndSwapAtomicU32";
+SDL_CompareAndSwapAtomicU32 :: (a: *SDL_AtomicU32, oldval: Uint32, newval: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set an atomic variable to a value.
@@ -6677,7 +6677,7 @@ CompareAndSwapAtomicU32 :: (a: *AtomicU32, oldval: Uint32, newval: Uint32) -> bo
 *
 * \sa SDL_GetAtomicU32
 */
-SetAtomicU32 :: (a: *AtomicU32, v: Uint32) -> Uint32 #foreign libsdl3_ttf "SDL_SetAtomicU32";
+SDL_SetAtomicU32 :: (a: *SDL_AtomicU32, v: Uint32) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Get the value of an atomic variable.
@@ -6694,7 +6694,7 @@ SetAtomicU32 :: (a: *AtomicU32, v: Uint32) -> Uint32 #foreign libsdl3_ttf "SDL_S
 *
 * \sa SDL_SetAtomicU32
 */
-GetAtomicU32 :: (a: *AtomicU32) -> Uint32 #foreign libsdl3_ttf "SDL_GetAtomicU32";
+SDL_GetAtomicU32 :: (a: *SDL_AtomicU32) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Set a pointer to a new value if it is currently an old value.
@@ -6715,7 +6715,7 @@ GetAtomicU32 :: (a: *AtomicU32) -> Uint32 #foreign libsdl3_ttf "SDL_GetAtomicU32
 * \sa SDL_GetAtomicPointer
 * \sa SDL_SetAtomicPointer
 */
-CompareAndSwapAtomicPointer :: (a: **void, oldval: *void, newval: *void) -> bool #foreign libsdl3_ttf "SDL_CompareAndSwapAtomicPointer";
+SDL_CompareAndSwapAtomicPointer :: (a: **void, oldval: *void, newval: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set a pointer to a value atomically.
@@ -6734,7 +6734,7 @@ CompareAndSwapAtomicPointer :: (a: **void, oldval: *void, newval: *void) -> bool
 * \sa SDL_CompareAndSwapAtomicPointer
 * \sa SDL_GetAtomicPointer
 */
-SetAtomicPointer :: (a: **void, v: *void) -> *void #foreign libsdl3_ttf "SDL_SetAtomicPointer";
+SDL_SetAtomicPointer :: (a: **void, v: *void) -> *void #foreign libsdl3_ttf;
 
 /**
 * Get the value of a pointer atomically.
@@ -6752,7 +6752,7 @@ SetAtomicPointer :: (a: **void, v: *void) -> *void #foreign libsdl3_ttf "SDL_Set
 * \sa SDL_CompareAndSwapAtomicPointer
 * \sa SDL_SetAtomicPointer
 */
-GetAtomicPointer :: (a: **void) -> *void #foreign libsdl3_ttf "SDL_GetAtomicPointer";
+SDL_GetAtomicPointer :: (a: **void) -> *void #foreign libsdl3_ttf;
 
 /**
 * Byte-swap a floating point number.
@@ -6773,7 +6773,7 @@ GetAtomicPointer :: (a: **void) -> *void #foreign libsdl3_ttf "SDL_GetAtomicPoin
 *
 * \since This function is available since SDL 3.2.0.
 */
-SwapFloat :: (x: float) -> float #foreign __UnknownLib "SDL_SwapFloat";
+SDL_SwapFloat :: (x: float) -> float #foreign __UnknownLib;
 
 /**
 * Set the SDL error message for the current thread.
@@ -6802,14 +6802,14 @@ SwapFloat :: (x: float) -> float #foreign __UnknownLib "SDL_SwapFloat";
 * \sa SDL_GetError
 * \sa SDL_SetErrorV
 */
-SetError_CFormat :: (fmt: *u8, __args: ..Any) -> bool #foreign libsdl3_ttf "SDL_SetError";
-SetError :: (fmt: string, __args: ..Any) -> bool {
+SDL_SetError_CFormat :: (fmt: *u8, __args: ..Any) -> bool #foreign libsdl3_ttf "SDL_SetError";
+SDL_SetError :: (fmt: string, __args: ..Any) -> bool {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    return SetError_CFormat("%s", formatted_text.data);
+    return SDL_SetError_CFormat("%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -6823,7 +6823,7 @@ SetError :: (fmt: string, __args: ..Any) -> bool {
 *
 * \since This function is available since SDL 3.2.0.
 */
-OutOfMemory :: () -> bool #foreign libsdl3_ttf "SDL_OutOfMemory";
+SDL_OutOfMemory :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Retrieve a message about the last error that occurred on the current
@@ -6860,7 +6860,7 @@ OutOfMemory :: () -> bool #foreign libsdl3_ttf "SDL_OutOfMemory";
 * \sa SDL_ClearError
 * \sa SDL_SetError
 */
-GetError :: () -> *u8 #foreign libsdl3_ttf "SDL_GetError";
+SDL_GetError :: () -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Clear any previous error message for this thread.
@@ -6874,21 +6874,21 @@ GetError :: () -> *u8 #foreign libsdl3_ttf "SDL_GetError";
 * \sa SDL_GetError
 * \sa SDL_SetError
 */
-ClearError :: () -> bool #foreign libsdl3_ttf "SDL_ClearError";
+SDL_ClearError :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * SDL properties ID
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-PropertiesID :: Uint32;
+SDL_PropertiesID :: Uint32;
 
 /**
 * SDL property type
 *
 * \since This enum is available since SDL 3.2.0.
 */
-PropertyType :: enum u32 {
+SDL_PropertyType :: enum u32 {
     INVALID :: 0;
     POINTER :: 1;
     STRING  :: 2;
@@ -6912,7 +6912,7 @@ PropertyType :: enum u32 {
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGlobalProperties :: () -> PropertiesID #foreign libsdl3_ttf "SDL_GetGlobalProperties";
+SDL_GetGlobalProperties :: () -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Create a group of properties.
@@ -6928,7 +6928,7 @@ GetGlobalProperties :: () -> PropertiesID #foreign libsdl3_ttf "SDL_GetGlobalPro
 *
 * \sa SDL_DestroyProperties
 */
-CreateProperties :: () -> PropertiesID #foreign libsdl3_ttf "SDL_CreateProperties";
+SDL_CreateProperties :: () -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Copy a group of properties.
@@ -6947,7 +6947,7 @@ CreateProperties :: () -> PropertiesID #foreign libsdl3_ttf "SDL_CreatePropertie
 *
 * \since This function is available since SDL 3.2.0.
 */
-CopyProperties :: (src: PropertiesID, dst: PropertiesID) -> bool #foreign libsdl3_ttf "SDL_CopyProperties";
+SDL_CopyProperties :: (src: SDL_PropertiesID, dst: SDL_PropertiesID) -> bool #foreign libsdl3_ttf;
 
 /**
 * Lock a group of properties.
@@ -6971,7 +6971,7 @@ CopyProperties :: (src: PropertiesID, dst: PropertiesID) -> bool #foreign libsdl
 *
 * \sa SDL_UnlockProperties
 */
-LockProperties :: (props: PropertiesID) -> bool #foreign libsdl3_ttf "SDL_LockProperties";
+SDL_LockProperties :: (props: SDL_PropertiesID) -> bool #foreign libsdl3_ttf;
 
 /**
 * Unlock a group of properties.
@@ -6984,7 +6984,7 @@ LockProperties :: (props: PropertiesID) -> bool #foreign libsdl3_ttf "SDL_LockPr
 *
 * \sa SDL_LockProperties
 */
-UnlockProperties :: (props: PropertiesID) -> void #foreign libsdl3_ttf "SDL_UnlockProperties";
+SDL_UnlockProperties :: (props: SDL_PropertiesID) -> void #foreign libsdl3_ttf;
 
 /**
 * A callback used to free resources when a property is deleted.
@@ -7008,7 +7008,7 @@ UnlockProperties :: (props: PropertiesID) -> void #foreign libsdl3_ttf "SDL_Unlo
 *
 * \sa SDL_SetPointerPropertyWithCleanup
 */
-CleanupPropertyCallback :: #type (userdata: *void, value: *void) -> void #c_call;
+SDL_CleanupPropertyCallback :: #type (userdata: *void, value: *void) -> void #c_call;
 
 /**
 * Set a pointer property in a group of properties with a cleanup function
@@ -7039,7 +7039,7 @@ CleanupPropertyCallback :: #type (userdata: *void, value: *void) -> void #c_call
 * \sa SDL_SetPointerProperty
 * \sa SDL_CleanupPropertyCallback
 */
-SetPointerPropertyWithCleanup :: (props: PropertiesID, name: *u8, value: *void, cleanup: CleanupPropertyCallback, userdata: *void) -> bool #foreign libsdl3_ttf "SDL_SetPointerPropertyWithCleanup";
+SDL_SetPointerPropertyWithCleanup :: (props: SDL_PropertiesID, name: *u8, value: *void, cleanup: SDL_CleanupPropertyCallback, userdata: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set a pointer property in a group of properties.
@@ -7062,7 +7062,7 @@ SetPointerPropertyWithCleanup :: (props: PropertiesID, name: *u8, value: *void, 
 * \sa SDL_SetPointerPropertyWithCleanup
 * \sa SDL_SetStringProperty
 */
-SetPointerProperty :: (props: PropertiesID, name: *u8, value: *void) -> bool #foreign libsdl3_ttf "SDL_SetPointerProperty";
+SDL_SetPointerProperty :: (props: SDL_PropertiesID, name: *u8, value: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set a string property in a group of properties.
@@ -7082,7 +7082,7 @@ SetPointerProperty :: (props: PropertiesID, name: *u8, value: *void) -> bool #fo
 *
 * \sa SDL_GetStringProperty
 */
-SetStringProperty :: (props: PropertiesID, name: *u8, value: *u8) -> bool #foreign libsdl3_ttf "SDL_SetStringProperty";
+SDL_SetStringProperty :: (props: SDL_PropertiesID, name: *u8, value: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set an integer property in a group of properties.
@@ -7099,7 +7099,7 @@ SetStringProperty :: (props: PropertiesID, name: *u8, value: *u8) -> bool #forei
 *
 * \sa SDL_GetNumberProperty
 */
-SetNumberProperty :: (props: PropertiesID, name: *u8, value: Sint64) -> bool #foreign libsdl3_ttf "SDL_SetNumberProperty";
+SDL_SetNumberProperty :: (props: SDL_PropertiesID, name: *u8, value: Sint64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set a floating point property in a group of properties.
@@ -7116,7 +7116,7 @@ SetNumberProperty :: (props: PropertiesID, name: *u8, value: Sint64) -> bool #fo
 *
 * \sa SDL_GetFloatProperty
 */
-SetFloatProperty :: (props: PropertiesID, name: *u8, value: float) -> bool #foreign libsdl3_ttf "SDL_SetFloatProperty";
+SDL_SetFloatProperty :: (props: SDL_PropertiesID, name: *u8, value: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set a boolean property in a group of properties.
@@ -7133,7 +7133,7 @@ SetFloatProperty :: (props: PropertiesID, name: *u8, value: float) -> bool #fore
 *
 * \sa SDL_GetBooleanProperty
 */
-SetBooleanProperty :: (props: PropertiesID, name: *u8, value: bool) -> bool #foreign libsdl3_ttf "SDL_SetBooleanProperty";
+SDL_SetBooleanProperty :: (props: SDL_PropertiesID, name: *u8, value: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Return whether a property exists in a group of properties.
@@ -7148,7 +7148,7 @@ SetBooleanProperty :: (props: PropertiesID, name: *u8, value: bool) -> bool #for
 *
 * \sa SDL_GetPropertyType
 */
-HasProperty :: (props: PropertiesID, name: *u8) -> bool #foreign libsdl3_ttf "SDL_HasProperty";
+SDL_HasProperty :: (props: SDL_PropertiesID, name: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the type of a property in a group of properties.
@@ -7164,7 +7164,7 @@ HasProperty :: (props: PropertiesID, name: *u8) -> bool #foreign libsdl3_ttf "SD
 *
 * \sa SDL_HasProperty
 */
-GetPropertyType :: (props: PropertiesID, name: *u8) -> PropertyType #foreign libsdl3_ttf "SDL_GetPropertyType";
+SDL_GetPropertyType :: (props: SDL_PropertiesID, name: *u8) -> SDL_PropertyType #foreign libsdl3_ttf;
 
 /**
 * Get a pointer property from a group of properties.
@@ -7197,7 +7197,7 @@ GetPropertyType :: (props: PropertiesID, name: *u8) -> PropertyType #foreign lib
 * \sa SDL_HasProperty
 * \sa SDL_SetPointerProperty
 */
-GetPointerProperty :: (props: PropertiesID, name: *u8, default_value: *void) -> *void #foreign libsdl3_ttf "SDL_GetPointerProperty";
+SDL_GetPointerProperty :: (props: SDL_PropertiesID, name: *u8, default_value: *void) -> *void #foreign libsdl3_ttf;
 
 /**
 * Get a string property from a group of properties.
@@ -7221,7 +7221,7 @@ GetPointerProperty :: (props: PropertiesID, name: *u8, default_value: *void) -> 
 * \sa SDL_HasProperty
 * \sa SDL_SetStringProperty
 */
-GetStringProperty :: (props: PropertiesID, name: *u8, default_value: *u8) -> *u8 #foreign libsdl3_ttf "SDL_GetStringProperty";
+SDL_GetStringProperty :: (props: SDL_PropertiesID, name: *u8, default_value: *u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get a number property from a group of properties.
@@ -7243,7 +7243,7 @@ GetStringProperty :: (props: PropertiesID, name: *u8, default_value: *u8) -> *u8
 * \sa SDL_HasProperty
 * \sa SDL_SetNumberProperty
 */
-GetNumberProperty :: (props: PropertiesID, name: *u8, default_value: Sint64) -> Sint64 #foreign libsdl3_ttf "SDL_GetNumberProperty";
+SDL_GetNumberProperty :: (props: SDL_PropertiesID, name: *u8, default_value: Sint64) -> Sint64 #foreign libsdl3_ttf;
 
 /**
 * Get a floating point property from a group of properties.
@@ -7265,7 +7265,7 @@ GetNumberProperty :: (props: PropertiesID, name: *u8, default_value: Sint64) -> 
 * \sa SDL_HasProperty
 * \sa SDL_SetFloatProperty
 */
-GetFloatProperty :: (props: PropertiesID, name: *u8, default_value: float) -> float #foreign libsdl3_ttf "SDL_GetFloatProperty";
+SDL_GetFloatProperty :: (props: SDL_PropertiesID, name: *u8, default_value: float) -> float #foreign libsdl3_ttf;
 
 /**
 * Get a boolean property from a group of properties.
@@ -7287,7 +7287,7 @@ GetFloatProperty :: (props: PropertiesID, name: *u8, default_value: float) -> fl
 * \sa SDL_HasProperty
 * \sa SDL_SetBooleanProperty
 */
-GetBooleanProperty :: (props: PropertiesID, name: *u8, default_value: bool) -> bool #foreign libsdl3_ttf "SDL_GetBooleanProperty";
+SDL_GetBooleanProperty :: (props: SDL_PropertiesID, name: *u8, default_value: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Clear a property from a group of properties.
@@ -7301,7 +7301,7 @@ GetBooleanProperty :: (props: PropertiesID, name: *u8, default_value: bool) -> b
 *
 * \since This function is available since SDL 3.2.0.
 */
-ClearProperty :: (props: PropertiesID, name: *u8) -> bool #foreign libsdl3_ttf "SDL_ClearProperty";
+SDL_ClearProperty :: (props: SDL_PropertiesID, name: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * A callback used to enumerate all the properties in a group of properties.
@@ -7320,7 +7320,7 @@ ClearProperty :: (props: PropertiesID, name: *u8) -> bool #foreign libsdl3_ttf "
 *
 * \sa SDL_EnumerateProperties
 */
-EnumeratePropertiesCallback :: #type (userdata: *void, props: PropertiesID, name: *u8) -> void #c_call;
+SDL_EnumeratePropertiesCallback :: #type (userdata: *void, props: SDL_PropertiesID, name: *u8) -> void #c_call;
 
 /**
 * Enumerate the properties contained in a group of properties.
@@ -7338,7 +7338,7 @@ EnumeratePropertiesCallback :: #type (userdata: *void, props: PropertiesID, name
 *
 * \since This function is available since SDL 3.2.0.
 */
-EnumerateProperties :: (props: PropertiesID, callback: EnumeratePropertiesCallback, userdata: *void) -> bool #foreign libsdl3_ttf "SDL_EnumerateProperties";
+SDL_EnumerateProperties :: (props: SDL_PropertiesID, callback: SDL_EnumeratePropertiesCallback, userdata: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Destroy a group of properties.
@@ -7356,9 +7356,9 @@ EnumerateProperties :: (props: PropertiesID, callback: EnumeratePropertiesCallba
 *
 * \sa SDL_CreateProperties
 */
-DestroyProperties :: (props: PropertiesID) -> void #foreign libsdl3_ttf "SDL_DestroyProperties";
+SDL_DestroyProperties :: (props: SDL_PropertiesID) -> void #foreign libsdl3_ttf;
 
-Thread :: struct {}
+SDL_Thread :: struct {}
 
 /**
 * A unique numeric ID that identifies a thread.
@@ -7372,7 +7372,7 @@ Thread :: struct {}
 * \sa SDL_GetThreadID
 * \sa SDL_GetCurrentThreadID
 */
-ThreadID :: Uint64;
+SDL_ThreadID :: Uint64;
 
 /**
 * Thread local storage ID.
@@ -7385,7 +7385,7 @@ ThreadID :: Uint64;
 * \sa SDL_GetTLS
 * \sa SDL_SetTLS
 */
-TLSID :: AtomicInt;
+SDL_TLSID :: SDL_AtomicInt;
 
 /**
 * The SDL thread priority.
@@ -7398,7 +7398,7 @@ TLSID :: AtomicInt;
 *
 * \since This enum is available since SDL 3.2.0.
 */
-ThreadPriority :: enum u32 {
+SDL_ThreadPriority :: enum u32 {
     LOW           :: 0;
     NORMAL        :: 1;
     HIGH          :: 2;
@@ -7419,7 +7419,7 @@ ThreadPriority :: enum u32 {
 *
 * \sa SDL_GetThreadState
 */
-ThreadState :: enum u32 {
+SDL_ThreadState :: enum u32 {
     UNKNOWN  :: 0;
     ALIVE    :: 1;
     DETACHED :: 2;
@@ -7439,7 +7439,7 @@ ThreadState :: enum u32 {
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-ThreadFunction :: #type (data: *void) -> s32 #c_call;
+SDL_ThreadFunction :: #type (data: *void) -> s32 #c_call;
 
 /* These are the actual functions exported from SDL! Don't use them directly! Use the SDL_CreateThread and SDL_CreateThreadWithProperties macros! */
 /**
@@ -7456,7 +7456,7 @@ ThreadFunction :: #type (data: *void) -> s32 #c_call;
 *
 * \since This function is available since SDL 3.2.0.
 */
-CreateThreadRuntime :: (fn: ThreadFunction, name: *u8, data: *void, pfnBeginThread: FunctionPointer, pfnEndThread: FunctionPointer) -> *Thread #foreign libsdl3_ttf "SDL_CreateThreadRuntime";
+SDL_CreateThreadRuntime :: (fn: SDL_ThreadFunction, name: *u8, data: *void, pfnBeginThread: SDL_FunctionPointer, pfnEndThread: SDL_FunctionPointer) -> *SDL_Thread #foreign libsdl3_ttf;
 
 /**
 * The actual entry point for SDL_CreateThreadWithProperties.
@@ -7470,7 +7470,7 @@ CreateThreadRuntime :: (fn: ThreadFunction, name: *u8, data: *void, pfnBeginThre
 *
 * \since This function is available since SDL 3.2.0.
 */
-CreateThreadWithPropertiesRuntime :: (props: PropertiesID, pfnBeginThread: FunctionPointer, pfnEndThread: FunctionPointer) -> *Thread #foreign libsdl3_ttf "SDL_CreateThreadWithPropertiesRuntime";
+SDL_CreateThreadWithPropertiesRuntime :: (props: SDL_PropertiesID, pfnBeginThread: SDL_FunctionPointer, pfnEndThread: SDL_FunctionPointer) -> *SDL_Thread #foreign libsdl3_ttf;
 
 /**
 * Get the thread name as it was specified in SDL_CreateThread().
@@ -7481,7 +7481,7 @@ CreateThreadWithPropertiesRuntime :: (props: PropertiesID, pfnBeginThread: Funct
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetThreadName :: (thread: *Thread) -> *u8 #foreign libsdl3_ttf "SDL_GetThreadName";
+SDL_GetThreadName :: (thread: *SDL_Thread) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the thread identifier for the current thread.
@@ -7499,7 +7499,7 @@ GetThreadName :: (thread: *Thread) -> *u8 #foreign libsdl3_ttf "SDL_GetThreadNam
 *
 * \sa SDL_GetThreadID
 */
-GetCurrentThreadID :: () -> ThreadID #foreign libsdl3_ttf "SDL_GetCurrentThreadID";
+SDL_GetCurrentThreadID :: () -> SDL_ThreadID #foreign libsdl3_ttf;
 
 /**
 * Get the thread identifier for the specified thread.
@@ -7516,7 +7516,7 @@ GetCurrentThreadID :: () -> ThreadID #foreign libsdl3_ttf "SDL_GetCurrentThreadI
 *
 * \sa SDL_GetCurrentThreadID
 */
-GetThreadID :: (thread: *Thread) -> ThreadID #foreign libsdl3_ttf "SDL_GetThreadID";
+SDL_GetThreadID :: (thread: *SDL_Thread) -> SDL_ThreadID #foreign libsdl3_ttf;
 
 /**
 * Set the priority for the current thread.
@@ -7531,7 +7531,7 @@ GetThreadID :: (thread: *Thread) -> ThreadID #foreign libsdl3_ttf "SDL_GetThread
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetCurrentThreadPriority :: (priority: ThreadPriority) -> bool #foreign libsdl3_ttf "SDL_SetCurrentThreadPriority";
+SDL_SetCurrentThreadPriority :: (priority: SDL_ThreadPriority) -> bool #foreign libsdl3_ttf;
 
 /**
 * Wait for a thread to finish.
@@ -7566,7 +7566,7 @@ SetCurrentThreadPriority :: (priority: ThreadPriority) -> bool #foreign libsdl3_
 * \sa SDL_CreateThread
 * \sa SDL_DetachThread
 */
-WaitThread :: (thread: *Thread, status: *s32) -> void #foreign libsdl3_ttf "SDL_WaitThread";
+SDL_WaitThread :: (thread: *SDL_Thread, status: *s32) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the current state of a thread.
@@ -7579,7 +7579,7 @@ WaitThread :: (thread: *Thread, status: *s32) -> void #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_ThreadState
 */
-GetThreadState :: (thread: *Thread) -> ThreadState #foreign libsdl3_ttf "SDL_GetThreadState";
+SDL_GetThreadState :: (thread: *SDL_Thread) -> SDL_ThreadState #foreign libsdl3_ttf;
 
 /**
 * Let a thread clean up on exit without intervention.
@@ -7615,7 +7615,7 @@ GetThreadState :: (thread: *Thread) -> ThreadState #foreign libsdl3_ttf "SDL_Get
 * \sa SDL_CreateThread
 * \sa SDL_WaitThread
 */
-DetachThread :: (thread: *Thread) -> void #foreign libsdl3_ttf "SDL_DetachThread";
+SDL_DetachThread :: (thread: *SDL_Thread) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the current thread's value associated with a thread local storage ID.
@@ -7630,7 +7630,7 @@ DetachThread :: (thread: *Thread) -> void #foreign libsdl3_ttf "SDL_DetachThread
 *
 * \sa SDL_SetTLS
 */
-GetTLS :: (id: *TLSID) -> *void #foreign libsdl3_ttf "SDL_GetTLS";
+SDL_GetTLS :: (id: *SDL_TLSID) -> *void #foreign libsdl3_ttf;
 
 /**
 * The callback used to cleanup data passed to SDL_SetTLS.
@@ -7643,7 +7643,7 @@ GetTLS :: (id: *TLSID) -> *void #foreign libsdl3_ttf "SDL_GetTLS";
 *
 * \sa SDL_SetTLS
 */
-TLSDestructorCallback :: #type (value: *void) -> void #c_call;
+SDL_TLSDestructorCallback :: #type (value: *void) -> void #c_call;
 
 /**
 * Set the current thread's value associated with a thread local storage ID.
@@ -7671,7 +7671,7 @@ TLSDestructorCallback :: #type (value: *void) -> void #c_call;
 *
 * \sa SDL_GetTLS
 */
-SetTLS :: (id: *TLSID, value: *void, destructor: TLSDestructorCallback) -> bool #foreign libsdl3_ttf "SDL_SetTLS";
+SDL_SetTLS :: (id: *SDL_TLSID, value: *void, destructor: SDL_TLSDestructorCallback) -> bool #foreign libsdl3_ttf;
 
 /**
 * Cleanup all TLS data for this thread.
@@ -7684,9 +7684,9 @@ SetTLS :: (id: *TLSID, value: *void, destructor: TLSDestructorCallback) -> bool 
 *
 * \since This function is available since SDL 3.2.0.
 */
-CleanupTLS :: () -> void #foreign libsdl3_ttf "SDL_CleanupTLS";
+SDL_CleanupTLS :: () -> void #foreign libsdl3_ttf;
 
-Mutex :: struct {}
+SDL_Mutex :: struct {}
 
 /**
 * Create a new mutex.
@@ -7708,7 +7708,7 @@ Mutex :: struct {}
 * \sa SDL_TryLockMutex
 * \sa SDL_UnlockMutex
 */
-CreateMutex :: () -> *Mutex #foreign libsdl3_ttf "SDL_CreateMutex";
+SDL_CreateMutex :: () -> *SDL_Mutex #foreign libsdl3_ttf;
 
 /**
 * Lock the mutex.
@@ -7732,7 +7732,7 @@ CreateMutex :: () -> *Mutex #foreign libsdl3_ttf "SDL_CreateMutex";
 * \sa SDL_TryLockMutex
 * \sa SDL_UnlockMutex
 */
-LockMutex :: (mutex: *Mutex) -> void #foreign libsdl3_ttf "SDL_LockMutex";
+SDL_LockMutex :: (mutex: *SDL_Mutex) -> void #foreign libsdl3_ttf;
 
 /**
 * Try to lock a mutex without blocking.
@@ -7753,7 +7753,7 @@ LockMutex :: (mutex: *Mutex) -> void #foreign libsdl3_ttf "SDL_LockMutex";
 * \sa SDL_LockMutex
 * \sa SDL_UnlockMutex
 */
-TryLockMutex :: (mutex: *Mutex) -> bool #foreign libsdl3_ttf "SDL_TryLockMutex";
+SDL_TryLockMutex :: (mutex: *SDL_Mutex) -> bool #foreign libsdl3_ttf;
 
 /**
 * Unlock the mutex.
@@ -7772,7 +7772,7 @@ TryLockMutex :: (mutex: *Mutex) -> bool #foreign libsdl3_ttf "SDL_TryLockMutex";
 * \sa SDL_LockMutex
 * \sa SDL_TryLockMutex
 */
-UnlockMutex :: (mutex: *Mutex) -> void #foreign libsdl3_ttf "SDL_UnlockMutex";
+SDL_UnlockMutex :: (mutex: *SDL_Mutex) -> void #foreign libsdl3_ttf;
 
 /**
 * Destroy a mutex created with SDL_CreateMutex().
@@ -7789,9 +7789,9 @@ UnlockMutex :: (mutex: *Mutex) -> void #foreign libsdl3_ttf "SDL_UnlockMutex";
 *
 * \sa SDL_CreateMutex
 */
-DestroyMutex :: (mutex: *Mutex) -> void #foreign libsdl3_ttf "SDL_DestroyMutex";
+SDL_DestroyMutex :: (mutex: *SDL_Mutex) -> void #foreign libsdl3_ttf;
 
-RWLock :: struct {}
+SDL_RWLock :: struct {}
 
 /**
 * Create a new read/write lock.
@@ -7833,7 +7833,7 @@ RWLock :: struct {}
 * \sa SDL_TryLockRWLockForWriting
 * \sa SDL_UnlockRWLock
 */
-CreateRWLock :: () -> *RWLock #foreign libsdl3_ttf "SDL_CreateRWLock";
+SDL_CreateRWLock :: () -> *SDL_RWLock #foreign libsdl3_ttf;
 
 /**
 * Lock the read/write lock for _read only_ operations.
@@ -7870,7 +7870,7 @@ CreateRWLock :: () -> *RWLock #foreign libsdl3_ttf "SDL_CreateRWLock";
 * \sa SDL_TryLockRWLockForReading
 * \sa SDL_UnlockRWLock
 */
-LockRWLockForReading :: (rwlock: *RWLock) -> void #foreign libsdl3_ttf "SDL_LockRWLockForReading";
+SDL_LockRWLockForReading :: (rwlock: *SDL_RWLock) -> void #foreign libsdl3_ttf;
 
 /**
 * Lock the read/write lock for _write_ operations.
@@ -7901,7 +7901,7 @@ LockRWLockForReading :: (rwlock: *RWLock) -> void #foreign libsdl3_ttf "SDL_Lock
 * \sa SDL_TryLockRWLockForWriting
 * \sa SDL_UnlockRWLock
 */
-LockRWLockForWriting :: (rwlock: *RWLock) -> void #foreign libsdl3_ttf "SDL_LockRWLockForWriting";
+SDL_LockRWLockForWriting :: (rwlock: *SDL_RWLock) -> void #foreign libsdl3_ttf;
 
 /**
 * Try to lock a read/write lock _for reading_ without blocking.
@@ -7926,7 +7926,7 @@ LockRWLockForWriting :: (rwlock: *RWLock) -> void #foreign libsdl3_ttf "SDL_Lock
 * \sa SDL_TryLockRWLockForWriting
 * \sa SDL_UnlockRWLock
 */
-TryLockRWLockForReading :: (rwlock: *RWLock) -> bool #foreign libsdl3_ttf "SDL_TryLockRWLockForReading";
+SDL_TryLockRWLockForReading :: (rwlock: *SDL_RWLock) -> bool #foreign libsdl3_ttf;
 
 /**
 * Try to lock a read/write lock _for writing_ without blocking.
@@ -7956,7 +7956,7 @@ TryLockRWLockForReading :: (rwlock: *RWLock) -> bool #foreign libsdl3_ttf "SDL_T
 * \sa SDL_TryLockRWLockForReading
 * \sa SDL_UnlockRWLock
 */
-TryLockRWLockForWriting :: (rwlock: *RWLock) -> bool #foreign libsdl3_ttf "SDL_TryLockRWLockForWriting";
+SDL_TryLockRWLockForWriting :: (rwlock: *SDL_RWLock) -> bool #foreign libsdl3_ttf;
 
 /**
 * Unlock the read/write lock.
@@ -7981,7 +7981,7 @@ TryLockRWLockForWriting :: (rwlock: *RWLock) -> bool #foreign libsdl3_ttf "SDL_T
 * \sa SDL_TryLockRWLockForReading
 * \sa SDL_TryLockRWLockForWriting
 */
-UnlockRWLock :: (rwlock: *RWLock) -> void #foreign libsdl3_ttf "SDL_UnlockRWLock";
+SDL_UnlockRWLock :: (rwlock: *SDL_RWLock) -> void #foreign libsdl3_ttf;
 
 /**
 * Destroy a read/write lock created with SDL_CreateRWLock().
@@ -7998,9 +7998,9 @@ UnlockRWLock :: (rwlock: *RWLock) -> void #foreign libsdl3_ttf "SDL_UnlockRWLock
 *
 * \sa SDL_CreateRWLock
 */
-DestroyRWLock :: (rwlock: *RWLock) -> void #foreign libsdl3_ttf "SDL_DestroyRWLock";
+SDL_DestroyRWLock :: (rwlock: *SDL_RWLock) -> void #foreign libsdl3_ttf;
 
-Semaphore :: struct {}
+SDL_Semaphore :: struct {}
 
 /**
 * Create a semaphore.
@@ -8024,7 +8024,7 @@ Semaphore :: struct {}
 * \sa SDL_WaitSemaphore
 * \sa SDL_WaitSemaphoreTimeout
 */
-CreateSemaphore :: (initial_value: Uint32) -> *Semaphore #foreign libsdl3_ttf "SDL_CreateSemaphore";
+SDL_CreateSemaphore :: (initial_value: Uint32) -> *SDL_Semaphore #foreign libsdl3_ttf;
 
 /**
 * Destroy a semaphore.
@@ -8038,7 +8038,7 @@ CreateSemaphore :: (initial_value: Uint32) -> *Semaphore #foreign libsdl3_ttf "S
 *
 * \sa SDL_CreateSemaphore
 */
-DestroySemaphore :: (sem: *Semaphore) -> void #foreign libsdl3_ttf "SDL_DestroySemaphore";
+SDL_DestroySemaphore :: (sem: *SDL_Semaphore) -> void #foreign libsdl3_ttf;
 
 /**
 * Wait until a semaphore has a positive value and then decrements it.
@@ -8058,7 +8058,7 @@ DestroySemaphore :: (sem: *Semaphore) -> void #foreign libsdl3_ttf "SDL_DestroyS
 * \sa SDL_TryWaitSemaphore
 * \sa SDL_WaitSemaphoreTimeout
 */
-WaitSemaphore :: (sem: *Semaphore) -> void #foreign libsdl3_ttf "SDL_WaitSemaphore";
+SDL_WaitSemaphore :: (sem: *SDL_Semaphore) -> void #foreign libsdl3_ttf;
 
 /**
 * See if a semaphore has a positive value and decrement it if it does.
@@ -8077,7 +8077,7 @@ WaitSemaphore :: (sem: *Semaphore) -> void #foreign libsdl3_ttf "SDL_WaitSemapho
 * \sa SDL_WaitSemaphore
 * \sa SDL_WaitSemaphoreTimeout
 */
-TryWaitSemaphore :: (sem: *Semaphore) -> bool #foreign libsdl3_ttf "SDL_TryWaitSemaphore";
+SDL_TryWaitSemaphore :: (sem: *SDL_Semaphore) -> bool #foreign libsdl3_ttf;
 
 /**
 * Wait until a semaphore has a positive value and then decrements it.
@@ -8097,7 +8097,7 @@ TryWaitSemaphore :: (sem: *Semaphore) -> bool #foreign libsdl3_ttf "SDL_TryWaitS
 * \sa SDL_TryWaitSemaphore
 * \sa SDL_WaitSemaphore
 */
-WaitSemaphoreTimeout :: (sem: *Semaphore, timeoutMS: Sint32) -> bool #foreign libsdl3_ttf "SDL_WaitSemaphoreTimeout";
+SDL_WaitSemaphoreTimeout :: (sem: *SDL_Semaphore, timeoutMS: Sint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Atomically increment a semaphore's value and wake waiting threads.
@@ -8110,7 +8110,7 @@ WaitSemaphoreTimeout :: (sem: *Semaphore, timeoutMS: Sint32) -> bool #foreign li
 * \sa SDL_WaitSemaphore
 * \sa SDL_WaitSemaphoreTimeout
 */
-SignalSemaphore :: (sem: *Semaphore) -> void #foreign libsdl3_ttf "SDL_SignalSemaphore";
+SDL_SignalSemaphore :: (sem: *SDL_Semaphore) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the current value of a semaphore.
@@ -8120,9 +8120,9 @@ SignalSemaphore :: (sem: *Semaphore) -> void #foreign libsdl3_ttf "SDL_SignalSem
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSemaphoreValue :: (sem: *Semaphore) -> Uint32 #foreign libsdl3_ttf "SDL_GetSemaphoreValue";
+SDL_GetSemaphoreValue :: (sem: *SDL_Semaphore) -> Uint32 #foreign libsdl3_ttf;
 
-Condition :: struct {}
+SDL_Condition :: struct {}
 
 /**
 * Create a condition variable.
@@ -8138,7 +8138,7 @@ Condition :: struct {}
 * \sa SDL_WaitConditionTimeout
 * \sa SDL_DestroyCondition
 */
-CreateCondition :: () -> *Condition #foreign libsdl3_ttf "SDL_CreateCondition";
+SDL_CreateCondition :: () -> *SDL_Condition #foreign libsdl3_ttf;
 
 /**
 * Destroy a condition variable.
@@ -8149,7 +8149,7 @@ CreateCondition :: () -> *Condition #foreign libsdl3_ttf "SDL_CreateCondition";
 *
 * \sa SDL_CreateCondition
 */
-DestroyCondition :: (cond: *Condition) -> void #foreign libsdl3_ttf "SDL_DestroyCondition";
+SDL_DestroyCondition :: (cond: *SDL_Condition) -> void #foreign libsdl3_ttf;
 
 /**
 * Restart one of the threads that are waiting on the condition variable.
@@ -8164,7 +8164,7 @@ DestroyCondition :: (cond: *Condition) -> void #foreign libsdl3_ttf "SDL_Destroy
 * \sa SDL_WaitCondition
 * \sa SDL_WaitConditionTimeout
 */
-SignalCondition :: (cond: *Condition) -> void #foreign libsdl3_ttf "SDL_SignalCondition";
+SDL_SignalCondition :: (cond: *SDL_Condition) -> void #foreign libsdl3_ttf;
 
 /**
 * Restart all threads that are waiting on the condition variable.
@@ -8179,7 +8179,7 @@ SignalCondition :: (cond: *Condition) -> void #foreign libsdl3_ttf "SDL_SignalCo
 * \sa SDL_WaitCondition
 * \sa SDL_WaitConditionTimeout
 */
-BroadcastCondition :: (cond: *Condition) -> void #foreign libsdl3_ttf "SDL_BroadcastCondition";
+SDL_BroadcastCondition :: (cond: *SDL_Condition) -> void #foreign libsdl3_ttf;
 
 /**
 * Wait until a condition variable is signaled.
@@ -8207,7 +8207,7 @@ BroadcastCondition :: (cond: *Condition) -> void #foreign libsdl3_ttf "SDL_Broad
 * \sa SDL_SignalCondition
 * \sa SDL_WaitConditionTimeout
 */
-WaitCondition :: (cond: *Condition, mutex: *Mutex) -> void #foreign libsdl3_ttf "SDL_WaitCondition";
+SDL_WaitCondition :: (cond: *SDL_Condition, mutex: *SDL_Mutex) -> void #foreign libsdl3_ttf;
 
 /**
 * Wait until a condition variable is signaled or a certain time has passed.
@@ -8237,14 +8237,14 @@ WaitCondition :: (cond: *Condition, mutex: *Mutex) -> void #foreign libsdl3_ttf 
 * \sa SDL_SignalCondition
 * \sa SDL_WaitCondition
 */
-WaitConditionTimeout :: (cond: *Condition, mutex: *Mutex, timeoutMS: Sint32) -> bool #foreign libsdl3_ttf "SDL_WaitConditionTimeout";
+SDL_WaitConditionTimeout :: (cond: *SDL_Condition, mutex: *SDL_Mutex, timeoutMS: Sint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * The current status of an SDL_InitState structure.
 *
 * \since This enum is available since SDL 3.2.0.
 */
-InitStatus :: enum u32 {
+SDL_InitStatus :: enum u32 {
     UNINITIALIZED  :: 0;
     INITIALIZING   :: 1;
     INITIALIZED    :: 2;
@@ -8312,9 +8312,9 @@ InitStatus :: enum u32 {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-InitState :: struct {
-    status:   AtomicInt;
-    thread:   ThreadID;
+SDL_InitState :: struct {
+    status:   SDL_AtomicInt;
+    thread:   SDL_ThreadID;
     reserved: *void;
 }
 
@@ -8339,7 +8339,7 @@ InitState :: struct {
 * \sa SDL_SetInitialized
 * \sa SDL_ShouldQuit
 */
-ShouldInit :: (state: *InitState) -> bool #foreign libsdl3_ttf "SDL_ShouldInit";
+SDL_ShouldInit :: (state: *SDL_InitState) -> bool #foreign libsdl3_ttf;
 
 /**
 * Return whether cleanup should be done.
@@ -8360,7 +8360,7 @@ ShouldInit :: (state: *InitState) -> bool #foreign libsdl3_ttf "SDL_ShouldInit";
 * \sa SDL_SetInitialized
 * \sa SDL_ShouldInit
 */
-ShouldQuit :: (state: *InitState) -> bool #foreign libsdl3_ttf "SDL_ShouldQuit";
+SDL_ShouldQuit :: (state: *SDL_InitState) -> bool #foreign libsdl3_ttf;
 
 /**
 * Finish an initialization state transition.
@@ -8379,14 +8379,14 @@ ShouldQuit :: (state: *InitState) -> bool #foreign libsdl3_ttf "SDL_ShouldQuit";
 * \sa SDL_ShouldInit
 * \sa SDL_ShouldQuit
 */
-SetInitialized :: (state: *InitState, initialized: bool) -> void #foreign libsdl3_ttf "SDL_SetInitialized";
+SDL_SetInitialized :: (state: *SDL_InitState, initialized: bool) -> void #foreign libsdl3_ttf;
 
 /**
 * SDL_IOStream status, set by a read or write operation.
 *
 * \since This enum is available since SDL 3.2.0.
 */
-IOStatus :: enum u32 {
+SDL_IOStatus :: enum u32 {
     READY     :: 0;
     ERROR     :: 1;
     EOF       :: 2;
@@ -8410,7 +8410,7 @@ IOStatus :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-IOWhence :: enum u32 {
+SDL_IOWhence :: enum u32 {
     SET :: 0;
     CUR :: 1;
     END :: 2;
@@ -8434,7 +8434,7 @@ IOWhence :: enum u32 {
 *
 * \sa SDL_INIT_INTERFACE
 */
-IOStreamInterface :: struct {
+SDL_IOStreamInterface :: struct {
     /* The version of this interface */
     version: Uint32;
 
@@ -8451,7 +8451,7 @@ IOStreamInterface :: struct {
     *
     *  \return the final offset in the data stream, or -1 on error.
     */
-    seek:    #type (userdata: *void, offset: Sint64, whence: IOWhence) -> Sint64 #c_call;
+    seek:    #type (userdata: *void, offset: Sint64, whence: SDL_IOWhence) -> Sint64 #c_call;
 
     /**
     *  Read up to `size` bytes from the data stream to the area pointed
@@ -8463,7 +8463,7 @@ IOStreamInterface :: struct {
     *
     *  \return the number of bytes read
     */
-    read:    #type (userdata: *void, ptr: *void, size: u64, status: *IOStatus) -> u64 #c_call;
+    read:    #type (userdata: *void, ptr: *void, size: u64, status: *SDL_IOStatus) -> u64 #c_call;
 
     /**
     *  Write exactly `size` bytes from the area pointed at by `ptr`
@@ -8475,7 +8475,7 @@ IOStreamInterface :: struct {
     *
     *  \return the number of bytes written
     */
-    write:   #type (userdata: *void, ptr: *void, size: u64, status: *IOStatus) -> u64 #c_call;
+    write:   #type (userdata: *void, ptr: *void, size: u64, status: *SDL_IOStatus) -> u64 #c_call;
 
     /**
     *  If the stream is buffering, make sure the data is written out.
@@ -8486,7 +8486,7 @@ IOStreamInterface :: struct {
     *
     *  \return true if successful or false on write error when flushing data.
     */
-    flush:   #type (userdata: *void, status: *IOStatus) -> bool #c_call;
+    flush:   #type (userdata: *void, status: *SDL_IOStatus) -> bool #c_call;
 
     /**
     *  Close and free any allocated resources.
@@ -8502,7 +8502,7 @@ IOStreamInterface :: struct {
     close:   #type (userdata: *void) -> bool #c_call;
 }
 
-IOStream :: struct {}
+SDL_IOStream :: struct {}
 
 /**
 * Use this function to create a new SDL_IOStream structure for reading from
@@ -8586,7 +8586,7 @@ IOStream :: struct {}
 * \sa SDL_TellIO
 * \sa SDL_WriteIO
 */
-IOFromFile :: (file: *u8, mode: *u8) -> *IOStream #foreign libsdl3_ttf "SDL_IOFromFile";
+SDL_IOFromFile :: (file: *u8, mode: *u8) -> *SDL_IOStream #foreign libsdl3_ttf;
 
 /**
 * Use this function to prepare a read-write memory buffer for use with
@@ -8627,7 +8627,7 @@ IOFromFile :: (file: *u8, mode: *u8) -> *IOStream #foreign libsdl3_ttf "SDL_IOFr
 * \sa SDL_TellIO
 * \sa SDL_WriteIO
 */
-IOFromMem :: (mem: *void, size: u64) -> *IOStream #foreign libsdl3_ttf "SDL_IOFromMem";
+SDL_IOFromMem :: (mem: *void, size: u64) -> *SDL_IOStream #foreign libsdl3_ttf;
 
 /**
 * Use this function to prepare a read-only memory buffer for use with
@@ -8668,7 +8668,7 @@ IOFromMem :: (mem: *void, size: u64) -> *IOStream #foreign libsdl3_ttf "SDL_IOFr
 * \sa SDL_SeekIO
 * \sa SDL_TellIO
 */
-IOFromConstMem :: (mem: *void, size: u64) -> *IOStream #foreign libsdl3_ttf "SDL_IOFromConstMem";
+SDL_IOFromConstMem :: (mem: *void, size: u64) -> *SDL_IOStream #foreign libsdl3_ttf;
 
 /**
 * Use this function to create an SDL_IOStream that is backed by dynamically
@@ -8698,7 +8698,7 @@ IOFromConstMem :: (mem: *void, size: u64) -> *IOStream #foreign libsdl3_ttf "SDL
 * \sa SDL_TellIO
 * \sa SDL_WriteIO
 */
-IOFromDynamicMem :: () -> *IOStream #foreign libsdl3_ttf "SDL_IOFromDynamicMem";
+SDL_IOFromDynamicMem :: () -> *SDL_IOStream #foreign libsdl3_ttf;
 
 /**
 * Create a custom SDL_IOStream.
@@ -8727,7 +8727,7 @@ IOFromDynamicMem :: () -> *IOStream #foreign libsdl3_ttf "SDL_IOFromDynamicMem";
 * \sa SDL_IOFromFile
 * \sa SDL_IOFromMem
 */
-OpenIO :: (iface: *IOStreamInterface, userdata: *void) -> *IOStream #foreign libsdl3_ttf "SDL_OpenIO";
+SDL_OpenIO :: (iface: *SDL_IOStreamInterface, userdata: *void) -> *SDL_IOStream #foreign libsdl3_ttf;
 
 /**
 * Close and free an allocated SDL_IOStream structure.
@@ -8759,7 +8759,7 @@ OpenIO :: (iface: *IOStreamInterface, userdata: *void) -> *IOStream #foreign lib
 *
 * \sa SDL_OpenIO
 */
-CloseIO :: (_context: *IOStream) -> bool #foreign libsdl3_ttf "SDL_CloseIO";
+SDL_CloseIO :: (_context: *SDL_IOStream) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the properties associated with an SDL_IOStream.
@@ -8772,7 +8772,7 @@ CloseIO :: (_context: *IOStream) -> bool #foreign libsdl3_ttf "SDL_CloseIO";
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetIOProperties :: (_context: *IOStream) -> PropertiesID #foreign libsdl3_ttf "SDL_GetIOProperties";
+SDL_GetIOProperties :: (_context: *SDL_IOStream) -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Query the stream status of an SDL_IOStream.
@@ -8792,7 +8792,7 @@ GetIOProperties :: (_context: *IOStream) -> PropertiesID #foreign libsdl3_ttf "S
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetIOStatus :: (_context: *IOStream) -> IOStatus #foreign libsdl3_ttf "SDL_GetIOStatus";
+SDL_GetIOStatus :: (_context: *SDL_IOStream) -> SDL_IOStatus #foreign libsdl3_ttf;
 
 /**
 * Use this function to get the size of the data stream in an SDL_IOStream.
@@ -8806,7 +8806,7 @@ GetIOStatus :: (_context: *IOStream) -> IOStatus #foreign libsdl3_ttf "SDL_GetIO
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetIOSize :: (_context: *IOStream) -> Sint64 #foreign libsdl3_ttf "SDL_GetIOSize";
+SDL_GetIOSize :: (_context: *SDL_IOStream) -> Sint64 #foreign libsdl3_ttf;
 
 /**
 * Seek within an SDL_IOStream data stream.
@@ -8835,7 +8835,7 @@ GetIOSize :: (_context: *IOStream) -> Sint64 #foreign libsdl3_ttf "SDL_GetIOSize
 *
 * \sa SDL_TellIO
 */
-SeekIO :: (_context: *IOStream, offset: Sint64, whence: IOWhence) -> Sint64 #foreign libsdl3_ttf "SDL_SeekIO";
+SDL_SeekIO :: (_context: *SDL_IOStream, offset: Sint64, whence: SDL_IOWhence) -> Sint64 #foreign libsdl3_ttf;
 
 /**
 * Determine the current read/write offset in an SDL_IOStream data stream.
@@ -8855,7 +8855,7 @@ SeekIO :: (_context: *IOStream, offset: Sint64, whence: IOWhence) -> Sint64 #for
 *
 * \sa SDL_SeekIO
 */
-TellIO :: (_context: *IOStream) -> Sint64 #foreign libsdl3_ttf "SDL_TellIO";
+SDL_TellIO :: (_context: *SDL_IOStream) -> Sint64 #foreign libsdl3_ttf;
 
 /**
 * Read from a data source.
@@ -8881,7 +8881,7 @@ TellIO :: (_context: *IOStream) -> Sint64 #foreign libsdl3_ttf "SDL_TellIO";
 * \sa SDL_WriteIO
 * \sa SDL_GetIOStatus
 */
-ReadIO :: (_context: *IOStream, ptr: *void, size: u64) -> u64 #foreign libsdl3_ttf "SDL_ReadIO";
+SDL_ReadIO :: (_context: *SDL_IOStream, ptr: *void, size: u64) -> u64 #foreign libsdl3_ttf;
 
 /**
 * Write to an SDL_IOStream data stream.
@@ -8913,7 +8913,7 @@ ReadIO :: (_context: *IOStream, ptr: *void, size: u64) -> u64 #foreign libsdl3_t
 * \sa SDL_FlushIO
 * \sa SDL_GetIOStatus
 */
-WriteIO :: (_context: *IOStream, ptr: *void, size: u64) -> u64 #foreign libsdl3_ttf "SDL_WriteIO";
+SDL_WriteIO :: (_context: *SDL_IOStream, ptr: *void, size: u64) -> u64 #foreign libsdl3_ttf;
 
 /**
 * Print to an SDL_IOStream data stream.
@@ -8934,14 +8934,14 @@ WriteIO :: (_context: *IOStream, ptr: *void, size: u64) -> u64 #foreign libsdl3_
 * \sa SDL_IOvprintf
 * \sa SDL_WriteIO
 */
-IOprintf_CFormat :: (_context: *IOStream, fmt: *u8, __args: ..Any) -> u64 #foreign libsdl3_ttf "SDL_IOprintf";
-IOprintf :: (_context: *IOStream, fmt: string, __args: ..Any) -> u64 {
+SDL_IOprintf_CFormat :: (_context: *SDL_IOStream, fmt: *u8, __args: ..Any) -> u64 #foreign libsdl3_ttf "SDL_IOprintf";
+SDL_IOprintf :: (_context: *SDL_IOStream, fmt: string, __args: ..Any) -> u64 {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    return IOprintf_CFormat(_context, "%s", formatted_text.data);
+    return SDL_IOprintf_CFormat(_context, "%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -8962,7 +8962,7 @@ IOprintf :: (_context: *IOStream, fmt: string, __args: ..Any) -> u64 {
 * \sa SDL_OpenIO
 * \sa SDL_WriteIO
 */
-FlushIO :: (_context: *IOStream) -> bool #foreign libsdl3_ttf "SDL_FlushIO";
+SDL_FlushIO :: (_context: *SDL_IOStream) -> bool #foreign libsdl3_ttf;
 
 /**
 * Load all the data from an SDL data stream.
@@ -8988,7 +8988,7 @@ FlushIO :: (_context: *IOStream) -> bool #foreign libsdl3_ttf "SDL_FlushIO";
 * \sa SDL_LoadFile
 * \sa SDL_SaveFile_IO
 */
-LoadFile_IO :: (src: *IOStream, datasize: *u64, closeio: bool) -> *void #foreign libsdl3_ttf "SDL_LoadFile_IO";
+SDL_LoadFile_IO :: (src: *SDL_IOStream, datasize: *u64, closeio: bool) -> *void #foreign libsdl3_ttf;
 
 /**
 * Load all the data from a file path.
@@ -9011,7 +9011,7 @@ LoadFile_IO :: (src: *IOStream, datasize: *u64, closeio: bool) -> *void #foreign
 * \sa SDL_LoadFile_IO
 * \sa SDL_SaveFile
 */
-LoadFile :: (file: *u8, datasize: *u64) -> *void #foreign libsdl3_ttf "SDL_LoadFile";
+SDL_LoadFile :: (file: *u8, datasize: *u64) -> *void #foreign libsdl3_ttf;
 
 /**
 * Save all the data into an SDL data stream.
@@ -9032,7 +9032,7 @@ LoadFile :: (file: *u8, datasize: *u64) -> *void #foreign libsdl3_ttf "SDL_LoadF
 * \sa SDL_SaveFile
 * \sa SDL_LoadFile_IO
 */
-SaveFile_IO :: (src: *IOStream, data: *void, datasize: u64, closeio: bool) -> bool #foreign libsdl3_ttf "SDL_SaveFile_IO";
+SDL_SaveFile_IO :: (src: *SDL_IOStream, data: *void, datasize: u64, closeio: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Save all the data into a file path.
@@ -9051,7 +9051,7 @@ SaveFile_IO :: (src: *IOStream, data: *void, datasize: u64, closeio: bool) -> bo
 * \sa SDL_SaveFile_IO
 * \sa SDL_LoadFile
 */
-SaveFile :: (file: *u8, data: *void, datasize: u64) -> bool #foreign libsdl3_ttf "SDL_SaveFile";
+SDL_SaveFile :: (file: *u8, data: *void, datasize: u64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to read a byte from an SDL_IOStream.
@@ -9070,7 +9070,7 @@ SaveFile :: (file: *u8, data: *void, datasize: u64) -> bool #foreign libsdl3_ttf
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadU8 :: (src: *IOStream, value: *Uint8) -> bool #foreign libsdl3_ttf "SDL_ReadU8";
+SDL_ReadU8 :: (src: *SDL_IOStream, value: *Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to read a signed byte from an SDL_IOStream.
@@ -9089,7 +9089,7 @@ ReadU8 :: (src: *IOStream, value: *Uint8) -> bool #foreign libsdl3_ttf "SDL_Read
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadS8 :: (src: *IOStream, value: *Sint8) -> bool #foreign libsdl3_ttf "SDL_ReadS8";
+SDL_ReadS8 :: (src: *SDL_IOStream, value: *Sint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to read 16 bits of little-endian data from an
@@ -9112,7 +9112,7 @@ ReadS8 :: (src: *IOStream, value: *Sint8) -> bool #foreign libsdl3_ttf "SDL_Read
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadU16LE :: (src: *IOStream, value: *Uint16) -> bool #foreign libsdl3_ttf "SDL_ReadU16LE";
+SDL_ReadU16LE :: (src: *SDL_IOStream, value: *Uint16) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to read 16 bits of little-endian data from an
@@ -9135,7 +9135,7 @@ ReadU16LE :: (src: *IOStream, value: *Uint16) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadS16LE :: (src: *IOStream, value: *Sint16) -> bool #foreign libsdl3_ttf "SDL_ReadS16LE";
+SDL_ReadS16LE :: (src: *SDL_IOStream, value: *Sint16) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to read 16 bits of big-endian data from an SDL_IOStream
@@ -9158,7 +9158,7 @@ ReadS16LE :: (src: *IOStream, value: *Sint16) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadU16BE :: (src: *IOStream, value: *Uint16) -> bool #foreign libsdl3_ttf "SDL_ReadU16BE";
+SDL_ReadU16BE :: (src: *SDL_IOStream, value: *Uint16) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to read 16 bits of big-endian data from an SDL_IOStream
@@ -9181,7 +9181,7 @@ ReadU16BE :: (src: *IOStream, value: *Uint16) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadS16BE :: (src: *IOStream, value: *Sint16) -> bool #foreign libsdl3_ttf "SDL_ReadS16BE";
+SDL_ReadS16BE :: (src: *SDL_IOStream, value: *Sint16) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to read 32 bits of little-endian data from an
@@ -9204,7 +9204,7 @@ ReadS16BE :: (src: *IOStream, value: *Sint16) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadU32LE :: (src: *IOStream, value: *Uint32) -> bool #foreign libsdl3_ttf "SDL_ReadU32LE";
+SDL_ReadU32LE :: (src: *SDL_IOStream, value: *Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to read 32 bits of little-endian data from an
@@ -9227,7 +9227,7 @@ ReadU32LE :: (src: *IOStream, value: *Uint32) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadS32LE :: (src: *IOStream, value: *Sint32) -> bool #foreign libsdl3_ttf "SDL_ReadS32LE";
+SDL_ReadS32LE :: (src: *SDL_IOStream, value: *Sint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to read 32 bits of big-endian data from an SDL_IOStream
@@ -9250,7 +9250,7 @@ ReadS32LE :: (src: *IOStream, value: *Sint32) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadU32BE :: (src: *IOStream, value: *Uint32) -> bool #foreign libsdl3_ttf "SDL_ReadU32BE";
+SDL_ReadU32BE :: (src: *SDL_IOStream, value: *Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to read 32 bits of big-endian data from an SDL_IOStream
@@ -9273,7 +9273,7 @@ ReadU32BE :: (src: *IOStream, value: *Uint32) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadS32BE :: (src: *IOStream, value: *Sint32) -> bool #foreign libsdl3_ttf "SDL_ReadS32BE";
+SDL_ReadS32BE :: (src: *SDL_IOStream, value: *Sint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to read 64 bits of little-endian data from an
@@ -9296,7 +9296,7 @@ ReadS32BE :: (src: *IOStream, value: *Sint32) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadU64LE :: (src: *IOStream, value: *Uint64) -> bool #foreign libsdl3_ttf "SDL_ReadU64LE";
+SDL_ReadU64LE :: (src: *SDL_IOStream, value: *Uint64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to read 64 bits of little-endian data from an
@@ -9319,7 +9319,7 @@ ReadU64LE :: (src: *IOStream, value: *Uint64) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadS64LE :: (src: *IOStream, value: *Sint64) -> bool #foreign libsdl3_ttf "SDL_ReadS64LE";
+SDL_ReadS64LE :: (src: *SDL_IOStream, value: *Sint64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to read 64 bits of big-endian data from an SDL_IOStream
@@ -9342,7 +9342,7 @@ ReadS64LE :: (src: *IOStream, value: *Sint64) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadU64BE :: (src: *IOStream, value: *Uint64) -> bool #foreign libsdl3_ttf "SDL_ReadU64BE";
+SDL_ReadU64BE :: (src: *SDL_IOStream, value: *Uint64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to read 64 bits of big-endian data from an SDL_IOStream
@@ -9365,7 +9365,7 @@ ReadU64BE :: (src: *IOStream, value: *Uint64) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadS64BE :: (src: *IOStream, value: *Sint64) -> bool #foreign libsdl3_ttf "SDL_ReadS64BE";
+SDL_ReadS64BE :: (src: *SDL_IOStream, value: *Sint64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to write a byte to an SDL_IOStream.
@@ -9379,7 +9379,7 @@ ReadS64BE :: (src: *IOStream, value: *Sint64) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteU8 :: (dst: *IOStream, value: Uint8) -> bool #foreign libsdl3_ttf "SDL_WriteU8";
+SDL_WriteU8 :: (dst: *SDL_IOStream, value: Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to write a signed byte to an SDL_IOStream.
@@ -9393,7 +9393,7 @@ WriteU8 :: (dst: *IOStream, value: Uint8) -> bool #foreign libsdl3_ttf "SDL_Writ
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteS8 :: (dst: *IOStream, value: Sint8) -> bool #foreign libsdl3_ttf "SDL_WriteS8";
+SDL_WriteS8 :: (dst: *SDL_IOStream, value: Sint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to write 16 bits in native format to an SDL_IOStream as
@@ -9412,7 +9412,7 @@ WriteS8 :: (dst: *IOStream, value: Sint8) -> bool #foreign libsdl3_ttf "SDL_Writ
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteU16LE :: (dst: *IOStream, value: Uint16) -> bool #foreign libsdl3_ttf "SDL_WriteU16LE";
+SDL_WriteU16LE :: (dst: *SDL_IOStream, value: Uint16) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to write 16 bits in native format to an SDL_IOStream as
@@ -9431,7 +9431,7 @@ WriteU16LE :: (dst: *IOStream, value: Uint16) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteS16LE :: (dst: *IOStream, value: Sint16) -> bool #foreign libsdl3_ttf "SDL_WriteS16LE";
+SDL_WriteS16LE :: (dst: *SDL_IOStream, value: Sint16) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to write 16 bits in native format to an SDL_IOStream as
@@ -9449,7 +9449,7 @@ WriteS16LE :: (dst: *IOStream, value: Sint16) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteU16BE :: (dst: *IOStream, value: Uint16) -> bool #foreign libsdl3_ttf "SDL_WriteU16BE";
+SDL_WriteU16BE :: (dst: *SDL_IOStream, value: Uint16) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to write 16 bits in native format to an SDL_IOStream as
@@ -9467,7 +9467,7 @@ WriteU16BE :: (dst: *IOStream, value: Uint16) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteS16BE :: (dst: *IOStream, value: Sint16) -> bool #foreign libsdl3_ttf "SDL_WriteS16BE";
+SDL_WriteS16BE :: (dst: *SDL_IOStream, value: Sint16) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to write 32 bits in native format to an SDL_IOStream as
@@ -9486,7 +9486,7 @@ WriteS16BE :: (dst: *IOStream, value: Sint16) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteU32LE :: (dst: *IOStream, value: Uint32) -> bool #foreign libsdl3_ttf "SDL_WriteU32LE";
+SDL_WriteU32LE :: (dst: *SDL_IOStream, value: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to write 32 bits in native format to an SDL_IOStream as
@@ -9505,7 +9505,7 @@ WriteU32LE :: (dst: *IOStream, value: Uint32) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteS32LE :: (dst: *IOStream, value: Sint32) -> bool #foreign libsdl3_ttf "SDL_WriteS32LE";
+SDL_WriteS32LE :: (dst: *SDL_IOStream, value: Sint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to write 32 bits in native format to an SDL_IOStream as
@@ -9523,7 +9523,7 @@ WriteS32LE :: (dst: *IOStream, value: Sint32) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteU32BE :: (dst: *IOStream, value: Uint32) -> bool #foreign libsdl3_ttf "SDL_WriteU32BE";
+SDL_WriteU32BE :: (dst: *SDL_IOStream, value: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to write 32 bits in native format to an SDL_IOStream as
@@ -9541,7 +9541,7 @@ WriteU32BE :: (dst: *IOStream, value: Uint32) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteS32BE :: (dst: *IOStream, value: Sint32) -> bool #foreign libsdl3_ttf "SDL_WriteS32BE";
+SDL_WriteS32BE :: (dst: *SDL_IOStream, value: Sint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to write 64 bits in native format to an SDL_IOStream as
@@ -9560,7 +9560,7 @@ WriteS32BE :: (dst: *IOStream, value: Sint32) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteU64LE :: (dst: *IOStream, value: Uint64) -> bool #foreign libsdl3_ttf "SDL_WriteU64LE";
+SDL_WriteU64LE :: (dst: *SDL_IOStream, value: Uint64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to write 64 bits in native format to an SDL_IOStream as
@@ -9579,7 +9579,7 @@ WriteU64LE :: (dst: *IOStream, value: Uint64) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteS64LE :: (dst: *IOStream, value: Sint64) -> bool #foreign libsdl3_ttf "SDL_WriteS64LE";
+SDL_WriteS64LE :: (dst: *SDL_IOStream, value: Sint64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to write 64 bits in native format to an SDL_IOStream as
@@ -9597,7 +9597,7 @@ WriteS64LE :: (dst: *IOStream, value: Sint64) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteU64BE :: (dst: *IOStream, value: Uint64) -> bool #foreign libsdl3_ttf "SDL_WriteU64BE";
+SDL_WriteU64BE :: (dst: *SDL_IOStream, value: Uint64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to write 64 bits in native format to an SDL_IOStream as
@@ -9615,7 +9615,7 @@ WriteU64BE :: (dst: *IOStream, value: Uint64) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteS64BE :: (dst: *IOStream, value: Sint64) -> bool #foreign libsdl3_ttf "SDL_WriteS64BE";
+SDL_WriteS64BE :: (dst: *SDL_IOStream, value: Sint64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Audio format.
@@ -9631,7 +9631,7 @@ WriteS64BE :: (dst: *IOStream, value: Sint64) -> bool #foreign libsdl3_ttf "SDL_
 * \sa SDL_AUDIO_ISSIGNED
 * \sa SDL_AUDIO_ISUNSIGNED
 */
-AudioFormat :: enum u32 {
+SDL_AudioFormat :: enum u32 {
     UNKNOWN :: 0;
     U8      :: 8;
 
@@ -9682,7 +9682,7 @@ AudioFormat :: enum u32 {
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-AudioDeviceID :: Uint32;
+SDL_AudioDeviceID :: Uint32;
 
 /**
 * Format specifier for audio data.
@@ -9691,13 +9691,13 @@ AudioDeviceID :: Uint32;
 *
 * \sa SDL_AudioFormat
 */
-AudioSpec :: struct {
-    format:   AudioFormat; /**< Audio data format */
+SDL_AudioSpec :: struct {
+    format:   SDL_AudioFormat; /**< Audio data format */
     channels: s32; /**< Number of channels: 1 mono, 2 stereo, etc */
     freq:     s32; /**< sample rate: sample frames per second */
 }
 
-AudioStream :: struct {}
+SDL_AudioStream :: struct {}
 
 /**
 * Use this function to get the number of built-in audio drivers.
@@ -9720,7 +9720,7 @@ AudioStream :: struct {}
 *
 * \sa SDL_GetAudioDriver
 */
-GetNumAudioDrivers :: () -> s32 #foreign libsdl3_ttf "SDL_GetNumAudioDrivers";
+SDL_GetNumAudioDrivers :: () -> s32 #foreign libsdl3_ttf;
 
 /**
 * Use this function to get the name of a built in audio driver.
@@ -9744,7 +9744,7 @@ GetNumAudioDrivers :: () -> s32 #foreign libsdl3_ttf "SDL_GetNumAudioDrivers";
 *
 * \sa SDL_GetNumAudioDrivers
 */
-GetAudioDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf "SDL_GetAudioDriver";
+SDL_GetAudioDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the name of the current audio driver.
@@ -9760,7 +9760,7 @@ GetAudioDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf "SDL_GetAudioDriver";
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetCurrentAudioDriver :: () -> *u8 #foreign libsdl3_ttf "SDL_GetCurrentAudioDriver";
+SDL_GetCurrentAudioDriver :: () -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get a list of currently-connected audio playback devices.
@@ -9789,7 +9789,7 @@ GetCurrentAudioDriver :: () -> *u8 #foreign libsdl3_ttf "SDL_GetCurrentAudioDriv
 * \sa SDL_OpenAudioDevice
 * \sa SDL_GetAudioRecordingDevices
 */
-GetAudioPlaybackDevices :: (count: *s32) -> *AudioDeviceID #foreign libsdl3_ttf "SDL_GetAudioPlaybackDevices";
+SDL_GetAudioPlaybackDevices :: (count: *s32) -> *SDL_AudioDeviceID #foreign libsdl3_ttf;
 
 /**
 * Get a list of currently-connected audio recording devices.
@@ -9818,7 +9818,7 @@ GetAudioPlaybackDevices :: (count: *s32) -> *AudioDeviceID #foreign libsdl3_ttf 
 * \sa SDL_OpenAudioDevice
 * \sa SDL_GetAudioPlaybackDevices
 */
-GetAudioRecordingDevices :: (count: *s32) -> *AudioDeviceID #foreign libsdl3_ttf "SDL_GetAudioRecordingDevices";
+SDL_GetAudioRecordingDevices :: (count: *s32) -> *SDL_AudioDeviceID #foreign libsdl3_ttf;
 
 /**
 * Get the human-readable name of a specific audio device.
@@ -9834,7 +9834,7 @@ GetAudioRecordingDevices :: (count: *s32) -> *AudioDeviceID #foreign libsdl3_ttf
 * \sa SDL_GetAudioPlaybackDevices
 * \sa SDL_GetAudioRecordingDevices
 */
-GetAudioDeviceName :: (devid: AudioDeviceID) -> *u8 #foreign libsdl3_ttf "SDL_GetAudioDeviceName";
+SDL_GetAudioDeviceName :: (devid: SDL_AudioDeviceID) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the current audio format of a specific audio device.
@@ -9869,7 +9869,7 @@ GetAudioDeviceName :: (devid: AudioDeviceID) -> *u8 #foreign libsdl3_ttf "SDL_Ge
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetAudioDeviceFormat :: (devid: AudioDeviceID, spec: *AudioSpec, sample_frames: *s32) -> bool #foreign libsdl3_ttf "SDL_GetAudioDeviceFormat";
+SDL_GetAudioDeviceFormat :: (devid: SDL_AudioDeviceID, spec: *SDL_AudioSpec, sample_frames: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the current channel map of an audio device.
@@ -9892,7 +9892,7 @@ GetAudioDeviceFormat :: (devid: AudioDeviceID, spec: *AudioSpec, sample_frames: 
 *
 * \sa SDL_SetAudioStreamInputChannelMap
 */
-GetAudioDeviceChannelMap :: (devid: AudioDeviceID, count: *s32) -> *s32 #foreign libsdl3_ttf "SDL_GetAudioDeviceChannelMap";
+SDL_GetAudioDeviceChannelMap :: (devid: SDL_AudioDeviceID, count: *s32) -> *s32 #foreign libsdl3_ttf;
 
 /**
 * Open a specific audio device.
@@ -9968,7 +9968,7 @@ GetAudioDeviceChannelMap :: (devid: AudioDeviceID, count: *s32) -> *s32 #foreign
 * \sa SDL_CloseAudioDevice
 * \sa SDL_GetAudioDeviceFormat
 */
-OpenAudioDevice :: (devid: AudioDeviceID, spec: *AudioSpec) -> AudioDeviceID #foreign libsdl3_ttf "SDL_OpenAudioDevice";
+SDL_OpenAudioDevice :: (devid: SDL_AudioDeviceID, spec: *SDL_AudioSpec) -> SDL_AudioDeviceID #foreign libsdl3_ttf;
 
 /**
 * Determine if an audio device is physical (instead of logical).
@@ -9993,7 +9993,7 @@ OpenAudioDevice :: (devid: AudioDeviceID, spec: *AudioSpec) -> AudioDeviceID #fo
 *
 * \since This function is available since SDL 3.2.0.
 */
-IsAudioDevicePhysical :: (devid: AudioDeviceID) -> bool #foreign libsdl3_ttf "SDL_IsAudioDevicePhysical";
+SDL_IsAudioDevicePhysical :: (devid: SDL_AudioDeviceID) -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine if an audio device is a playback device (instead of recording).
@@ -10007,7 +10007,7 @@ IsAudioDevicePhysical :: (devid: AudioDeviceID) -> bool #foreign libsdl3_ttf "SD
 *
 * \since This function is available since SDL 3.2.0.
 */
-IsAudioDevicePlayback :: (devid: AudioDeviceID) -> bool #foreign libsdl3_ttf "SDL_IsAudioDevicePlayback";
+SDL_IsAudioDevicePlayback :: (devid: SDL_AudioDeviceID) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to pause audio playback on a specified device.
@@ -10038,7 +10038,7 @@ IsAudioDevicePlayback :: (devid: AudioDeviceID) -> bool #foreign libsdl3_ttf "SD
 * \sa SDL_ResumeAudioDevice
 * \sa SDL_AudioDevicePaused
 */
-PauseAudioDevice :: (devid: AudioDeviceID) -> bool #foreign libsdl3_ttf "SDL_PauseAudioDevice";
+SDL_PauseAudioDevice :: (devid: SDL_AudioDeviceID) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to unpause audio playback on a specified device.
@@ -10066,7 +10066,7 @@ PauseAudioDevice :: (devid: AudioDeviceID) -> bool #foreign libsdl3_ttf "SDL_Pau
 * \sa SDL_AudioDevicePaused
 * \sa SDL_PauseAudioDevice
 */
-ResumeAudioDevice :: (devid: AudioDeviceID) -> bool #foreign libsdl3_ttf "SDL_ResumeAudioDevice";
+SDL_ResumeAudioDevice :: (devid: SDL_AudioDeviceID) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to query if an audio device is paused.
@@ -10088,7 +10088,7 @@ ResumeAudioDevice :: (devid: AudioDeviceID) -> bool #foreign libsdl3_ttf "SDL_Re
 * \sa SDL_PauseAudioDevice
 * \sa SDL_ResumeAudioDevice
 */
-AudioDevicePaused :: (devid: AudioDeviceID) -> bool #foreign libsdl3_ttf "SDL_AudioDevicePaused";
+SDL_AudioDevicePaused :: (devid: SDL_AudioDeviceID) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the gain of an audio device.
@@ -10111,7 +10111,7 @@ AudioDevicePaused :: (devid: AudioDeviceID) -> bool #foreign libsdl3_ttf "SDL_Au
 *
 * \sa SDL_SetAudioDeviceGain
 */
-GetAudioDeviceGain :: (devid: AudioDeviceID) -> float #foreign libsdl3_ttf "SDL_GetAudioDeviceGain";
+SDL_GetAudioDeviceGain :: (devid: SDL_AudioDeviceID) -> float #foreign libsdl3_ttf;
 
 /**
 * Change the gain of an audio device.
@@ -10146,7 +10146,7 @@ GetAudioDeviceGain :: (devid: AudioDeviceID) -> float #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_GetAudioDeviceGain
 */
-SetAudioDeviceGain :: (devid: AudioDeviceID, gain: float) -> bool #foreign libsdl3_ttf "SDL_SetAudioDeviceGain";
+SDL_SetAudioDeviceGain :: (devid: SDL_AudioDeviceID, gain: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Close a previously-opened audio device.
@@ -10167,7 +10167,7 @@ SetAudioDeviceGain :: (devid: AudioDeviceID, gain: float) -> bool #foreign libsd
 *
 * \sa SDL_OpenAudioDevice
 */
-CloseAudioDevice :: (devid: AudioDeviceID) -> void #foreign libsdl3_ttf "SDL_CloseAudioDevice";
+SDL_CloseAudioDevice :: (devid: SDL_AudioDeviceID) -> void #foreign libsdl3_ttf;
 
 /**
 * Bind a list of audio streams to an audio device.
@@ -10207,7 +10207,7 @@ CloseAudioDevice :: (devid: AudioDeviceID) -> void #foreign libsdl3_ttf "SDL_Clo
 * \sa SDL_UnbindAudioStream
 * \sa SDL_GetAudioStreamDevice
 */
-BindAudioStreams :: (devid: AudioDeviceID, streams: **AudioStream, num_streams: s32) -> bool #foreign libsdl3_ttf "SDL_BindAudioStreams";
+SDL_BindAudioStreams :: (devid: SDL_AudioDeviceID, streams: **SDL_AudioStream, num_streams: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Bind a single audio stream to an audio device.
@@ -10228,7 +10228,7 @@ BindAudioStreams :: (devid: AudioDeviceID, streams: **AudioStream, num_streams: 
 * \sa SDL_UnbindAudioStream
 * \sa SDL_GetAudioStreamDevice
 */
-BindAudioStream :: (devid: AudioDeviceID, stream: *AudioStream) -> bool #foreign libsdl3_ttf "SDL_BindAudioStream";
+SDL_BindAudioStream :: (devid: SDL_AudioDeviceID, stream: *SDL_AudioStream) -> bool #foreign libsdl3_ttf;
 
 /**
 * Unbind a list of audio streams from their audio devices.
@@ -10249,7 +10249,7 @@ BindAudioStream :: (devid: AudioDeviceID, stream: *AudioStream) -> bool #foreign
 *
 * \sa SDL_BindAudioStreams
 */
-UnbindAudioStreams :: (streams: **AudioStream, num_streams: s32) -> void #foreign libsdl3_ttf "SDL_UnbindAudioStreams";
+SDL_UnbindAudioStreams :: (streams: **SDL_AudioStream, num_streams: s32) -> void #foreign libsdl3_ttf;
 
 /**
 * Unbind a single audio stream from its audio device.
@@ -10265,7 +10265,7 @@ UnbindAudioStreams :: (streams: **AudioStream, num_streams: s32) -> void #foreig
 *
 * \sa SDL_BindAudioStream
 */
-UnbindAudioStream :: (stream: *AudioStream) -> void #foreign libsdl3_ttf "SDL_UnbindAudioStream";
+SDL_UnbindAudioStream :: (stream: *SDL_AudioStream) -> void #foreign libsdl3_ttf;
 
 /**
 * Query an audio stream for its currently-bound device.
@@ -10285,7 +10285,7 @@ UnbindAudioStream :: (stream: *AudioStream) -> void #foreign libsdl3_ttf "SDL_Un
 * \sa SDL_BindAudioStream
 * \sa SDL_BindAudioStreams
 */
-GetAudioStreamDevice :: (stream: *AudioStream) -> AudioDeviceID #foreign libsdl3_ttf "SDL_GetAudioStreamDevice";
+SDL_GetAudioStreamDevice :: (stream: *SDL_AudioStream) -> SDL_AudioDeviceID #foreign libsdl3_ttf;
 
 /**
 * Create a new audio stream.
@@ -10307,7 +10307,7 @@ GetAudioStreamDevice :: (stream: *AudioStream) -> AudioDeviceID #foreign libsdl3
 * \sa SDL_SetAudioStreamFormat
 * \sa SDL_DestroyAudioStream
 */
-CreateAudioStream :: (src_spec: *AudioSpec, dst_spec: *AudioSpec) -> *AudioStream #foreign libsdl3_ttf "SDL_CreateAudioStream";
+SDL_CreateAudioStream :: (src_spec: *SDL_AudioSpec, dst_spec: *SDL_AudioSpec) -> *SDL_AudioStream #foreign libsdl3_ttf;
 
 /**
 * Get the properties associated with an audio stream.
@@ -10320,7 +10320,7 @@ CreateAudioStream :: (src_spec: *AudioSpec, dst_spec: *AudioSpec) -> *AudioStrea
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetAudioStreamProperties :: (stream: *AudioStream) -> PropertiesID #foreign libsdl3_ttf "SDL_GetAudioStreamProperties";
+SDL_GetAudioStreamProperties :: (stream: *SDL_AudioStream) -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Query the current format of an audio stream.
@@ -10338,7 +10338,7 @@ GetAudioStreamProperties :: (stream: *AudioStream) -> PropertiesID #foreign libs
 *
 * \sa SDL_SetAudioStreamFormat
 */
-GetAudioStreamFormat :: (stream: *AudioStream, src_spec: *AudioSpec, dst_spec: *AudioSpec) -> bool #foreign libsdl3_ttf "SDL_GetAudioStreamFormat";
+SDL_GetAudioStreamFormat :: (stream: *SDL_AudioStream, src_spec: *SDL_AudioSpec, dst_spec: *SDL_AudioSpec) -> bool #foreign libsdl3_ttf;
 
 /**
 * Change the input and output formats of an audio stream.
@@ -10375,7 +10375,7 @@ GetAudioStreamFormat :: (stream: *AudioStream, src_spec: *AudioSpec, dst_spec: *
 * \sa SDL_GetAudioStreamFormat
 * \sa SDL_SetAudioStreamFrequencyRatio
 */
-SetAudioStreamFormat :: (stream: *AudioStream, src_spec: *AudioSpec, dst_spec: *AudioSpec) -> bool #foreign libsdl3_ttf "SDL_SetAudioStreamFormat";
+SDL_SetAudioStreamFormat :: (stream: *SDL_AudioStream, src_spec: *SDL_AudioSpec, dst_spec: *SDL_AudioSpec) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the frequency ratio of an audio stream.
@@ -10391,7 +10391,7 @@ SetAudioStreamFormat :: (stream: *AudioStream, src_spec: *AudioSpec, dst_spec: *
 *
 * \sa SDL_SetAudioStreamFrequencyRatio
 */
-GetAudioStreamFrequencyRatio :: (stream: *AudioStream) -> float #foreign libsdl3_ttf "SDL_GetAudioStreamFrequencyRatio";
+SDL_GetAudioStreamFrequencyRatio :: (stream: *SDL_AudioStream) -> float #foreign libsdl3_ttf;
 
 /**
 * Change the frequency ratio of an audio stream.
@@ -10419,7 +10419,7 @@ GetAudioStreamFrequencyRatio :: (stream: *AudioStream) -> float #foreign libsdl3
 * \sa SDL_GetAudioStreamFrequencyRatio
 * \sa SDL_SetAudioStreamFormat
 */
-SetAudioStreamFrequencyRatio :: (stream: *AudioStream, ratio: float) -> bool #foreign libsdl3_ttf "SDL_SetAudioStreamFrequencyRatio";
+SDL_SetAudioStreamFrequencyRatio :: (stream: *SDL_AudioStream, ratio: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the gain of an audio stream.
@@ -10440,7 +10440,7 @@ SetAudioStreamFrequencyRatio :: (stream: *AudioStream, ratio: float) -> bool #fo
 *
 * \sa SDL_SetAudioStreamGain
 */
-GetAudioStreamGain :: (stream: *AudioStream) -> float #foreign libsdl3_ttf "SDL_GetAudioStreamGain";
+SDL_GetAudioStreamGain :: (stream: *SDL_AudioStream) -> float #foreign libsdl3_ttf;
 
 /**
 * Change the gain of an audio stream.
@@ -10465,7 +10465,7 @@ GetAudioStreamGain :: (stream: *AudioStream) -> float #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_GetAudioStreamGain
 */
-SetAudioStreamGain :: (stream: *AudioStream, gain: float) -> bool #foreign libsdl3_ttf "SDL_SetAudioStreamGain";
+SDL_SetAudioStreamGain :: (stream: *SDL_AudioStream, gain: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the current input channel map of an audio stream.
@@ -10489,7 +10489,7 @@ SetAudioStreamGain :: (stream: *AudioStream, gain: float) -> bool #foreign libsd
 *
 * \sa SDL_SetAudioStreamInputChannelMap
 */
-GetAudioStreamInputChannelMap :: (stream: *AudioStream, count: *s32) -> *s32 #foreign libsdl3_ttf "SDL_GetAudioStreamInputChannelMap";
+SDL_GetAudioStreamInputChannelMap :: (stream: *SDL_AudioStream, count: *s32) -> *s32 #foreign libsdl3_ttf;
 
 /**
 * Get the current output channel map of an audio stream.
@@ -10513,7 +10513,7 @@ GetAudioStreamInputChannelMap :: (stream: *AudioStream, count: *s32) -> *s32 #fo
 *
 * \sa SDL_SetAudioStreamInputChannelMap
 */
-GetAudioStreamOutputChannelMap :: (stream: *AudioStream, count: *s32) -> *s32 #foreign libsdl3_ttf "SDL_GetAudioStreamOutputChannelMap";
+SDL_GetAudioStreamOutputChannelMap :: (stream: *SDL_AudioStream, count: *s32) -> *s32 #foreign libsdl3_ttf;
 
 /**
 * Set the current input channel map of an audio stream.
@@ -10573,7 +10573,7 @@ GetAudioStreamOutputChannelMap :: (stream: *AudioStream, count: *s32) -> *s32 #f
 *
 * \sa SDL_SetAudioStreamInputChannelMap
 */
-SetAudioStreamInputChannelMap :: (stream: *AudioStream, chmap: *s32, count: s32) -> bool #foreign libsdl3_ttf "SDL_SetAudioStreamInputChannelMap";
+SDL_SetAudioStreamInputChannelMap :: (stream: *SDL_AudioStream, chmap: *s32, count: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the current output channel map of an audio stream.
@@ -10631,7 +10631,7 @@ SetAudioStreamInputChannelMap :: (stream: *AudioStream, chmap: *s32, count: s32)
 *
 * \sa SDL_SetAudioStreamInputChannelMap
 */
-SetAudioStreamOutputChannelMap :: (stream: *AudioStream, chmap: *s32, count: s32) -> bool #foreign libsdl3_ttf "SDL_SetAudioStreamOutputChannelMap";
+SDL_SetAudioStreamOutputChannelMap :: (stream: *SDL_AudioStream, chmap: *s32, count: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Add data to the stream.
@@ -10661,7 +10661,7 @@ SetAudioStreamOutputChannelMap :: (stream: *AudioStream, chmap: *s32, count: s32
 * \sa SDL_GetAudioStreamData
 * \sa SDL_GetAudioStreamQueued
 */
-PutAudioStreamData :: (stream: *AudioStream, buf: *void, len: s32) -> bool #foreign libsdl3_ttf "SDL_PutAudioStreamData";
+SDL_PutAudioStreamData :: (stream: *SDL_AudioStream, buf: *void, len: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get converted/resampled data from the stream.
@@ -10691,7 +10691,7 @@ PutAudioStreamData :: (stream: *AudioStream, buf: *void, len: s32) -> bool #fore
 * \sa SDL_GetAudioStreamAvailable
 * \sa SDL_PutAudioStreamData
 */
-GetAudioStreamData :: (stream: *AudioStream, buf: *void, len: s32) -> s32 #foreign libsdl3_ttf "SDL_GetAudioStreamData";
+SDL_GetAudioStreamData :: (stream: *SDL_AudioStream, buf: *void, len: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the number of converted/resampled bytes available.
@@ -10717,7 +10717,7 @@ GetAudioStreamData :: (stream: *AudioStream, buf: *void, len: s32) -> s32 #forei
 * \sa SDL_GetAudioStreamData
 * \sa SDL_PutAudioStreamData
 */
-GetAudioStreamAvailable :: (stream: *AudioStream) -> s32 #foreign libsdl3_ttf "SDL_GetAudioStreamAvailable";
+SDL_GetAudioStreamAvailable :: (stream: *SDL_AudioStream) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the number of bytes currently queued.
@@ -10755,7 +10755,7 @@ GetAudioStreamAvailable :: (stream: *AudioStream) -> s32 #foreign libsdl3_ttf "S
 * \sa SDL_PutAudioStreamData
 * \sa SDL_ClearAudioStream
 */
-GetAudioStreamQueued :: (stream: *AudioStream) -> s32 #foreign libsdl3_ttf "SDL_GetAudioStreamQueued";
+SDL_GetAudioStreamQueued :: (stream: *SDL_AudioStream) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Tell the stream that you're done sending data, and anything being buffered
@@ -10775,7 +10775,7 @@ GetAudioStreamQueued :: (stream: *AudioStream) -> s32 #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_PutAudioStreamData
 */
-FlushAudioStream :: (stream: *AudioStream) -> bool #foreign libsdl3_ttf "SDL_FlushAudioStream";
+SDL_FlushAudioStream :: (stream: *SDL_AudioStream) -> bool #foreign libsdl3_ttf;
 
 /**
 * Clear any pending data in the stream.
@@ -10796,7 +10796,7 @@ FlushAudioStream :: (stream: *AudioStream) -> bool #foreign libsdl3_ttf "SDL_Flu
 * \sa SDL_GetAudioStreamQueued
 * \sa SDL_PutAudioStreamData
 */
-ClearAudioStream :: (stream: *AudioStream) -> bool #foreign libsdl3_ttf "SDL_ClearAudioStream";
+SDL_ClearAudioStream :: (stream: *SDL_AudioStream) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to pause audio playback on the audio device associated
@@ -10820,7 +10820,7 @@ ClearAudioStream :: (stream: *AudioStream) -> bool #foreign libsdl3_ttf "SDL_Cle
 *
 * \sa SDL_ResumeAudioStreamDevice
 */
-PauseAudioStreamDevice :: (stream: *AudioStream) -> bool #foreign libsdl3_ttf "SDL_PauseAudioStreamDevice";
+SDL_PauseAudioStreamDevice :: (stream: *SDL_AudioStream) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to unpause audio playback on the audio device associated
@@ -10843,7 +10843,7 @@ PauseAudioStreamDevice :: (stream: *AudioStream) -> bool #foreign libsdl3_ttf "S
 *
 * \sa SDL_PauseAudioStreamDevice
 */
-ResumeAudioStreamDevice :: (stream: *AudioStream) -> bool #foreign libsdl3_ttf "SDL_ResumeAudioStreamDevice";
+SDL_ResumeAudioStreamDevice :: (stream: *SDL_AudioStream) -> bool #foreign libsdl3_ttf;
 
 /**
 * Use this function to query if an audio device associated with a stream is
@@ -10862,7 +10862,7 @@ ResumeAudioStreamDevice :: (stream: *AudioStream) -> bool #foreign libsdl3_ttf "
 * \sa SDL_PauseAudioStreamDevice
 * \sa SDL_ResumeAudioStreamDevice
 */
-AudioStreamDevicePaused :: (stream: *AudioStream) -> bool #foreign libsdl3_ttf "SDL_AudioStreamDevicePaused";
+SDL_AudioStreamDevicePaused :: (stream: *SDL_AudioStream) -> bool #foreign libsdl3_ttf;
 
 /**
 * Lock an audio stream for serialized access.
@@ -10890,7 +10890,7 @@ AudioStreamDevicePaused :: (stream: *AudioStream) -> bool #foreign libsdl3_ttf "
 *
 * \sa SDL_UnlockAudioStream
 */
-LockAudioStream :: (stream: *AudioStream) -> bool #foreign libsdl3_ttf "SDL_LockAudioStream";
+SDL_LockAudioStream :: (stream: *SDL_AudioStream) -> bool #foreign libsdl3_ttf;
 
 /**
 * Unlock an audio stream for serialized access.
@@ -10908,7 +10908,7 @@ LockAudioStream :: (stream: *AudioStream) -> bool #foreign libsdl3_ttf "SDL_Lock
 *
 * \sa SDL_LockAudioStream
 */
-UnlockAudioStream :: (stream: *AudioStream) -> bool #foreign libsdl3_ttf "SDL_UnlockAudioStream";
+SDL_UnlockAudioStream :: (stream: *SDL_AudioStream) -> bool #foreign libsdl3_ttf;
 
 /**
 * A callback that fires when data passes through an SDL_AudioStream.
@@ -10950,7 +10950,7 @@ UnlockAudioStream :: (stream: *AudioStream) -> bool #foreign libsdl3_ttf "SDL_Un
 * \sa SDL_SetAudioStreamGetCallback
 * \sa SDL_SetAudioStreamPutCallback
 */
-AudioStreamCallback :: #type (userdata: *void, stream: *AudioStream, additional_amount: s32, total_amount: s32) -> void #c_call;
+SDL_AudioStreamCallback :: #type (userdata: *void, stream: *SDL_AudioStream, additional_amount: s32, total_amount: s32) -> void #c_call;
 
 /**
 * Set a callback that runs when data is requested from an audio stream.
@@ -10996,7 +10996,7 @@ AudioStreamCallback :: #type (userdata: *void, stream: *AudioStream, additional_
 *
 * \sa SDL_SetAudioStreamPutCallback
 */
-SetAudioStreamGetCallback :: (stream: *AudioStream, callback: AudioStreamCallback, userdata: *void) -> bool #foreign libsdl3_ttf "SDL_SetAudioStreamGetCallback";
+SDL_SetAudioStreamGetCallback :: (stream: *SDL_AudioStream, callback: SDL_AudioStreamCallback, userdata: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set a callback that runs when data is added to an audio stream.
@@ -11045,7 +11045,7 @@ SetAudioStreamGetCallback :: (stream: *AudioStream, callback: AudioStreamCallbac
 *
 * \sa SDL_SetAudioStreamGetCallback
 */
-SetAudioStreamPutCallback :: (stream: *AudioStream, callback: AudioStreamCallback, userdata: *void) -> bool #foreign libsdl3_ttf "SDL_SetAudioStreamPutCallback";
+SDL_SetAudioStreamPutCallback :: (stream: *SDL_AudioStream, callback: SDL_AudioStreamCallback, userdata: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Free an audio stream.
@@ -11066,7 +11066,7 @@ SetAudioStreamPutCallback :: (stream: *AudioStream, callback: AudioStreamCallbac
 *
 * \sa SDL_CreateAudioStream
 */
-DestroyAudioStream :: (stream: *AudioStream) -> void #foreign libsdl3_ttf "SDL_DestroyAudioStream";
+SDL_DestroyAudioStream :: (stream: *SDL_AudioStream) -> void #foreign libsdl3_ttf;
 
 /**
 * Convenience function for straightforward audio init for the common case.
@@ -11128,7 +11128,7 @@ DestroyAudioStream :: (stream: *AudioStream) -> void #foreign libsdl3_ttf "SDL_D
 * \sa SDL_GetAudioStreamDevice
 * \sa SDL_ResumeAudioStreamDevice
 */
-OpenAudioDeviceStream :: (devid: AudioDeviceID, spec: *AudioSpec, callback: AudioStreamCallback, userdata: *void) -> *AudioStream #foreign libsdl3_ttf "SDL_OpenAudioDeviceStream";
+SDL_OpenAudioDeviceStream :: (devid: SDL_AudioDeviceID, spec: *SDL_AudioSpec, callback: SDL_AudioStreamCallback, userdata: *void) -> *SDL_AudioStream #foreign libsdl3_ttf;
 
 /**
 * A callback that fires when data is about to be fed to an audio device.
@@ -11165,7 +11165,7 @@ OpenAudioDeviceStream :: (devid: AudioDeviceID, spec: *AudioSpec, callback: Audi
 *
 * \sa SDL_SetAudioPostmixCallback
 */
-AudioPostmixCallback :: #type (userdata: *void, spec: *AudioSpec, buffer: *float, buflen: s32) -> void #c_call;
+SDL_AudioPostmixCallback :: #type (userdata: *void, spec: *SDL_AudioSpec, buffer: *float, buflen: s32) -> void #c_call;
 
 /**
 * Set a callback that fires when data is about to be fed to an audio device.
@@ -11219,7 +11219,7 @@ AudioPostmixCallback :: #type (userdata: *void, spec: *AudioSpec, buffer: *float
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetAudioPostmixCallback :: (devid: AudioDeviceID, callback: AudioPostmixCallback, userdata: *void) -> bool #foreign libsdl3_ttf "SDL_SetAudioPostmixCallback";
+SDL_SetAudioPostmixCallback :: (devid: SDL_AudioDeviceID, callback: SDL_AudioPostmixCallback, userdata: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Load the audio data of a WAVE file into memory.
@@ -11299,7 +11299,7 @@ SetAudioPostmixCallback :: (devid: AudioDeviceID, callback: AudioPostmixCallback
 * \sa SDL_free
 * \sa SDL_LoadWAV
 */
-LoadWAV_IO :: (src: *IOStream, closeio: bool, spec: *AudioSpec, audio_buf: **Uint8, audio_len: *Uint32) -> bool #foreign libsdl3_ttf "SDL_LoadWAV_IO";
+SDL_LoadWAV_IO :: (src: *SDL_IOStream, closeio: bool, spec: *SDL_AudioSpec, audio_buf: **Uint8, audio_len: *Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Loads a WAV from a file path.
@@ -11335,7 +11335,7 @@ LoadWAV_IO :: (src: *IOStream, closeio: bool, spec: *AudioSpec, audio_buf: **Uin
 * \sa SDL_free
 * \sa SDL_LoadWAV_IO
 */
-LoadWAV :: (path: *u8, spec: *AudioSpec, audio_buf: **Uint8, audio_len: *Uint32) -> bool #foreign libsdl3_ttf "SDL_LoadWAV";
+SDL_LoadWAV :: (path: *u8, spec: *SDL_AudioSpec, audio_buf: **Uint8, audio_len: *Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Mix audio data in a specified format.
@@ -11371,7 +11371,7 @@ LoadWAV :: (path: *u8, spec: *AudioSpec, audio_buf: **Uint8, audio_len: *Uint32)
 *
 * \since This function is available since SDL 3.2.0.
 */
-MixAudio :: (dst: *Uint8, src: *Uint8, format: AudioFormat, len: Uint32, volume: float) -> bool #foreign libsdl3_ttf "SDL_MixAudio";
+SDL_MixAudio :: (dst: *Uint8, src: *Uint8, format: SDL_AudioFormat, len: Uint32, volume: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Convert some audio data of one format to another format.
@@ -11401,7 +11401,7 @@ MixAudio :: (dst: *Uint8, src: *Uint8, format: AudioFormat, len: Uint32, volume:
 *
 * \since This function is available since SDL 3.2.0.
 */
-ConvertAudioSamples :: (src_spec: *AudioSpec, src_data: *Uint8, src_len: s32, dst_spec: *AudioSpec, dst_data: **Uint8, dst_len: *s32) -> bool #foreign libsdl3_ttf "SDL_ConvertAudioSamples";
+SDL_ConvertAudioSamples :: (src_spec: *SDL_AudioSpec, src_data: *Uint8, src_len: s32, dst_spec: *SDL_AudioSpec, dst_data: **Uint8, dst_len: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the human readable name of an audio format.
@@ -11414,7 +11414,7 @@ ConvertAudioSamples :: (src_spec: *AudioSpec, src_data: *Uint8, src_len: s32, ds
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetAudioFormatName :: (format: AudioFormat) -> *u8 #foreign libsdl3_ttf "SDL_GetAudioFormatName";
+SDL_GetAudioFormatName :: (format: SDL_AudioFormat) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the appropriate memset value for silencing an audio format.
@@ -11430,7 +11430,7 @@ GetAudioFormatName :: (format: AudioFormat) -> *u8 #foreign libsdl3_ttf "SDL_Get
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSilenceValueForFormat :: (format: AudioFormat) -> s32 #foreign libsdl3_ttf "SDL_GetSilenceValueForFormat";
+SDL_GetSilenceValueForFormat :: (format: SDL_AudioFormat) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the index of the most significant (set) bit in a 32-bit number.
@@ -11450,7 +11450,7 @@ GetSilenceValueForFormat :: (format: AudioFormat) -> s32 #foreign libsdl3_ttf "S
 *
 * \since This function is available since SDL 3.2.0.
 */
-MostSignificantBitIndex32 :: (x: Uint32) -> s32 #foreign __UnknownLib "SDL_MostSignificantBitIndex32";
+SDL_MostSignificantBitIndex32 :: (x: Uint32) -> s32 #foreign __UnknownLib;
 
 /**
 * Determine if a unsigned 32-bit value has exactly one bit set.
@@ -11470,7 +11470,7 @@ MostSignificantBitIndex32 :: (x: Uint32) -> s32 #foreign __UnknownLib "SDL_MostS
 *
 * \since This function is available since SDL 3.2.0.
 */
-HasExactlyOneBitSet32 :: (x: Uint32) -> bool #foreign __UnknownLib "SDL_HasExactlyOneBitSet32";
+SDL_HasExactlyOneBitSet32 :: (x: Uint32) -> bool #foreign __UnknownLib;
 
 /**
 * A set of blend modes used in drawing operations.
@@ -11483,7 +11483,7 @@ HasExactlyOneBitSet32 :: (x: Uint32) -> bool #foreign __UnknownLib "SDL_HasExact
 *
 * \sa SDL_ComposeCustomBlendMode
 */
-BlendMode :: Uint32;
+SDL_BlendMode :: Uint32;
 
 /**
 * The blend operation used when combining source and destination pixel
@@ -11491,7 +11491,7 @@ BlendMode :: Uint32;
 *
 * \since This enum is available since SDL 3.2.0.
 */
-BlendOperation :: enum u32 {
+SDL_BlendOperation :: enum u32 {
     ADD          :: 1;
     SUBTRACT     :: 2;
     REV_SUBTRACT :: 3;
@@ -11515,7 +11515,7 @@ BlendOperation :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-BlendFactor :: enum u32 {
+SDL_BlendFactor :: enum u32 {
     ZERO                :: 1;
     ONE                 :: 2;
     SRC_COLOR           :: 3;
@@ -11626,14 +11626,14 @@ BlendFactor :: enum u32 {
 * \sa SDL_SetTextureBlendMode
 * \sa SDL_GetTextureBlendMode
 */
-ComposeCustomBlendMode :: (srcColorFactor: BlendFactor, dstColorFactor: BlendFactor, colorOperation: BlendOperation, srcAlphaFactor: BlendFactor, dstAlphaFactor: BlendFactor, alphaOperation: BlendOperation) -> BlendMode #foreign libsdl3_ttf "SDL_ComposeCustomBlendMode";
+SDL_ComposeCustomBlendMode :: (srcColorFactor: SDL_BlendFactor, dstColorFactor: SDL_BlendFactor, colorOperation: SDL_BlendOperation, srcAlphaFactor: SDL_BlendFactor, dstAlphaFactor: SDL_BlendFactor, alphaOperation: SDL_BlendOperation) -> SDL_BlendMode #foreign libsdl3_ttf;
 
 /**
 * Pixel type.
 *
 * \since This enum is available since SDL 3.2.0.
 */
-PixelType :: enum u32 {
+SDL_PixelType :: enum u32 {
     UNKNOWN  :: 0;
     INDEX1   :: 1;
     INDEX4   :: 2;
@@ -11670,7 +11670,7 @@ PixelType :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-BitmapOrder :: enum u32 {
+SDL_BitmapOrder :: enum u32 {
     NONE  :: 0;
     _4321 :: 1;
     _1234 :: 2;
@@ -11685,7 +11685,7 @@ BitmapOrder :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-PackedOrder :: enum u32 {
+SDL_PackedOrder :: enum u32 {
     NONE :: 0;
     XRGB :: 1;
     RGBX :: 2;
@@ -11712,7 +11712,7 @@ PackedOrder :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-ArrayOrder :: enum u32 {
+SDL_ArrayOrder :: enum u32 {
     NONE :: 0;
     RGB  :: 1;
     RGBA :: 2;
@@ -11735,7 +11735,7 @@ ArrayOrder :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-PackedLayout :: enum u32 {
+SDL_PackedLayout :: enum u32 {
     NONE     :: 0;
     _332     :: 1;
     _4444    :: 2;
@@ -11794,7 +11794,7 @@ PackedLayout :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-PixelFormat :: enum u32 {
+SDL_PixelFormat :: enum u32 {
     UNKNOWN       :: 0;
     INDEX1LSB     :: 286261504;
 
@@ -12077,7 +12077,7 @@ PixelFormat :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-ColorType :: enum u32 {
+SDL_ColorType :: enum u32 {
     UNKNOWN :: 0;
     RGB     :: 1;
     YCBCR   :: 2;
@@ -12093,7 +12093,7 @@ ColorType :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-ColorRange :: enum u32 {
+SDL_ColorRange :: enum u32 {
     UNKNOWN :: 0;
     LIMITED :: 1;
     FULL    :: 2;
@@ -12109,7 +12109,7 @@ ColorRange :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-ColorPrimaries :: enum u32 {
+SDL_ColorPrimaries :: enum u32 {
     UNKNOWN      :: 0;
     BT709        :: 1;
     UNSPECIFIED  :: 2;
@@ -12148,7 +12148,7 @@ ColorPrimaries :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-TransferCharacteristics :: enum u32 {
+SDL_TransferCharacteristics :: enum u32 {
     UNKNOWN       :: 0;
     BT709         :: 1;
     UNSPECIFIED   :: 2;
@@ -12197,7 +12197,7 @@ TransferCharacteristics :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-MatrixCoefficients :: enum u32 {
+SDL_MatrixCoefficients :: enum u32 {
     IDENTITY           :: 0;
     BT709              :: 1;
     UNSPECIFIED        :: 2;
@@ -12236,7 +12236,7 @@ MatrixCoefficients :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-ChromaLocation :: enum u32 {
+SDL_ChromaLocation :: enum u32 {
     NONE    :: 0;
     LEFT    :: 1;
     CENTER  :: 2;
@@ -12263,7 +12263,7 @@ ChromaLocation :: enum u32 {
 * \sa SDL_MatrixCoefficients
 * \sa SDL_TransferCharacteristics
 */
-Colorspace :: enum u32 {
+SDL_Colorspace :: enum u32 {
     UNKNOWN        :: 0;
 
     SRGB           :: 301991328;
@@ -12325,7 +12325,7 @@ Colorspace :: enum u32 {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-Color :: struct {
+SDL_Color :: struct {
     r: Uint8;
     g: Uint8;
     b: Uint8;
@@ -12338,7 +12338,7 @@ Color :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-FColor :: struct {
+SDL_FColor :: struct {
     r: float;
     g: float;
     b: float;
@@ -12352,9 +12352,9 @@ FColor :: struct {
 *
 * \sa SDL_SetPaletteColors
 */
-Palette :: struct {
+SDL_Palette :: struct {
     ncolors:  s32; /**< number of elements in `colors`. */
-    colors:   *Color; /**< an array of colors, `ncolors` long. */
+    colors:   *SDL_Color; /**< an array of colors, `ncolors` long. */
     version:  Uint32; /**< internal use only, do not touch. */
     refcount: s32; /**< internal use only, do not touch. */
 }
@@ -12364,8 +12364,8 @@ Palette :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-PixelFormatDetails :: struct {
-    format:          PixelFormat;
+SDL_PixelFormatDetails :: struct {
+    format:          SDL_PixelFormat;
     bits_per_pixel:  Uint8;
     bytes_per_pixel: Uint8;
     padding:         [2] Uint8;
@@ -12394,7 +12394,7 @@ PixelFormatDetails :: struct {
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetPixelFormatName :: (format: PixelFormat) -> *u8 #foreign libsdl3_ttf "SDL_GetPixelFormatName";
+SDL_GetPixelFormatName :: (format: SDL_PixelFormat) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Convert one of the enumerated pixel formats to a bpp value and RGBA masks.
@@ -12414,7 +12414,7 @@ GetPixelFormatName :: (format: PixelFormat) -> *u8 #foreign libsdl3_ttf "SDL_Get
 *
 * \sa SDL_GetPixelFormatForMasks
 */
-GetMasksForPixelFormat :: (format: PixelFormat, bpp: *s32, Rmask: *Uint32, Gmask: *Uint32, Bmask: *Uint32, Amask: *Uint32) -> bool #foreign libsdl3_ttf "SDL_GetMasksForPixelFormat";
+SDL_GetMasksForPixelFormat :: (format: SDL_PixelFormat, bpp: *s32, Rmask: *Uint32, Gmask: *Uint32, Bmask: *Uint32, Amask: *Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Convert a bpp value and RGBA masks to an enumerated pixel format.
@@ -12436,7 +12436,7 @@ GetMasksForPixelFormat :: (format: PixelFormat, bpp: *s32, Rmask: *Uint32, Gmask
 *
 * \sa SDL_GetMasksForPixelFormat
 */
-GetPixelFormatForMasks :: (bpp: s32, Rmask: Uint32, Gmask: Uint32, Bmask: Uint32, Amask: Uint32) -> PixelFormat #foreign libsdl3_ttf "SDL_GetPixelFormatForMasks";
+SDL_GetPixelFormatForMasks :: (bpp: s32, Rmask: Uint32, Gmask: Uint32, Bmask: Uint32, Amask: Uint32) -> SDL_PixelFormat #foreign libsdl3_ttf;
 
 /**
 * Create an SDL_PixelFormatDetails structure corresponding to a pixel format.
@@ -12453,7 +12453,7 @@ GetPixelFormatForMasks :: (bpp: s32, Rmask: Uint32, Gmask: Uint32, Bmask: Uint32
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetPixelFormatDetails :: (format: PixelFormat) -> *PixelFormatDetails #foreign libsdl3_ttf "SDL_GetPixelFormatDetails";
+SDL_GetPixelFormatDetails :: (format: SDL_PixelFormat) -> *SDL_PixelFormatDetails #foreign libsdl3_ttf;
 
 /**
 * Create a palette structure with the specified number of color entries.
@@ -12473,7 +12473,7 @@ GetPixelFormatDetails :: (format: PixelFormat) -> *PixelFormatDetails #foreign l
 * \sa SDL_SetPaletteColors
 * \sa SDL_SetSurfacePalette
 */
-CreatePalette :: (ncolors: s32) -> *Palette #foreign libsdl3_ttf "SDL_CreatePalette";
+SDL_CreatePalette :: (ncolors: s32) -> *SDL_Palette #foreign libsdl3_ttf;
 
 /**
 * Set a range of colors in a palette.
@@ -12490,7 +12490,7 @@ CreatePalette :: (ncolors: s32) -> *Palette #foreign libsdl3_ttf "SDL_CreatePale
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetPaletteColors :: (palette: *Palette, colors: *Color, firstcolor: s32, ncolors: s32) -> bool #foreign libsdl3_ttf "SDL_SetPaletteColors";
+SDL_SetPaletteColors :: (palette: *SDL_Palette, colors: *SDL_Color, firstcolor: s32, ncolors: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Free a palette created with SDL_CreatePalette().
@@ -12504,7 +12504,7 @@ SetPaletteColors :: (palette: *Palette, colors: *Color, firstcolor: s32, ncolors
 *
 * \sa SDL_CreatePalette
 */
-DestroyPalette :: (palette: *Palette) -> void #foreign libsdl3_ttf "SDL_DestroyPalette";
+SDL_DestroyPalette :: (palette: *SDL_Palette) -> void #foreign libsdl3_ttf;
 
 /**
 * Map an RGB triple to an opaque pixel value for a given pixel format.
@@ -12542,7 +12542,7 @@ DestroyPalette :: (palette: *Palette) -> void #foreign libsdl3_ttf "SDL_DestroyP
 * \sa SDL_MapRGBA
 * \sa SDL_MapSurfaceRGB
 */
-MapRGB :: (format: *PixelFormatDetails, palette: *Palette, r: Uint8, g: Uint8, b: Uint8) -> Uint32 #foreign libsdl3_ttf "SDL_MapRGB";
+SDL_MapRGB :: (format: *SDL_PixelFormatDetails, palette: *SDL_Palette, r: Uint8, g: Uint8, b: Uint8) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Map an RGBA quadruple to a pixel value for a given pixel format.
@@ -12581,7 +12581,7 @@ MapRGB :: (format: *PixelFormatDetails, palette: *Palette, r: Uint8, g: Uint8, b
 * \sa SDL_MapRGB
 * \sa SDL_MapSurfaceRGBA
 */
-MapRGBA :: (format: *PixelFormatDetails, palette: *Palette, r: Uint8, g: Uint8, b: Uint8, a: Uint8) -> Uint32 #foreign libsdl3_ttf "SDL_MapRGBA";
+SDL_MapRGBA :: (format: *SDL_PixelFormatDetails, palette: *SDL_Palette, r: Uint8, g: Uint8, b: Uint8, a: Uint8) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Get RGB values from a pixel in the specified format.
@@ -12609,7 +12609,7 @@ MapRGBA :: (format: *PixelFormatDetails, palette: *Palette, r: Uint8, g: Uint8, 
 * \sa SDL_MapRGB
 * \sa SDL_MapRGBA
 */
-GetRGB :: (pixel: Uint32, format: *PixelFormatDetails, palette: *Palette, r: *Uint8, g: *Uint8, b: *Uint8) -> void #foreign libsdl3_ttf "SDL_GetRGB";
+SDL_GetRGB :: (pixel: Uint32, format: *SDL_PixelFormatDetails, palette: *SDL_Palette, r: *Uint8, g: *Uint8, b: *Uint8) -> void #foreign libsdl3_ttf;
 
 /**
 * Get RGBA values from a pixel in the specified format.
@@ -12641,7 +12641,7 @@ GetRGB :: (pixel: Uint32, format: *PixelFormatDetails, palette: *Palette, r: *Ui
 * \sa SDL_MapRGB
 * \sa SDL_MapRGBA
 */
-GetRGBA :: (pixel: Uint32, format: *PixelFormatDetails, palette: *Palette, r: *Uint8, g: *Uint8, b: *Uint8, a: *Uint8) -> void #foreign libsdl3_ttf "SDL_GetRGBA";
+SDL_GetRGBA :: (pixel: Uint32, format: *SDL_PixelFormatDetails, palette: *SDL_Palette, r: *Uint8, g: *Uint8, b: *Uint8, a: *Uint8) -> void #foreign libsdl3_ttf;
 
 /**
 * The structure that defines a point (using integers).
@@ -12651,7 +12651,7 @@ GetRGBA :: (pixel: Uint32, format: *PixelFormatDetails, palette: *Palette, r: *U
 * \sa SDL_GetRectEnclosingPoints
 * \sa SDL_PointInRect
 */
-Point :: struct {
+SDL_Point :: struct {
     x: s32;
     y: s32;
 }
@@ -12664,7 +12664,7 @@ Point :: struct {
 * \sa SDL_GetRectEnclosingPointsFloat
 * \sa SDL_PointInRectFloat
 */
-FPoint :: struct {
+SDL_FPoint :: struct {
     x: float;
     y: float;
 }
@@ -12682,7 +12682,7 @@ FPoint :: struct {
 * \sa SDL_GetRectUnion
 * \sa SDL_GetRectEnclosingPoints
 */
-Rect :: struct {
+SDL_Rect :: struct {
     x: s32;
     y: s32;
     w: s32;
@@ -12705,7 +12705,7 @@ Rect :: struct {
 * \sa SDL_GetRectEnclosingPointsFloat
 * \sa SDL_PointInRectFloat
 */
-FRect :: struct {
+SDL_FRect :: struct {
     x: float;
     y: float;
     w: float;
@@ -12723,7 +12723,7 @@ FRect :: struct {
 *
 * \since This function is available since SDL 3.2.0.
 */
-RectToFRect :: (rect: *Rect, frect: *FRect) -> void #foreign __UnknownLib "SDL_RectToFRect";
+SDL_RectToFRect :: (rect: *SDL_Rect, frect: *SDL_FRect) -> void #foreign __UnknownLib;
 
 /**
 * Determine whether a point resides inside a rectangle.
@@ -12746,7 +12746,7 @@ RectToFRect :: (rect: *Rect, frect: *FRect) -> void #foreign __UnknownLib "SDL_R
 *
 * \since This function is available since SDL 3.2.0.
 */
-PointInRect :: (p: *Point, r: *Rect) -> bool #foreign __UnknownLib "SDL_PointInRect";
+SDL_PointInRect :: (p: *SDL_Point, r: *SDL_Rect) -> bool #foreign __UnknownLib;
 
 /**
 * Determine whether a rectangle has no area.
@@ -12766,7 +12766,7 @@ PointInRect :: (p: *Point, r: *Rect) -> bool #foreign __UnknownLib "SDL_PointInR
 *
 * \since This function is available since SDL 3.2.0.
 */
-RectEmpty :: (r: *Rect) -> bool #foreign __UnknownLib "SDL_RectEmpty";
+SDL_RectEmpty :: (r: *SDL_Rect) -> bool #foreign __UnknownLib;
 
 /**
 * Determine whether two rectangles are equal.
@@ -12787,7 +12787,7 @@ RectEmpty :: (r: *Rect) -> bool #foreign __UnknownLib "SDL_RectEmpty";
 *
 * \since This function is available since SDL 3.2.0.
 */
-RectsEqual :: (a: *Rect, b: *Rect) -> bool #foreign __UnknownLib "SDL_RectsEqual";
+SDL_RectsEqual :: (a: *SDL_Rect, b: *SDL_Rect) -> bool #foreign __UnknownLib;
 
 /**
 * Determine whether two rectangles intersect.
@@ -12804,7 +12804,7 @@ RectsEqual :: (a: *Rect, b: *Rect) -> bool #foreign __UnknownLib "SDL_RectsEqual
 *
 * \sa SDL_GetRectIntersection
 */
-HasRectIntersection :: (A: *Rect, B: *Rect) -> bool #foreign libsdl3_ttf "SDL_HasRectIntersection";
+SDL_HasRectIntersection :: (A: *SDL_Rect, B: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Calculate the intersection of two rectangles.
@@ -12821,7 +12821,7 @@ HasRectIntersection :: (A: *Rect, B: *Rect) -> bool #foreign libsdl3_ttf "SDL_Ha
 *
 * \sa SDL_HasRectIntersection
 */
-GetRectIntersection :: (A: *Rect, B: *Rect, result: *Rect) -> bool #foreign libsdl3_ttf "SDL_GetRectIntersection";
+SDL_GetRectIntersection :: (A: *SDL_Rect, B: *SDL_Rect, result: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Calculate the union of two rectangles.
@@ -12835,7 +12835,7 @@ GetRectIntersection :: (A: *Rect, B: *Rect, result: *Rect) -> bool #foreign libs
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetRectUnion :: (A: *Rect, B: *Rect, result: *Rect) -> bool #foreign libsdl3_ttf "SDL_GetRectUnion";
+SDL_GetRectUnion :: (A: *SDL_Rect, B: *SDL_Rect, result: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Calculate a minimal rectangle enclosing a set of points.
@@ -12854,7 +12854,7 @@ GetRectUnion :: (A: *Rect, B: *Rect, result: *Rect) -> bool #foreign libsdl3_ttf
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetRectEnclosingPoints :: (points: *Point, count: s32, clip: *Rect, result: *Rect) -> bool #foreign libsdl3_ttf "SDL_GetRectEnclosingPoints";
+SDL_GetRectEnclosingPoints :: (points: *SDL_Point, count: s32, clip: *SDL_Rect, result: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Calculate the intersection of a rectangle and line segment.
@@ -12874,7 +12874,7 @@ GetRectEnclosingPoints :: (points: *Point, count: s32, clip: *Rect, result: *Rec
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetRectAndLineIntersection :: (rect: *Rect, X1: *s32, Y1: *s32, X2: *s32, Y2: *s32) -> bool #foreign libsdl3_ttf "SDL_GetRectAndLineIntersection";
+SDL_GetRectAndLineIntersection :: (rect: *SDL_Rect, X1: *s32, Y1: *s32, X2: *s32, Y2: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine whether a point resides inside a floating point rectangle.
@@ -12897,7 +12897,7 @@ GetRectAndLineIntersection :: (rect: *Rect, X1: *s32, Y1: *s32, X2: *s32, Y2: *s
 *
 * \since This function is available since SDL 3.2.0.
 */
-PointInRectFloat :: (p: *FPoint, r: *FRect) -> bool #foreign __UnknownLib "SDL_PointInRectFloat";
+SDL_PointInRectFloat :: (p: *SDL_FPoint, r: *SDL_FRect) -> bool #foreign __UnknownLib;
 
 /**
 * Determine whether a floating point rectangle can contain any point.
@@ -12917,7 +12917,7 @@ PointInRectFloat :: (p: *FPoint, r: *FRect) -> bool #foreign __UnknownLib "SDL_P
 *
 * \since This function is available since SDL 3.2.0.
 */
-RectEmptyFloat :: (r: *FRect) -> bool #foreign __UnknownLib "SDL_RectEmptyFloat";
+SDL_RectEmptyFloat :: (r: *SDL_FRect) -> bool #foreign __UnknownLib;
 
 /**
 * Determine whether two floating point rectangles are equal, within some
@@ -12944,7 +12944,7 @@ RectEmptyFloat :: (r: *FRect) -> bool #foreign __UnknownLib "SDL_RectEmptyFloat"
 *
 * \sa SDL_RectsEqualFloat
 */
-RectsEqualEpsilon :: (a: *FRect, b: *FRect, epsilon: float) -> bool #foreign __UnknownLib "SDL_RectsEqualEpsilon";
+SDL_RectsEqualEpsilon :: (a: *SDL_FRect, b: *SDL_FRect, epsilon: float) -> bool #foreign __UnknownLib;
 
 /**
 * Determine whether two floating point rectangles are equal, within a default
@@ -12971,7 +12971,7 @@ RectsEqualEpsilon :: (a: *FRect, b: *FRect, epsilon: float) -> bool #foreign __U
 *
 * \sa SDL_RectsEqualEpsilon
 */
-RectsEqualFloat :: (a: *FRect, b: *FRect) -> bool #foreign __UnknownLib "SDL_RectsEqualFloat";
+SDL_RectsEqualFloat :: (a: *SDL_FRect, b: *SDL_FRect) -> bool #foreign __UnknownLib;
 
 /**
 * Determine whether two rectangles intersect with float precision.
@@ -12986,7 +12986,7 @@ RectsEqualFloat :: (a: *FRect, b: *FRect) -> bool #foreign __UnknownLib "SDL_Rec
 *
 * \sa SDL_GetRectIntersection
 */
-HasRectIntersectionFloat :: (A: *FRect, B: *FRect) -> bool #foreign libsdl3_ttf "SDL_HasRectIntersectionFloat";
+SDL_HasRectIntersectionFloat :: (A: *SDL_FRect, B: *SDL_FRect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Calculate the intersection of two rectangles with float precision.
@@ -13003,7 +13003,7 @@ HasRectIntersectionFloat :: (A: *FRect, B: *FRect) -> bool #foreign libsdl3_ttf 
 *
 * \sa SDL_HasRectIntersectionFloat
 */
-GetRectIntersectionFloat :: (A: *FRect, B: *FRect, result: *FRect) -> bool #foreign libsdl3_ttf "SDL_GetRectIntersectionFloat";
+SDL_GetRectIntersectionFloat :: (A: *SDL_FRect, B: *SDL_FRect, result: *SDL_FRect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Calculate the union of two rectangles with float precision.
@@ -13017,7 +13017,7 @@ GetRectIntersectionFloat :: (A: *FRect, B: *FRect, result: *FRect) -> bool #fore
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetRectUnionFloat :: (A: *FRect, B: *FRect, result: *FRect) -> bool #foreign libsdl3_ttf "SDL_GetRectUnionFloat";
+SDL_GetRectUnionFloat :: (A: *SDL_FRect, B: *SDL_FRect, result: *SDL_FRect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Calculate a minimal rectangle enclosing a set of points with float
@@ -13037,7 +13037,7 @@ GetRectUnionFloat :: (A: *FRect, B: *FRect, result: *FRect) -> bool #foreign lib
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetRectEnclosingPointsFloat :: (points: *FPoint, count: s32, clip: *FRect, result: *FRect) -> bool #foreign libsdl3_ttf "SDL_GetRectEnclosingPointsFloat";
+SDL_GetRectEnclosingPointsFloat :: (points: *SDL_FPoint, count: s32, clip: *SDL_FRect, result: *SDL_FRect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Calculate the intersection of a rectangle and line segment with float
@@ -13058,7 +13058,7 @@ GetRectEnclosingPointsFloat :: (points: *FPoint, count: s32, clip: *FRect, resul
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetRectAndLineIntersectionFloat :: (rect: *FRect, X1: *float, Y1: *float, X2: *float, Y2: *float) -> bool #foreign libsdl3_ttf "SDL_GetRectAndLineIntersectionFloat";
+SDL_GetRectAndLineIntersectionFloat :: (rect: *SDL_FRect, X1: *float, Y1: *float, X2: *float, Y2: *float) -> bool #foreign libsdl3_ttf;
 
 /**
 * The flags on an SDL_Surface.
@@ -13067,14 +13067,14 @@ GetRectAndLineIntersectionFloat :: (rect: *FRect, X1: *float, Y1: *float, X2: *f
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-SurfaceFlags :: Uint32;
+SDL_SurfaceFlags :: Uint32;
 
 /**
 * The scaling mode.
 *
 * \since This enum is available since SDL 3.2.0.
 */
-ScaleMode :: enum s32 {
+SDL_ScaleMode :: enum s32 {
     INVALID :: -1;
     NEAREST :: 0;
     LINEAR  :: 1;
@@ -13089,7 +13089,7 @@ ScaleMode :: enum s32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-FlipMode :: enum u32 {
+SDL_FlipMode :: enum u32 {
     NONE       :: 0;
     HORIZONTAL :: 1;
     VERTICAL   :: 2;
@@ -13127,9 +13127,9 @@ FlipMode :: enum u32 {
 * \sa SDL_CreateSurface
 * \sa SDL_DestroySurface
 */
-Surface :: struct {
-    flags:    SurfaceFlags; /**< The flags of the surface, read-only */
-    format:   PixelFormat; /**< The format of the surface, read-only */
+SDL_Surface :: struct {
+    flags:    SDL_SurfaceFlags; /**< The flags of the surface, read-only */
+    format:   SDL_PixelFormat; /**< The format of the surface, read-only */
     w:        s32; /**< The width of the surface, read-only. */
     h:        s32; /**< The height of the surface, read-only. */
     pitch:    s32; /**< The distance in bytes between rows of pixels, read-only */
@@ -13158,7 +13158,7 @@ Surface :: struct {
 * \sa SDL_CreateSurfaceFrom
 * \sa SDL_DestroySurface
 */
-CreateSurface :: (width: s32, height: s32, format: PixelFormat) -> *Surface #foreign libsdl3_ttf "SDL_CreateSurface";
+SDL_CreateSurface :: (width: s32, height: s32, format: SDL_PixelFormat) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Allocate a new surface with a specific pixel format and existing pixel
@@ -13188,7 +13188,7 @@ CreateSurface :: (width: s32, height: s32, format: PixelFormat) -> *Surface #for
 * \sa SDL_CreateSurface
 * \sa SDL_DestroySurface
 */
-CreateSurfaceFrom :: (width: s32, height: s32, format: PixelFormat, pixels: *void, pitch: s32) -> *Surface #foreign libsdl3_ttf "SDL_CreateSurfaceFrom";
+SDL_CreateSurfaceFrom :: (width: s32, height: s32, format: SDL_PixelFormat, pixels: *void, pitch: s32) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Free a surface.
@@ -13204,7 +13204,7 @@ CreateSurfaceFrom :: (width: s32, height: s32, format: PixelFormat, pixels: *voi
 * \sa SDL_CreateSurface
 * \sa SDL_CreateSurfaceFrom
 */
-DestroySurface :: (surface: *Surface) -> void #foreign libsdl3_ttf "SDL_DestroySurface";
+SDL_DestroySurface :: (surface: *SDL_Surface) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the properties associated with a surface.
@@ -13238,7 +13238,7 @@ DestroySurface :: (surface: *Surface) -> void #foreign libsdl3_ttf "SDL_DestroyS
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSurfaceProperties :: (surface: *Surface) -> PropertiesID #foreign libsdl3_ttf "SDL_GetSurfaceProperties";
+SDL_GetSurfaceProperties :: (surface: *SDL_Surface) -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Set the colorspace used by a surface.
@@ -13258,7 +13258,7 @@ GetSurfaceProperties :: (surface: *Surface) -> PropertiesID #foreign libsdl3_ttf
 *
 * \sa SDL_GetSurfaceColorspace
 */
-SetSurfaceColorspace :: (surface: *Surface, colorspace: Colorspace) -> bool #foreign libsdl3_ttf "SDL_SetSurfaceColorspace";
+SDL_SetSurfaceColorspace :: (surface: *SDL_Surface, colorspace: SDL_Colorspace) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the colorspace used by a surface.
@@ -13277,7 +13277,7 @@ SetSurfaceColorspace :: (surface: *Surface, colorspace: Colorspace) -> bool #for
 *
 * \sa SDL_SetSurfaceColorspace
 */
-GetSurfaceColorspace :: (surface: *Surface) -> Colorspace #foreign libsdl3_ttf "SDL_GetSurfaceColorspace";
+SDL_GetSurfaceColorspace :: (surface: *SDL_Surface) -> SDL_Colorspace #foreign libsdl3_ttf;
 
 /**
 * Create a palette and associate it with a surface.
@@ -13307,7 +13307,7 @@ GetSurfaceColorspace :: (surface: *Surface) -> Colorspace #foreign libsdl3_ttf "
 *
 * \sa SDL_SetPaletteColors
 */
-CreateSurfacePalette :: (surface: *Surface) -> *Palette #foreign libsdl3_ttf "SDL_CreateSurfacePalette";
+SDL_CreateSurfacePalette :: (surface: *SDL_Surface) -> *SDL_Palette #foreign libsdl3_ttf;
 
 /**
 * Set the palette used by a surface.
@@ -13326,7 +13326,7 @@ CreateSurfacePalette :: (surface: *Surface) -> *Palette #foreign libsdl3_ttf "SD
 * \sa SDL_CreatePalette
 * \sa SDL_GetSurfacePalette
 */
-SetSurfacePalette :: (surface: *Surface, palette: *Palette) -> bool #foreign libsdl3_ttf "SDL_SetSurfacePalette";
+SDL_SetSurfacePalette :: (surface: *SDL_Surface, palette: *SDL_Palette) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the palette used by a surface.
@@ -13341,7 +13341,7 @@ SetSurfacePalette :: (surface: *Surface, palette: *Palette) -> bool #foreign lib
 *
 * \sa SDL_SetSurfacePalette
 */
-GetSurfacePalette :: (surface: *Surface) -> *Palette #foreign libsdl3_ttf "SDL_GetSurfacePalette";
+SDL_GetSurfacePalette :: (surface: *SDL_Surface) -> *SDL_Palette #foreign libsdl3_ttf;
 
 /**
 * Add an alternate version of a surface.
@@ -13368,7 +13368,7 @@ GetSurfacePalette :: (surface: *Surface) -> *Palette #foreign libsdl3_ttf "SDL_G
 * \sa SDL_GetSurfaceImages
 * \sa SDL_SurfaceHasAlternateImages
 */
-AddSurfaceAlternateImage :: (surface: *Surface, image: *Surface) -> bool #foreign libsdl3_ttf "SDL_AddSurfaceAlternateImage";
+SDL_AddSurfaceAlternateImage :: (surface: *SDL_Surface, image: *SDL_Surface) -> bool #foreign libsdl3_ttf;
 
 /**
 * Return whether a surface has alternate versions available.
@@ -13384,7 +13384,7 @@ AddSurfaceAlternateImage :: (surface: *Surface, image: *Surface) -> bool #foreig
 * \sa SDL_RemoveSurfaceAlternateImages
 * \sa SDL_GetSurfaceImages
 */
-SurfaceHasAlternateImages :: (surface: *Surface) -> bool #foreign libsdl3_ttf "SDL_SurfaceHasAlternateImages";
+SDL_SurfaceHasAlternateImages :: (surface: *SDL_Surface) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get an array including all versions of a surface.
@@ -13411,7 +13411,7 @@ SurfaceHasAlternateImages :: (surface: *Surface) -> bool #foreign libsdl3_ttf "S
 * \sa SDL_RemoveSurfaceAlternateImages
 * \sa SDL_SurfaceHasAlternateImages
 */
-GetSurfaceImages :: (surface: *Surface, count: *s32) -> **Surface #foreign libsdl3_ttf "SDL_GetSurfaceImages";
+SDL_GetSurfaceImages :: (surface: *SDL_Surface, count: *s32) -> **SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Remove all alternate versions of a surface.
@@ -13429,7 +13429,7 @@ GetSurfaceImages :: (surface: *Surface, count: *s32) -> **Surface #foreign libsd
 * \sa SDL_GetSurfaceImages
 * \sa SDL_SurfaceHasAlternateImages
 */
-RemoveSurfaceAlternateImages :: (surface: *Surface) -> void #foreign libsdl3_ttf "SDL_RemoveSurfaceAlternateImages";
+SDL_RemoveSurfaceAlternateImages :: (surface: *SDL_Surface) -> void #foreign libsdl3_ttf;
 
 /**
 * Set up a surface for directly accessing the pixels.
@@ -13456,7 +13456,7 @@ RemoveSurfaceAlternateImages :: (surface: *Surface) -> void #foreign libsdl3_ttf
 * \sa SDL_MUSTLOCK
 * \sa SDL_UnlockSurface
 */
-LockSurface :: (surface: *Surface) -> bool #foreign libsdl3_ttf "SDL_LockSurface";
+SDL_LockSurface :: (surface: *SDL_Surface) -> bool #foreign libsdl3_ttf;
 
 /**
 * Release a surface after directly accessing the pixels.
@@ -13471,7 +13471,7 @@ LockSurface :: (surface: *Surface) -> bool #foreign libsdl3_ttf "SDL_LockSurface
 *
 * \sa SDL_LockSurface
 */
-UnlockSurface :: (surface: *Surface) -> void #foreign libsdl3_ttf "SDL_UnlockSurface";
+SDL_UnlockSurface :: (surface: *SDL_Surface) -> void #foreign libsdl3_ttf;
 
 /**
 * Load a BMP image from a seekable SDL data stream.
@@ -13493,7 +13493,7 @@ UnlockSurface :: (surface: *Surface) -> void #foreign libsdl3_ttf "SDL_UnlockSur
 * \sa SDL_LoadBMP
 * \sa SDL_SaveBMP_IO
 */
-LoadBMP_IO :: (src: *IOStream, closeio: bool) -> *Surface #foreign libsdl3_ttf "SDL_LoadBMP_IO";
+SDL_LoadBMP_IO :: (src: *SDL_IOStream, closeio: bool) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Load a BMP image from a file.
@@ -13513,7 +13513,7 @@ LoadBMP_IO :: (src: *IOStream, closeio: bool) -> *Surface #foreign libsdl3_ttf "
 * \sa SDL_LoadBMP_IO
 * \sa SDL_SaveBMP
 */
-LoadBMP :: (file: *u8) -> *Surface #foreign libsdl3_ttf "SDL_LoadBMP";
+SDL_LoadBMP :: (file: *u8) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Save a surface to a seekable SDL data stream in BMP format.
@@ -13538,7 +13538,7 @@ LoadBMP :: (file: *u8) -> *Surface #foreign libsdl3_ttf "SDL_LoadBMP";
 * \sa SDL_LoadBMP_IO
 * \sa SDL_SaveBMP
 */
-SaveBMP_IO :: (surface: *Surface, dst: *IOStream, closeio: bool) -> bool #foreign libsdl3_ttf "SDL_SaveBMP_IO";
+SDL_SaveBMP_IO :: (surface: *SDL_Surface, dst: *SDL_IOStream, closeio: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Save a surface to a file.
@@ -13561,7 +13561,7 @@ SaveBMP_IO :: (surface: *Surface, dst: *IOStream, closeio: bool) -> bool #foreig
 * \sa SDL_LoadBMP
 * \sa SDL_SaveBMP_IO
 */
-SaveBMP :: (surface: *Surface, file: *u8) -> bool #foreign libsdl3_ttf "SDL_SaveBMP";
+SDL_SaveBMP :: (surface: *SDL_Surface, file: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the RLE acceleration hint for a surface.
@@ -13582,7 +13582,7 @@ SaveBMP :: (surface: *Surface, file: *u8) -> bool #foreign libsdl3_ttf "SDL_Save
 * \sa SDL_LockSurface
 * \sa SDL_UnlockSurface
 */
-SetSurfaceRLE :: (surface: *Surface, enabled: bool) -> bool #foreign libsdl3_ttf "SDL_SetSurfaceRLE";
+SDL_SetSurfaceRLE :: (surface: *SDL_Surface, enabled: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Returns whether the surface is RLE enabled.
@@ -13598,7 +13598,7 @@ SetSurfaceRLE :: (surface: *Surface, enabled: bool) -> bool #foreign libsdl3_ttf
 *
 * \sa SDL_SetSurfaceRLE
 */
-SurfaceHasRLE :: (surface: *Surface) -> bool #foreign libsdl3_ttf "SDL_SurfaceHasRLE";
+SDL_SurfaceHasRLE :: (surface: *SDL_Surface) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the color key (transparent pixel) in a surface.
@@ -13624,7 +13624,7 @@ SurfaceHasRLE :: (surface: *Surface) -> bool #foreign libsdl3_ttf "SDL_SurfaceHa
 * \sa SDL_SetSurfaceRLE
 * \sa SDL_SurfaceHasColorKey
 */
-SetSurfaceColorKey :: (surface: *Surface, enabled: bool, key: Uint32) -> bool #foreign libsdl3_ttf "SDL_SetSurfaceColorKey";
+SDL_SetSurfaceColorKey :: (surface: *SDL_Surface, enabled: bool, key: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Returns whether the surface has a color key.
@@ -13641,7 +13641,7 @@ SetSurfaceColorKey :: (surface: *Surface, enabled: bool, key: Uint32) -> bool #f
 * \sa SDL_SetSurfaceColorKey
 * \sa SDL_GetSurfaceColorKey
 */
-SurfaceHasColorKey :: (surface: *Surface) -> bool #foreign libsdl3_ttf "SDL_SurfaceHasColorKey";
+SDL_SurfaceHasColorKey :: (surface: *SDL_Surface) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the color key (transparent pixel) for a surface.
@@ -13663,7 +13663,7 @@ SurfaceHasColorKey :: (surface: *Surface) -> bool #foreign libsdl3_ttf "SDL_Surf
 * \sa SDL_SetSurfaceColorKey
 * \sa SDL_SurfaceHasColorKey
 */
-GetSurfaceColorKey :: (surface: *Surface, key: *Uint32) -> bool #foreign libsdl3_ttf "SDL_GetSurfaceColorKey";
+SDL_GetSurfaceColorKey :: (surface: *SDL_Surface, key: *Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set an additional color value multiplied into blit operations.
@@ -13688,7 +13688,7 @@ GetSurfaceColorKey :: (surface: *Surface, key: *Uint32) -> bool #foreign libsdl3
 * \sa SDL_GetSurfaceColorMod
 * \sa SDL_SetSurfaceAlphaMod
 */
-SetSurfaceColorMod :: (surface: *Surface, r: Uint8, g: Uint8, b: Uint8) -> bool #foreign libsdl3_ttf "SDL_SetSurfaceColorMod";
+SDL_SetSurfaceColorMod :: (surface: *SDL_Surface, r: Uint8, g: Uint8, b: Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the additional color value multiplied into blit operations.
@@ -13707,7 +13707,7 @@ SetSurfaceColorMod :: (surface: *Surface, r: Uint8, g: Uint8, b: Uint8) -> bool 
 * \sa SDL_GetSurfaceAlphaMod
 * \sa SDL_SetSurfaceColorMod
 */
-GetSurfaceColorMod :: (surface: *Surface, r: *Uint8, g: *Uint8, b: *Uint8) -> bool #foreign libsdl3_ttf "SDL_GetSurfaceColorMod";
+SDL_GetSurfaceColorMod :: (surface: *SDL_Surface, r: *Uint8, g: *Uint8, b: *Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set an additional alpha value used in blit operations.
@@ -13729,7 +13729,7 @@ GetSurfaceColorMod :: (surface: *Surface, r: *Uint8, g: *Uint8, b: *Uint8) -> bo
 * \sa SDL_GetSurfaceAlphaMod
 * \sa SDL_SetSurfaceColorMod
 */
-SetSurfaceAlphaMod :: (surface: *Surface, alpha: Uint8) -> bool #foreign libsdl3_ttf "SDL_SetSurfaceAlphaMod";
+SDL_SetSurfaceAlphaMod :: (surface: *SDL_Surface, alpha: Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the additional alpha value used in blit operations.
@@ -13746,7 +13746,7 @@ SetSurfaceAlphaMod :: (surface: *Surface, alpha: Uint8) -> bool #foreign libsdl3
 * \sa SDL_GetSurfaceColorMod
 * \sa SDL_SetSurfaceAlphaMod
 */
-GetSurfaceAlphaMod :: (surface: *Surface, alpha: *Uint8) -> bool #foreign libsdl3_ttf "SDL_GetSurfaceAlphaMod";
+SDL_GetSurfaceAlphaMod :: (surface: *SDL_Surface, alpha: *Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the blend mode used for blit operations.
@@ -13766,7 +13766,7 @@ GetSurfaceAlphaMod :: (surface: *Surface, alpha: *Uint8) -> bool #foreign libsdl
 *
 * \sa SDL_GetSurfaceBlendMode
 */
-SetSurfaceBlendMode :: (surface: *Surface, blendMode: BlendMode) -> bool #foreign libsdl3_ttf "SDL_SetSurfaceBlendMode";
+SDL_SetSurfaceBlendMode :: (surface: *SDL_Surface, blendMode: SDL_BlendMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the blend mode used for blit operations.
@@ -13782,7 +13782,7 @@ SetSurfaceBlendMode :: (surface: *Surface, blendMode: BlendMode) -> bool #foreig
 *
 * \sa SDL_SetSurfaceBlendMode
 */
-GetSurfaceBlendMode :: (surface: *Surface, blendMode: *BlendMode) -> bool #foreign libsdl3_ttf "SDL_GetSurfaceBlendMode";
+SDL_GetSurfaceBlendMode :: (surface: *SDL_Surface, blendMode: *SDL_BlendMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the clipping rectangle for a surface.
@@ -13805,7 +13805,7 @@ GetSurfaceBlendMode :: (surface: *Surface, blendMode: *BlendMode) -> bool #forei
 *
 * \sa SDL_GetSurfaceClipRect
 */
-SetSurfaceClipRect :: (surface: *Surface, rect: *Rect) -> bool #foreign libsdl3_ttf "SDL_SetSurfaceClipRect";
+SDL_SetSurfaceClipRect :: (surface: *SDL_Surface, rect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the clipping rectangle for a surface.
@@ -13826,7 +13826,7 @@ SetSurfaceClipRect :: (surface: *Surface, rect: *Rect) -> bool #foreign libsdl3_
 *
 * \sa SDL_SetSurfaceClipRect
 */
-GetSurfaceClipRect :: (surface: *Surface, rect: *Rect) -> bool #foreign libsdl3_ttf "SDL_GetSurfaceClipRect";
+SDL_GetSurfaceClipRect :: (surface: *SDL_Surface, rect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Flip a surface vertically or horizontally.
@@ -13840,7 +13840,7 @@ GetSurfaceClipRect :: (surface: *Surface, rect: *Rect) -> bool #foreign libsdl3_
 *
 * \since This function is available since SDL 3.2.0.
 */
-FlipSurface :: (surface: *Surface, flip: FlipMode) -> bool #foreign libsdl3_ttf "SDL_FlipSurface";
+SDL_FlipSurface :: (surface: *SDL_Surface, flip: SDL_FlipMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Creates a new surface identical to the existing surface.
@@ -13860,7 +13860,7 @@ FlipSurface :: (surface: *Surface, flip: FlipMode) -> bool #foreign libsdl3_ttf 
 *
 * \sa SDL_DestroySurface
 */
-DuplicateSurface :: (surface: *Surface) -> *Surface #foreign libsdl3_ttf "SDL_DuplicateSurface";
+SDL_DuplicateSurface :: (surface: *SDL_Surface) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Creates a new surface identical to the existing surface, scaled to the
@@ -13881,7 +13881,7 @@ DuplicateSurface :: (surface: *Surface) -> *Surface #foreign libsdl3_ttf "SDL_Du
 *
 * \sa SDL_DestroySurface
 */
-ScaleSurface :: (surface: *Surface, width: s32, height: s32, scaleMode: ScaleMode) -> *Surface #foreign libsdl3_ttf "SDL_ScaleSurface";
+SDL_ScaleSurface :: (surface: *SDL_Surface, width: s32, height: s32, scaleMode: SDL_ScaleMode) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Copy an existing surface to a new surface of the specified format.
@@ -13909,7 +13909,7 @@ ScaleSurface :: (surface: *Surface, width: s32, height: s32, scaleMode: ScaleMod
 * \sa SDL_ConvertSurfaceAndColorspace
 * \sa SDL_DestroySurface
 */
-ConvertSurface :: (surface: *Surface, format: PixelFormat) -> *Surface #foreign libsdl3_ttf "SDL_ConvertSurface";
+SDL_ConvertSurface :: (surface: *SDL_Surface, format: SDL_PixelFormat) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Copy an existing surface to a new surface of the specified format and
@@ -13937,7 +13937,7 @@ ConvertSurface :: (surface: *Surface, format: PixelFormat) -> *Surface #foreign 
 * \sa SDL_ConvertSurface
 * \sa SDL_DestroySurface
 */
-ConvertSurfaceAndColorspace :: (surface: *Surface, format: PixelFormat, palette: *Palette, colorspace: Colorspace, props: PropertiesID) -> *Surface #foreign libsdl3_ttf "SDL_ConvertSurfaceAndColorspace";
+SDL_ConvertSurfaceAndColorspace :: (surface: *SDL_Surface, format: SDL_PixelFormat, palette: *SDL_Palette, colorspace: SDL_Colorspace, props: SDL_PropertiesID) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Copy a block of pixels of one format to another format.
@@ -13961,7 +13961,7 @@ ConvertSurfaceAndColorspace :: (surface: *Surface, format: PixelFormat, palette:
 *
 * \sa SDL_ConvertPixelsAndColorspace
 */
-ConvertPixels :: (width: s32, height: s32, src_format: PixelFormat, src: *void, src_pitch: s32, dst_format: PixelFormat, dst: *void, dst_pitch: s32) -> bool #foreign libsdl3_ttf "SDL_ConvertPixels";
+SDL_ConvertPixels :: (width: s32, height: s32, src_format: SDL_PixelFormat, src: *void, src_pitch: s32, dst_format: SDL_PixelFormat, dst: *void, dst_pitch: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Copy a block of pixels of one format and colorspace to another format and
@@ -13994,7 +13994,7 @@ ConvertPixels :: (width: s32, height: s32, src_format: PixelFormat, src: *void, 
 *
 * \sa SDL_ConvertPixels
 */
-ConvertPixelsAndColorspace :: (width: s32, height: s32, src_format: PixelFormat, src_colorspace: Colorspace, src_properties: PropertiesID, src: *void, src_pitch: s32, dst_format: PixelFormat, dst_colorspace: Colorspace, dst_properties: PropertiesID, dst: *void, dst_pitch: s32) -> bool #foreign libsdl3_ttf "SDL_ConvertPixelsAndColorspace";
+SDL_ConvertPixelsAndColorspace :: (width: s32, height: s32, src_format: SDL_PixelFormat, src_colorspace: SDL_Colorspace, src_properties: SDL_PropertiesID, src: *void, src_pitch: s32, dst_format: SDL_PixelFormat, dst_colorspace: SDL_Colorspace, dst_properties: SDL_PropertiesID, dst: *void, dst_pitch: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Premultiply the alpha on a block of pixels.
@@ -14020,7 +14020,7 @@ ConvertPixelsAndColorspace :: (width: s32, height: s32, src_format: PixelFormat,
 *
 * \since This function is available since SDL 3.2.0.
 */
-PremultiplyAlpha :: (width: s32, height: s32, src_format: PixelFormat, src: *void, src_pitch: s32, dst_format: PixelFormat, dst: *void, dst_pitch: s32, linear: bool) -> bool #foreign libsdl3_ttf "SDL_PremultiplyAlpha";
+SDL_PremultiplyAlpha :: (width: s32, height: s32, src_format: SDL_PixelFormat, src: *void, src_pitch: s32, dst_format: SDL_PixelFormat, dst: *void, dst_pitch: s32, linear: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Premultiply the alpha in a surface.
@@ -14037,7 +14037,7 @@ PremultiplyAlpha :: (width: s32, height: s32, src_format: PixelFormat, src: *voi
 *
 * \since This function is available since SDL 3.2.0.
 */
-PremultiplySurfaceAlpha :: (surface: *Surface, linear: bool) -> bool #foreign libsdl3_ttf "SDL_PremultiplySurfaceAlpha";
+SDL_PremultiplySurfaceAlpha :: (surface: *SDL_Surface, linear: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Clear a surface with a specific color, with floating point precision.
@@ -14059,7 +14059,7 @@ PremultiplySurfaceAlpha :: (surface: *Surface, linear: bool) -> bool #foreign li
 *
 * \since This function is available since SDL 3.2.0.
 */
-ClearSurface :: (surface: *Surface, r: float, g: float, b: float, a: float) -> bool #foreign libsdl3_ttf "SDL_ClearSurface";
+SDL_ClearSurface :: (surface: *SDL_Surface, r: float, g: float, b: float, a: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Perform a fast fill of a rectangle with a specific color.
@@ -14086,7 +14086,7 @@ ClearSurface :: (surface: *Surface, r: float, g: float, b: float, a: float) -> b
 *
 * \sa SDL_FillSurfaceRects
 */
-FillSurfaceRect :: (dst: *Surface, rect: *Rect, color: Uint32) -> bool #foreign libsdl3_ttf "SDL_FillSurfaceRect";
+SDL_FillSurfaceRect :: (dst: *SDL_Surface, rect: *SDL_Rect, color: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Perform a fast fill of a set of rectangles with a specific color.
@@ -14113,7 +14113,7 @@ FillSurfaceRect :: (dst: *Surface, rect: *Rect, color: Uint32) -> bool #foreign 
 *
 * \sa SDL_FillSurfaceRect
 */
-FillSurfaceRects :: (dst: *Surface, rects: *Rect, count: s32, color: Uint32) -> bool #foreign libsdl3_ttf "SDL_FillSurfaceRects";
+SDL_FillSurfaceRects :: (dst: *SDL_Surface, rects: *SDL_Rect, count: s32, color: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Performs a fast blit from the source surface to the destination surface
@@ -14186,7 +14186,7 @@ FillSurfaceRects :: (dst: *Surface, rects: *Rect, count: s32, color: Uint32) -> 
 *
 * \sa SDL_BlitSurfaceScaled
 */
-BlitSurface :: (src: *Surface, srcrect: *Rect, dst: *Surface, dstrect: *Rect) -> bool #foreign libsdl3_ttf "SDL_BlitSurface";
+SDL_BlitSurface :: (src: *SDL_Surface, srcrect: *SDL_Rect, dst: *SDL_Surface, dstrect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Perform low-level surface blitting only.
@@ -14210,7 +14210,7 @@ BlitSurface :: (src: *Surface, srcrect: *Rect, dst: *Surface, dstrect: *Rect) ->
 *
 * \sa SDL_BlitSurface
 */
-BlitSurfaceUnchecked :: (src: *Surface, srcrect: *Rect, dst: *Surface, dstrect: *Rect) -> bool #foreign libsdl3_ttf "SDL_BlitSurfaceUnchecked";
+SDL_BlitSurfaceUnchecked :: (src: *SDL_Surface, srcrect: *SDL_Rect, dst: *SDL_Surface, dstrect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Perform a scaled blit to a destination surface, which may be of a different
@@ -14234,7 +14234,7 @@ BlitSurfaceUnchecked :: (src: *Surface, srcrect: *Rect, dst: *Surface, dstrect: 
 *
 * \sa SDL_BlitSurface
 */
-BlitSurfaceScaled :: (src: *Surface, srcrect: *Rect, dst: *Surface, dstrect: *Rect, scaleMode: ScaleMode) -> bool #foreign libsdl3_ttf "SDL_BlitSurfaceScaled";
+SDL_BlitSurfaceScaled :: (src: *SDL_Surface, srcrect: *SDL_Rect, dst: *SDL_Surface, dstrect: *SDL_Rect, scaleMode: SDL_ScaleMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Perform low-level surface scaled blitting only.
@@ -14259,7 +14259,7 @@ BlitSurfaceScaled :: (src: *Surface, srcrect: *Rect, dst: *Surface, dstrect: *Re
 *
 * \sa SDL_BlitSurfaceScaled
 */
-BlitSurfaceUncheckedScaled :: (src: *Surface, srcrect: *Rect, dst: *Surface, dstrect: *Rect, scaleMode: ScaleMode) -> bool #foreign libsdl3_ttf "SDL_BlitSurfaceUncheckedScaled";
+SDL_BlitSurfaceUncheckedScaled :: (src: *SDL_Surface, srcrect: *SDL_Rect, dst: *SDL_Surface, dstrect: *SDL_Rect, scaleMode: SDL_ScaleMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Perform a stretched pixel copy from one surface to another.
@@ -14282,7 +14282,7 @@ BlitSurfaceUncheckedScaled :: (src: *Surface, srcrect: *Rect, dst: *Surface, dst
 *
 * \sa SDL_BlitSurfaceScaled
 */
-StretchSurface :: (src: *Surface, srcrect: *Rect, dst: *Surface, dstrect: *Rect, scaleMode: ScaleMode) -> bool #foreign libsdl3_ttf "SDL_StretchSurface";
+SDL_StretchSurface :: (src: *SDL_Surface, srcrect: *SDL_Rect, dst: *SDL_Surface, dstrect: *SDL_Rect, scaleMode: SDL_ScaleMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Perform a tiled blit to a destination surface, which may be of a different
@@ -14307,7 +14307,7 @@ StretchSurface :: (src: *Surface, srcrect: *Rect, dst: *Surface, dstrect: *Rect,
 *
 * \sa SDL_BlitSurface
 */
-BlitSurfaceTiled :: (src: *Surface, srcrect: *Rect, dst: *Surface, dstrect: *Rect) -> bool #foreign libsdl3_ttf "SDL_BlitSurfaceTiled";
+SDL_BlitSurfaceTiled :: (src: *SDL_Surface, srcrect: *SDL_Rect, dst: *SDL_Surface, dstrect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Perform a scaled and tiled blit to a destination surface, which may be of a
@@ -14336,7 +14336,7 @@ BlitSurfaceTiled :: (src: *Surface, srcrect: *Rect, dst: *Surface, dstrect: *Rec
 *
 * \sa SDL_BlitSurface
 */
-BlitSurfaceTiledWithScale :: (src: *Surface, srcrect: *Rect, scale: float, scaleMode: ScaleMode, dst: *Surface, dstrect: *Rect) -> bool #foreign libsdl3_ttf "SDL_BlitSurfaceTiledWithScale";
+SDL_BlitSurfaceTiledWithScale :: (src: *SDL_Surface, srcrect: *SDL_Rect, scale: float, scaleMode: SDL_ScaleMode, dst: *SDL_Surface, dstrect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Perform a scaled blit using the 9-grid algorithm to a destination surface,
@@ -14372,7 +14372,7 @@ BlitSurfaceTiledWithScale :: (src: *Surface, srcrect: *Rect, scale: float, scale
 *
 * \sa SDL_BlitSurface
 */
-BlitSurface9Grid :: (src: *Surface, srcrect: *Rect, left_width: s32, right_width: s32, top_height: s32, bottom_height: s32, scale: float, scaleMode: ScaleMode, dst: *Surface, dstrect: *Rect) -> bool #foreign libsdl3_ttf "SDL_BlitSurface9Grid";
+SDL_BlitSurface9Grid :: (src: *SDL_Surface, srcrect: *SDL_Rect, left_width: s32, right_width: s32, top_height: s32, bottom_height: s32, scale: float, scaleMode: SDL_ScaleMode, dst: *SDL_Surface, dstrect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Map an RGB triple to an opaque pixel value for a surface.
@@ -14404,7 +14404,7 @@ BlitSurface9Grid :: (src: *Surface, srcrect: *Rect, left_width: s32, right_width
 *
 * \sa SDL_MapSurfaceRGBA
 */
-MapSurfaceRGB :: (surface: *Surface, r: Uint8, g: Uint8, b: Uint8) -> Uint32 #foreign libsdl3_ttf "SDL_MapSurfaceRGB";
+SDL_MapSurfaceRGB :: (surface: *SDL_Surface, r: Uint8, g: Uint8, b: Uint8) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Map an RGBA quadruple to a pixel value for a surface.
@@ -14437,7 +14437,7 @@ MapSurfaceRGB :: (surface: *Surface, r: Uint8, g: Uint8, b: Uint8) -> Uint32 #fo
 *
 * \sa SDL_MapSurfaceRGB
 */
-MapSurfaceRGBA :: (surface: *Surface, r: Uint8, g: Uint8, b: Uint8, a: Uint8) -> Uint32 #foreign libsdl3_ttf "SDL_MapSurfaceRGBA";
+SDL_MapSurfaceRGBA :: (surface: *SDL_Surface, r: Uint8, g: Uint8, b: Uint8, a: Uint8) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Retrieves a single pixel from a surface.
@@ -14466,7 +14466,7 @@ MapSurfaceRGBA :: (surface: *Surface, r: Uint8, g: Uint8, b: Uint8, a: Uint8) ->
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadSurfacePixel :: (surface: *Surface, x: s32, y: s32, r: *Uint8, g: *Uint8, b: *Uint8, a: *Uint8) -> bool #foreign libsdl3_ttf "SDL_ReadSurfacePixel";
+SDL_ReadSurfacePixel :: (surface: *SDL_Surface, x: s32, y: s32, r: *Uint8, g: *Uint8, b: *Uint8, a: *Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Retrieves a single pixel from a surface.
@@ -14492,7 +14492,7 @@ ReadSurfacePixel :: (surface: *Surface, x: s32, y: s32, r: *Uint8, g: *Uint8, b:
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReadSurfacePixelFloat :: (surface: *Surface, x: s32, y: s32, r: *float, g: *float, b: *float, a: *float) -> bool #foreign libsdl3_ttf "SDL_ReadSurfacePixelFloat";
+SDL_ReadSurfacePixelFloat :: (surface: *SDL_Surface, x: s32, y: s32, r: *float, g: *float, b: *float, a: *float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Writes a single pixel to a surface.
@@ -14517,7 +14517,7 @@ ReadSurfacePixelFloat :: (surface: *Surface, x: s32, y: s32, r: *float, g: *floa
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteSurfacePixel :: (surface: *Surface, x: s32, y: s32, r: Uint8, g: Uint8, b: Uint8, a: Uint8) -> bool #foreign libsdl3_ttf "SDL_WriteSurfacePixel";
+SDL_WriteSurfacePixel :: (surface: *SDL_Surface, x: s32, y: s32, r: Uint8, g: Uint8, b: Uint8, a: Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Writes a single pixel to a surface.
@@ -14539,7 +14539,7 @@ WriteSurfacePixel :: (surface: *Surface, x: s32, y: s32, r: Uint8, g: Uint8, b: 
 *
 * \since This function is available since SDL 3.2.0.
 */
-WriteSurfacePixelFloat :: (surface: *Surface, x: s32, y: s32, r: float, g: float, b: float, a: float) -> bool #foreign libsdl3_ttf "SDL_WriteSurfacePixelFloat";
+SDL_WriteSurfacePixelFloat :: (surface: *SDL_Surface, x: s32, y: s32, r: float, g: float, b: float, a: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * This is a unique ID for a camera device for the time it is connected to the
@@ -14553,9 +14553,9 @@ WriteSurfacePixelFloat :: (surface: *Surface, x: s32, y: s32, r: float, g: float
 *
 * \sa SDL_GetCameras
 */
-CameraID :: Uint32;
+SDL_CameraID :: Uint32;
 
-Camera :: struct {}
+SDL_Camera :: struct {}
 
 /**
 * The details of an output format for a camera device.
@@ -14568,13 +14568,13 @@ Camera :: struct {}
 * \sa SDL_GetCameraSupportedFormats
 * \sa SDL_GetCameraFormat
 */
-CameraSpec :: struct {
-    format:                PixelFormat; /**< Frame format */
-    colorspace:            Colorspace; /**< Frame colorspace */
+SDL_CameraSpec :: struct {
+    format:                SDL_PixelFormat; /**< Frame format */
+    colorspace:            SDL_Colorspace; /**< Frame colorspace */
     width:                 s32; /**< Frame width */
     height:                s32; /**< Frame height */
     framerate_numerator:   s32; /**< Frame rate numerator ((num / denom) == FPS, (denom / num) == duration in seconds) */
-    framerate_denominator: s32; /**< Frame rate demoninator ((num / denom) == FPS, (denom / num) == duration in seconds) */
+    framerate_denominator: s32; /**< Frame rate denominator ((num / denom) == FPS, (denom / num) == duration in seconds) */
 }
 
 /**
@@ -14584,7 +14584,7 @@ CameraSpec :: struct {
 *
 * \sa SDL_GetCameraPosition
 */
-CameraPosition :: enum u32 {
+SDL_CameraPosition :: enum u32 {
     UNKNOWN      :: 0;
     FRONT_FACING :: 1;
     BACK_FACING  :: 2;
@@ -14615,7 +14615,7 @@ CameraPosition :: enum u32 {
 *
 * \sa SDL_GetCameraDriver
 */
-GetNumCameraDrivers :: () -> s32 #foreign libsdl3_ttf "SDL_GetNumCameraDrivers";
+SDL_GetNumCameraDrivers :: () -> s32 #foreign libsdl3_ttf;
 
 /**
 * Use this function to get the name of a built in camera driver.
@@ -14639,7 +14639,7 @@ GetNumCameraDrivers :: () -> s32 #foreign libsdl3_ttf "SDL_GetNumCameraDrivers";
 *
 * \sa SDL_GetNumCameraDrivers
 */
-GetCameraDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf "SDL_GetCameraDriver";
+SDL_GetCameraDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the name of the current camera driver.
@@ -14655,7 +14655,7 @@ GetCameraDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf "SDL_GetCameraDriver
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetCurrentCameraDriver :: () -> *u8 #foreign libsdl3_ttf "SDL_GetCurrentCameraDriver";
+SDL_GetCurrentCameraDriver :: () -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get a list of currently connected camera devices.
@@ -14672,7 +14672,7 @@ GetCurrentCameraDriver :: () -> *u8 #foreign libsdl3_ttf "SDL_GetCurrentCameraDr
 *
 * \sa SDL_OpenCamera
 */
-GetCameras :: (count: *s32) -> *CameraID #foreign libsdl3_ttf "SDL_GetCameras";
+SDL_GetCameras :: (count: *s32) -> *SDL_CameraID #foreign libsdl3_ttf;
 
 /**
 * Get the list of native formats/sizes a camera supports.
@@ -14711,7 +14711,7 @@ GetCameras :: (count: *s32) -> *CameraID #foreign libsdl3_ttf "SDL_GetCameras";
 * \sa SDL_GetCameras
 * \sa SDL_OpenCamera
 */
-GetCameraSupportedFormats :: (instance_id: CameraID, count: *s32) -> **CameraSpec #foreign libsdl3_ttf "SDL_GetCameraSupportedFormats";
+SDL_GetCameraSupportedFormats :: (instance_id: SDL_CameraID, count: *s32) -> **SDL_CameraSpec #foreign libsdl3_ttf;
 
 /**
 * Get the human-readable device name for a camera.
@@ -14726,7 +14726,7 @@ GetCameraSupportedFormats :: (instance_id: CameraID, count: *s32) -> **CameraSpe
 *
 * \sa SDL_GetCameras
 */
-GetCameraName :: (instance_id: CameraID) -> *u8 #foreign libsdl3_ttf "SDL_GetCameraName";
+SDL_GetCameraName :: (instance_id: SDL_CameraID) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the position of the camera in relation to the system.
@@ -14745,7 +14745,7 @@ GetCameraName :: (instance_id: CameraID) -> *u8 #foreign libsdl3_ttf "SDL_GetCam
 *
 * \sa SDL_GetCameras
 */
-GetCameraPosition :: (instance_id: CameraID) -> CameraPosition #foreign libsdl3_ttf "SDL_GetCameraPosition";
+SDL_GetCameraPosition :: (instance_id: SDL_CameraID) -> SDL_CameraPosition #foreign libsdl3_ttf;
 
 /**
 * Open a video recording device (a "camera").
@@ -14792,7 +14792,7 @@ GetCameraPosition :: (instance_id: CameraID) -> CameraPosition #foreign libsdl3_
 * \sa SDL_GetCameras
 * \sa SDL_GetCameraFormat
 */
-OpenCamera :: (instance_id: CameraID, spec: *CameraSpec) -> *Camera #foreign libsdl3_ttf "SDL_OpenCamera";
+SDL_OpenCamera :: (instance_id: SDL_CameraID, spec: *SDL_CameraSpec) -> *SDL_Camera #foreign libsdl3_ttf;
 
 /**
 * Query if camera access has been approved by the user.
@@ -14825,7 +14825,7 @@ OpenCamera :: (instance_id: CameraID, spec: *CameraSpec) -> *Camera #foreign lib
 * \sa SDL_OpenCamera
 * \sa SDL_CloseCamera
 */
-GetCameraPermissionState :: (camera: *Camera) -> s32 #foreign libsdl3_ttf "SDL_GetCameraPermissionState";
+SDL_GetCameraPermissionState :: (camera: *SDL_Camera) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the instance ID of an opened camera.
@@ -14840,7 +14840,7 @@ GetCameraPermissionState :: (camera: *Camera) -> s32 #foreign libsdl3_ttf "SDL_G
 *
 * \sa SDL_OpenCamera
 */
-GetCameraID :: (camera: *Camera) -> CameraID #foreign libsdl3_ttf "SDL_GetCameraID";
+SDL_GetCameraID :: (camera: *SDL_Camera) -> SDL_CameraID #foreign libsdl3_ttf;
 
 /**
 * Get the properties associated with an opened camera.
@@ -14853,7 +14853,7 @@ GetCameraID :: (camera: *Camera) -> CameraID #foreign libsdl3_ttf "SDL_GetCamera
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetCameraProperties :: (camera: *Camera) -> PropertiesID #foreign libsdl3_ttf "SDL_GetCameraProperties";
+SDL_GetCameraProperties :: (camera: *SDL_Camera) -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Get the spec that a camera is using when generating images.
@@ -14879,7 +14879,7 @@ GetCameraProperties :: (camera: *Camera) -> PropertiesID #foreign libsdl3_ttf "S
 *
 * \sa SDL_OpenCamera
 */
-GetCameraFormat :: (camera: *Camera, spec: *CameraSpec) -> bool #foreign libsdl3_ttf "SDL_GetCameraFormat";
+SDL_GetCameraFormat :: (camera: *SDL_Camera, spec: *SDL_CameraSpec) -> bool #foreign libsdl3_ttf;
 
 /**
 * Acquire a frame.
@@ -14922,7 +14922,7 @@ GetCameraFormat :: (camera: *Camera, spec: *CameraSpec) -> bool #foreign libsdl3
 *
 * \sa SDL_ReleaseCameraFrame
 */
-AcquireCameraFrame :: (camera: *Camera, timestampNS: *Uint64) -> *Surface #foreign libsdl3_ttf "SDL_AcquireCameraFrame";
+SDL_AcquireCameraFrame :: (camera: *SDL_Camera, timestampNS: *Uint64) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Release a frame of video acquired from a camera.
@@ -14950,7 +14950,7 @@ AcquireCameraFrame :: (camera: *Camera, timestampNS: *Uint64) -> *Surface #forei
 *
 * \sa SDL_AcquireCameraFrame
 */
-ReleaseCameraFrame :: (camera: *Camera, frame: *Surface) -> void #foreign libsdl3_ttf "SDL_ReleaseCameraFrame";
+SDL_ReleaseCameraFrame :: (camera: *SDL_Camera, frame: *SDL_Surface) -> void #foreign libsdl3_ttf;
 
 /**
 * Use this function to shut down camera processing and close the camera
@@ -14965,7 +14965,7 @@ ReleaseCameraFrame :: (camera: *Camera, frame: *Surface) -> void #foreign libsdl
 *
 * \sa SDL_OpenCamera
 */
-CloseCamera :: (camera: *Camera) -> void #foreign libsdl3_ttf "SDL_CloseCamera";
+SDL_CloseCamera :: (camera: *SDL_Camera) -> void #foreign libsdl3_ttf;
 
 /**
 * Put UTF-8 text into the clipboard.
@@ -14981,7 +14981,7 @@ CloseCamera :: (camera: *Camera) -> void #foreign libsdl3_ttf "SDL_CloseCamera";
 * \sa SDL_GetClipboardText
 * \sa SDL_HasClipboardText
 */
-SetClipboardText :: (text: *u8) -> bool #foreign libsdl3_ttf "SDL_SetClipboardText";
+SDL_SetClipboardText :: (text: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get UTF-8 text from the clipboard.
@@ -15000,7 +15000,7 @@ SetClipboardText :: (text: *u8) -> bool #foreign libsdl3_ttf "SDL_SetClipboardTe
 * \sa SDL_HasClipboardText
 * \sa SDL_SetClipboardText
 */
-GetClipboardText :: () -> *u8 #foreign libsdl3_ttf "SDL_GetClipboardText";
+SDL_GetClipboardText :: () -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Query whether the clipboard exists and contains a non-empty text string.
@@ -15014,7 +15014,7 @@ GetClipboardText :: () -> *u8 #foreign libsdl3_ttf "SDL_GetClipboardText";
 * \sa SDL_GetClipboardText
 * \sa SDL_SetClipboardText
 */
-HasClipboardText :: () -> bool #foreign libsdl3_ttf "SDL_HasClipboardText";
+SDL_HasClipboardText :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Put UTF-8 text into the primary selection.
@@ -15030,7 +15030,7 @@ HasClipboardText :: () -> bool #foreign libsdl3_ttf "SDL_HasClipboardText";
 * \sa SDL_GetPrimarySelectionText
 * \sa SDL_HasPrimarySelectionText
 */
-SetPrimarySelectionText :: (text: *u8) -> bool #foreign libsdl3_ttf "SDL_SetPrimarySelectionText";
+SDL_SetPrimarySelectionText :: (text: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get UTF-8 text from the primary selection.
@@ -15049,7 +15049,7 @@ SetPrimarySelectionText :: (text: *u8) -> bool #foreign libsdl3_ttf "SDL_SetPrim
 * \sa SDL_HasPrimarySelectionText
 * \sa SDL_SetPrimarySelectionText
 */
-GetPrimarySelectionText :: () -> *u8 #foreign libsdl3_ttf "SDL_GetPrimarySelectionText";
+SDL_GetPrimarySelectionText :: () -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Query whether the primary selection exists and contains a non-empty text
@@ -15064,7 +15064,7 @@ GetPrimarySelectionText :: () -> *u8 #foreign libsdl3_ttf "SDL_GetPrimarySelecti
 * \sa SDL_GetPrimarySelectionText
 * \sa SDL_SetPrimarySelectionText
 */
-HasPrimarySelectionText :: () -> bool #foreign libsdl3_ttf "SDL_HasPrimarySelectionText";
+SDL_HasPrimarySelectionText :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Callback function that will be called when data for the specified mime-type
@@ -15088,7 +15088,7 @@ HasPrimarySelectionText :: () -> bool #foreign libsdl3_ttf "SDL_HasPrimarySelect
 *
 * \sa SDL_SetClipboardData
 */
-ClipboardDataCallback :: #type (userdata: *void, mime_type: *u8, size: *u64) -> *void #c_call;
+SDL_ClipboardDataCallback :: #type (userdata: *void, mime_type: *u8, size: *u64) -> *void #c_call;
 
 /**
 * Callback function that will be called when the clipboard is cleared, or when new
@@ -15100,7 +15100,7 @@ ClipboardDataCallback :: #type (userdata: *void, mime_type: *u8, size: *u64) -> 
 *
 * \sa SDL_SetClipboardData
 */
-ClipboardCleanupCallback :: #type (userdata: *void) -> void #c_call;
+SDL_ClipboardCleanupCallback :: #type (userdata: *void) -> void #c_call;
 
 /**
 * Offer clipboard data to the OS.
@@ -15132,7 +15132,7 @@ ClipboardCleanupCallback :: #type (userdata: *void) -> void #c_call;
 * \sa SDL_GetClipboardData
 * \sa SDL_HasClipboardData
 */
-SetClipboardData :: (callback: ClipboardDataCallback, cleanup: ClipboardCleanupCallback, userdata: *void, mime_types: **u8, num_mime_types: u64) -> bool #foreign libsdl3_ttf "SDL_SetClipboardData";
+SDL_SetClipboardData :: (callback: SDL_ClipboardDataCallback, cleanup: SDL_ClipboardCleanupCallback, userdata: *void, mime_types: **u8, num_mime_types: u64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Clear the clipboard data.
@@ -15146,7 +15146,7 @@ SetClipboardData :: (callback: ClipboardDataCallback, cleanup: ClipboardCleanupC
 *
 * \sa SDL_SetClipboardData
 */
-ClearClipboardData :: () -> bool #foreign libsdl3_ttf "SDL_ClearClipboardData";
+SDL_ClearClipboardData :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the data from the clipboard for a given mime type.
@@ -15167,7 +15167,7 @@ ClearClipboardData :: () -> bool #foreign libsdl3_ttf "SDL_ClearClipboardData";
 * \sa SDL_HasClipboardData
 * \sa SDL_SetClipboardData
 */
-GetClipboardData :: (mime_type: *u8, size: *u64) -> *void #foreign libsdl3_ttf "SDL_GetClipboardData";
+SDL_GetClipboardData :: (mime_type: *u8, size: *u64) -> *void #foreign libsdl3_ttf;
 
 /**
 * Query whether there is data in the clipboard for the provided mime type.
@@ -15183,7 +15183,7 @@ GetClipboardData :: (mime_type: *u8, size: *u64) -> *void #foreign libsdl3_ttf "
 * \sa SDL_SetClipboardData
 * \sa SDL_GetClipboardData
 */
-HasClipboardData :: (mime_type: *u8) -> bool #foreign libsdl3_ttf "SDL_HasClipboardData";
+SDL_HasClipboardData :: (mime_type: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Retrieve the list of mime types available in the clipboard.
@@ -15200,7 +15200,7 @@ HasClipboardData :: (mime_type: *u8) -> bool #foreign libsdl3_ttf "SDL_HasClipbo
 *
 * \sa SDL_SetClipboardData
 */
-GetClipboardMimeTypes :: (num_mime_types: *u64) -> **u8 #foreign libsdl3_ttf "SDL_GetClipboardMimeTypes";
+SDL_GetClipboardMimeTypes :: (num_mime_types: *u64) -> **u8 #foreign libsdl3_ttf;
 
 /**
 * Get the number of logical CPU cores available.
@@ -15213,7 +15213,7 @@ GetClipboardMimeTypes :: (num_mime_types: *u64) -> **u8 #foreign libsdl3_ttf "SD
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetNumLogicalCPUCores :: () -> s32 #foreign libsdl3_ttf "SDL_GetNumLogicalCPUCores";
+SDL_GetNumLogicalCPUCores :: () -> s32 #foreign libsdl3_ttf;
 
 /**
 * Determine the L1 cache line size of the CPU.
@@ -15227,7 +15227,7 @@ GetNumLogicalCPUCores :: () -> s32 #foreign libsdl3_ttf "SDL_GetNumLogicalCPUCor
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetCPUCacheLineSize :: () -> s32 #foreign libsdl3_ttf "SDL_GetCPUCacheLineSize";
+SDL_GetCPUCacheLineSize :: () -> s32 #foreign libsdl3_ttf;
 
 /**
 * Determine whether the CPU has AltiVec features.
@@ -15241,7 +15241,7 @@ GetCPUCacheLineSize :: () -> s32 #foreign libsdl3_ttf "SDL_GetCPUCacheLineSize";
 *
 * \since This function is available since SDL 3.2.0.
 */
-HasAltiVec :: () -> bool #foreign libsdl3_ttf "SDL_HasAltiVec";
+SDL_HasAltiVec :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine whether the CPU has MMX features.
@@ -15254,7 +15254,7 @@ HasAltiVec :: () -> bool #foreign libsdl3_ttf "SDL_HasAltiVec";
 *
 * \since This function is available since SDL 3.2.0.
 */
-HasMMX :: () -> bool #foreign libsdl3_ttf "SDL_HasMMX";
+SDL_HasMMX :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine whether the CPU has SSE features.
@@ -15272,7 +15272,7 @@ HasMMX :: () -> bool #foreign libsdl3_ttf "SDL_HasMMX";
 * \sa SDL_HasSSE41
 * \sa SDL_HasSSE42
 */
-HasSSE :: () -> bool #foreign libsdl3_ttf "SDL_HasSSE";
+SDL_HasSSE :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine whether the CPU has SSE2 features.
@@ -15290,7 +15290,7 @@ HasSSE :: () -> bool #foreign libsdl3_ttf "SDL_HasSSE";
 * \sa SDL_HasSSE41
 * \sa SDL_HasSSE42
 */
-HasSSE2 :: () -> bool #foreign libsdl3_ttf "SDL_HasSSE2";
+SDL_HasSSE2 :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine whether the CPU has SSE3 features.
@@ -15308,7 +15308,7 @@ HasSSE2 :: () -> bool #foreign libsdl3_ttf "SDL_HasSSE2";
 * \sa SDL_HasSSE41
 * \sa SDL_HasSSE42
 */
-HasSSE3 :: () -> bool #foreign libsdl3_ttf "SDL_HasSSE3";
+SDL_HasSSE3 :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine whether the CPU has SSE4.1 features.
@@ -15326,7 +15326,7 @@ HasSSE3 :: () -> bool #foreign libsdl3_ttf "SDL_HasSSE3";
 * \sa SDL_HasSSE3
 * \sa SDL_HasSSE42
 */
-HasSSE41 :: () -> bool #foreign libsdl3_ttf "SDL_HasSSE41";
+SDL_HasSSE41 :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine whether the CPU has SSE4.2 features.
@@ -15344,7 +15344,7 @@ HasSSE41 :: () -> bool #foreign libsdl3_ttf "SDL_HasSSE41";
 * \sa SDL_HasSSE3
 * \sa SDL_HasSSE41
 */
-HasSSE42 :: () -> bool #foreign libsdl3_ttf "SDL_HasSSE42";
+SDL_HasSSE42 :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine whether the CPU has AVX features.
@@ -15360,7 +15360,7 @@ HasSSE42 :: () -> bool #foreign libsdl3_ttf "SDL_HasSSE42";
 * \sa SDL_HasAVX2
 * \sa SDL_HasAVX512F
 */
-HasAVX :: () -> bool #foreign libsdl3_ttf "SDL_HasAVX";
+SDL_HasAVX :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine whether the CPU has AVX2 features.
@@ -15376,7 +15376,7 @@ HasAVX :: () -> bool #foreign libsdl3_ttf "SDL_HasAVX";
 * \sa SDL_HasAVX
 * \sa SDL_HasAVX512F
 */
-HasAVX2 :: () -> bool #foreign libsdl3_ttf "SDL_HasAVX2";
+SDL_HasAVX2 :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine whether the CPU has AVX-512F (foundation) features.
@@ -15392,7 +15392,7 @@ HasAVX2 :: () -> bool #foreign libsdl3_ttf "SDL_HasAVX2";
 * \sa SDL_HasAVX
 * \sa SDL_HasAVX2
 */
-HasAVX512F :: () -> bool #foreign libsdl3_ttf "SDL_HasAVX512F";
+SDL_HasAVX512F :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine whether the CPU has ARM SIMD (ARMv6) features.
@@ -15409,7 +15409,7 @@ HasAVX512F :: () -> bool #foreign libsdl3_ttf "SDL_HasAVX512F";
 *
 * \sa SDL_HasNEON
 */
-HasARMSIMD :: () -> bool #foreign libsdl3_ttf "SDL_HasARMSIMD";
+SDL_HasARMSIMD :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine whether the CPU has NEON (ARM SIMD) features.
@@ -15422,7 +15422,7 @@ HasARMSIMD :: () -> bool #foreign libsdl3_ttf "SDL_HasARMSIMD";
 *
 * \since This function is available since SDL 3.2.0.
 */
-HasNEON :: () -> bool #foreign libsdl3_ttf "SDL_HasNEON";
+SDL_HasNEON :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine whether the CPU has LSX (LOONGARCH SIMD) features.
@@ -15436,7 +15436,7 @@ HasNEON :: () -> bool #foreign libsdl3_ttf "SDL_HasNEON";
 *
 * \since This function is available since SDL 3.2.0.
 */
-HasLSX :: () -> bool #foreign libsdl3_ttf "SDL_HasLSX";
+SDL_HasLSX :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Determine whether the CPU has LASX (LOONGARCH SIMD) features.
@@ -15450,7 +15450,7 @@ HasLSX :: () -> bool #foreign libsdl3_ttf "SDL_HasLSX";
 *
 * \since This function is available since SDL 3.2.0.
 */
-HasLASX :: () -> bool #foreign libsdl3_ttf "SDL_HasLASX";
+SDL_HasLASX :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the amount of RAM configured in the system.
@@ -15461,7 +15461,7 @@ HasLASX :: () -> bool #foreign libsdl3_ttf "SDL_HasLASX";
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSystemRAM :: () -> s32 #foreign libsdl3_ttf "SDL_GetSystemRAM";
+SDL_GetSystemRAM :: () -> s32 #foreign libsdl3_ttf;
 
 /**
 * Report the alignment this system needs for SIMD allocations.
@@ -15485,7 +15485,7 @@ GetSystemRAM :: () -> s32 #foreign libsdl3_ttf "SDL_GetSystemRAM";
 * \sa SDL_aligned_alloc
 * \sa SDL_aligned_free
 */
-GetSIMDAlignment :: () -> u64 #foreign libsdl3_ttf "SDL_GetSIMDAlignment";
+SDL_GetSIMDAlignment :: () -> u64 #foreign libsdl3_ttf;
 
 /**
 * This is a unique ID for a display for the time it is connected to the
@@ -15497,7 +15497,7 @@ GetSIMDAlignment :: () -> u64 #foreign libsdl3_ttf "SDL_GetSIMDAlignment";
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-DisplayID :: Uint32;
+SDL_DisplayID :: Uint32;
 
 /**
 * This is a unique ID for a window.
@@ -15506,14 +15506,14 @@ DisplayID :: Uint32;
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-WindowID :: Uint32;
+SDL_WindowID :: Uint32;
 
 /**
 * System theme.
 *
 * \since This enum is available since SDL 3.2.0.
 */
-SystemTheme :: enum u32 {
+SDL_SystemTheme :: enum u32 {
     UNKNOWN :: 0;
     LIGHT   :: 1;
     DARK    :: 2;
@@ -15523,7 +15523,7 @@ SystemTheme :: enum u32 {
     SDL_SYSTEM_THEME_DARK    :: DARK;
 }
 
-DisplayModeData :: struct {}
+SDL_DisplayModeData :: struct {}
 
 /**
 * The structure that defines a display mode.
@@ -15536,9 +15536,9 @@ DisplayModeData :: struct {}
 * \sa SDL_SetWindowFullscreenMode
 * \sa SDL_GetWindowFullscreenMode
 */
-DisplayMode :: struct {
-    displayID:                DisplayID; /**< the display this mode is associated with */
-    format:                   PixelFormat; /**< pixel format */
+SDL_DisplayMode :: struct {
+    displayID:                SDL_DisplayID; /**< the display this mode is associated with */
+    format:                   SDL_PixelFormat; /**< pixel format */
     w:                        s32; /**< width */
     h:                        s32; /**< height */
     pixel_density:            float; /**< scale converting size to pixels (e.g. a 1920x1080 mode with 2.0 scale would have 3840x2160 pixels) */
@@ -15546,7 +15546,7 @@ DisplayMode :: struct {
     refresh_rate_numerator:   s32; /**< precise refresh rate numerator (or 0 for unspecified) */
     refresh_rate_denominator: s32; /**< precise refresh rate denominator */
 
-    internal:                 *DisplayModeData; /**< Private */
+    internal:                 *SDL_DisplayModeData; /**< Private */
 }
 
 /**
@@ -15554,7 +15554,7 @@ DisplayMode :: struct {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-DisplayOrientation :: enum u32 {
+SDL_DisplayOrientation :: enum u32 {
     UNKNOWN           :: 0;
     LANDSCAPE         :: 1;
     LANDSCAPE_FLIPPED :: 2;
@@ -15568,7 +15568,7 @@ DisplayOrientation :: enum u32 {
     SDL_ORIENTATION_PORTRAIT_FLIPPED  :: PORTRAIT_FLIPPED;
 }
 
-Window :: struct {}
+SDL_Window :: struct {}
 
 /**
 * The flags on a window.
@@ -15582,14 +15582,14 @@ Window :: struct {}
 *
 * \sa SDL_GetWindowFlags
 */
-WindowFlags :: Uint64;
+SDL_WindowFlags :: Uint64;
 
 /**
 * Window flash operation.
 *
 * \since This enum is available since SDL 3.2.0.
 */
-FlashOperation :: enum u32 {
+SDL_FlashOperation :: enum u32 {
     CANCEL        :: 0;
     BRIEFLY       :: 1;
     UNTIL_FOCUSED :: 2;
@@ -15599,7 +15599,7 @@ FlashOperation :: enum u32 {
     SDL_FLASH_UNTIL_FOCUSED :: UNTIL_FOCUSED;
 }
 
-GLContextState :: struct {}
+SDL_GLContextState :: struct {}
 /**
 * An opaque handle to an OpenGL context.
 *
@@ -15607,42 +15607,42 @@ GLContextState :: struct {}
 *
 * \sa SDL_GL_CreateContext
 */
-GLContext :: *GLContextState;
+SDL_GLContext :: *SDL_GLContextState;
 
 /**
 * Opaque type for an EGL display.
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-EGLDisplay :: *void;
+SDL_EGLDisplay :: *void;
 
 /**
 * Opaque type for an EGL config.
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-EGLConfig :: *void;
+SDL_EGLConfig :: *void;
 
 /**
 * Opaque type for an EGL surface.
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-EGLSurface :: *void;
+SDL_EGLSurface :: *void;
 
 /**
 * An EGL attribute, used when creating an EGL context.
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-EGLAttrib :: s64;
+SDL_EGLAttrib :: s64;
 
 /**
 * An EGL integer attribute, used when creating an EGL surface.
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-EGLint :: s32;
+SDL_EGLint :: s32;
 
 /**
 * EGL platform attribute initialization callback.
@@ -15667,7 +15667,7 @@ EGLint :: s32;
 *
 * \sa SDL_EGL_SetAttributeCallbacks
 */
-EGLAttribArrayCallback :: #type (userdata: *void) -> *EGLAttrib #c_call;
+SDL_EGLAttribArrayCallback :: #type (userdata: *void) -> *SDL_EGLAttrib #c_call;
 
 /**
 * EGL surface/context attribute initialization callback types.
@@ -15698,7 +15698,7 @@ EGLAttribArrayCallback :: #type (userdata: *void) -> *EGLAttrib #c_call;
 *
 * \sa SDL_EGL_SetAttributeCallbacks
 */
-EGLIntArrayCallback :: #type (userdata: *void, display: EGLDisplay, config: EGLConfig) -> *EGLint #c_call;
+SDL_EGLIntArrayCallback :: #type (userdata: *void, display: SDL_EGLDisplay, config: SDL_EGLConfig) -> *SDL_EGLint #c_call;
 
 /**
 * An enumeration of OpenGL configuration attributes.
@@ -15717,7 +15717,7 @@ EGLIntArrayCallback :: #type (userdata: *void, display: EGLDisplay, config: EGLC
 *
 * \since This enum is available since SDL 3.2.0.
 */
-GLAttr :: enum u32 {
+SDL_GLAttr :: enum u32 {
     RED_SIZE                   :: 0;
     GREEN_SIZE                 :: 1;
     BLUE_SIZE                  :: 2;
@@ -15782,14 +15782,14 @@ GLAttr :: enum u32 {
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-GLProfile :: Uint32;
+SDL_GLProfile :: Uint32;
 
 /**
 * Possible flags to be set for the SDL_GL_CONTEXT_FLAGS attribute.
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-GLContextFlag :: Uint32;
+SDL_GLContextFlag :: Uint32;
 
 /**
 * Possible values to be set for the SDL_GL_CONTEXT_RELEASE_BEHAVIOR
@@ -15797,14 +15797,14 @@ GLContextFlag :: Uint32;
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-GLContextReleaseFlag :: Uint32;
+SDL_GLContextReleaseFlag :: Uint32;
 
 /**
 * Possible values to be set SDL_GL_CONTEXT_RESET_NOTIFICATION attribute.
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-GLContextResetNotification :: Uint32;
+SDL_GLContextResetNotification :: Uint32;
 
 /**
 * Get the number of video drivers compiled into SDL.
@@ -15817,7 +15817,7 @@ GLContextResetNotification :: Uint32;
 *
 * \sa SDL_GetVideoDriver
 */
-GetNumVideoDrivers :: () -> s32 #foreign libsdl3_ttf "SDL_GetNumVideoDrivers";
+SDL_GetNumVideoDrivers :: () -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the name of a built in video driver.
@@ -15838,7 +15838,7 @@ GetNumVideoDrivers :: () -> s32 #foreign libsdl3_ttf "SDL_GetNumVideoDrivers";
 *
 * \sa SDL_GetNumVideoDrivers
 */
-GetVideoDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf "SDL_GetVideoDriver";
+SDL_GetVideoDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the name of the currently initialized video driver.
@@ -15857,7 +15857,7 @@ GetVideoDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf "SDL_GetVideoDriver";
 * \sa SDL_GetNumVideoDrivers
 * \sa SDL_GetVideoDriver
 */
-GetCurrentVideoDriver :: () -> *u8 #foreign libsdl3_ttf "SDL_GetCurrentVideoDriver";
+SDL_GetCurrentVideoDriver :: () -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the current system theme.
@@ -15868,7 +15868,7 @@ GetCurrentVideoDriver :: () -> *u8 #foreign libsdl3_ttf "SDL_GetCurrentVideoDriv
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSystemTheme :: () -> SystemTheme #foreign libsdl3_ttf "SDL_GetSystemTheme";
+SDL_GetSystemTheme :: () -> SDL_SystemTheme #foreign libsdl3_ttf;
 
 /**
 * Get a list of currently connected displays.
@@ -15883,7 +15883,7 @@ GetSystemTheme :: () -> SystemTheme #foreign libsdl3_ttf "SDL_GetSystemTheme";
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetDisplays :: (count: *s32) -> *DisplayID #foreign libsdl3_ttf "SDL_GetDisplays";
+SDL_GetDisplays :: (count: *s32) -> *SDL_DisplayID #foreign libsdl3_ttf;
 
 /**
 * Return the primary display.
@@ -15897,7 +15897,7 @@ GetDisplays :: (count: *s32) -> *DisplayID #foreign libsdl3_ttf "SDL_GetDisplays
 *
 * \sa SDL_GetDisplays
 */
-GetPrimaryDisplay :: () -> DisplayID #foreign libsdl3_ttf "SDL_GetPrimaryDisplay";
+SDL_GetPrimaryDisplay :: () -> SDL_DisplayID #foreign libsdl3_ttf;
 
 /**
 * Get the properties associated with a display.
@@ -15925,7 +15925,7 @@ GetPrimaryDisplay :: () -> DisplayID #foreign libsdl3_ttf "SDL_GetPrimaryDisplay
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetDisplayProperties :: (displayID: DisplayID) -> PropertiesID #foreign libsdl3_ttf "SDL_GetDisplayProperties";
+SDL_GetDisplayProperties :: (displayID: SDL_DisplayID) -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Get the name of a display in UTF-8 encoding.
@@ -15940,7 +15940,7 @@ GetDisplayProperties :: (displayID: DisplayID) -> PropertiesID #foreign libsdl3_
 *
 * \sa SDL_GetDisplays
 */
-GetDisplayName :: (displayID: DisplayID) -> *u8 #foreign libsdl3_ttf "SDL_GetDisplayName";
+SDL_GetDisplayName :: (displayID: SDL_DisplayID) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the desktop area represented by a display.
@@ -15960,7 +15960,7 @@ GetDisplayName :: (displayID: DisplayID) -> *u8 #foreign libsdl3_ttf "SDL_GetDis
 * \sa SDL_GetDisplayUsableBounds
 * \sa SDL_GetDisplays
 */
-GetDisplayBounds :: (displayID: DisplayID, rect: *Rect) -> bool #foreign libsdl3_ttf "SDL_GetDisplayBounds";
+SDL_GetDisplayBounds :: (displayID: SDL_DisplayID, rect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the usable desktop area represented by a display, in screen
@@ -15986,7 +15986,7 @@ GetDisplayBounds :: (displayID: DisplayID, rect: *Rect) -> bool #foreign libsdl3
 * \sa SDL_GetDisplayBounds
 * \sa SDL_GetDisplays
 */
-GetDisplayUsableBounds :: (displayID: DisplayID, rect: *Rect) -> bool #foreign libsdl3_ttf "SDL_GetDisplayUsableBounds";
+SDL_GetDisplayUsableBounds :: (displayID: SDL_DisplayID, rect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the orientation of a display when it is unrotated.
@@ -16001,7 +16001,7 @@ GetDisplayUsableBounds :: (displayID: DisplayID, rect: *Rect) -> bool #foreign l
 *
 * \sa SDL_GetDisplays
 */
-GetNaturalDisplayOrientation :: (displayID: DisplayID) -> DisplayOrientation #foreign libsdl3_ttf "SDL_GetNaturalDisplayOrientation";
+SDL_GetNaturalDisplayOrientation :: (displayID: SDL_DisplayID) -> SDL_DisplayOrientation #foreign libsdl3_ttf;
 
 /**
 * Get the orientation of a display.
@@ -16016,7 +16016,7 @@ GetNaturalDisplayOrientation :: (displayID: DisplayID) -> DisplayOrientation #fo
 *
 * \sa SDL_GetDisplays
 */
-GetCurrentDisplayOrientation :: (displayID: DisplayID) -> DisplayOrientation #foreign libsdl3_ttf "SDL_GetCurrentDisplayOrientation";
+SDL_GetCurrentDisplayOrientation :: (displayID: SDL_DisplayID) -> SDL_DisplayOrientation #foreign libsdl3_ttf;
 
 /**
 * Get the content scale of a display.
@@ -16043,7 +16043,7 @@ GetCurrentDisplayOrientation :: (displayID: DisplayID) -> DisplayOrientation #fo
 * \sa SDL_GetWindowDisplayScale
 * \sa SDL_GetDisplays
 */
-GetDisplayContentScale :: (displayID: DisplayID) -> float #foreign libsdl3_ttf "SDL_GetDisplayContentScale";
+SDL_GetDisplayContentScale :: (displayID: SDL_DisplayID) -> float #foreign libsdl3_ttf;
 
 /**
 * Get a list of fullscreen display modes available on a display.
@@ -16071,7 +16071,7 @@ GetDisplayContentScale :: (displayID: DisplayID) -> float #foreign libsdl3_ttf "
 *
 * \sa SDL_GetDisplays
 */
-GetFullscreenDisplayModes :: (displayID: DisplayID, count: *s32) -> **DisplayMode #foreign libsdl3_ttf "SDL_GetFullscreenDisplayModes";
+SDL_GetFullscreenDisplayModes :: (displayID: SDL_DisplayID, count: *s32) -> **SDL_DisplayMode #foreign libsdl3_ttf;
 
 /**
 * Get the closest match to the requested display mode.
@@ -16102,7 +16102,7 @@ GetFullscreenDisplayModes :: (displayID: DisplayID, count: *s32) -> **DisplayMod
 * \sa SDL_GetDisplays
 * \sa SDL_GetFullscreenDisplayModes
 */
-GetClosestFullscreenDisplayMode :: (displayID: DisplayID, w: s32, h: s32, refresh_rate: float, include_high_density_modes: bool, closest: *DisplayMode) -> bool #foreign libsdl3_ttf "SDL_GetClosestFullscreenDisplayMode";
+SDL_GetClosestFullscreenDisplayMode :: (displayID: SDL_DisplayID, w: s32, h: s32, refresh_rate: float, include_high_density_modes: bool, closest: *SDL_DisplayMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get information about the desktop's display mode.
@@ -16123,7 +16123,7 @@ GetClosestFullscreenDisplayMode :: (displayID: DisplayID, w: s32, h: s32, refres
 * \sa SDL_GetCurrentDisplayMode
 * \sa SDL_GetDisplays
 */
-GetDesktopDisplayMode :: (displayID: DisplayID) -> *DisplayMode #foreign libsdl3_ttf "SDL_GetDesktopDisplayMode";
+SDL_GetDesktopDisplayMode :: (displayID: SDL_DisplayID) -> *SDL_DisplayMode #foreign libsdl3_ttf;
 
 /**
 * Get information about the current display mode.
@@ -16144,7 +16144,7 @@ GetDesktopDisplayMode :: (displayID: DisplayID) -> *DisplayMode #foreign libsdl3
 * \sa SDL_GetDesktopDisplayMode
 * \sa SDL_GetDisplays
 */
-GetCurrentDisplayMode :: (displayID: DisplayID) -> *DisplayMode #foreign libsdl3_ttf "SDL_GetCurrentDisplayMode";
+SDL_GetCurrentDisplayMode :: (displayID: SDL_DisplayID) -> *SDL_DisplayMode #foreign libsdl3_ttf;
 
 /**
 * Get the display containing a point.
@@ -16160,7 +16160,7 @@ GetCurrentDisplayMode :: (displayID: DisplayID) -> *DisplayMode #foreign libsdl3
 * \sa SDL_GetDisplayBounds
 * \sa SDL_GetDisplays
 */
-GetDisplayForPoint :: (point: *Point) -> DisplayID #foreign libsdl3_ttf "SDL_GetDisplayForPoint";
+SDL_GetDisplayForPoint :: (point: *SDL_Point) -> SDL_DisplayID #foreign libsdl3_ttf;
 
 /**
 * Get the display primarily containing a rect.
@@ -16177,7 +16177,7 @@ GetDisplayForPoint :: (point: *Point) -> DisplayID #foreign libsdl3_ttf "SDL_Get
 * \sa SDL_GetDisplayBounds
 * \sa SDL_GetDisplays
 */
-GetDisplayForRect :: (rect: *Rect) -> DisplayID #foreign libsdl3_ttf "SDL_GetDisplayForRect";
+SDL_GetDisplayForRect :: (rect: *SDL_Rect) -> SDL_DisplayID #foreign libsdl3_ttf;
 
 /**
 * Get the display associated with a window.
@@ -16194,7 +16194,7 @@ GetDisplayForRect :: (rect: *Rect) -> DisplayID #foreign libsdl3_ttf "SDL_GetDis
 * \sa SDL_GetDisplayBounds
 * \sa SDL_GetDisplays
 */
-GetDisplayForWindow :: (window: *Window) -> DisplayID #foreign libsdl3_ttf "SDL_GetDisplayForWindow";
+SDL_GetDisplayForWindow :: (window: *SDL_Window) -> SDL_DisplayID #foreign libsdl3_ttf;
 
 /**
 * Get the pixel density of a window.
@@ -16213,7 +16213,7 @@ GetDisplayForWindow :: (window: *Window) -> DisplayID #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_GetWindowDisplayScale
 */
-GetWindowPixelDensity :: (window: *Window) -> float #foreign libsdl3_ttf "SDL_GetWindowPixelDensity";
+SDL_GetWindowPixelDensity :: (window: *SDL_Window) -> float #foreign libsdl3_ttf;
 
 /**
 * Get the content display scale relative to a window's pixel size.
@@ -16237,7 +16237,7 @@ GetWindowPixelDensity :: (window: *Window) -> float #foreign libsdl3_ttf "SDL_Ge
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetWindowDisplayScale :: (window: *Window) -> float #foreign libsdl3_ttf "SDL_GetWindowDisplayScale";
+SDL_GetWindowDisplayScale :: (window: *SDL_Window) -> float #foreign libsdl3_ttf;
 
 /**
 * Set the display mode to use when a window is visible and fullscreen.
@@ -16272,7 +16272,7 @@ GetWindowDisplayScale :: (window: *Window) -> float #foreign libsdl3_ttf "SDL_Ge
 * \sa SDL_SetWindowFullscreen
 * \sa SDL_SyncWindow
 */
-SetWindowFullscreenMode :: (window: *Window, mode: *DisplayMode) -> bool #foreign libsdl3_ttf "SDL_SetWindowFullscreenMode";
+SDL_SetWindowFullscreenMode :: (window: *SDL_Window, mode: *SDL_DisplayMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Query the display mode to use when a window is visible at fullscreen.
@@ -16288,7 +16288,7 @@ SetWindowFullscreenMode :: (window: *Window, mode: *DisplayMode) -> bool #foreig
 * \sa SDL_SetWindowFullscreenMode
 * \sa SDL_SetWindowFullscreen
 */
-GetWindowFullscreenMode :: (window: *Window) -> *DisplayMode #foreign libsdl3_ttf "SDL_GetWindowFullscreenMode";
+SDL_GetWindowFullscreenMode :: (window: *SDL_Window) -> *SDL_DisplayMode #foreign libsdl3_ttf;
 
 /**
 * Get the raw ICC profile data for the screen the window is currently on.
@@ -16303,7 +16303,7 @@ GetWindowFullscreenMode :: (window: *Window) -> *DisplayMode #foreign libsdl3_tt
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetWindowICCProfile :: (window: *Window, size: *u64) -> *void #foreign libsdl3_ttf "SDL_GetWindowICCProfile";
+SDL_GetWindowICCProfile :: (window: *SDL_Window, size: *u64) -> *void #foreign libsdl3_ttf;
 
 /**
 * Get the pixel format associated with the window.
@@ -16317,7 +16317,7 @@ GetWindowICCProfile :: (window: *Window, size: *u64) -> *void #foreign libsdl3_t
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetWindowPixelFormat :: (window: *Window) -> PixelFormat #foreign libsdl3_ttf "SDL_GetWindowPixelFormat";
+SDL_GetWindowPixelFormat :: (window: *SDL_Window) -> SDL_PixelFormat #foreign libsdl3_ttf;
 
 /**
 * Get a list of valid windows.
@@ -16333,7 +16333,7 @@ GetWindowPixelFormat :: (window: *Window) -> PixelFormat #foreign libsdl3_ttf "S
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetWindows :: (count: *s32) -> **Window #foreign libsdl3_ttf "SDL_GetWindows";
+SDL_GetWindows :: (count: *s32) -> **SDL_Window #foreign libsdl3_ttf;
 
 /**
 * Create a window with the specified dimensions and flags.
@@ -16423,7 +16423,7 @@ GetWindows :: (count: *s32) -> **Window #foreign libsdl3_ttf "SDL_GetWindows";
 * \sa SDL_CreateWindowWithProperties
 * \sa SDL_DestroyWindow
 */
-CreateWindow :: (title: *u8, w: s32, h: s32, flags: WindowFlags) -> *Window #foreign libsdl3_ttf "SDL_CreateWindow";
+SDL_CreateWindow :: (title: *u8, w: s32, h: s32, flags: SDL_WindowFlags) -> *SDL_Window #foreign libsdl3_ttf;
 
 /**
 * Create a child popup window of the specified parent window.
@@ -16498,7 +16498,7 @@ CreateWindow :: (title: *u8, w: s32, h: s32, flags: WindowFlags) -> *Window #for
 * \sa SDL_DestroyWindow
 * \sa SDL_GetWindowParent
 */
-CreatePopupWindow :: (parent: *Window, offset_x: s32, offset_y: s32, w: s32, h: s32, flags: WindowFlags) -> *Window #foreign libsdl3_ttf "SDL_CreatePopupWindow";
+SDL_CreatePopupWindow :: (parent: *SDL_Window, offset_x: s32, offset_y: s32, w: s32, h: s32, flags: SDL_WindowFlags) -> *SDL_Window #foreign libsdl3_ttf;
 
 /**
 * Create a window with the specified properties.
@@ -16626,7 +16626,7 @@ CreatePopupWindow :: (parent: *Window, offset_x: s32, offset_y: s32, w: s32, h: 
 * \sa SDL_CreateWindow
 * \sa SDL_DestroyWindow
 */
-CreateWindowWithProperties :: (props: PropertiesID) -> *Window #foreign libsdl3_ttf "SDL_CreateWindowWithProperties";
+SDL_CreateWindowWithProperties :: (props: SDL_PropertiesID) -> *SDL_Window #foreign libsdl3_ttf;
 
 /**
 * Get the numeric ID of a window.
@@ -16644,7 +16644,7 @@ CreateWindowWithProperties :: (props: PropertiesID) -> *Window #foreign libsdl3_
 *
 * \sa SDL_GetWindowFromID
 */
-GetWindowID :: (window: *Window) -> WindowID #foreign libsdl3_ttf "SDL_GetWindowID";
+SDL_GetWindowID :: (window: *SDL_Window) -> SDL_WindowID #foreign libsdl3_ttf;
 
 /**
 * Get a window from a stored ID.
@@ -16662,7 +16662,7 @@ GetWindowID :: (window: *Window) -> WindowID #foreign libsdl3_ttf "SDL_GetWindow
 *
 * \sa SDL_GetWindowID
 */
-GetWindowFromID :: (id: WindowID) -> *Window #foreign libsdl3_ttf "SDL_GetWindowFromID";
+SDL_GetWindowFromID :: (id: SDL_WindowID) -> *SDL_Window #foreign libsdl3_ttf;
 
 /**
 * Get parent of a window.
@@ -16677,7 +16677,7 @@ GetWindowFromID :: (id: WindowID) -> *Window #foreign libsdl3_ttf "SDL_GetWindow
 *
 * \sa SDL_CreatePopupWindow
 */
-GetWindowParent :: (window: *Window) -> *Window #foreign libsdl3_ttf "SDL_GetWindowParent";
+SDL_GetWindowParent :: (window: *SDL_Window) -> *SDL_Window #foreign libsdl3_ttf;
 
 /**
 * Get the properties associated with a window.
@@ -16734,7 +16734,7 @@ GetWindowParent :: (window: *Window) -> *Window #foreign libsdl3_ttf "SDL_GetWin
 * - `SDL_PROP_WINDOW_COCOA_WINDOW_POINTER`: the `(__unsafe_unretained)`
 *   NSWindow associated with the window
 * - `SDL_PROP_WINDOW_COCOA_METAL_VIEW_TAG_NUMBER`: the NSInteger tag
-*   assocated with metal views on the window
+*   associated with metal views on the window
 *
 * On OpenVR:
 *
@@ -16799,7 +16799,7 @@ GetWindowParent :: (window: *Window) -> *Window #foreign libsdl3_ttf "SDL_GetWin
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetWindowProperties :: (window: *Window) -> PropertiesID #foreign libsdl3_ttf "SDL_GetWindowProperties";
+SDL_GetWindowProperties :: (window: *SDL_Window) -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Get the window flags.
@@ -16819,7 +16819,7 @@ GetWindowProperties :: (window: *Window) -> PropertiesID #foreign libsdl3_ttf "S
 * \sa SDL_SetWindowMouseGrab
 * \sa SDL_ShowWindow
 */
-GetWindowFlags :: (window: *Window) -> WindowFlags #foreign libsdl3_ttf "SDL_GetWindowFlags";
+SDL_GetWindowFlags :: (window: *SDL_Window) -> SDL_WindowFlags #foreign libsdl3_ttf;
 
 /**
 * Set the title of a window.
@@ -16837,7 +16837,7 @@ GetWindowFlags :: (window: *Window) -> WindowFlags #foreign libsdl3_ttf "SDL_Get
 *
 * \sa SDL_GetWindowTitle
 */
-SetWindowTitle :: (window: *Window, title: *u8) -> bool #foreign libsdl3_ttf "SDL_SetWindowTitle";
+SDL_SetWindowTitle :: (window: *SDL_Window, title: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the title of a window.
@@ -16852,7 +16852,7 @@ SetWindowTitle :: (window: *Window, title: *u8) -> bool #foreign libsdl3_ttf "SD
 *
 * \sa SDL_SetWindowTitle
 */
-GetWindowTitle :: (window: *Window) -> *u8 #foreign libsdl3_ttf "SDL_GetWindowTitle";
+SDL_GetWindowTitle :: (window: *SDL_Window) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Set the icon for a window.
@@ -16876,7 +16876,7 @@ GetWindowTitle :: (window: *Window) -> *u8 #foreign libsdl3_ttf "SDL_GetWindowTi
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetWindowIcon :: (window: *Window, icon: *Surface) -> bool #foreign libsdl3_ttf "SDL_SetWindowIcon";
+SDL_SetWindowIcon :: (window: *SDL_Window, icon: *SDL_Surface) -> bool #foreign libsdl3_ttf;
 
 /**
 * Request that the window's position be set.
@@ -16917,7 +16917,7 @@ SetWindowIcon :: (window: *Window, icon: *Surface) -> bool #foreign libsdl3_ttf 
 * \sa SDL_GetWindowPosition
 * \sa SDL_SyncWindow
 */
-SetWindowPosition :: (window: *Window, x: s32, y: s32) -> bool #foreign libsdl3_ttf "SDL_SetWindowPosition";
+SDL_SetWindowPosition :: (window: *SDL_Window, x: s32, y: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the position of a window.
@@ -16942,7 +16942,7 @@ SetWindowPosition :: (window: *Window, x: s32, y: s32) -> bool #foreign libsdl3_
 *
 * \sa SDL_SetWindowPosition
 */
-GetWindowPosition :: (window: *Window, x: *s32, y: *s32) -> bool #foreign libsdl3_ttf "SDL_GetWindowPosition";
+SDL_GetWindowPosition :: (window: *SDL_Window, x: *s32, y: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Request that the size of a window's client area be set.
@@ -16979,7 +16979,7 @@ GetWindowPosition :: (window: *Window, x: *s32, y: *s32) -> bool #foreign libsdl
 * \sa SDL_SetWindowFullscreenMode
 * \sa SDL_SyncWindow
 */
-SetWindowSize :: (window: *Window, w: s32, h: s32) -> bool #foreign libsdl3_ttf "SDL_SetWindowSize";
+SDL_SetWindowSize :: (window: *SDL_Window, w: s32, h: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the size of a window's client area.
@@ -17002,7 +17002,7 @@ SetWindowSize :: (window: *Window, w: s32, h: s32) -> bool #foreign libsdl3_ttf 
 * \sa SDL_GetWindowSizeInPixels
 * \sa SDL_SetWindowSize
 */
-GetWindowSize :: (window: *Window, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf "SDL_GetWindowSize";
+SDL_GetWindowSize :: (window: *SDL_Window, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the safe area for this window.
@@ -17024,7 +17024,7 @@ GetWindowSize :: (window: *Window, w: *s32, h: *s32) -> bool #foreign libsdl3_tt
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetWindowSafeArea :: (window: *Window, rect: *Rect) -> bool #foreign libsdl3_ttf "SDL_GetWindowSafeArea";
+SDL_GetWindowSafeArea :: (window: *SDL_Window, rect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Request that the aspect ratio of a window's client area be set.
@@ -17065,7 +17065,7 @@ GetWindowSafeArea :: (window: *Window, rect: *Rect) -> bool #foreign libsdl3_ttf
 * \sa SDL_GetWindowAspectRatio
 * \sa SDL_SyncWindow
 */
-SetWindowAspectRatio :: (window: *Window, min_aspect: float, max_aspect: float) -> bool #foreign libsdl3_ttf "SDL_SetWindowAspectRatio";
+SDL_SetWindowAspectRatio :: (window: *SDL_Window, min_aspect: float, max_aspect: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the size of a window's client area.
@@ -17084,7 +17084,7 @@ SetWindowAspectRatio :: (window: *Window, min_aspect: float, max_aspect: float) 
 *
 * \sa SDL_SetWindowAspectRatio
 */
-GetWindowAspectRatio :: (window: *Window, min_aspect: *float, max_aspect: *float) -> bool #foreign libsdl3_ttf "SDL_GetWindowAspectRatio";
+SDL_GetWindowAspectRatio :: (window: *SDL_Window, min_aspect: *float, max_aspect: *float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the size of a window's borders (decorations) around the client area.
@@ -17121,7 +17121,7 @@ GetWindowAspectRatio :: (window: *Window, min_aspect: *float, max_aspect: *float
 *
 * \sa SDL_GetWindowSize
 */
-GetWindowBordersSize :: (window: *Window, top: *s32, left: *s32, bottom: *s32, right: *s32) -> bool #foreign libsdl3_ttf "SDL_GetWindowBordersSize";
+SDL_GetWindowBordersSize :: (window: *SDL_Window, top: *s32, left: *s32, bottom: *s32, right: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the size of a window's client area, in pixels.
@@ -17141,7 +17141,7 @@ GetWindowBordersSize :: (window: *Window, top: *s32, left: *s32, bottom: *s32, r
 * \sa SDL_CreateWindow
 * \sa SDL_GetWindowSize
 */
-GetWindowSizeInPixels :: (window: *Window, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf "SDL_GetWindowSizeInPixels";
+SDL_GetWindowSizeInPixels :: (window: *SDL_Window, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the minimum size of a window's client area.
@@ -17159,7 +17159,7 @@ GetWindowSizeInPixels :: (window: *Window, w: *s32, h: *s32) -> bool #foreign li
 * \sa SDL_GetWindowMinimumSize
 * \sa SDL_SetWindowMaximumSize
 */
-SetWindowMinimumSize :: (window: *Window, min_w: s32, min_h: s32) -> bool #foreign libsdl3_ttf "SDL_SetWindowMinimumSize";
+SDL_SetWindowMinimumSize :: (window: *SDL_Window, min_w: s32, min_h: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the minimum size of a window's client area.
@@ -17179,7 +17179,7 @@ SetWindowMinimumSize :: (window: *Window, min_w: s32, min_h: s32) -> bool #forei
 * \sa SDL_GetWindowMaximumSize
 * \sa SDL_SetWindowMinimumSize
 */
-GetWindowMinimumSize :: (window: *Window, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf "SDL_GetWindowMinimumSize";
+SDL_GetWindowMinimumSize :: (window: *SDL_Window, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the maximum size of a window's client area.
@@ -17197,7 +17197,7 @@ GetWindowMinimumSize :: (window: *Window, w: *s32, h: *s32) -> bool #foreign lib
 * \sa SDL_GetWindowMaximumSize
 * \sa SDL_SetWindowMinimumSize
 */
-SetWindowMaximumSize :: (window: *Window, max_w: s32, max_h: s32) -> bool #foreign libsdl3_ttf "SDL_SetWindowMaximumSize";
+SDL_SetWindowMaximumSize :: (window: *SDL_Window, max_w: s32, max_h: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the maximum size of a window's client area.
@@ -17217,7 +17217,7 @@ SetWindowMaximumSize :: (window: *Window, max_w: s32, max_h: s32) -> bool #forei
 * \sa SDL_GetWindowMinimumSize
 * \sa SDL_SetWindowMaximumSize
 */
-GetWindowMaximumSize :: (window: *Window, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf "SDL_GetWindowMaximumSize";
+SDL_GetWindowMaximumSize :: (window: *SDL_Window, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the border state of a window.
@@ -17239,7 +17239,7 @@ GetWindowMaximumSize :: (window: *Window, w: *s32, h: *s32) -> bool #foreign lib
 *
 * \sa SDL_GetWindowFlags
 */
-SetWindowBordered :: (window: *Window, bordered: bool) -> bool #foreign libsdl3_ttf "SDL_SetWindowBordered";
+SDL_SetWindowBordered :: (window: *SDL_Window, bordered: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the user-resizable state of a window.
@@ -17261,7 +17261,7 @@ SetWindowBordered :: (window: *Window, bordered: bool) -> bool #foreign libsdl3_
 *
 * \sa SDL_GetWindowFlags
 */
-SetWindowResizable :: (window: *Window, resizable: bool) -> bool #foreign libsdl3_ttf "SDL_SetWindowResizable";
+SDL_SetWindowResizable :: (window: *SDL_Window, resizable: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the window to always be above the others.
@@ -17280,7 +17280,7 @@ SetWindowResizable :: (window: *Window, resizable: bool) -> bool #foreign libsdl
 *
 * \sa SDL_GetWindowFlags
 */
-SetWindowAlwaysOnTop :: (window: *Window, on_top: bool) -> bool #foreign libsdl3_ttf "SDL_SetWindowAlwaysOnTop";
+SDL_SetWindowAlwaysOnTop :: (window: *SDL_Window, on_top: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Show a window.
@@ -17296,7 +17296,7 @@ SetWindowAlwaysOnTop :: (window: *Window, on_top: bool) -> bool #foreign libsdl3
 * \sa SDL_HideWindow
 * \sa SDL_RaiseWindow
 */
-ShowWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_ShowWindow";
+SDL_ShowWindow :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Hide a window.
@@ -17312,7 +17312,7 @@ ShowWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_ShowWindow";
 * \sa SDL_ShowWindow
 * \sa SDL_WINDOW_HIDDEN
 */
-HideWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_HideWindow";
+SDL_HideWindow :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Request that a window be raised above other windows and gain the input
@@ -17332,7 +17332,7 @@ HideWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_HideWindow";
 *
 * \since This function is available since SDL 3.2.0.
 */
-RaiseWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_RaiseWindow";
+SDL_RaiseWindow :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Request that the window be made as large as possible.
@@ -17366,7 +17366,7 @@ RaiseWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_RaiseWindow";
 * \sa SDL_RestoreWindow
 * \sa SDL_SyncWindow
 */
-MaximizeWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_MaximizeWindow";
+SDL_MaximizeWindow :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Request that the window be minimized to an iconic representation.
@@ -17395,7 +17395,7 @@ MaximizeWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_MaximizeWi
 * \sa SDL_RestoreWindow
 * \sa SDL_SyncWindow
 */
-MinimizeWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_MinimizeWindow";
+SDL_MinimizeWindow :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Request that the size and position of a minimized or maximized window be
@@ -17425,7 +17425,7 @@ MinimizeWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_MinimizeWi
 * \sa SDL_MinimizeWindow
 * \sa SDL_SyncWindow
 */
-RestoreWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_RestoreWindow";
+SDL_RestoreWindow :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Request that the window's fullscreen state be changed.
@@ -17457,7 +17457,7 @@ RestoreWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_RestoreWind
 * \sa SDL_SyncWindow
 * \sa SDL_WINDOW_FULLSCREEN
 */
-SetWindowFullscreen :: (window: *Window, fullscreen: bool) -> bool #foreign libsdl3_ttf "SDL_SetWindowFullscreen";
+SDL_SetWindowFullscreen :: (window: *SDL_Window, fullscreen: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Block until any pending window state is finalized.
@@ -17488,7 +17488,7 @@ SetWindowFullscreen :: (window: *Window, fullscreen: bool) -> bool #foreign libs
 * \sa SDL_RestoreWindow
 * \sa SDL_HINT_VIDEO_SYNC_WINDOW_OPERATIONS
 */
-SyncWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_SyncWindow";
+SDL_SyncWindow :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Return whether the window has a surface associated with it.
@@ -17503,7 +17503,7 @@ SyncWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_SyncWindow";
 *
 * \sa SDL_GetWindowSurface
 */
-WindowHasSurface :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_WindowHasSurface";
+SDL_WindowHasSurface :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the SDL surface associated with the window.
@@ -17532,7 +17532,7 @@ WindowHasSurface :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_WindowHa
 * \sa SDL_UpdateWindowSurface
 * \sa SDL_UpdateWindowSurfaceRects
 */
-GetWindowSurface :: (window: *Window) -> *Surface #foreign libsdl3_ttf "SDL_GetWindowSurface";
+SDL_GetWindowSurface :: (window: *SDL_Window) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Toggle VSync for the window surface.
@@ -17558,7 +17558,7 @@ GetWindowSurface :: (window: *Window) -> *Surface #foreign libsdl3_ttf "SDL_GetW
 *
 * \sa SDL_GetWindowSurfaceVSync
 */
-SetWindowSurfaceVSync :: (window: *Window, vsync: s32) -> bool #foreign libsdl3_ttf "SDL_SetWindowSurfaceVSync";
+SDL_SetWindowSurfaceVSync :: (window: *SDL_Window, vsync: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get VSync for the window surface.
@@ -17575,7 +17575,7 @@ SetWindowSurfaceVSync :: (window: *Window, vsync: s32) -> bool #foreign libsdl3_
 *
 * \sa SDL_SetWindowSurfaceVSync
 */
-GetWindowSurfaceVSync :: (window: *Window, vsync: *s32) -> bool #foreign libsdl3_ttf "SDL_GetWindowSurfaceVSync";
+SDL_GetWindowSurfaceVSync :: (window: *SDL_Window, vsync: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Copy the window surface to the screen.
@@ -17596,7 +17596,7 @@ GetWindowSurfaceVSync :: (window: *Window, vsync: *s32) -> bool #foreign libsdl3
 * \sa SDL_GetWindowSurface
 * \sa SDL_UpdateWindowSurfaceRects
 */
-UpdateWindowSurface :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_UpdateWindowSurface";
+SDL_UpdateWindowSurface :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Copy areas of the window surface to the screen.
@@ -17625,7 +17625,7 @@ UpdateWindowSurface :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_Updat
 * \sa SDL_GetWindowSurface
 * \sa SDL_UpdateWindowSurface
 */
-UpdateWindowSurfaceRects :: (window: *Window, rects: *Rect, numrects: s32) -> bool #foreign libsdl3_ttf "SDL_UpdateWindowSurfaceRects";
+SDL_UpdateWindowSurfaceRects :: (window: *SDL_Window, rects: *SDL_Rect, numrects: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Destroy the surface associated with the window.
@@ -17641,7 +17641,7 @@ UpdateWindowSurfaceRects :: (window: *Window, rects: *Rect, numrects: s32) -> bo
 * \sa SDL_GetWindowSurface
 * \sa SDL_WindowHasSurface
 */
-DestroyWindowSurface :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_DestroyWindowSurface";
+SDL_DestroyWindowSurface :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set a window's keyboard grab mode.
@@ -17674,7 +17674,7 @@ DestroyWindowSurface :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_Dest
 * \sa SDL_GetWindowKeyboardGrab
 * \sa SDL_SetWindowMouseGrab
 */
-SetWindowKeyboardGrab :: (window: *Window, grabbed: bool) -> bool #foreign libsdl3_ttf "SDL_SetWindowKeyboardGrab";
+SDL_SetWindowKeyboardGrab :: (window: *SDL_Window, grabbed: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set a window's mouse grab mode.
@@ -17695,7 +17695,7 @@ SetWindowKeyboardGrab :: (window: *Window, grabbed: bool) -> bool #foreign libsd
 * \sa SDL_SetWindowMouseGrab
 * \sa SDL_SetWindowKeyboardGrab
 */
-SetWindowMouseGrab :: (window: *Window, grabbed: bool) -> bool #foreign libsdl3_ttf "SDL_SetWindowMouseGrab";
+SDL_SetWindowMouseGrab :: (window: *SDL_Window, grabbed: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get a window's keyboard grab mode.
@@ -17709,7 +17709,7 @@ SetWindowMouseGrab :: (window: *Window, grabbed: bool) -> bool #foreign libsdl3_
 *
 * \sa SDL_SetWindowKeyboardGrab
 */
-GetWindowKeyboardGrab :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_GetWindowKeyboardGrab";
+SDL_GetWindowKeyboardGrab :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get a window's mouse grab mode.
@@ -17726,7 +17726,7 @@ GetWindowKeyboardGrab :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_Get
 * \sa SDL_SetWindowMouseGrab
 * \sa SDL_SetWindowKeyboardGrab
 */
-GetWindowMouseGrab :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_GetWindowMouseGrab";
+SDL_GetWindowMouseGrab :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the window that currently has an input grab enabled.
@@ -17740,7 +17740,7 @@ GetWindowMouseGrab :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_GetWin
 * \sa SDL_SetWindowMouseGrab
 * \sa SDL_SetWindowKeyboardGrab
 */
-GetGrabbedWindow :: () -> *Window #foreign libsdl3_ttf "SDL_GetGrabbedWindow";
+SDL_GetGrabbedWindow :: () -> *SDL_Window #foreign libsdl3_ttf;
 
 /**
 * Confines the cursor to the specified area of a window.
@@ -17762,7 +17762,7 @@ GetGrabbedWindow :: () -> *Window #foreign libsdl3_ttf "SDL_GetGrabbedWindow";
 * \sa SDL_GetWindowMouseGrab
 * \sa SDL_SetWindowMouseGrab
 */
-SetWindowMouseRect :: (window: *Window, rect: *Rect) -> bool #foreign libsdl3_ttf "SDL_SetWindowMouseRect";
+SDL_SetWindowMouseRect :: (window: *SDL_Window, rect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the mouse confinement rectangle of a window.
@@ -17779,7 +17779,7 @@ SetWindowMouseRect :: (window: *Window, rect: *Rect) -> bool #foreign libsdl3_tt
 * \sa SDL_GetWindowMouseGrab
 * \sa SDL_SetWindowMouseGrab
 */
-GetWindowMouseRect :: (window: *Window) -> *Rect #foreign libsdl3_ttf "SDL_GetWindowMouseRect";
+SDL_GetWindowMouseRect :: (window: *SDL_Window) -> *SDL_Rect #foreign libsdl3_ttf;
 
 /**
 * Set the opacity for a window.
@@ -17800,7 +17800,7 @@ GetWindowMouseRect :: (window: *Window) -> *Rect #foreign libsdl3_ttf "SDL_GetWi
 *
 * \sa SDL_GetWindowOpacity
 */
-SetWindowOpacity :: (window: *Window, opacity: float) -> bool #foreign libsdl3_ttf "SDL_SetWindowOpacity";
+SDL_SetWindowOpacity :: (window: *SDL_Window, opacity: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the opacity of a window.
@@ -17818,7 +17818,7 @@ SetWindowOpacity :: (window: *Window, opacity: float) -> bool #foreign libsdl3_t
 *
 * \sa SDL_SetWindowOpacity
 */
-GetWindowOpacity :: (window: *Window) -> float #foreign libsdl3_ttf "SDL_GetWindowOpacity";
+SDL_GetWindowOpacity :: (window: *SDL_Window) -> float #foreign libsdl3_ttf;
 
 /**
 * Set the window as a child of a parent window.
@@ -17852,7 +17852,7 @@ GetWindowOpacity :: (window: *Window) -> float #foreign libsdl3_ttf "SDL_GetWind
 *
 * \sa SDL_SetWindowModal
 */
-SetWindowParent :: (window: *Window, parent: *Window) -> bool #foreign libsdl3_ttf "SDL_SetWindowParent";
+SDL_SetWindowParent :: (window: *SDL_Window, parent: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Toggle the state of the window as modal.
@@ -17872,7 +17872,7 @@ SetWindowParent :: (window: *Window, parent: *Window) -> bool #foreign libsdl3_t
 * \sa SDL_SetWindowParent
 * \sa SDL_WINDOW_MODAL
 */
-SetWindowModal :: (window: *Window, modal: bool) -> bool #foreign libsdl3_ttf "SDL_SetWindowModal";
+SDL_SetWindowModal :: (window: *SDL_Window, modal: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set whether the window may have input focus.
@@ -17886,7 +17886,7 @@ SetWindowModal :: (window: *Window, modal: bool) -> bool #foreign libsdl3_ttf "S
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetWindowFocusable :: (window: *Window, focusable: bool) -> bool #foreign libsdl3_ttf "SDL_SetWindowFocusable";
+SDL_SetWindowFocusable :: (window: *SDL_Window, focusable: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Display the system-level window menu.
@@ -17911,7 +17911,7 @@ SetWindowFocusable :: (window: *Window, focusable: bool) -> bool #foreign libsdl
 *
 * \since This function is available since SDL 3.2.0.
 */
-ShowWindowSystemMenu :: (window: *Window, x: s32, y: s32) -> bool #foreign libsdl3_ttf "SDL_ShowWindowSystemMenu";
+SDL_ShowWindowSystemMenu :: (window: *SDL_Window, x: s32, y: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Possible return values from the SDL_HitTest callback.
@@ -17922,7 +17922,7 @@ ShowWindowSystemMenu :: (window: *Window, x: s32, y: s32) -> bool #foreign libsd
 *
 * \sa SDL_HitTest
 */
-HitTestResult :: enum u32 {
+SDL_HitTestResult :: enum u32 {
     NORMAL             :: 0;
     DRAGGABLE          :: 1;
     RESIZE_TOPLEFT     :: 2;
@@ -17956,7 +17956,7 @@ HitTestResult :: enum u32 {
 *
 * \sa SDL_SetWindowHitTest
 */
-HitTest :: #type (win: *Window, area: *Point, data: *void) -> HitTestResult #c_call;
+SDL_HitTest :: #type (win: *SDL_Window, area: *SDL_Point, data: *void) -> SDL_HitTestResult #c_call;
 
 /**
 * Provide a callback that decides if a window region has special properties.
@@ -18000,7 +18000,7 @@ HitTest :: #type (win: *Window, area: *Point, data: *void) -> HitTestResult #c_c
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetWindowHitTest :: (window: *Window, callback: HitTest, callback_data: *void) -> bool #foreign libsdl3_ttf "SDL_SetWindowHitTest";
+SDL_SetWindowHitTest :: (window: *SDL_Window, callback: SDL_HitTest, callback_data: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the shape of a transparent window.
@@ -18028,7 +18028,7 @@ SetWindowHitTest :: (window: *Window, callback: HitTest, callback_data: *void) -
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetWindowShape :: (window: *Window, shape: *Surface) -> bool #foreign libsdl3_ttf "SDL_SetWindowShape";
+SDL_SetWindowShape :: (window: *SDL_Window, shape: *SDL_Surface) -> bool #foreign libsdl3_ttf;
 
 /**
 * Request a window to demand attention from the user.
@@ -18042,7 +18042,7 @@ SetWindowShape :: (window: *Window, shape: *Surface) -> bool #foreign libsdl3_tt
 *
 * \since This function is available since SDL 3.2.0.
 */
-FlashWindow :: (window: *Window, operation: FlashOperation) -> bool #foreign libsdl3_ttf "SDL_FlashWindow";
+SDL_FlashWindow :: (window: *SDL_Window, operation: SDL_FlashOperation) -> bool #foreign libsdl3_ttf;
 
 /**
 * Destroy a window.
@@ -18064,7 +18064,7 @@ FlashWindow :: (window: *Window, operation: FlashOperation) -> bool #foreign lib
 * \sa SDL_CreateWindow
 * \sa SDL_CreateWindowWithProperties
 */
-DestroyWindow :: (window: *Window) -> void #foreign libsdl3_ttf "SDL_DestroyWindow";
+SDL_DestroyWindow :: (window: *SDL_Window) -> void #foreign libsdl3_ttf;
 
 /**
 * Check whether the screensaver is currently enabled.
@@ -18082,7 +18082,7 @@ DestroyWindow :: (window: *Window) -> void #foreign libsdl3_ttf "SDL_DestroyWind
 * \sa SDL_DisableScreenSaver
 * \sa SDL_EnableScreenSaver
 */
-ScreenSaverEnabled :: () -> bool #foreign libsdl3_ttf "SDL_ScreenSaverEnabled";
+SDL_ScreenSaverEnabled :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Allow the screen to be blanked by a screen saver.
@@ -18097,7 +18097,7 @@ ScreenSaverEnabled :: () -> bool #foreign libsdl3_ttf "SDL_ScreenSaverEnabled";
 * \sa SDL_DisableScreenSaver
 * \sa SDL_ScreenSaverEnabled
 */
-EnableScreenSaver :: () -> bool #foreign libsdl3_ttf "SDL_EnableScreenSaver";
+SDL_EnableScreenSaver :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Prevent the screen from being blanked by a screen saver.
@@ -18118,7 +18118,7 @@ EnableScreenSaver :: () -> bool #foreign libsdl3_ttf "SDL_EnableScreenSaver";
 * \sa SDL_EnableScreenSaver
 * \sa SDL_ScreenSaverEnabled
 */
-DisableScreenSaver :: () -> bool #foreign libsdl3_ttf "SDL_DisableScreenSaver";
+SDL_DisableScreenSaver :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Dynamically load an OpenGL library.
@@ -18142,7 +18142,7 @@ DisableScreenSaver :: () -> bool #foreign libsdl3_ttf "SDL_DisableScreenSaver";
 * \sa SDL_GL_GetProcAddress
 * \sa SDL_GL_UnloadLibrary
 */
-GL_LoadLibrary :: (path: *u8) -> bool #foreign libsdl3_ttf "SDL_GL_LoadLibrary";
+SDL_GL_LoadLibrary :: (path: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get an OpenGL function by name.
@@ -18197,7 +18197,7 @@ GL_LoadLibrary :: (path: *u8) -> bool #foreign libsdl3_ttf "SDL_GL_LoadLibrary";
 * \sa SDL_GL_LoadLibrary
 * \sa SDL_GL_UnloadLibrary
 */
-GL_GetProcAddress :: (proc: *u8) -> FunctionPointer #foreign libsdl3_ttf "SDL_GL_GetProcAddress";
+SDL_GL_GetProcAddress :: (proc: *u8) -> SDL_FunctionPointer #foreign libsdl3_ttf;
 
 /**
 * Get an EGL library function by name.
@@ -18216,7 +18216,7 @@ GL_GetProcAddress :: (proc: *u8) -> FunctionPointer #foreign libsdl3_ttf "SDL_GL
 *
 * \sa SDL_EGL_GetCurrentDisplay
 */
-EGL_GetProcAddress :: (proc: *u8) -> FunctionPointer #foreign libsdl3_ttf "SDL_EGL_GetProcAddress";
+SDL_EGL_GetProcAddress :: (proc: *u8) -> SDL_FunctionPointer #foreign libsdl3_ttf;
 
 /**
 * Unload the OpenGL library previously loaded by SDL_GL_LoadLibrary().
@@ -18227,7 +18227,7 @@ EGL_GetProcAddress :: (proc: *u8) -> FunctionPointer #foreign libsdl3_ttf "SDL_E
 *
 * \sa SDL_GL_LoadLibrary
 */
-GL_UnloadLibrary :: () -> void #foreign libsdl3_ttf "SDL_GL_UnloadLibrary";
+SDL_GL_UnloadLibrary :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Check if an OpenGL extension is supported for the current context.
@@ -18250,7 +18250,7 @@ GL_UnloadLibrary :: () -> void #foreign libsdl3_ttf "SDL_GL_UnloadLibrary";
 *
 * \since This function is available since SDL 3.2.0.
 */
-GL_ExtensionSupported :: (extension: *u8) -> bool #foreign libsdl3_ttf "SDL_GL_ExtensionSupported";
+SDL_GL_ExtensionSupported :: (extension: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Reset all previously set OpenGL context attributes to their default values.
@@ -18262,7 +18262,7 @@ GL_ExtensionSupported :: (extension: *u8) -> bool #foreign libsdl3_ttf "SDL_GL_E
 * \sa SDL_GL_GetAttribute
 * \sa SDL_GL_SetAttribute
 */
-GL_ResetAttributes :: () -> void #foreign libsdl3_ttf "SDL_GL_ResetAttributes";
+SDL_GL_ResetAttributes :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Set an OpenGL window attribute before window creation.
@@ -18285,7 +18285,7 @@ GL_ResetAttributes :: () -> void #foreign libsdl3_ttf "SDL_GL_ResetAttributes";
 * \sa SDL_GL_GetAttribute
 * \sa SDL_GL_ResetAttributes
 */
-GL_SetAttribute :: (attr: GLAttr, value: s32) -> bool #foreign libsdl3_ttf "SDL_GL_SetAttribute";
+SDL_GL_SetAttribute :: (attr: SDL_GLAttr, value: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the actual value for an attribute from the current context.
@@ -18303,7 +18303,7 @@ GL_SetAttribute :: (attr: GLAttr, value: s32) -> bool #foreign libsdl3_ttf "SDL_
 * \sa SDL_GL_ResetAttributes
 * \sa SDL_GL_SetAttribute
 */
-GL_GetAttribute :: (attr: GLAttr, value: *s32) -> bool #foreign libsdl3_ttf "SDL_GL_GetAttribute";
+SDL_GL_GetAttribute :: (attr: SDL_GLAttr, value: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Create an OpenGL context for an OpenGL window, and make it current.
@@ -18327,7 +18327,7 @@ GL_GetAttribute :: (attr: GLAttr, value: *s32) -> bool #foreign libsdl3_ttf "SDL
 * \sa SDL_GL_DestroyContext
 * \sa SDL_GL_MakeCurrent
 */
-GL_CreateContext :: (window: *Window) -> GLContext #foreign libsdl3_ttf "SDL_GL_CreateContext";
+SDL_GL_CreateContext :: (window: *SDL_Window) -> SDL_GLContext #foreign libsdl3_ttf;
 
 /**
 * Set up an OpenGL context for rendering into an OpenGL window.
@@ -18345,7 +18345,7 @@ GL_CreateContext :: (window: *Window) -> GLContext #foreign libsdl3_ttf "SDL_GL_
 *
 * \sa SDL_GL_CreateContext
 */
-GL_MakeCurrent :: (window: *Window, _context: GLContext) -> bool #foreign libsdl3_ttf "SDL_GL_MakeCurrent";
+SDL_GL_MakeCurrent :: (window: *SDL_Window, _context: SDL_GLContext) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the currently active OpenGL window.
@@ -18357,7 +18357,7 @@ GL_MakeCurrent :: (window: *Window, _context: GLContext) -> bool #foreign libsdl
 *
 * \since This function is available since SDL 3.2.0.
 */
-GL_GetCurrentWindow :: () -> *Window #foreign libsdl3_ttf "SDL_GL_GetCurrentWindow";
+SDL_GL_GetCurrentWindow :: () -> *SDL_Window #foreign libsdl3_ttf;
 
 /**
 * Get the currently active OpenGL context.
@@ -18371,7 +18371,7 @@ GL_GetCurrentWindow :: () -> *Window #foreign libsdl3_ttf "SDL_GL_GetCurrentWind
 *
 * \sa SDL_GL_MakeCurrent
 */
-GL_GetCurrentContext :: () -> GLContext #foreign libsdl3_ttf "SDL_GL_GetCurrentContext";
+SDL_GL_GetCurrentContext :: () -> SDL_GLContext #foreign libsdl3_ttf;
 
 /**
 * Get the currently active EGL display.
@@ -18383,7 +18383,7 @@ GL_GetCurrentContext :: () -> GLContext #foreign libsdl3_ttf "SDL_GL_GetCurrentC
 *
 * \since This function is available since SDL 3.2.0.
 */
-EGL_GetCurrentDisplay :: () -> EGLDisplay #foreign libsdl3_ttf "SDL_EGL_GetCurrentDisplay";
+SDL_EGL_GetCurrentDisplay :: () -> SDL_EGLDisplay #foreign libsdl3_ttf;
 
 /**
 * Get the currently active EGL config.
@@ -18395,7 +18395,7 @@ EGL_GetCurrentDisplay :: () -> EGLDisplay #foreign libsdl3_ttf "SDL_EGL_GetCurre
 *
 * \since This function is available since SDL 3.2.0.
 */
-EGL_GetCurrentConfig :: () -> EGLConfig #foreign libsdl3_ttf "SDL_EGL_GetCurrentConfig";
+SDL_EGL_GetCurrentConfig :: () -> SDL_EGLConfig #foreign libsdl3_ttf;
 
 /**
 * Get the EGL surface associated with the window.
@@ -18408,7 +18408,7 @@ EGL_GetCurrentConfig :: () -> EGLConfig #foreign libsdl3_ttf "SDL_EGL_GetCurrent
 *
 * \since This function is available since SDL 3.2.0.
 */
-EGL_GetWindowSurface :: (window: *Window) -> EGLSurface #foreign libsdl3_ttf "SDL_EGL_GetWindowSurface";
+SDL_EGL_GetWindowSurface :: (window: *SDL_Window) -> SDL_EGLSurface #foreign libsdl3_ttf;
 
 /**
 * Sets the callbacks for defining custom EGLAttrib arrays for EGL
@@ -18430,7 +18430,7 @@ EGL_GetWindowSurface :: (window: *Window) -> EGLSurface #foreign libsdl3_ttf "SD
 *
 * \since This function is available since SDL 3.2.0.
 */
-EGL_SetAttributeCallbacks :: (platformAttribCallback: EGLAttribArrayCallback, surfaceAttribCallback: EGLIntArrayCallback, contextAttribCallback: EGLIntArrayCallback, userdata: *void) -> void #foreign libsdl3_ttf "SDL_EGL_SetAttributeCallbacks";
+SDL_EGL_SetAttributeCallbacks :: (platformAttribCallback: SDL_EGLAttribArrayCallback, surfaceAttribCallback: SDL_EGLIntArrayCallback, contextAttribCallback: SDL_EGLIntArrayCallback, userdata: *void) -> void #foreign libsdl3_ttf;
 
 /**
 * Set the swap interval for the current OpenGL context.
@@ -18461,7 +18461,7 @@ EGL_SetAttributeCallbacks :: (platformAttribCallback: EGLAttribArrayCallback, su
 *
 * \sa SDL_GL_GetSwapInterval
 */
-GL_SetSwapInterval :: (interval: s32) -> bool #foreign libsdl3_ttf "SDL_GL_SetSwapInterval";
+SDL_GL_SetSwapInterval :: (interval: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the swap interval for the current OpenGL context.
@@ -18482,7 +18482,7 @@ GL_SetSwapInterval :: (interval: s32) -> bool #foreign libsdl3_ttf "SDL_GL_SetSw
 *
 * \sa SDL_GL_SetSwapInterval
 */
-GL_GetSwapInterval :: (interval: *s32) -> bool #foreign libsdl3_ttf "SDL_GL_GetSwapInterval";
+SDL_GL_GetSwapInterval :: (interval: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Update a window with OpenGL rendering.
@@ -18502,7 +18502,7 @@ GL_GetSwapInterval :: (interval: *s32) -> bool #foreign libsdl3_ttf "SDL_GL_GetS
 *
 * \since This function is available since SDL 3.2.0.
 */
-GL_SwapWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_GL_SwapWindow";
+SDL_GL_SwapWindow :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Delete an OpenGL context.
@@ -18517,7 +18517,7 @@ GL_SwapWindow :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_GL_SwapWind
 *
 * \sa SDL_GL_CreateContext
 */
-GL_DestroyContext :: (_context: GLContext) -> bool #foreign libsdl3_ttf "SDL_GL_DestroyContext";
+SDL_GL_DestroyContext :: (_context: SDL_GLContext) -> bool #foreign libsdl3_ttf;
 
 /**
 * An entry for filters for file dialogs.
@@ -18538,7 +18538,7 @@ GL_DestroyContext :: (_context: GLContext) -> bool #foreign libsdl3_ttf "SDL_GL_
 * \sa SDL_ShowOpenFolderDialog
 * \sa SDL_ShowFileDialogWithProperties
 */
-DialogFileFilter :: struct {
+SDL_DialogFileFilter :: struct {
     name:    *u8;
     pattern: *u8;
 }
@@ -18580,7 +18580,7 @@ DialogFileFilter :: struct {
 * \sa SDL_ShowOpenFolderDialog
 * \sa SDL_ShowFileDialogWithProperties
 */
-DialogFileCallback :: #type (userdata: *void, filelist: **u8, filter: s32) -> void #c_call;
+SDL_DialogFileCallback :: #type (userdata: *void, filelist: **u8, filter: s32) -> void #c_call;
 
 /**
 * Displays a dialog that lets the user select a file on their filesystem.
@@ -18631,7 +18631,7 @@ DialogFileCallback :: #type (userdata: *void, filelist: **u8, filter: s32) -> vo
 * \sa SDL_ShowOpenFolderDialog
 * \sa SDL_ShowFileDialogWithProperties
 */
-ShowOpenFileDialog :: (callback: DialogFileCallback, userdata: *void, window: *Window, filters: *DialogFileFilter, nfilters: s32, default_location: *u8, allow_many: bool) -> void #foreign libsdl3_ttf "SDL_ShowOpenFileDialog";
+SDL_ShowOpenFileDialog :: (callback: SDL_DialogFileCallback, userdata: *void, window: *SDL_Window, filters: *SDL_DialogFileFilter, nfilters: s32, default_location: *u8, allow_many: bool) -> void #foreign libsdl3_ttf;
 
 /**
 * Displays a dialog that lets the user choose a new or existing file on their
@@ -18680,7 +18680,7 @@ ShowOpenFileDialog :: (callback: DialogFileCallback, userdata: *void, window: *W
 * \sa SDL_ShowOpenFolderDialog
 * \sa SDL_ShowFileDialogWithProperties
 */
-ShowSaveFileDialog :: (callback: DialogFileCallback, userdata: *void, window: *Window, filters: *DialogFileFilter, nfilters: s32, default_location: *u8) -> void #foreign libsdl3_ttf "SDL_ShowSaveFileDialog";
+SDL_ShowSaveFileDialog :: (callback: SDL_DialogFileCallback, userdata: *void, window: *SDL_Window, filters: *SDL_DialogFileFilter, nfilters: s32, default_location: *u8) -> void #foreign libsdl3_ttf;
 
 /**
 * Displays a dialog that lets the user select a folder on their filesystem.
@@ -18725,7 +18725,7 @@ ShowSaveFileDialog :: (callback: DialogFileCallback, userdata: *void, window: *W
 * \sa SDL_ShowSaveFileDialog
 * \sa SDL_ShowFileDialogWithProperties
 */
-ShowOpenFolderDialog :: (callback: DialogFileCallback, userdata: *void, window: *Window, default_location: *u8, allow_many: bool) -> void #foreign libsdl3_ttf "SDL_ShowOpenFolderDialog";
+SDL_ShowOpenFolderDialog :: (callback: SDL_DialogFileCallback, userdata: *void, window: *SDL_Window, default_location: *u8, allow_many: bool) -> void #foreign libsdl3_ttf;
 
 /**
 * Various types of file dialogs.
@@ -18737,7 +18737,7 @@ ShowOpenFolderDialog :: (callback: DialogFileCallback, userdata: *void, window: 
 *
 * \sa SDL_ShowFileDialogWithProperties
 */
-FileDialogType :: enum u32 {
+SDL_FileDialogType :: enum u32 {
     OPENFILE   :: 0;
     SAVEFILE   :: 1;
     OPENFOLDER :: 2;
@@ -18794,7 +18794,7 @@ FileDialogType :: enum u32 {
 * \sa SDL_ShowSaveFileDialog
 * \sa SDL_ShowOpenFolderDialog
 */
-ShowFileDialogWithProperties :: (type: FileDialogType, callback: DialogFileCallback, userdata: *void, props: PropertiesID) -> void #foreign libsdl3_ttf "SDL_ShowFileDialogWithProperties";
+SDL_ShowFileDialogWithProperties :: (type: SDL_FileDialogType, callback: SDL_DialogFileCallback, userdata: *void, props: SDL_PropertiesID) -> void #foreign libsdl3_ttf;
 
 /**
 * An SDL_GUID is a 128-bit identifier for an input device that identifies
@@ -18813,7 +18813,7 @@ ShowFileDialogWithProperties :: (type: FileDialogType, callback: DialogFileCallb
 *
 * \since This struct is available since SDL 3.2.0.
 */
-GUID :: struct {
+SDL_GUID :: struct {
     data: [16] Uint8;
 }
 
@@ -18830,7 +18830,7 @@ GUID :: struct {
 *
 * \sa SDL_StringToGUID
 */
-GUIDToString :: (guid: GUID, pszGUID: *u8, cbGUID: s32) -> void #foreign libsdl3_ttf "SDL_GUIDToString";
+SDL_GUIDToString :: (guid: SDL_GUID, pszGUID: *u8, cbGUID: s32) -> void #foreign libsdl3_ttf;
 
 /**
 * Convert a GUID string into a SDL_GUID structure.
@@ -18848,7 +18848,7 @@ GUIDToString :: (guid: GUID, pszGUID: *u8, cbGUID: s32) -> void #foreign libsdl3
 *
 * \sa SDL_GUIDToString
 */
-StringToGUID :: (pchGUID: *u8) -> GUID #foreign libsdl3_ttf "SDL_StringToGUID";
+SDL_StringToGUID :: (pchGUID: *u8) -> SDL_GUID #foreign libsdl3_ttf;
 
 /**
 * The basic state for the system's power supply.
@@ -18857,7 +18857,7 @@ StringToGUID :: (pchGUID: *u8) -> GUID #foreign libsdl3_ttf "SDL_StringToGUID";
 *
 * \since This enum is available since SDL 3.2.0.
 */
-PowerState :: enum s32 {
+SDL_PowerState :: enum s32 {
     ERROR      :: -1;
     UNKNOWN    :: 0;
     ON_BATTERY :: 1;
@@ -18905,9 +18905,9 @@ PowerState :: enum s32 {
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetPowerInfo :: (seconds: *s32, percent: *s32) -> PowerState #foreign libsdl3_ttf "SDL_GetPowerInfo";
+SDL_GetPowerInfo :: (seconds: *s32, percent: *s32) -> SDL_PowerState #foreign libsdl3_ttf;
 
-Sensor :: struct {}
+SDL_Sensor :: struct {}
 
 /**
 * This is a unique ID for a sensor for the time it is connected to the
@@ -18917,7 +18917,7 @@ Sensor :: struct {}
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-SensorID :: Uint32;
+SDL_SensorID :: Uint32;
 
 /**
 * The different sensors defined by SDL.
@@ -18973,7 +18973,7 @@ SensorID :: Uint32;
 *
 * \sa SDL_GetCurrentDisplayOrientation
 */
-SensorType :: enum s32 {
+SDL_SensorType :: enum s32 {
     INVALID :: -1;
     UNKNOWN :: 0;
     ACCEL   :: 1;
@@ -18982,6 +18982,7 @@ SensorType :: enum s32 {
     GYRO_L  :: 4;
     ACCEL_R :: 5;
     GYRO_R  :: 6;
+    COUNT   :: 7;
 
     SDL_SENSOR_INVALID :: INVALID;
     SDL_SENSOR_UNKNOWN :: UNKNOWN;
@@ -18991,6 +18992,7 @@ SensorType :: enum s32 {
     SDL_SENSOR_GYRO_L  :: GYRO_L;
     SDL_SENSOR_ACCEL_R :: ACCEL_R;
     SDL_SENSOR_GYRO_R  :: GYRO_R;
+    SDL_SENSOR_COUNT   :: COUNT;
 }
 
 /**
@@ -19004,7 +19006,7 @@ SensorType :: enum s32 {
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSensors :: (count: *s32) -> *SensorID #foreign libsdl3_ttf "SDL_GetSensors";
+SDL_GetSensors :: (count: *s32) -> *SDL_SensorID #foreign libsdl3_ttf;
 
 /**
 * Get the implementation dependent name of a sensor.
@@ -19016,7 +19018,7 @@ GetSensors :: (count: *s32) -> *SensorID #foreign libsdl3_ttf "SDL_GetSensors";
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSensorNameForID :: (instance_id: SensorID) -> *u8 #foreign libsdl3_ttf "SDL_GetSensorNameForID";
+SDL_GetSensorNameForID :: (instance_id: SDL_SensorID) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the type of a sensor.
@@ -19029,7 +19031,7 @@ GetSensorNameForID :: (instance_id: SensorID) -> *u8 #foreign libsdl3_ttf "SDL_G
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSensorTypeForID :: (instance_id: SensorID) -> SensorType #foreign libsdl3_ttf "SDL_GetSensorTypeForID";
+SDL_GetSensorTypeForID :: (instance_id: SDL_SensorID) -> SDL_SensorType #foreign libsdl3_ttf;
 
 /**
 * Get the platform dependent type of a sensor.
@@ -19042,7 +19044,7 @@ GetSensorTypeForID :: (instance_id: SensorID) -> SensorType #foreign libsdl3_ttf
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSensorNonPortableTypeForID :: (instance_id: SensorID) -> s32 #foreign libsdl3_ttf "SDL_GetSensorNonPortableTypeForID";
+SDL_GetSensorNonPortableTypeForID :: (instance_id: SDL_SensorID) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Open a sensor for use.
@@ -19053,7 +19055,7 @@ GetSensorNonPortableTypeForID :: (instance_id: SensorID) -> s32 #foreign libsdl3
 *
 * \since This function is available since SDL 3.2.0.
 */
-OpenSensor :: (instance_id: SensorID) -> *Sensor #foreign libsdl3_ttf "SDL_OpenSensor";
+SDL_OpenSensor :: (instance_id: SDL_SensorID) -> *SDL_Sensor #foreign libsdl3_ttf;
 
 /**
 * Return the SDL_Sensor associated with an instance ID.
@@ -19064,7 +19066,7 @@ OpenSensor :: (instance_id: SensorID) -> *Sensor #foreign libsdl3_ttf "SDL_OpenS
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSensorFromID :: (instance_id: SensorID) -> *Sensor #foreign libsdl3_ttf "SDL_GetSensorFromID";
+SDL_GetSensorFromID :: (instance_id: SDL_SensorID) -> *SDL_Sensor #foreign libsdl3_ttf;
 
 /**
 * Get the properties associated with a sensor.
@@ -19075,7 +19077,7 @@ GetSensorFromID :: (instance_id: SensorID) -> *Sensor #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSensorProperties :: (sensor: *Sensor) -> PropertiesID #foreign libsdl3_ttf "SDL_GetSensorProperties";
+SDL_GetSensorProperties :: (sensor: *SDL_Sensor) -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Get the implementation dependent name of a sensor.
@@ -19086,7 +19088,7 @@ GetSensorProperties :: (sensor: *Sensor) -> PropertiesID #foreign libsdl3_ttf "S
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSensorName :: (sensor: *Sensor) -> *u8 #foreign libsdl3_ttf "SDL_GetSensorName";
+SDL_GetSensorName :: (sensor: *SDL_Sensor) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the type of a sensor.
@@ -19097,7 +19099,7 @@ GetSensorName :: (sensor: *Sensor) -> *u8 #foreign libsdl3_ttf "SDL_GetSensorNam
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSensorType :: (sensor: *Sensor) -> SensorType #foreign libsdl3_ttf "SDL_GetSensorType";
+SDL_GetSensorType :: (sensor: *SDL_Sensor) -> SDL_SensorType #foreign libsdl3_ttf;
 
 /**
 * Get the platform dependent type of a sensor.
@@ -19107,7 +19109,7 @@ GetSensorType :: (sensor: *Sensor) -> SensorType #foreign libsdl3_ttf "SDL_GetSe
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSensorNonPortableType :: (sensor: *Sensor) -> s32 #foreign libsdl3_ttf "SDL_GetSensorNonPortableType";
+SDL_GetSensorNonPortableType :: (sensor: *SDL_Sensor) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the instance ID of a sensor.
@@ -19118,7 +19120,7 @@ GetSensorNonPortableType :: (sensor: *Sensor) -> s32 #foreign libsdl3_ttf "SDL_G
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSensorID :: (sensor: *Sensor) -> SensorID #foreign libsdl3_ttf "SDL_GetSensorID";
+SDL_GetSensorID :: (sensor: *SDL_Sensor) -> SDL_SensorID #foreign libsdl3_ttf;
 
 /**
 * Get the current state of an opened sensor.
@@ -19133,7 +19135,7 @@ GetSensorID :: (sensor: *Sensor) -> SensorID #foreign libsdl3_ttf "SDL_GetSensor
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSensorData :: (sensor: *Sensor, data: *float, num_values: s32) -> bool #foreign libsdl3_ttf "SDL_GetSensorData";
+SDL_GetSensorData :: (sensor: *SDL_Sensor, data: *float, num_values: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Close a sensor previously opened with SDL_OpenSensor().
@@ -19142,7 +19144,7 @@ GetSensorData :: (sensor: *Sensor, data: *float, num_values: s32) -> bool #forei
 *
 * \since This function is available since SDL 3.2.0.
 */
-CloseSensor :: (sensor: *Sensor) -> void #foreign libsdl3_ttf "SDL_CloseSensor";
+SDL_CloseSensor :: (sensor: *SDL_Sensor) -> void #foreign libsdl3_ttf;
 
 /**
 * Update the current state of the open sensors.
@@ -19155,9 +19157,9 @@ CloseSensor :: (sensor: *Sensor) -> void #foreign libsdl3_ttf "SDL_CloseSensor";
 *
 * \since This function is available since SDL 3.2.0.
 */
-UpdateSensors :: () -> void #foreign libsdl3_ttf "SDL_UpdateSensors";
+SDL_UpdateSensors :: () -> void #foreign libsdl3_ttf;
 
-Joystick :: struct {}
+SDL_Joystick :: struct {}
 
 /**
 * This is a unique ID for a joystick for the time it is connected to the
@@ -19169,7 +19171,7 @@ Joystick :: struct {}
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-JoystickID :: Uint32;
+SDL_JoystickID :: Uint32;
 
 /**
 * An enum of some common joystick types.
@@ -19183,7 +19185,7 @@ JoystickID :: Uint32;
 *
 * \since This enum is available since SDL 3.2.0.
 */
-JoystickType :: enum u32 {
+SDL_JoystickType :: enum u32 {
     UNKNOWN      :: 0;
     GAMEPAD      :: 1;
     WHEEL        :: 2;
@@ -19217,7 +19219,7 @@ JoystickType :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-JoystickConnectionState :: enum s32 {
+SDL_JoystickConnectionState :: enum s32 {
     INVALID  :: -1;
     UNKNOWN  :: 0;
     WIRED    :: 1;
@@ -19238,14 +19240,14 @@ JoystickConnectionState :: enum s32 {
 *
 * \since This function is available since SDL 3.2.0.
 */
-LockJoysticks :: () -> void #foreign libsdl3_ttf "SDL_LockJoysticks";
+SDL_LockJoysticks :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Unlocking for atomic access to the joystick API.
 *
 * \since This function is available since SDL 3.2.0.
 */
-UnlockJoysticks :: () -> void #foreign libsdl3_ttf "SDL_UnlockJoysticks";
+SDL_UnlockJoysticks :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Return whether a joystick is currently connected.
@@ -19256,7 +19258,7 @@ UnlockJoysticks :: () -> void #foreign libsdl3_ttf "SDL_UnlockJoysticks";
 *
 * \sa SDL_GetJoysticks
 */
-HasJoystick :: () -> bool #foreign libsdl3_ttf "SDL_HasJoystick";
+SDL_HasJoystick :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Get a list of currently connected joysticks.
@@ -19272,7 +19274,7 @@ HasJoystick :: () -> bool #foreign libsdl3_ttf "SDL_HasJoystick";
 * \sa SDL_HasJoystick
 * \sa SDL_OpenJoystick
 */
-GetJoysticks :: (count: *s32) -> *JoystickID #foreign libsdl3_ttf "SDL_GetJoysticks";
+SDL_GetJoysticks :: (count: *s32) -> *SDL_JoystickID #foreign libsdl3_ttf;
 
 /**
 * Get the implementation dependent name of a joystick.
@@ -19288,7 +19290,7 @@ GetJoysticks :: (count: *s32) -> *JoystickID #foreign libsdl3_ttf "SDL_GetJoysti
 * \sa SDL_GetJoystickName
 * \sa SDL_GetJoysticks
 */
-GetJoystickNameForID :: (instance_id: JoystickID) -> *u8 #foreign libsdl3_ttf "SDL_GetJoystickNameForID";
+SDL_GetJoystickNameForID :: (instance_id: SDL_JoystickID) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the implementation dependent path of a joystick.
@@ -19304,7 +19306,7 @@ GetJoystickNameForID :: (instance_id: JoystickID) -> *u8 #foreign libsdl3_ttf "S
 * \sa SDL_GetJoystickPath
 * \sa SDL_GetJoysticks
 */
-GetJoystickPathForID :: (instance_id: JoystickID) -> *u8 #foreign libsdl3_ttf "SDL_GetJoystickPathForID";
+SDL_GetJoystickPathForID :: (instance_id: SDL_JoystickID) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the player index of a joystick.
@@ -19319,7 +19321,7 @@ GetJoystickPathForID :: (instance_id: JoystickID) -> *u8 #foreign libsdl3_ttf "S
 * \sa SDL_GetJoystickPlayerIndex
 * \sa SDL_GetJoysticks
 */
-GetJoystickPlayerIndexForID :: (instance_id: JoystickID) -> s32 #foreign libsdl3_ttf "SDL_GetJoystickPlayerIndexForID";
+SDL_GetJoystickPlayerIndexForID :: (instance_id: SDL_JoystickID) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the implementation-dependent GUID of a joystick.
@@ -19335,7 +19337,7 @@ GetJoystickPlayerIndexForID :: (instance_id: JoystickID) -> s32 #foreign libsdl3
 * \sa SDL_GetJoystickGUID
 * \sa SDL_GUIDToString
 */
-GetJoystickGUIDForID :: (instance_id: JoystickID) -> GUID #foreign libsdl3_ttf "SDL_GetJoystickGUIDForID";
+SDL_GetJoystickGUIDForID :: (instance_id: SDL_JoystickID) -> SDL_GUID #foreign libsdl3_ttf;
 
 /**
 * Get the USB vendor ID of a joystick, if available.
@@ -19352,7 +19354,7 @@ GetJoystickGUIDForID :: (instance_id: JoystickID) -> GUID #foreign libsdl3_ttf "
 * \sa SDL_GetJoystickVendor
 * \sa SDL_GetJoysticks
 */
-GetJoystickVendorForID :: (instance_id: JoystickID) -> Uint16 #foreign libsdl3_ttf "SDL_GetJoystickVendorForID";
+SDL_GetJoystickVendorForID :: (instance_id: SDL_JoystickID) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Get the USB product ID of a joystick, if available.
@@ -19369,7 +19371,7 @@ GetJoystickVendorForID :: (instance_id: JoystickID) -> Uint16 #foreign libsdl3_t
 * \sa SDL_GetJoystickProduct
 * \sa SDL_GetJoysticks
 */
-GetJoystickProductForID :: (instance_id: JoystickID) -> Uint16 #foreign libsdl3_ttf "SDL_GetJoystickProductForID";
+SDL_GetJoystickProductForID :: (instance_id: SDL_JoystickID) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Get the product version of a joystick, if available.
@@ -19386,7 +19388,7 @@ GetJoystickProductForID :: (instance_id: JoystickID) -> Uint16 #foreign libsdl3_
 * \sa SDL_GetJoystickProductVersion
 * \sa SDL_GetJoysticks
 */
-GetJoystickProductVersionForID :: (instance_id: JoystickID) -> Uint16 #foreign libsdl3_ttf "SDL_GetJoystickProductVersionForID";
+SDL_GetJoystickProductVersionForID :: (instance_id: SDL_JoystickID) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Get the type of a joystick, if available.
@@ -19403,7 +19405,7 @@ GetJoystickProductVersionForID :: (instance_id: JoystickID) -> Uint16 #foreign l
 * \sa SDL_GetJoystickType
 * \sa SDL_GetJoysticks
 */
-GetJoystickTypeForID :: (instance_id: JoystickID) -> JoystickType #foreign libsdl3_ttf "SDL_GetJoystickTypeForID";
+SDL_GetJoystickTypeForID :: (instance_id: SDL_JoystickID) -> SDL_JoystickType #foreign libsdl3_ttf;
 
 /**
 * Open a joystick for use.
@@ -19419,7 +19421,7 @@ GetJoystickTypeForID :: (instance_id: JoystickID) -> JoystickType #foreign libsd
 *
 * \sa SDL_CloseJoystick
 */
-OpenJoystick :: (instance_id: JoystickID) -> *Joystick #foreign libsdl3_ttf "SDL_OpenJoystick";
+SDL_OpenJoystick :: (instance_id: SDL_JoystickID) -> *SDL_Joystick #foreign libsdl3_ttf;
 
 /**
 * Get the SDL_Joystick associated with an instance ID, if it has been opened.
@@ -19430,7 +19432,7 @@ OpenJoystick :: (instance_id: JoystickID) -> *Joystick #foreign libsdl3_ttf "SDL
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetJoystickFromID :: (instance_id: JoystickID) -> *Joystick #foreign libsdl3_ttf "SDL_GetJoystickFromID";
+SDL_GetJoystickFromID :: (instance_id: SDL_JoystickID) -> *SDL_Joystick #foreign libsdl3_ttf;
 
 /**
 * Get the SDL_Joystick associated with a player index.
@@ -19444,7 +19446,7 @@ GetJoystickFromID :: (instance_id: JoystickID) -> *Joystick #foreign libsdl3_ttf
 * \sa SDL_GetJoystickPlayerIndex
 * \sa SDL_SetJoystickPlayerIndex
 */
-GetJoystickFromPlayerIndex :: (player_index: s32) -> *Joystick #foreign libsdl3_ttf "SDL_GetJoystickFromPlayerIndex";
+SDL_GetJoystickFromPlayerIndex :: (player_index: s32) -> *SDL_Joystick #foreign libsdl3_ttf;
 
 /**
 * The structure that describes a virtual joystick touchpad.
@@ -19453,7 +19455,7 @@ GetJoystickFromPlayerIndex :: (player_index: s32) -> *Joystick #foreign libsdl3_
 *
 * \sa SDL_VirtualJoystickDesc
 */
-VirtualJoystickTouchpadDesc :: struct {
+SDL_VirtualJoystickTouchpadDesc :: struct {
     nfingers: Uint16; /**< the number of simultaneous fingers on this touchpad */
     padding:  [3] Uint16;
 }
@@ -19465,8 +19467,8 @@ VirtualJoystickTouchpadDesc :: struct {
 *
 * \sa SDL_VirtualJoystickDesc
 */
-VirtualJoystickSensorDesc :: struct {
-    type: SensorType; /**< the type of this sensor */
+SDL_VirtualJoystickSensorDesc :: struct {
+    type: SDL_SensorType; /**< the type of this sensor */
     rate: float; /**< the update frequency of this sensor, may be 0.0f */
 }
 
@@ -19483,7 +19485,7 @@ VirtualJoystickSensorDesc :: struct {
 * \sa SDL_VirtualJoystickSensorDesc
 * \sa SDL_VirtualJoystickTouchpadDesc
 */
-VirtualJoystickDesc :: struct {
+SDL_VirtualJoystickDesc :: struct {
     version:           Uint32; /**< the version of this interface */
     type:              Uint16; /**< `SDL_JoystickType` */
     padding:           Uint16; /**< unused */
@@ -19505,8 +19507,8 @@ VirtualJoystickDesc :: struct {
     axis_mask:         Uint32;
 
     name:              *u8; /**< the name of the joystick */
-    touchpads:         *VirtualJoystickTouchpadDesc; /**< A pointer to an array of touchpad descriptions, required if `ntouchpads` is > 0 */
-    sensors:           *VirtualJoystickSensorDesc; /**< A pointer to an array of sensor descriptions, required if `nsensors` is > 0 */
+    touchpads:         *SDL_VirtualJoystickTouchpadDesc; /**< A pointer to an array of touchpad descriptions, required if `ntouchpads` is > 0 */
+    sensors:           *SDL_VirtualJoystickSensorDesc; /**< A pointer to an array of sensor descriptions, required if `nsensors` is > 0 */
 
     userdata:          *void; /**< User data pointer passed to callbacks */
     Update:            #type (userdata: *void) -> void #c_call; /**< Called when the joystick state should be updated */
@@ -19530,7 +19532,7 @@ VirtualJoystickDesc :: struct {
 *
 * \sa SDL_DetachVirtualJoystick
 */
-AttachVirtualJoystick :: (desc: *VirtualJoystickDesc) -> JoystickID #foreign libsdl3_ttf "SDL_AttachVirtualJoystick";
+SDL_AttachVirtualJoystick :: (desc: *SDL_VirtualJoystickDesc) -> SDL_JoystickID #foreign libsdl3_ttf;
 
 /**
 * Detach a virtual joystick.
@@ -19544,7 +19546,7 @@ AttachVirtualJoystick :: (desc: *VirtualJoystickDesc) -> JoystickID #foreign lib
 *
 * \sa SDL_AttachVirtualJoystick
 */
-DetachVirtualJoystick :: (instance_id: JoystickID) -> bool #foreign libsdl3_ttf "SDL_DetachVirtualJoystick";
+SDL_DetachVirtualJoystick :: (instance_id: SDL_JoystickID) -> bool #foreign libsdl3_ttf;
 
 /**
 * Query whether or not a joystick is virtual.
@@ -19554,7 +19556,7 @@ DetachVirtualJoystick :: (instance_id: JoystickID) -> bool #foreign libsdl3_ttf 
 *
 * \since This function is available since SDL 3.2.0.
 */
-IsJoystickVirtual :: (instance_id: JoystickID) -> bool #foreign libsdl3_ttf "SDL_IsJoystickVirtual";
+SDL_IsJoystickVirtual :: (instance_id: SDL_JoystickID) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the state of an axis on an opened virtual joystick.
@@ -19577,7 +19579,7 @@ IsJoystickVirtual :: (instance_id: JoystickID) -> bool #foreign libsdl3_ttf "SDL
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetJoystickVirtualAxis :: (joystick: *Joystick, axis: s32, value: Sint16) -> bool #foreign libsdl3_ttf "SDL_SetJoystickVirtualAxis";
+SDL_SetJoystickVirtualAxis :: (joystick: *SDL_Joystick, axis: s32, value: Sint16) -> bool #foreign libsdl3_ttf;
 
 /**
 * Generate ball motion on an opened virtual joystick.
@@ -19597,7 +19599,7 @@ SetJoystickVirtualAxis :: (joystick: *Joystick, axis: s32, value: Sint16) -> boo
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetJoystickVirtualBall :: (joystick: *Joystick, ball: s32, xrel: Sint16, yrel: Sint16) -> bool #foreign libsdl3_ttf "SDL_SetJoystickVirtualBall";
+SDL_SetJoystickVirtualBall :: (joystick: *SDL_Joystick, ball: s32, xrel: Sint16, yrel: Sint16) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the state of a button on an opened virtual joystick.
@@ -19616,7 +19618,7 @@ SetJoystickVirtualBall :: (joystick: *Joystick, ball: s32, xrel: Sint16, yrel: S
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetJoystickVirtualButton :: (joystick: *Joystick, button: s32, down: bool) -> bool #foreign libsdl3_ttf "SDL_SetJoystickVirtualButton";
+SDL_SetJoystickVirtualButton :: (joystick: *SDL_Joystick, button: s32, down: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the state of a hat on an opened virtual joystick.
@@ -19635,7 +19637,7 @@ SetJoystickVirtualButton :: (joystick: *Joystick, button: s32, down: bool) -> bo
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetJoystickVirtualHat :: (joystick: *Joystick, hat: s32, value: Uint8) -> bool #foreign libsdl3_ttf "SDL_SetJoystickVirtualHat";
+SDL_SetJoystickVirtualHat :: (joystick: *SDL_Joystick, hat: s32, value: Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set touchpad finger state on an opened virtual joystick.
@@ -19661,7 +19663,7 @@ SetJoystickVirtualHat :: (joystick: *Joystick, hat: s32, value: Uint8) -> bool #
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetJoystickVirtualTouchpad :: (joystick: *Joystick, touchpad: s32, finger: s32, down: bool, x: float, y: float, pressure: float) -> bool #foreign libsdl3_ttf "SDL_SetJoystickVirtualTouchpad";
+SDL_SetJoystickVirtualTouchpad :: (joystick: *SDL_Joystick, touchpad: s32, finger: s32, down: bool, x: float, y: float, pressure: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Send a sensor update for an opened virtual joystick.
@@ -19683,7 +19685,7 @@ SetJoystickVirtualTouchpad :: (joystick: *Joystick, touchpad: s32, finger: s32, 
 *
 * \since This function is available since SDL 3.2.0.
 */
-SendJoystickVirtualSensorData :: (joystick: *Joystick, type: SensorType, sensor_timestamp: Uint64, data: *float, num_values: s32) -> bool #foreign libsdl3_ttf "SDL_SendJoystickVirtualSensorData";
+SDL_SendJoystickVirtualSensorData :: (joystick: *SDL_Joystick, type: SDL_SensorType, sensor_timestamp: Uint64, data: *float, num_values: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the properties associated with a joystick.
@@ -19707,7 +19709,7 @@ SendJoystickVirtualSensorData :: (joystick: *Joystick, type: SensorType, sensor_
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetJoystickProperties :: (joystick: *Joystick) -> PropertiesID #foreign libsdl3_ttf "SDL_GetJoystickProperties";
+SDL_GetJoystickProperties :: (joystick: *SDL_Joystick) -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Get the implementation dependent name of a joystick.
@@ -19720,7 +19722,7 @@ GetJoystickProperties :: (joystick: *Joystick) -> PropertiesID #foreign libsdl3_
 *
 * \sa SDL_GetJoystickNameForID
 */
-GetJoystickName :: (joystick: *Joystick) -> *u8 #foreign libsdl3_ttf "SDL_GetJoystickName";
+SDL_GetJoystickName :: (joystick: *SDL_Joystick) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the implementation dependent path of a joystick.
@@ -19733,7 +19735,7 @@ GetJoystickName :: (joystick: *Joystick) -> *u8 #foreign libsdl3_ttf "SDL_GetJoy
 *
 * \sa SDL_GetJoystickPathForID
 */
-GetJoystickPath :: (joystick: *Joystick) -> *u8 #foreign libsdl3_ttf "SDL_GetJoystickPath";
+SDL_GetJoystickPath :: (joystick: *SDL_Joystick) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the player index of an opened joystick.
@@ -19748,7 +19750,7 @@ GetJoystickPath :: (joystick: *Joystick) -> *u8 #foreign libsdl3_ttf "SDL_GetJoy
 *
 * \sa SDL_SetJoystickPlayerIndex
 */
-GetJoystickPlayerIndex :: (joystick: *Joystick) -> s32 #foreign libsdl3_ttf "SDL_GetJoystickPlayerIndex";
+SDL_GetJoystickPlayerIndex :: (joystick: *SDL_Joystick) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Set the player index of an opened joystick.
@@ -19763,7 +19765,7 @@ GetJoystickPlayerIndex :: (joystick: *Joystick) -> s32 #foreign libsdl3_ttf "SDL
 *
 * \sa SDL_GetJoystickPlayerIndex
 */
-SetJoystickPlayerIndex :: (joystick: *Joystick, player_index: s32) -> bool #foreign libsdl3_ttf "SDL_SetJoystickPlayerIndex";
+SDL_SetJoystickPlayerIndex :: (joystick: *SDL_Joystick, player_index: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the implementation-dependent GUID for the joystick.
@@ -19780,7 +19782,7 @@ SetJoystickPlayerIndex :: (joystick: *Joystick, player_index: s32) -> bool #fore
 * \sa SDL_GetJoystickGUIDForID
 * \sa SDL_GUIDToString
 */
-GetJoystickGUID :: (joystick: *Joystick) -> GUID #foreign libsdl3_ttf "SDL_GetJoystickGUID";
+SDL_GetJoystickGUID :: (joystick: *SDL_Joystick) -> SDL_GUID #foreign libsdl3_ttf;
 
 /**
 * Get the USB vendor ID of an opened joystick, if available.
@@ -19794,7 +19796,7 @@ GetJoystickGUID :: (joystick: *Joystick) -> GUID #foreign libsdl3_ttf "SDL_GetJo
 *
 * \sa SDL_GetJoystickVendorForID
 */
-GetJoystickVendor :: (joystick: *Joystick) -> Uint16 #foreign libsdl3_ttf "SDL_GetJoystickVendor";
+SDL_GetJoystickVendor :: (joystick: *SDL_Joystick) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Get the USB product ID of an opened joystick, if available.
@@ -19808,7 +19810,7 @@ GetJoystickVendor :: (joystick: *Joystick) -> Uint16 #foreign libsdl3_ttf "SDL_G
 *
 * \sa SDL_GetJoystickProductForID
 */
-GetJoystickProduct :: (joystick: *Joystick) -> Uint16 #foreign libsdl3_ttf "SDL_GetJoystickProduct";
+SDL_GetJoystickProduct :: (joystick: *SDL_Joystick) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Get the product version of an opened joystick, if available.
@@ -19822,7 +19824,7 @@ GetJoystickProduct :: (joystick: *Joystick) -> Uint16 #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_GetJoystickProductVersionForID
 */
-GetJoystickProductVersion :: (joystick: *Joystick) -> Uint16 #foreign libsdl3_ttf "SDL_GetJoystickProductVersion";
+SDL_GetJoystickProductVersion :: (joystick: *SDL_Joystick) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Get the firmware version of an opened joystick, if available.
@@ -19835,7 +19837,7 @@ GetJoystickProductVersion :: (joystick: *Joystick) -> Uint16 #foreign libsdl3_tt
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetJoystickFirmwareVersion :: (joystick: *Joystick) -> Uint16 #foreign libsdl3_ttf "SDL_GetJoystickFirmwareVersion";
+SDL_GetJoystickFirmwareVersion :: (joystick: *SDL_Joystick) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Get the serial number of an opened joystick, if available.
@@ -19848,7 +19850,7 @@ GetJoystickFirmwareVersion :: (joystick: *Joystick) -> Uint16 #foreign libsdl3_t
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetJoystickSerial :: (joystick: *Joystick) -> *u8 #foreign libsdl3_ttf "SDL_GetJoystickSerial";
+SDL_GetJoystickSerial :: (joystick: *SDL_Joystick) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the type of an opened joystick.
@@ -19860,7 +19862,7 @@ GetJoystickSerial :: (joystick: *Joystick) -> *u8 #foreign libsdl3_ttf "SDL_GetJ
 *
 * \sa SDL_GetJoystickTypeForID
 */
-GetJoystickType :: (joystick: *Joystick) -> JoystickType #foreign libsdl3_ttf "SDL_GetJoystickType";
+SDL_GetJoystickType :: (joystick: *SDL_Joystick) -> SDL_JoystickType #foreign libsdl3_ttf;
 
 /**
 * Get the device information encoded in a SDL_GUID structure.
@@ -19879,7 +19881,7 @@ GetJoystickType :: (joystick: *Joystick) -> JoystickType #foreign libsdl3_ttf "S
 *
 * \sa SDL_GetJoystickGUIDForID
 */
-GetJoystickGUIDInfo :: (guid: GUID, vendor: *Uint16, product: *Uint16, version: *Uint16, crc16: *Uint16) -> void #foreign libsdl3_ttf "SDL_GetJoystickGUIDInfo";
+SDL_GetJoystickGUIDInfo :: (guid: SDL_GUID, vendor: *Uint16, product: *Uint16, version: *Uint16, crc16: *Uint16) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the status of a specified joystick.
@@ -19890,7 +19892,7 @@ GetJoystickGUIDInfo :: (guid: GUID, vendor: *Uint16, product: *Uint16, version: 
 *
 * \since This function is available since SDL 3.2.0.
 */
-JoystickConnected :: (joystick: *Joystick) -> bool #foreign libsdl3_ttf "SDL_JoystickConnected";
+SDL_JoystickConnected :: (joystick: *SDL_Joystick) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the instance ID of an opened joystick.
@@ -19901,7 +19903,7 @@ JoystickConnected :: (joystick: *Joystick) -> bool #foreign libsdl3_ttf "SDL_Joy
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetJoystickID :: (joystick: *Joystick) -> JoystickID #foreign libsdl3_ttf "SDL_GetJoystickID";
+SDL_GetJoystickID :: (joystick: *SDL_Joystick) -> SDL_JoystickID #foreign libsdl3_ttf;
 
 /**
 * Get the number of general axis controls on a joystick.
@@ -19921,7 +19923,7 @@ GetJoystickID :: (joystick: *Joystick) -> JoystickID #foreign libsdl3_ttf "SDL_G
 * \sa SDL_GetNumJoystickButtons
 * \sa SDL_GetNumJoystickHats
 */
-GetNumJoystickAxes :: (joystick: *Joystick) -> s32 #foreign libsdl3_ttf "SDL_GetNumJoystickAxes";
+SDL_GetNumJoystickAxes :: (joystick: *SDL_Joystick) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the number of trackballs on a joystick.
@@ -19942,7 +19944,7 @@ GetNumJoystickAxes :: (joystick: *Joystick) -> s32 #foreign libsdl3_ttf "SDL_Get
 * \sa SDL_GetNumJoystickButtons
 * \sa SDL_GetNumJoystickHats
 */
-GetNumJoystickBalls :: (joystick: *Joystick) -> s32 #foreign libsdl3_ttf "SDL_GetNumJoystickBalls";
+SDL_GetNumJoystickBalls :: (joystick: *SDL_Joystick) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the number of POV hats on a joystick.
@@ -19958,7 +19960,7 @@ GetNumJoystickBalls :: (joystick: *Joystick) -> s32 #foreign libsdl3_ttf "SDL_Ge
 * \sa SDL_GetNumJoystickBalls
 * \sa SDL_GetNumJoystickButtons
 */
-GetNumJoystickHats :: (joystick: *Joystick) -> s32 #foreign libsdl3_ttf "SDL_GetNumJoystickHats";
+SDL_GetNumJoystickHats :: (joystick: *SDL_Joystick) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the number of buttons on a joystick.
@@ -19974,7 +19976,7 @@ GetNumJoystickHats :: (joystick: *Joystick) -> s32 #foreign libsdl3_ttf "SDL_Get
 * \sa SDL_GetNumJoystickBalls
 * \sa SDL_GetNumJoystickHats
 */
-GetNumJoystickButtons :: (joystick: *Joystick) -> s32 #foreign libsdl3_ttf "SDL_GetNumJoystickButtons";
+SDL_GetNumJoystickButtons :: (joystick: *SDL_Joystick) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Set the state of joystick event processing.
@@ -19990,7 +19992,7 @@ GetNumJoystickButtons :: (joystick: *Joystick) -> s32 #foreign libsdl3_ttf "SDL_
 * \sa SDL_JoystickEventsEnabled
 * \sa SDL_UpdateJoysticks
 */
-SetJoystickEventsEnabled :: (enabled: bool) -> void #foreign libsdl3_ttf "SDL_SetJoystickEventsEnabled";
+SDL_SetJoystickEventsEnabled :: (enabled: bool) -> void #foreign libsdl3_ttf;
 
 /**
 * Query the state of joystick event processing.
@@ -20005,7 +20007,7 @@ SetJoystickEventsEnabled :: (enabled: bool) -> void #foreign libsdl3_ttf "SDL_Se
 *
 * \sa SDL_SetJoystickEventsEnabled
 */
-JoystickEventsEnabled :: () -> bool #foreign libsdl3_ttf "SDL_JoystickEventsEnabled";
+SDL_JoystickEventsEnabled :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Update the current state of the open joysticks.
@@ -20015,7 +20017,7 @@ JoystickEventsEnabled :: () -> bool #foreign libsdl3_ttf "SDL_JoystickEventsEnab
 *
 * \since This function is available since SDL 3.2.0.
 */
-UpdateJoysticks :: () -> void #foreign libsdl3_ttf "SDL_UpdateJoysticks";
+SDL_UpdateJoysticks :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Get the current state of an axis control on a joystick.
@@ -20039,7 +20041,7 @@ UpdateJoysticks :: () -> void #foreign libsdl3_ttf "SDL_UpdateJoysticks";
 *
 * \sa SDL_GetNumJoystickAxes
 */
-GetJoystickAxis :: (joystick: *Joystick, axis: s32) -> Sint16 #foreign libsdl3_ttf "SDL_GetJoystickAxis";
+SDL_GetJoystickAxis :: (joystick: *SDL_Joystick, axis: s32) -> Sint16 #foreign libsdl3_ttf;
 
 /**
 * Get the initial state of an axis control on a joystick.
@@ -20055,7 +20057,7 @@ GetJoystickAxis :: (joystick: *Joystick, axis: s32) -> Sint16 #foreign libsdl3_t
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetJoystickAxisInitialState :: (joystick: *Joystick, axis: s32, state: *Sint16) -> bool #foreign libsdl3_ttf "SDL_GetJoystickAxisInitialState";
+SDL_GetJoystickAxisInitialState :: (joystick: *SDL_Joystick, axis: s32, state: *Sint16) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the ball axis change since the last poll.
@@ -20076,7 +20078,7 @@ GetJoystickAxisInitialState :: (joystick: *Joystick, axis: s32, state: *Sint16) 
 *
 * \sa SDL_GetNumJoystickBalls
 */
-GetJoystickBall :: (joystick: *Joystick, ball: s32, dx: *s32, dy: *s32) -> bool #foreign libsdl3_ttf "SDL_GetJoystickBall";
+SDL_GetJoystickBall :: (joystick: *SDL_Joystick, ball: s32, dx: *s32, dy: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the current state of a POV hat on a joystick.
@@ -20091,7 +20093,7 @@ GetJoystickBall :: (joystick: *Joystick, ball: s32, dx: *s32, dy: *s32) -> bool 
 *
 * \sa SDL_GetNumJoystickHats
 */
-GetJoystickHat :: (joystick: *Joystick, hat: s32) -> Uint8 #foreign libsdl3_ttf "SDL_GetJoystickHat";
+SDL_GetJoystickHat :: (joystick: *SDL_Joystick, hat: s32) -> Uint8 #foreign libsdl3_ttf;
 
 /**
 * Get the current state of a button on a joystick.
@@ -20105,7 +20107,7 @@ GetJoystickHat :: (joystick: *Joystick, hat: s32) -> Uint8 #foreign libsdl3_ttf 
 *
 * \sa SDL_GetNumJoystickButtons
 */
-GetJoystickButton :: (joystick: *Joystick, button: s32) -> bool #foreign libsdl3_ttf "SDL_GetJoystickButton";
+SDL_GetJoystickButton :: (joystick: *SDL_Joystick, button: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Start a rumble effect.
@@ -20126,7 +20128,7 @@ GetJoystickButton :: (joystick: *Joystick, button: s32) -> bool #foreign libsdl3
 *
 * \since This function is available since SDL 3.2.0.
 */
-RumbleJoystick :: (joystick: *Joystick, low_frequency_rumble: Uint16, high_frequency_rumble: Uint16, duration_ms: Uint32) -> bool #foreign libsdl3_ttf "SDL_RumbleJoystick";
+SDL_RumbleJoystick :: (joystick: *SDL_Joystick, low_frequency_rumble: Uint16, high_frequency_rumble: Uint16, duration_ms: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Start a rumble effect in the joystick's triggers.
@@ -20155,7 +20157,7 @@ RumbleJoystick :: (joystick: *Joystick, low_frequency_rumble: Uint16, high_frequ
 *
 * \sa SDL_RumbleJoystick
 */
-RumbleJoystickTriggers :: (joystick: *Joystick, left_rumble: Uint16, right_rumble: Uint16, duration_ms: Uint32) -> bool #foreign libsdl3_ttf "SDL_RumbleJoystickTriggers";
+SDL_RumbleJoystickTriggers :: (joystick: *SDL_Joystick, left_rumble: Uint16, right_rumble: Uint16, duration_ms: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Update a joystick's LED color.
@@ -20175,7 +20177,7 @@ RumbleJoystickTriggers :: (joystick: *Joystick, left_rumble: Uint16, right_rumbl
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetJoystickLED :: (joystick: *Joystick, red: Uint8, green: Uint8, blue: Uint8) -> bool #foreign libsdl3_ttf "SDL_SetJoystickLED";
+SDL_SetJoystickLED :: (joystick: *SDL_Joystick, red: Uint8, green: Uint8, blue: Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Send a joystick specific effect packet.
@@ -20188,7 +20190,7 @@ SetJoystickLED :: (joystick: *Joystick, red: Uint8, green: Uint8, blue: Uint8) -
 *
 * \since This function is available since SDL 3.2.0.
 */
-SendJoystickEffect :: (joystick: *Joystick, data: *void, size: s32) -> bool #foreign libsdl3_ttf "SDL_SendJoystickEffect";
+SDL_SendJoystickEffect :: (joystick: *SDL_Joystick, data: *void, size: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Close a joystick previously opened with SDL_OpenJoystick().
@@ -20199,7 +20201,7 @@ SendJoystickEffect :: (joystick: *Joystick, data: *void, size: s32) -> bool #for
 *
 * \sa SDL_OpenJoystick
 */
-CloseJoystick :: (joystick: *Joystick) -> void #foreign libsdl3_ttf "SDL_CloseJoystick";
+SDL_CloseJoystick :: (joystick: *SDL_Joystick) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the connection state of a joystick.
@@ -20211,7 +20213,7 @@ CloseJoystick :: (joystick: *Joystick) -> void #foreign libsdl3_ttf "SDL_CloseJo
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetJoystickConnectionState :: (joystick: *Joystick) -> JoystickConnectionState #foreign libsdl3_ttf "SDL_GetJoystickConnectionState";
+SDL_GetJoystickConnectionState :: (joystick: *SDL_Joystick) -> SDL_JoystickConnectionState #foreign libsdl3_ttf;
 
 /**
 * Get the battery state of a joystick.
@@ -20232,9 +20234,9 @@ GetJoystickConnectionState :: (joystick: *Joystick) -> JoystickConnectionState #
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetJoystickPowerInfo :: (joystick: *Joystick, percent: *s32) -> PowerState #foreign libsdl3_ttf "SDL_GetJoystickPowerInfo";
+SDL_GetJoystickPowerInfo :: (joystick: *SDL_Joystick, percent: *s32) -> SDL_PowerState #foreign libsdl3_ttf;
 
-Gamepad :: struct {}
+SDL_Gamepad :: struct {}
 
 /**
 * Standard gamepad types.
@@ -20245,7 +20247,7 @@ Gamepad :: struct {}
 * simply most closely match that console's controllers (does it have A/B/X/Y
 * buttons or X/O/Square/Triangle? Does it have a touchpad? etc).
 */
-GamepadType :: enum u32 {
+SDL_GamepadType :: enum u32 {
     UNKNOWN                      :: 0;
     STANDARD                     :: 1;
     XBOX360                      :: 2;
@@ -20296,7 +20298,7 @@ GamepadType :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-GamepadButton :: enum s32 {
+SDL_GamepadButton :: enum s32 {
     INVALID        :: -1;
     SOUTH          :: 0;
     EAST           :: 1;
@@ -20367,7 +20369,7 @@ GamepadButton :: enum s32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-GamepadButtonLabel :: enum u32 {
+SDL_GamepadButtonLabel :: enum u32 {
     UNKNOWN  :: 0;
     A        :: 1;
     B        :: 2;
@@ -20403,7 +20405,7 @@ GamepadButtonLabel :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-GamepadAxis :: enum s32 {
+SDL_GamepadAxis :: enum s32 {
     INVALID       :: -1;
     LEFTX         :: 0;
     LEFTY         :: 1;
@@ -20433,7 +20435,7 @@ GamepadAxis :: enum s32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-GamepadBindingType :: enum u32 {
+SDL_GamepadBindingType :: enum u32 {
     NONE   :: 0;
     BUTTON :: 1;
     AXIS   :: 2;
@@ -20460,8 +20462,8 @@ GamepadBindingType :: enum u32 {
 *
 * \sa SDL_GetGamepadBindings
 */
-GamepadBinding :: struct {
-    input_type:  GamepadBindingType;
+SDL_GamepadBinding :: struct {
+    input_type:  SDL_GamepadBindingType;
     input:       union {
         button: s32;
 
@@ -20477,12 +20479,12 @@ GamepadBinding :: struct {
         };
     };
 
-    output_type: GamepadBindingType;
+    output_type: SDL_GamepadBindingType;
     output:      union {
-        button: GamepadButton;
+        button: SDL_GamepadButton;
 
         axis:   struct {
-            axis:     GamepadAxis;
+            axis:     SDL_GamepadAxis;
             axis_min: s32;
             axis_max: s32;
         };
@@ -20530,7 +20532,7 @@ GamepadBinding :: struct {
 * \sa SDL_HINT_GAMECONTROLLERCONFIG_FILE
 * \sa SDL_EVENT_GAMEPAD_ADDED
 */
-AddGamepadMapping :: (mapping: *u8) -> s32 #foreign libsdl3_ttf "SDL_AddGamepadMapping";
+SDL_AddGamepadMapping :: (mapping: *u8) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Load a set of gamepad mappings from an SDL_IOStream.
@@ -20570,7 +20572,7 @@ AddGamepadMapping :: (mapping: *u8) -> s32 #foreign libsdl3_ttf "SDL_AddGamepadM
 * \sa SDL_HINT_GAMECONTROLLERCONFIG_FILE
 * \sa SDL_EVENT_GAMEPAD_ADDED
 */
-AddGamepadMappingsFromIO :: (src: *IOStream, closeio: bool) -> s32 #foreign libsdl3_ttf "SDL_AddGamepadMappingsFromIO";
+SDL_AddGamepadMappingsFromIO :: (src: *SDL_IOStream, closeio: bool) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Load a set of gamepad mappings from a file.
@@ -20604,7 +20606,7 @@ AddGamepadMappingsFromIO :: (src: *IOStream, closeio: bool) -> s32 #foreign libs
 * \sa SDL_HINT_GAMECONTROLLERCONFIG_FILE
 * \sa SDL_EVENT_GAMEPAD_ADDED
 */
-AddGamepadMappingsFromFile :: (file: *u8) -> s32 #foreign libsdl3_ttf "SDL_AddGamepadMappingsFromFile";
+SDL_AddGamepadMappingsFromFile :: (file: *u8) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Reinitialize the SDL mapping database to its initial state.
@@ -20616,7 +20618,7 @@ AddGamepadMappingsFromFile :: (file: *u8) -> s32 #foreign libsdl3_ttf "SDL_AddGa
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReloadGamepadMappings :: () -> bool #foreign libsdl3_ttf "SDL_ReloadGamepadMappings";
+SDL_ReloadGamepadMappings :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the current gamepad mappings.
@@ -20630,7 +20632,7 @@ ReloadGamepadMappings :: () -> bool #foreign libsdl3_ttf "SDL_ReloadGamepadMappi
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGamepadMappings :: (count: *s32) -> **u8 #foreign libsdl3_ttf "SDL_GetGamepadMappings";
+SDL_GetGamepadMappings :: (count: *s32) -> **u8 #foreign libsdl3_ttf;
 
 /**
 * Get the gamepad mapping string for a given GUID.
@@ -20645,7 +20647,7 @@ GetGamepadMappings :: (count: *s32) -> **u8 #foreign libsdl3_ttf "SDL_GetGamepad
 * \sa SDL_GetJoystickGUIDForID
 * \sa SDL_GetJoystickGUID
 */
-GetGamepadMappingForGUID :: (guid: GUID) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepadMappingForGUID";
+SDL_GetGamepadMappingForGUID :: (guid: SDL_GUID) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the current mapping of a gamepad.
@@ -20664,7 +20666,7 @@ GetGamepadMappingForGUID :: (guid: GUID) -> *u8 #foreign libsdl3_ttf "SDL_GetGam
 * \sa SDL_GetGamepadMappingForGUID
 * \sa SDL_SetGamepadMapping
 */
-GetGamepadMapping :: (gamepad: *Gamepad) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepadMapping";
+SDL_GetGamepadMapping :: (gamepad: *SDL_Gamepad) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Set the current mapping of a joystick or gamepad.
@@ -20682,7 +20684,7 @@ GetGamepadMapping :: (gamepad: *Gamepad) -> *u8 #foreign libsdl3_ttf "SDL_GetGam
 * \sa SDL_AddGamepadMapping
 * \sa SDL_GetGamepadMapping
 */
-SetGamepadMapping :: (instance_id: JoystickID, mapping: *u8) -> bool #foreign libsdl3_ttf "SDL_SetGamepadMapping";
+SDL_SetGamepadMapping :: (instance_id: SDL_JoystickID, mapping: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Return whether a gamepad is currently connected.
@@ -20693,7 +20695,7 @@ SetGamepadMapping :: (instance_id: JoystickID, mapping: *u8) -> bool #foreign li
 *
 * \sa SDL_GetGamepads
 */
-HasGamepad :: () -> bool #foreign libsdl3_ttf "SDL_HasGamepad";
+SDL_HasGamepad :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Get a list of currently connected gamepads.
@@ -20709,7 +20711,7 @@ HasGamepad :: () -> bool #foreign libsdl3_ttf "SDL_HasGamepad";
 * \sa SDL_HasGamepad
 * \sa SDL_OpenGamepad
 */
-GetGamepads :: (count: *s32) -> *JoystickID #foreign libsdl3_ttf "SDL_GetGamepads";
+SDL_GetGamepads :: (count: *s32) -> *SDL_JoystickID #foreign libsdl3_ttf;
 
 /**
 * Check if the given joystick is supported by the gamepad interface.
@@ -20723,7 +20725,7 @@ GetGamepads :: (count: *s32) -> *JoystickID #foreign libsdl3_ttf "SDL_GetGamepad
 * \sa SDL_GetJoysticks
 * \sa SDL_OpenGamepad
 */
-IsGamepad :: (instance_id: JoystickID) -> bool #foreign libsdl3_ttf "SDL_IsGamepad";
+SDL_IsGamepad :: (instance_id: SDL_JoystickID) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the implementation dependent name of a gamepad.
@@ -20739,7 +20741,7 @@ IsGamepad :: (instance_id: JoystickID) -> bool #foreign libsdl3_ttf "SDL_IsGamep
 * \sa SDL_GetGamepadName
 * \sa SDL_GetGamepads
 */
-GetGamepadNameForID :: (instance_id: JoystickID) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepadNameForID";
+SDL_GetGamepadNameForID :: (instance_id: SDL_JoystickID) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the implementation dependent path of a gamepad.
@@ -20755,7 +20757,7 @@ GetGamepadNameForID :: (instance_id: JoystickID) -> *u8 #foreign libsdl3_ttf "SD
 * \sa SDL_GetGamepadPath
 * \sa SDL_GetGamepads
 */
-GetGamepadPathForID :: (instance_id: JoystickID) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepadPathForID";
+SDL_GetGamepadPathForID :: (instance_id: SDL_JoystickID) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the player index of a gamepad.
@@ -20770,7 +20772,7 @@ GetGamepadPathForID :: (instance_id: JoystickID) -> *u8 #foreign libsdl3_ttf "SD
 * \sa SDL_GetGamepadPlayerIndex
 * \sa SDL_GetGamepads
 */
-GetGamepadPlayerIndexForID :: (instance_id: JoystickID) -> s32 #foreign libsdl3_ttf "SDL_GetGamepadPlayerIndexForID";
+SDL_GetGamepadPlayerIndexForID :: (instance_id: SDL_JoystickID) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the implementation-dependent GUID of a gamepad.
@@ -20786,7 +20788,7 @@ GetGamepadPlayerIndexForID :: (instance_id: JoystickID) -> s32 #foreign libsdl3_
 * \sa SDL_GUIDToString
 * \sa SDL_GetGamepads
 */
-GetGamepadGUIDForID :: (instance_id: JoystickID) -> GUID #foreign libsdl3_ttf "SDL_GetGamepadGUIDForID";
+SDL_GetGamepadGUIDForID :: (instance_id: SDL_JoystickID) -> SDL_GUID #foreign libsdl3_ttf;
 
 /**
 * Get the USB vendor ID of a gamepad, if available.
@@ -20803,7 +20805,7 @@ GetGamepadGUIDForID :: (instance_id: JoystickID) -> GUID #foreign libsdl3_ttf "S
 * \sa SDL_GetGamepadVendor
 * \sa SDL_GetGamepads
 */
-GetGamepadVendorForID :: (instance_id: JoystickID) -> Uint16 #foreign libsdl3_ttf "SDL_GetGamepadVendorForID";
+SDL_GetGamepadVendorForID :: (instance_id: SDL_JoystickID) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Get the USB product ID of a gamepad, if available.
@@ -20820,7 +20822,7 @@ GetGamepadVendorForID :: (instance_id: JoystickID) -> Uint16 #foreign libsdl3_tt
 * \sa SDL_GetGamepadProduct
 * \sa SDL_GetGamepads
 */
-GetGamepadProductForID :: (instance_id: JoystickID) -> Uint16 #foreign libsdl3_ttf "SDL_GetGamepadProductForID";
+SDL_GetGamepadProductForID :: (instance_id: SDL_JoystickID) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Get the product version of a gamepad, if available.
@@ -20837,7 +20839,7 @@ GetGamepadProductForID :: (instance_id: JoystickID) -> Uint16 #foreign libsdl3_t
 * \sa SDL_GetGamepadProductVersion
 * \sa SDL_GetGamepads
 */
-GetGamepadProductVersionForID :: (instance_id: JoystickID) -> Uint16 #foreign libsdl3_ttf "SDL_GetGamepadProductVersionForID";
+SDL_GetGamepadProductVersionForID :: (instance_id: SDL_JoystickID) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Get the type of a gamepad.
@@ -20853,7 +20855,7 @@ GetGamepadProductVersionForID :: (instance_id: JoystickID) -> Uint16 #foreign li
 * \sa SDL_GetGamepads
 * \sa SDL_GetRealGamepadTypeForID
 */
-GetGamepadTypeForID :: (instance_id: JoystickID) -> GamepadType #foreign libsdl3_ttf "SDL_GetGamepadTypeForID";
+SDL_GetGamepadTypeForID :: (instance_id: SDL_JoystickID) -> SDL_GamepadType #foreign libsdl3_ttf;
 
 /**
 * Get the type of a gamepad, ignoring any mapping override.
@@ -20869,7 +20871,7 @@ GetGamepadTypeForID :: (instance_id: JoystickID) -> GamepadType #foreign libsdl3
 * \sa SDL_GetGamepads
 * \sa SDL_GetRealGamepadType
 */
-GetRealGamepadTypeForID :: (instance_id: JoystickID) -> GamepadType #foreign libsdl3_ttf "SDL_GetRealGamepadTypeForID";
+SDL_GetRealGamepadTypeForID :: (instance_id: SDL_JoystickID) -> SDL_GamepadType #foreign libsdl3_ttf;
 
 /**
 * Get the mapping of a gamepad.
@@ -20885,7 +20887,7 @@ GetRealGamepadTypeForID :: (instance_id: JoystickID) -> GamepadType #foreign lib
 * \sa SDL_GetGamepads
 * \sa SDL_GetGamepadMapping
 */
-GetGamepadMappingForID :: (instance_id: JoystickID) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepadMappingForID";
+SDL_GetGamepadMappingForID :: (instance_id: SDL_JoystickID) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Open a gamepad for use.
@@ -20899,7 +20901,7 @@ GetGamepadMappingForID :: (instance_id: JoystickID) -> *u8 #foreign libsdl3_ttf 
 * \sa SDL_CloseGamepad
 * \sa SDL_IsGamepad
 */
-OpenGamepad :: (instance_id: JoystickID) -> *Gamepad #foreign libsdl3_ttf "SDL_OpenGamepad";
+SDL_OpenGamepad :: (instance_id: SDL_JoystickID) -> *SDL_Gamepad #foreign libsdl3_ttf;
 
 /**
 * Get the SDL_Gamepad associated with a joystick instance ID, if it has been
@@ -20911,7 +20913,7 @@ OpenGamepad :: (instance_id: JoystickID) -> *Gamepad #foreign libsdl3_ttf "SDL_O
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGamepadFromID :: (instance_id: JoystickID) -> *Gamepad #foreign libsdl3_ttf "SDL_GetGamepadFromID";
+SDL_GetGamepadFromID :: (instance_id: SDL_JoystickID) -> *SDL_Gamepad #foreign libsdl3_ttf;
 
 /**
 * Get the SDL_Gamepad associated with a player index.
@@ -20924,7 +20926,7 @@ GetGamepadFromID :: (instance_id: JoystickID) -> *Gamepad #foreign libsdl3_ttf "
 * \sa SDL_GetGamepadPlayerIndex
 * \sa SDL_SetGamepadPlayerIndex
 */
-GetGamepadFromPlayerIndex :: (player_index: s32) -> *Gamepad #foreign libsdl3_ttf "SDL_GetGamepadFromPlayerIndex";
+SDL_GetGamepadFromPlayerIndex :: (player_index: s32) -> *SDL_Gamepad #foreign libsdl3_ttf;
 
 /**
 * Get the properties associated with an opened gamepad.
@@ -20951,7 +20953,7 @@ GetGamepadFromPlayerIndex :: (player_index: s32) -> *Gamepad #foreign libsdl3_tt
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGamepadProperties :: (gamepad: *Gamepad) -> PropertiesID #foreign libsdl3_ttf "SDL_GetGamepadProperties";
+SDL_GetGamepadProperties :: (gamepad: *SDL_Gamepad) -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Get the instance ID of an opened gamepad.
@@ -20963,7 +20965,7 @@ GetGamepadProperties :: (gamepad: *Gamepad) -> PropertiesID #foreign libsdl3_ttf
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGamepadID :: (gamepad: *Gamepad) -> JoystickID #foreign libsdl3_ttf "SDL_GetGamepadID";
+SDL_GetGamepadID :: (gamepad: *SDL_Gamepad) -> SDL_JoystickID #foreign libsdl3_ttf;
 
 /**
 * Get the implementation-dependent name for an opened gamepad.
@@ -20977,7 +20979,7 @@ GetGamepadID :: (gamepad: *Gamepad) -> JoystickID #foreign libsdl3_ttf "SDL_GetG
 *
 * \sa SDL_GetGamepadNameForID
 */
-GetGamepadName :: (gamepad: *Gamepad) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepadName";
+SDL_GetGamepadName :: (gamepad: *SDL_Gamepad) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the implementation-dependent path for an opened gamepad.
@@ -20991,7 +20993,7 @@ GetGamepadName :: (gamepad: *Gamepad) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepa
 *
 * \sa SDL_GetGamepadPathForID
 */
-GetGamepadPath :: (gamepad: *Gamepad) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepadPath";
+SDL_GetGamepadPath :: (gamepad: *SDL_Gamepad) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the type of an opened gamepad.
@@ -21004,7 +21006,7 @@ GetGamepadPath :: (gamepad: *Gamepad) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepa
 *
 * \sa SDL_GetGamepadTypeForID
 */
-GetGamepadType :: (gamepad: *Gamepad) -> GamepadType #foreign libsdl3_ttf "SDL_GetGamepadType";
+SDL_GetGamepadType :: (gamepad: *SDL_Gamepad) -> SDL_GamepadType #foreign libsdl3_ttf;
 
 /**
 * Get the type of an opened gamepad, ignoring any mapping override.
@@ -21017,7 +21019,7 @@ GetGamepadType :: (gamepad: *Gamepad) -> GamepadType #foreign libsdl3_ttf "SDL_G
 *
 * \sa SDL_GetRealGamepadTypeForID
 */
-GetRealGamepadType :: (gamepad: *Gamepad) -> GamepadType #foreign libsdl3_ttf "SDL_GetRealGamepadType";
+SDL_GetRealGamepadType :: (gamepad: *SDL_Gamepad) -> SDL_GamepadType #foreign libsdl3_ttf;
 
 /**
 * Get the player index of an opened gamepad.
@@ -21031,7 +21033,7 @@ GetRealGamepadType :: (gamepad: *Gamepad) -> GamepadType #foreign libsdl3_ttf "S
 *
 * \sa SDL_SetGamepadPlayerIndex
 */
-GetGamepadPlayerIndex :: (gamepad: *Gamepad) -> s32 #foreign libsdl3_ttf "SDL_GetGamepadPlayerIndex";
+SDL_GetGamepadPlayerIndex :: (gamepad: *SDL_Gamepad) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Set the player index of an opened gamepad.
@@ -21046,7 +21048,7 @@ GetGamepadPlayerIndex :: (gamepad: *Gamepad) -> s32 #foreign libsdl3_ttf "SDL_Ge
 *
 * \sa SDL_GetGamepadPlayerIndex
 */
-SetGamepadPlayerIndex :: (gamepad: *Gamepad, player_index: s32) -> bool #foreign libsdl3_ttf "SDL_SetGamepadPlayerIndex";
+SDL_SetGamepadPlayerIndex :: (gamepad: *SDL_Gamepad, player_index: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the USB vendor ID of an opened gamepad, if available.
@@ -21060,7 +21062,7 @@ SetGamepadPlayerIndex :: (gamepad: *Gamepad, player_index: s32) -> bool #foreign
 *
 * \sa SDL_GetGamepadVendorForID
 */
-GetGamepadVendor :: (gamepad: *Gamepad) -> Uint16 #foreign libsdl3_ttf "SDL_GetGamepadVendor";
+SDL_GetGamepadVendor :: (gamepad: *SDL_Gamepad) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Get the USB product ID of an opened gamepad, if available.
@@ -21074,7 +21076,7 @@ GetGamepadVendor :: (gamepad: *Gamepad) -> Uint16 #foreign libsdl3_ttf "SDL_GetG
 *
 * \sa SDL_GetGamepadProductForID
 */
-GetGamepadProduct :: (gamepad: *Gamepad) -> Uint16 #foreign libsdl3_ttf "SDL_GetGamepadProduct";
+SDL_GetGamepadProduct :: (gamepad: *SDL_Gamepad) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Get the product version of an opened gamepad, if available.
@@ -21088,7 +21090,7 @@ GetGamepadProduct :: (gamepad: *Gamepad) -> Uint16 #foreign libsdl3_ttf "SDL_Get
 *
 * \sa SDL_GetGamepadProductVersionForID
 */
-GetGamepadProductVersion :: (gamepad: *Gamepad) -> Uint16 #foreign libsdl3_ttf "SDL_GetGamepadProductVersion";
+SDL_GetGamepadProductVersion :: (gamepad: *SDL_Gamepad) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Get the firmware version of an opened gamepad, if available.
@@ -21100,7 +21102,7 @@ GetGamepadProductVersion :: (gamepad: *Gamepad) -> Uint16 #foreign libsdl3_ttf "
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGamepadFirmwareVersion :: (gamepad: *Gamepad) -> Uint16 #foreign libsdl3_ttf "SDL_GetGamepadFirmwareVersion";
+SDL_GetGamepadFirmwareVersion :: (gamepad: *SDL_Gamepad) -> Uint16 #foreign libsdl3_ttf;
 
 /**
 * Get the serial number of an opened gamepad, if available.
@@ -21112,7 +21114,7 @@ GetGamepadFirmwareVersion :: (gamepad: *Gamepad) -> Uint16 #foreign libsdl3_ttf 
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGamepadSerial :: (gamepad: *Gamepad) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepadSerial";
+SDL_GetGamepadSerial :: (gamepad: *SDL_Gamepad) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the Steam Input handle of an opened gamepad, if available.
@@ -21125,7 +21127,7 @@ GetGamepadSerial :: (gamepad: *Gamepad) -> *u8 #foreign libsdl3_ttf "SDL_GetGame
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGamepadSteamHandle :: (gamepad: *Gamepad) -> Uint64 #foreign libsdl3_ttf "SDL_GetGamepadSteamHandle";
+SDL_GetGamepadSteamHandle :: (gamepad: *SDL_Gamepad) -> Uint64 #foreign libsdl3_ttf;
 
 /**
 * Get the connection state of a gamepad.
@@ -21137,7 +21139,7 @@ GetGamepadSteamHandle :: (gamepad: *Gamepad) -> Uint64 #foreign libsdl3_ttf "SDL
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGamepadConnectionState :: (gamepad: *Gamepad) -> JoystickConnectionState #foreign libsdl3_ttf "SDL_GetGamepadConnectionState";
+SDL_GetGamepadConnectionState :: (gamepad: *SDL_Gamepad) -> SDL_JoystickConnectionState #foreign libsdl3_ttf;
 
 /**
 * Get the battery state of a gamepad.
@@ -21157,7 +21159,7 @@ GetGamepadConnectionState :: (gamepad: *Gamepad) -> JoystickConnectionState #for
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGamepadPowerInfo :: (gamepad: *Gamepad, percent: *s32) -> PowerState #foreign libsdl3_ttf "SDL_GetGamepadPowerInfo";
+SDL_GetGamepadPowerInfo :: (gamepad: *SDL_Gamepad, percent: *s32) -> SDL_PowerState #foreign libsdl3_ttf;
 
 /**
 * Check if a gamepad has been opened and is currently connected.
@@ -21169,7 +21171,7 @@ GetGamepadPowerInfo :: (gamepad: *Gamepad, percent: *s32) -> PowerState #foreign
 *
 * \since This function is available since SDL 3.2.0.
 */
-GamepadConnected :: (gamepad: *Gamepad) -> bool #foreign libsdl3_ttf "SDL_GamepadConnected";
+SDL_GamepadConnected :: (gamepad: *SDL_Gamepad) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the underlying joystick from a gamepad.
@@ -21189,7 +21191,7 @@ GamepadConnected :: (gamepad: *Gamepad) -> bool #foreign libsdl3_ttf "SDL_Gamepa
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGamepadJoystick :: (gamepad: *Gamepad) -> *Joystick #foreign libsdl3_ttf "SDL_GetGamepadJoystick";
+SDL_GetGamepadJoystick :: (gamepad: *SDL_Gamepad) -> *SDL_Joystick #foreign libsdl3_ttf;
 
 /**
 * Set the state of gamepad event processing.
@@ -21204,7 +21206,7 @@ GetGamepadJoystick :: (gamepad: *Gamepad) -> *Joystick #foreign libsdl3_ttf "SDL
 * \sa SDL_GamepadEventsEnabled
 * \sa SDL_UpdateGamepads
 */
-SetGamepadEventsEnabled :: (enabled: bool) -> void #foreign libsdl3_ttf "SDL_SetGamepadEventsEnabled";
+SDL_SetGamepadEventsEnabled :: (enabled: bool) -> void #foreign libsdl3_ttf;
 
 /**
 * Query the state of gamepad event processing.
@@ -21218,7 +21220,7 @@ SetGamepadEventsEnabled :: (enabled: bool) -> void #foreign libsdl3_ttf "SDL_Set
 *
 * \sa SDL_SetGamepadEventsEnabled
 */
-GamepadEventsEnabled :: () -> bool #foreign libsdl3_ttf "SDL_GamepadEventsEnabled";
+SDL_GamepadEventsEnabled :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the SDL joystick layer bindings for a gamepad.
@@ -21232,7 +21234,7 @@ GamepadEventsEnabled :: () -> bool #foreign libsdl3_ttf "SDL_GamepadEventsEnable
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGamepadBindings :: (gamepad: *Gamepad, count: *s32) -> **GamepadBinding #foreign libsdl3_ttf "SDL_GetGamepadBindings";
+SDL_GetGamepadBindings :: (gamepad: *SDL_Gamepad, count: *s32) -> **SDL_GamepadBinding #foreign libsdl3_ttf;
 
 /**
 * Manually pump gamepad updates if not using the loop.
@@ -21243,7 +21245,7 @@ GetGamepadBindings :: (gamepad: *Gamepad, count: *s32) -> **GamepadBinding #fore
 *
 * \since This function is available since SDL 3.2.0.
 */
-UpdateGamepads :: () -> void #foreign libsdl3_ttf "SDL_UpdateGamepads";
+SDL_UpdateGamepads :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Convert a string into SDL_GamepadType enum.
@@ -21261,7 +21263,7 @@ UpdateGamepads :: () -> void #foreign libsdl3_ttf "SDL_UpdateGamepads";
 *
 * \sa SDL_GetGamepadStringForType
 */
-GetGamepadTypeFromString :: (str: *u8) -> GamepadType #foreign libsdl3_ttf "SDL_GetGamepadTypeFromString";
+SDL_GetGamepadTypeFromString :: (str: *u8) -> SDL_GamepadType #foreign libsdl3_ttf;
 
 /**
 * Convert from an SDL_GamepadType enum to a string.
@@ -21275,7 +21277,7 @@ GetGamepadTypeFromString :: (str: *u8) -> GamepadType #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_GetGamepadTypeFromString
 */
-GetGamepadStringForType :: (type: GamepadType) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepadStringForType";
+SDL_GetGamepadStringForType :: (type: SDL_GamepadType) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Convert a string into SDL_GamepadAxis enum.
@@ -21297,7 +21299,7 @@ GetGamepadStringForType :: (type: GamepadType) -> *u8 #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_GetGamepadStringForAxis
 */
-GetGamepadAxisFromString :: (str: *u8) -> GamepadAxis #foreign libsdl3_ttf "SDL_GetGamepadAxisFromString";
+SDL_GetGamepadAxisFromString :: (str: *u8) -> SDL_GamepadAxis #foreign libsdl3_ttf;
 
 /**
 * Convert from an SDL_GamepadAxis enum to a string.
@@ -21311,7 +21313,7 @@ GetGamepadAxisFromString :: (str: *u8) -> GamepadAxis #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_GetGamepadAxisFromString
 */
-GetGamepadStringForAxis :: (axis: GamepadAxis) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepadStringForAxis";
+SDL_GetGamepadStringForAxis :: (axis: SDL_GamepadAxis) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Query whether a gamepad has a given axis.
@@ -21328,7 +21330,7 @@ GetGamepadStringForAxis :: (axis: GamepadAxis) -> *u8 #foreign libsdl3_ttf "SDL_
 * \sa SDL_GamepadHasButton
 * \sa SDL_GetGamepadAxis
 */
-GamepadHasAxis :: (gamepad: *Gamepad, axis: GamepadAxis) -> bool #foreign libsdl3_ttf "SDL_GamepadHasAxis";
+SDL_GamepadHasAxis :: (gamepad: *SDL_Gamepad, axis: SDL_GamepadAxis) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the current state of an axis control on a gamepad.
@@ -21352,7 +21354,7 @@ GamepadHasAxis :: (gamepad: *Gamepad, axis: GamepadAxis) -> bool #foreign libsdl
 * \sa SDL_GamepadHasAxis
 * \sa SDL_GetGamepadButton
 */
-GetGamepadAxis :: (gamepad: *Gamepad, axis: GamepadAxis) -> Sint16 #foreign libsdl3_ttf "SDL_GetGamepadAxis";
+SDL_GetGamepadAxis :: (gamepad: *SDL_Gamepad, axis: SDL_GamepadAxis) -> Sint16 #foreign libsdl3_ttf;
 
 /**
 * Convert a string into an SDL_GamepadButton enum.
@@ -21370,7 +21372,7 @@ GetGamepadAxis :: (gamepad: *Gamepad, axis: GamepadAxis) -> Sint16 #foreign libs
 *
 * \sa SDL_GetGamepadStringForButton
 */
-GetGamepadButtonFromString :: (str: *u8) -> GamepadButton #foreign libsdl3_ttf "SDL_GetGamepadButtonFromString";
+SDL_GetGamepadButtonFromString :: (str: *u8) -> SDL_GamepadButton #foreign libsdl3_ttf;
 
 /**
 * Convert from an SDL_GamepadButton enum to a string.
@@ -21384,7 +21386,7 @@ GetGamepadButtonFromString :: (str: *u8) -> GamepadButton #foreign libsdl3_ttf "
 *
 * \sa SDL_GetGamepadButtonFromString
 */
-GetGamepadStringForButton :: (button: GamepadButton) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepadStringForButton";
+SDL_GetGamepadStringForButton :: (button: SDL_GamepadButton) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Query whether a gamepad has a given button.
@@ -21400,7 +21402,7 @@ GetGamepadStringForButton :: (button: GamepadButton) -> *u8 #foreign libsdl3_ttf
 *
 * \sa SDL_GamepadHasAxis
 */
-GamepadHasButton :: (gamepad: *Gamepad, button: GamepadButton) -> bool #foreign libsdl3_ttf "SDL_GamepadHasButton";
+SDL_GamepadHasButton :: (gamepad: *SDL_Gamepad, button: SDL_GamepadButton) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the current state of a button on a gamepad.
@@ -21414,7 +21416,7 @@ GamepadHasButton :: (gamepad: *Gamepad, button: GamepadButton) -> bool #foreign 
 * \sa SDL_GamepadHasButton
 * \sa SDL_GetGamepadAxis
 */
-GetGamepadButton :: (gamepad: *Gamepad, button: GamepadButton) -> bool #foreign libsdl3_ttf "SDL_GetGamepadButton";
+SDL_GetGamepadButton :: (gamepad: *SDL_Gamepad, button: SDL_GamepadButton) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the label of a button on a gamepad.
@@ -21427,7 +21429,7 @@ GetGamepadButton :: (gamepad: *Gamepad, button: GamepadButton) -> bool #foreign 
 *
 * \sa SDL_GetGamepadButtonLabel
 */
-GetGamepadButtonLabelForType :: (type: GamepadType, button: GamepadButton) -> GamepadButtonLabel #foreign libsdl3_ttf "SDL_GetGamepadButtonLabelForType";
+SDL_GetGamepadButtonLabelForType :: (type: SDL_GamepadType, button: SDL_GamepadButton) -> SDL_GamepadButtonLabel #foreign libsdl3_ttf;
 
 /**
 * Get the label of a button on a gamepad.
@@ -21440,7 +21442,7 @@ GetGamepadButtonLabelForType :: (type: GamepadType, button: GamepadButton) -> Ga
 *
 * \sa SDL_GetGamepadButtonLabelForType
 */
-GetGamepadButtonLabel :: (gamepad: *Gamepad, button: GamepadButton) -> GamepadButtonLabel #foreign libsdl3_ttf "SDL_GetGamepadButtonLabel";
+SDL_GetGamepadButtonLabel :: (gamepad: *SDL_Gamepad, button: SDL_GamepadButton) -> SDL_GamepadButtonLabel #foreign libsdl3_ttf;
 
 /**
 * Get the number of touchpads on a gamepad.
@@ -21452,7 +21454,7 @@ GetGamepadButtonLabel :: (gamepad: *Gamepad, button: GamepadButton) -> GamepadBu
 *
 * \sa SDL_GetNumGamepadTouchpadFingers
 */
-GetNumGamepadTouchpads :: (gamepad: *Gamepad) -> s32 #foreign libsdl3_ttf "SDL_GetNumGamepadTouchpads";
+SDL_GetNumGamepadTouchpads :: (gamepad: *SDL_Gamepad) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the number of supported simultaneous fingers on a touchpad on a game
@@ -21467,7 +21469,7 @@ GetNumGamepadTouchpads :: (gamepad: *Gamepad) -> s32 #foreign libsdl3_ttf "SDL_G
 * \sa SDL_GetGamepadTouchpadFinger
 * \sa SDL_GetNumGamepadTouchpads
 */
-GetNumGamepadTouchpadFingers :: (gamepad: *Gamepad, touchpad: s32) -> s32 #foreign libsdl3_ttf "SDL_GetNumGamepadTouchpadFingers";
+SDL_GetNumGamepadTouchpadFingers :: (gamepad: *SDL_Gamepad, touchpad: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the current state of a finger on a touchpad on a gamepad.
@@ -21489,7 +21491,7 @@ GetNumGamepadTouchpadFingers :: (gamepad: *Gamepad, touchpad: s32) -> s32 #forei
 *
 * \sa SDL_GetNumGamepadTouchpadFingers
 */
-GetGamepadTouchpadFinger :: (gamepad: *Gamepad, touchpad: s32, finger: s32, down: *bool, x: *float, y: *float, pressure: *float) -> bool #foreign libsdl3_ttf "SDL_GetGamepadTouchpadFinger";
+SDL_GetGamepadTouchpadFinger :: (gamepad: *SDL_Gamepad, touchpad: s32, finger: s32, down: *bool, x: *float, y: *float, pressure: *float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Return whether a gamepad has a particular sensor.
@@ -21504,7 +21506,7 @@ GetGamepadTouchpadFinger :: (gamepad: *Gamepad, touchpad: s32, finger: s32, down
 * \sa SDL_GetGamepadSensorDataRate
 * \sa SDL_SetGamepadSensorEnabled
 */
-GamepadHasSensor :: (gamepad: *Gamepad, type: SensorType) -> bool #foreign libsdl3_ttf "SDL_GamepadHasSensor";
+SDL_GamepadHasSensor :: (gamepad: *SDL_Gamepad, type: SDL_SensorType) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set whether data reporting for a gamepad sensor is enabled.
@@ -21520,7 +21522,7 @@ GamepadHasSensor :: (gamepad: *Gamepad, type: SensorType) -> bool #foreign libsd
 * \sa SDL_GamepadHasSensor
 * \sa SDL_GamepadSensorEnabled
 */
-SetGamepadSensorEnabled :: (gamepad: *Gamepad, type: SensorType, enabled: bool) -> bool #foreign libsdl3_ttf "SDL_SetGamepadSensorEnabled";
+SDL_SetGamepadSensorEnabled :: (gamepad: *SDL_Gamepad, type: SDL_SensorType, enabled: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Query whether sensor data reporting is enabled for a gamepad.
@@ -21533,7 +21535,7 @@ SetGamepadSensorEnabled :: (gamepad: *Gamepad, type: SensorType, enabled: bool) 
 *
 * \sa SDL_SetGamepadSensorEnabled
 */
-GamepadSensorEnabled :: (gamepad: *Gamepad, type: SensorType) -> bool #foreign libsdl3_ttf "SDL_GamepadSensorEnabled";
+SDL_GamepadSensorEnabled :: (gamepad: *SDL_Gamepad, type: SDL_SensorType) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the data rate (number of events per second) of a gamepad sensor.
@@ -21544,7 +21546,7 @@ GamepadSensorEnabled :: (gamepad: *Gamepad, type: SensorType) -> bool #foreign l
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGamepadSensorDataRate :: (gamepad: *Gamepad, type: SensorType) -> float #foreign libsdl3_ttf "SDL_GetGamepadSensorDataRate";
+SDL_GetGamepadSensorDataRate :: (gamepad: *SDL_Gamepad, type: SDL_SensorType) -> float #foreign libsdl3_ttf;
 
 /**
 * Get the current state of a gamepad sensor.
@@ -21561,7 +21563,7 @@ GetGamepadSensorDataRate :: (gamepad: *Gamepad, type: SensorType) -> float #fore
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGamepadSensorData :: (gamepad: *Gamepad, type: SensorType, data: *float, num_values: s32) -> bool #foreign libsdl3_ttf "SDL_GetGamepadSensorData";
+SDL_GetGamepadSensorData :: (gamepad: *SDL_Gamepad, type: SDL_SensorType, data: *float, num_values: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Start a rumble effect on a gamepad.
@@ -21583,7 +21585,7 @@ GetGamepadSensorData :: (gamepad: *Gamepad, type: SensorType, data: *float, num_
 *
 * \since This function is available since SDL 3.2.0.
 */
-RumbleGamepad :: (gamepad: *Gamepad, low_frequency_rumble: Uint16, high_frequency_rumble: Uint16, duration_ms: Uint32) -> bool #foreign libsdl3_ttf "SDL_RumbleGamepad";
+SDL_RumbleGamepad :: (gamepad: *SDL_Gamepad, low_frequency_rumble: Uint16, high_frequency_rumble: Uint16, duration_ms: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Start a rumble effect in the gamepad's triggers.
@@ -21611,7 +21613,7 @@ RumbleGamepad :: (gamepad: *Gamepad, low_frequency_rumble: Uint16, high_frequenc
 *
 * \sa SDL_RumbleGamepad
 */
-RumbleGamepadTriggers :: (gamepad: *Gamepad, left_rumble: Uint16, right_rumble: Uint16, duration_ms: Uint32) -> bool #foreign libsdl3_ttf "SDL_RumbleGamepadTriggers";
+SDL_RumbleGamepadTriggers :: (gamepad: *SDL_Gamepad, left_rumble: Uint16, right_rumble: Uint16, duration_ms: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Update a gamepad's LED color.
@@ -21631,7 +21633,7 @@ RumbleGamepadTriggers :: (gamepad: *Gamepad, left_rumble: Uint16, right_rumble: 
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetGamepadLED :: (gamepad: *Gamepad, red: Uint8, green: Uint8, blue: Uint8) -> bool #foreign libsdl3_ttf "SDL_SetGamepadLED";
+SDL_SetGamepadLED :: (gamepad: *SDL_Gamepad, red: Uint8, green: Uint8, blue: Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Send a gamepad specific effect packet.
@@ -21644,7 +21646,7 @@ SetGamepadLED :: (gamepad: *Gamepad, red: Uint8, green: Uint8, blue: Uint8) -> b
 *
 * \since This function is available since SDL 3.2.0.
 */
-SendGamepadEffect :: (gamepad: *Gamepad, data: *void, size: s32) -> bool #foreign libsdl3_ttf "SDL_SendGamepadEffect";
+SDL_SendGamepadEffect :: (gamepad: *SDL_Gamepad, data: *void, size: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Close a gamepad previously opened with SDL_OpenGamepad().
@@ -21656,7 +21658,7 @@ SendGamepadEffect :: (gamepad: *Gamepad, data: *void, size: s32) -> bool #foreig
 *
 * \sa SDL_OpenGamepad
 */
-CloseGamepad :: (gamepad: *Gamepad) -> void #foreign libsdl3_ttf "SDL_CloseGamepad";
+SDL_CloseGamepad :: (gamepad: *SDL_Gamepad) -> void #foreign libsdl3_ttf;
 
 /**
 * Return the sfSymbolsName for a given button on a gamepad on Apple
@@ -21670,7 +21672,7 @@ CloseGamepad :: (gamepad: *Gamepad) -> void #foreign libsdl3_ttf "SDL_CloseGamep
 *
 * \sa SDL_GetGamepadAppleSFSymbolsNameForAxis
 */
-GetGamepadAppleSFSymbolsNameForButton :: (gamepad: *Gamepad, button: GamepadButton) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepadAppleSFSymbolsNameForButton";
+SDL_GetGamepadAppleSFSymbolsNameForButton :: (gamepad: *SDL_Gamepad, button: SDL_GamepadButton) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Return the sfSymbolsName for a given axis on a gamepad on Apple platforms.
@@ -21683,7 +21685,7 @@ GetGamepadAppleSFSymbolsNameForButton :: (gamepad: *Gamepad, button: GamepadButt
 *
 * \sa SDL_GetGamepadAppleSFSymbolsNameForButton
 */
-GetGamepadAppleSFSymbolsNameForAxis :: (gamepad: *Gamepad, axis: GamepadAxis) -> *u8 #foreign libsdl3_ttf "SDL_GetGamepadAppleSFSymbolsNameForAxis";
+SDL_GetGamepadAppleSFSymbolsNameForAxis :: (gamepad: *SDL_Gamepad, axis: SDL_GamepadAxis) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * The SDL keyboard scancode representation.
@@ -21699,7 +21701,7 @@ GetGamepadAppleSFSymbolsNameForAxis :: (gamepad: *Gamepad, axis: GamepadAxis) ->
 *
 * \since This enum is available since SDL 3.2.0.
 */
-Scancode :: enum u32 {
+SDL_Scancode :: enum u32 {
     UNKNOWN              :: 0;
 
     A                    :: 4;
@@ -22283,14 +22285,14 @@ Scancode :: enum u32 {
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-Keycode :: Uint32;
+SDL_Keycode :: Uint32;
 
 /**
 * Valid key modifiers (possibly OR'd together).
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-Keymod :: Uint16;
+SDL_Keymod :: Uint16;
 
 /**
 * This is a unique ID for a keyboard for the time it is connected to the
@@ -22302,7 +22304,7 @@ Keymod :: Uint16;
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-KeyboardID :: Uint32;
+SDL_KeyboardID :: Uint32;
 
 /**
 * Return whether a keyboard is currently connected.
@@ -22315,7 +22317,7 @@ KeyboardID :: Uint32;
 *
 * \sa SDL_GetKeyboards
 */
-HasKeyboard :: () -> bool #foreign libsdl3_ttf "SDL_HasKeyboard";
+SDL_HasKeyboard :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Get a list of currently connected keyboards.
@@ -22338,7 +22340,7 @@ HasKeyboard :: () -> bool #foreign libsdl3_ttf "SDL_HasKeyboard";
 * \sa SDL_GetKeyboardNameForID
 * \sa SDL_HasKeyboard
 */
-GetKeyboards :: (count: *s32) -> *KeyboardID #foreign libsdl3_ttf "SDL_GetKeyboards";
+SDL_GetKeyboards :: (count: *s32) -> *SDL_KeyboardID #foreign libsdl3_ttf;
 
 /**
 * Get the name of a keyboard.
@@ -22355,7 +22357,7 @@ GetKeyboards :: (count: *s32) -> *KeyboardID #foreign libsdl3_ttf "SDL_GetKeyboa
 *
 * \sa SDL_GetKeyboards
 */
-GetKeyboardNameForID :: (instance_id: KeyboardID) -> *u8 #foreign libsdl3_ttf "SDL_GetKeyboardNameForID";
+SDL_GetKeyboardNameForID :: (instance_id: SDL_KeyboardID) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Query the window which currently has keyboard focus.
@@ -22366,7 +22368,7 @@ GetKeyboardNameForID :: (instance_id: KeyboardID) -> *u8 #foreign libsdl3_ttf "S
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetKeyboardFocus :: () -> *Window #foreign libsdl3_ttf "SDL_GetKeyboardFocus";
+SDL_GetKeyboardFocus :: () -> *SDL_Window #foreign libsdl3_ttf;
 
 /**
 * Get a snapshot of the current state of the keyboard.
@@ -22399,7 +22401,7 @@ GetKeyboardFocus :: () -> *Window #foreign libsdl3_ttf "SDL_GetKeyboardFocus";
 * \sa SDL_PumpEvents
 * \sa SDL_ResetKeyboard
 */
-GetKeyboardState :: (numkeys: *s32) -> *bool #foreign libsdl3_ttf "SDL_GetKeyboardState";
+SDL_GetKeyboardState :: (numkeys: *s32) -> *bool #foreign libsdl3_ttf;
 
 /**
 * Clear the state of the keyboard.
@@ -22412,7 +22414,7 @@ GetKeyboardState :: (numkeys: *s32) -> *bool #foreign libsdl3_ttf "SDL_GetKeyboa
 *
 * \sa SDL_GetKeyboardState
 */
-ResetKeyboard :: () -> void #foreign libsdl3_ttf "SDL_ResetKeyboard";
+SDL_ResetKeyboard :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Get the current key modifier state for the keyboard.
@@ -22427,7 +22429,7 @@ ResetKeyboard :: () -> void #foreign libsdl3_ttf "SDL_ResetKeyboard";
 * \sa SDL_GetKeyboardState
 * \sa SDL_SetModState
 */
-GetModState :: () -> Keymod #foreign libsdl3_ttf "SDL_GetModState";
+SDL_GetModState :: () -> SDL_Keymod #foreign libsdl3_ttf;
 
 /**
 * Set the current key modifier state for the keyboard.
@@ -22448,7 +22450,7 @@ GetModState :: () -> Keymod #foreign libsdl3_ttf "SDL_GetModState";
 *
 * \sa SDL_GetModState
 */
-SetModState :: (modstate: Keymod) -> void #foreign libsdl3_ttf "SDL_SetModState";
+SDL_SetModState :: (modstate: SDL_Keymod) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the key code corresponding to the given scancode according to the
@@ -22472,7 +22474,7 @@ SetModState :: (modstate: Keymod) -> void #foreign libsdl3_ttf "SDL_SetModState"
 * \sa SDL_GetKeyName
 * \sa SDL_GetScancodeFromKey
 */
-GetKeyFromScancode :: (scancode: Scancode, modstate: Keymod, key_event: bool) -> Keycode #foreign libsdl3_ttf "SDL_GetKeyFromScancode";
+SDL_GetKeyFromScancode :: (scancode: SDL_Scancode, modstate: SDL_Keymod, key_event: bool) -> SDL_Keycode #foreign libsdl3_ttf;
 
 /**
 * Get the scancode corresponding to the given key code according to the
@@ -22493,7 +22495,7 @@ GetKeyFromScancode :: (scancode: Scancode, modstate: Keymod, key_event: bool) ->
 * \sa SDL_GetKeyFromScancode
 * \sa SDL_GetScancodeName
 */
-GetScancodeFromKey :: (key: Keycode, modstate: *Keymod) -> Scancode #foreign libsdl3_ttf "SDL_GetScancodeFromKey";
+SDL_GetScancodeFromKey :: (key: SDL_Keycode, modstate: *SDL_Keymod) -> SDL_Scancode #foreign libsdl3_ttf;
 
 /**
 * Set a human-readable name for a scancode.
@@ -22511,7 +22513,7 @@ GetScancodeFromKey :: (key: Keycode, modstate: *Keymod) -> Scancode #foreign lib
 *
 * \sa SDL_GetScancodeName
 */
-SetScancodeName :: (scancode: Scancode, name: *u8) -> bool #foreign libsdl3_ttf "SDL_SetScancodeName";
+SDL_SetScancodeName :: (scancode: SDL_Scancode, name: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get a human-readable name for a scancode.
@@ -22537,7 +22539,7 @@ SetScancodeName :: (scancode: Scancode, name: *u8) -> bool #foreign libsdl3_ttf 
 * \sa SDL_GetScancodeFromName
 * \sa SDL_SetScancodeName
 */
-GetScancodeName :: (scancode: Scancode) -> *u8 #foreign libsdl3_ttf "SDL_GetScancodeName";
+SDL_GetScancodeName :: (scancode: SDL_Scancode) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get a scancode from a human-readable name.
@@ -22554,7 +22556,7 @@ GetScancodeName :: (scancode: Scancode) -> *u8 #foreign libsdl3_ttf "SDL_GetScan
 * \sa SDL_GetScancodeFromKey
 * \sa SDL_GetScancodeName
 */
-GetScancodeFromName :: (name: *u8) -> Scancode #foreign libsdl3_ttf "SDL_GetScancodeFromName";
+SDL_GetScancodeFromName :: (name: *u8) -> SDL_Scancode #foreign libsdl3_ttf;
 
 /**
 * Get a human-readable name for a key.
@@ -22574,7 +22576,7 @@ GetScancodeFromName :: (name: *u8) -> Scancode #foreign libsdl3_ttf "SDL_GetScan
 * \sa SDL_GetKeyFromScancode
 * \sa SDL_GetScancodeFromKey
 */
-GetKeyName :: (key: Keycode) -> *u8 #foreign libsdl3_ttf "SDL_GetKeyName";
+SDL_GetKeyName :: (key: SDL_Keycode) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get a key code from a human-readable name.
@@ -22591,7 +22593,7 @@ GetKeyName :: (key: Keycode) -> *u8 #foreign libsdl3_ttf "SDL_GetKeyName";
 * \sa SDL_GetKeyName
 * \sa SDL_GetScancodeFromName
 */
-GetKeyFromName :: (name: *u8) -> Keycode #foreign libsdl3_ttf "SDL_GetKeyFromName";
+SDL_GetKeyFromName :: (name: *u8) -> SDL_Keycode #foreign libsdl3_ttf;
 
 /**
 * Start accepting Unicode text input events in a window.
@@ -22619,7 +22621,7 @@ GetKeyFromName :: (name: *u8) -> Keycode #foreign libsdl3_ttf "SDL_GetKeyFromNam
 * \sa SDL_StopTextInput
 * \sa SDL_TextInputActive
 */
-StartTextInput :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_StartTextInput";
+SDL_StartTextInput :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Text input type.
@@ -22632,7 +22634,7 @@ StartTextInput :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_StartTextI
 *
 * \sa SDL_StartTextInputWithProperties
 */
-TextInputType :: enum u32 {
+SDL_TextInputType :: enum u32 {
     TEXT                    :: 0;
     TEXT_NAME               :: 1;
     TEXT_EMAIL              :: 2;
@@ -22665,7 +22667,7 @@ TextInputType :: enum u32 {
 *
 * \sa SDL_StartTextInputWithProperties
 */
-Capitalization :: enum u32 {
+SDL_Capitalization :: enum u32 {
     NONE      :: 0;
     SENTENCES :: 1;
     WORDS     :: 2;
@@ -22727,7 +22729,7 @@ Capitalization :: enum u32 {
 * \sa SDL_StopTextInput
 * \sa SDL_TextInputActive
 */
-StartTextInputWithProperties :: (window: *Window, props: PropertiesID) -> bool #foreign libsdl3_ttf "SDL_StartTextInputWithProperties";
+SDL_StartTextInputWithProperties :: (window: *SDL_Window, props: SDL_PropertiesID) -> bool #foreign libsdl3_ttf;
 
 /**
 * Check whether or not Unicode text input events are enabled for a window.
@@ -22741,7 +22743,7 @@ StartTextInputWithProperties :: (window: *Window, props: PropertiesID) -> bool #
 *
 * \sa SDL_StartTextInput
 */
-TextInputActive :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_TextInputActive";
+SDL_TextInputActive :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Stop receiving any text input events in a window.
@@ -22759,7 +22761,7 @@ TextInputActive :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_TextInput
 *
 * \sa SDL_StartTextInput
 */
-StopTextInput :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_StopTextInput";
+SDL_StopTextInput :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Dismiss the composition window/IME without disabling the subsystem.
@@ -22775,7 +22777,7 @@ StopTextInput :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_StopTextInp
 * \sa SDL_StartTextInput
 * \sa SDL_StopTextInput
 */
-ClearComposition :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_ClearComposition";
+SDL_ClearComposition :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the area used to type Unicode text input.
@@ -22798,7 +22800,7 @@ ClearComposition :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_ClearCom
 * \sa SDL_GetTextInputArea
 * \sa SDL_StartTextInput
 */
-SetTextInputArea :: (window: *Window, rect: *Rect, cursor: s32) -> bool #foreign libsdl3_ttf "SDL_SetTextInputArea";
+SDL_SetTextInputArea :: (window: *SDL_Window, rect: *SDL_Rect, cursor: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the area used to type Unicode text input.
@@ -22819,7 +22821,7 @@ SetTextInputArea :: (window: *Window, rect: *Rect, cursor: s32) -> bool #foreign
 *
 * \sa SDL_SetTextInputArea
 */
-GetTextInputArea :: (window: *Window, rect: *Rect, cursor: *s32) -> bool #foreign libsdl3_ttf "SDL_GetTextInputArea";
+SDL_GetTextInputArea :: (window: *SDL_Window, rect: *SDL_Rect, cursor: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Check whether the platform has screen keyboard support.
@@ -22834,7 +22836,7 @@ GetTextInputArea :: (window: *Window, rect: *Rect, cursor: *s32) -> bool #foreig
 * \sa SDL_StartTextInput
 * \sa SDL_ScreenKeyboardShown
 */
-HasScreenKeyboardSupport :: () -> bool #foreign libsdl3_ttf "SDL_HasScreenKeyboardSupport";
+SDL_HasScreenKeyboardSupport :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Check whether the screen keyboard is shown for given window.
@@ -22848,7 +22850,7 @@ HasScreenKeyboardSupport :: () -> bool #foreign libsdl3_ttf "SDL_HasScreenKeyboa
 *
 * \sa SDL_HasScreenKeyboardSupport
 */
-ScreenKeyboardShown :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_ScreenKeyboardShown";
+SDL_ScreenKeyboardShown :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * This is a unique ID for a mouse for the time it is connected to the system,
@@ -22860,16 +22862,16 @@ ScreenKeyboardShown :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_Scree
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-MouseID :: Uint32;
+SDL_MouseID :: Uint32;
 
-Cursor :: struct {}
+SDL_Cursor :: struct {}
 
 /**
 * Cursor types for SDL_CreateSystemCursor().
 *
 * \since This enum is available since SDL 3.2.0.
 */
-SystemCursor :: enum u32 {
+SDL_SystemCursor :: enum u32 {
     DEFAULT     :: 0;
     TEXT        :: 1;
     WAIT        :: 2;
@@ -22920,7 +22922,7 @@ SystemCursor :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-MouseWheelDirection :: enum u32 {
+SDL_MouseWheelDirection :: enum u32 {
     NORMAL  :: 0;
     FLIPPED :: 1;
 
@@ -22943,7 +22945,7 @@ MouseWheelDirection :: enum u32 {
 * \sa SDL_GetGlobalMouseState
 * \sa SDL_GetRelativeMouseState
 */
-MouseButtonFlags :: Uint32;
+SDL_MouseButtonFlags :: Uint32;
 
 /**
 * Return whether a mouse is currently connected.
@@ -22956,7 +22958,7 @@ MouseButtonFlags :: Uint32;
 *
 * \sa SDL_GetMice
 */
-HasMouse :: () -> bool #foreign libsdl3_ttf "SDL_HasMouse";
+SDL_HasMouse :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Get a list of currently connected mice.
@@ -22979,7 +22981,7 @@ HasMouse :: () -> bool #foreign libsdl3_ttf "SDL_HasMouse";
 * \sa SDL_GetMouseNameForID
 * \sa SDL_HasMouse
 */
-GetMice :: (count: *s32) -> *MouseID #foreign libsdl3_ttf "SDL_GetMice";
+SDL_GetMice :: (count: *s32) -> *SDL_MouseID #foreign libsdl3_ttf;
 
 /**
 * Get the name of a mouse.
@@ -22996,7 +22998,7 @@ GetMice :: (count: *s32) -> *MouseID #foreign libsdl3_ttf "SDL_GetMice";
 *
 * \sa SDL_GetMice
 */
-GetMouseNameForID :: (instance_id: MouseID) -> *u8 #foreign libsdl3_ttf "SDL_GetMouseNameForID";
+SDL_GetMouseNameForID :: (instance_id: SDL_MouseID) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the window which currently has mouse focus.
@@ -23007,7 +23009,7 @@ GetMouseNameForID :: (instance_id: MouseID) -> *u8 #foreign libsdl3_ttf "SDL_Get
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetMouseFocus :: () -> *Window #foreign libsdl3_ttf "SDL_GetMouseFocus";
+SDL_GetMouseFocus :: () -> *SDL_Window #foreign libsdl3_ttf;
 
 /**
 * Query SDL's cache for the synchronous mouse button state and the
@@ -23040,7 +23042,7 @@ GetMouseFocus :: () -> *Window #foreign libsdl3_ttf "SDL_GetMouseFocus";
 * \sa SDL_GetGlobalMouseState
 * \sa SDL_GetRelativeMouseState
 */
-GetMouseState :: (x: *float, y: *float) -> MouseButtonFlags #foreign libsdl3_ttf "SDL_GetMouseState";
+SDL_GetMouseState :: (x: *float, y: *float) -> SDL_MouseButtonFlags #foreign libsdl3_ttf;
 
 /**
 * Query the platform for the asynchronous mouse button state and the
@@ -23077,7 +23079,7 @@ GetMouseState :: (x: *float, y: *float) -> MouseButtonFlags #foreign libsdl3_ttf
 * \sa SDL_GetMouseState
 * \sa SDL_GetGlobalMouseState
 */
-GetGlobalMouseState :: (x: *float, y: *float) -> MouseButtonFlags #foreign libsdl3_ttf "SDL_GetGlobalMouseState";
+SDL_GetGlobalMouseState :: (x: *float, y: *float) -> SDL_MouseButtonFlags #foreign libsdl3_ttf;
 
 /**
 * Query SDL's cache for the synchronous mouse button state and accumulated
@@ -23112,7 +23114,7 @@ GetGlobalMouseState :: (x: *float, y: *float) -> MouseButtonFlags #foreign libsd
 * \sa SDL_GetMouseState
 * \sa SDL_GetGlobalMouseState
 */
-GetRelativeMouseState :: (x: *float, y: *float) -> MouseButtonFlags #foreign libsdl3_ttf "SDL_GetRelativeMouseState";
+SDL_GetRelativeMouseState :: (x: *float, y: *float) -> SDL_MouseButtonFlags #foreign libsdl3_ttf;
 
 /**
 * Move the mouse cursor to the given position within the window.
@@ -23135,7 +23137,7 @@ GetRelativeMouseState :: (x: *float, y: *float) -> MouseButtonFlags #foreign lib
 *
 * \sa SDL_WarpMouseGlobal
 */
-WarpMouseInWindow :: (window: *Window, x: float, y: float) -> void #foreign libsdl3_ttf "SDL_WarpMouseInWindow";
+SDL_WarpMouseInWindow :: (window: *SDL_Window, x: float, y: float) -> void #foreign libsdl3_ttf;
 
 /**
 * Move the mouse to the given position in global screen space.
@@ -23159,7 +23161,7 @@ WarpMouseInWindow :: (window: *Window, x: float, y: float) -> void #foreign libs
 *
 * \sa SDL_WarpMouseInWindow
 */
-WarpMouseGlobal :: (x: float, y: float) -> bool #foreign libsdl3_ttf "SDL_WarpMouseGlobal";
+SDL_WarpMouseGlobal :: (x: float, y: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set relative mouse mode for a window.
@@ -23187,7 +23189,7 @@ WarpMouseGlobal :: (x: float, y: float) -> bool #foreign libsdl3_ttf "SDL_WarpMo
 *
 * \sa SDL_GetWindowRelativeMouseMode
 */
-SetWindowRelativeMouseMode :: (window: *Window, enabled: bool) -> bool #foreign libsdl3_ttf "SDL_SetWindowRelativeMouseMode";
+SDL_SetWindowRelativeMouseMode :: (window: *SDL_Window, enabled: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Query whether relative mouse mode is enabled for a window.
@@ -23201,7 +23203,7 @@ SetWindowRelativeMouseMode :: (window: *Window, enabled: bool) -> bool #foreign 
 *
 * \sa SDL_SetWindowRelativeMouseMode
 */
-GetWindowRelativeMouseMode :: (window: *Window) -> bool #foreign libsdl3_ttf "SDL_GetWindowRelativeMouseMode";
+SDL_GetWindowRelativeMouseMode :: (window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Capture the mouse and to track input outside an SDL window.
@@ -23249,7 +23251,7 @@ GetWindowRelativeMouseMode :: (window: *Window) -> bool #foreign libsdl3_ttf "SD
 *
 * \sa SDL_GetGlobalMouseState
 */
-CaptureMouse :: (enabled: bool) -> bool #foreign libsdl3_ttf "SDL_CaptureMouse";
+SDL_CaptureMouse :: (enabled: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Create a cursor using the specified bitmap data and mask (in MSB format).
@@ -23295,7 +23297,7 @@ CaptureMouse :: (enabled: bool) -> bool #foreign libsdl3_ttf "SDL_CaptureMouse";
 * \sa SDL_DestroyCursor
 * \sa SDL_SetCursor
 */
-CreateCursor :: (data: *Uint8, mask: *Uint8, w: s32, h: s32, hot_x: s32, hot_y: s32) -> *Cursor #foreign libsdl3_ttf "SDL_CreateCursor";
+SDL_CreateCursor :: (data: *Uint8, mask: *Uint8, w: s32, h: s32, hot_x: s32, hot_y: s32) -> *SDL_Cursor #foreign libsdl3_ttf;
 
 /**
 * Create a color cursor.
@@ -23325,7 +23327,7 @@ CreateCursor :: (data: *Uint8, mask: *Uint8, w: s32, h: s32, hot_x: s32, hot_y: 
 * \sa SDL_DestroyCursor
 * \sa SDL_SetCursor
 */
-CreateColorCursor :: (surface: *Surface, hot_x: s32, hot_y: s32) -> *Cursor #foreign libsdl3_ttf "SDL_CreateColorCursor";
+SDL_CreateColorCursor :: (surface: *SDL_Surface, hot_x: s32, hot_y: s32) -> *SDL_Cursor #foreign libsdl3_ttf;
 
 /**
 * Create a system cursor.
@@ -23340,7 +23342,7 @@ CreateColorCursor :: (surface: *Surface, hot_x: s32, hot_y: s32) -> *Cursor #for
 *
 * \sa SDL_DestroyCursor
 */
-CreateSystemCursor :: (id: SystemCursor) -> *Cursor #foreign libsdl3_ttf "SDL_CreateSystemCursor";
+SDL_CreateSystemCursor :: (id: SDL_SystemCursor) -> *SDL_Cursor #foreign libsdl3_ttf;
 
 /**
 * Set the active cursor.
@@ -23360,7 +23362,7 @@ CreateSystemCursor :: (id: SystemCursor) -> *Cursor #foreign libsdl3_ttf "SDL_Cr
 *
 * \sa SDL_GetCursor
 */
-SetCursor :: (cursor: *Cursor) -> bool #foreign libsdl3_ttf "SDL_SetCursor";
+SDL_SetCursor :: (cursor: *SDL_Cursor) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the active cursor.
@@ -23376,7 +23378,7 @@ SetCursor :: (cursor: *Cursor) -> bool #foreign libsdl3_ttf "SDL_SetCursor";
 *
 * \sa SDL_SetCursor
 */
-GetCursor :: () -> *Cursor #foreign libsdl3_ttf "SDL_GetCursor";
+SDL_GetCursor :: () -> *SDL_Cursor #foreign libsdl3_ttf;
 
 /**
 * Get the default cursor.
@@ -23391,7 +23393,7 @@ GetCursor :: () -> *Cursor #foreign libsdl3_ttf "SDL_GetCursor";
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetDefaultCursor :: () -> *Cursor #foreign libsdl3_ttf "SDL_GetDefaultCursor";
+SDL_GetDefaultCursor :: () -> *SDL_Cursor #foreign libsdl3_ttf;
 
 /**
 * Free a previously-created cursor.
@@ -23409,7 +23411,7 @@ GetDefaultCursor :: () -> *Cursor #foreign libsdl3_ttf "SDL_GetDefaultCursor";
 * \sa SDL_CreateCursor
 * \sa SDL_CreateSystemCursor
 */
-DestroyCursor :: (cursor: *Cursor) -> void #foreign libsdl3_ttf "SDL_DestroyCursor";
+SDL_DestroyCursor :: (cursor: *SDL_Cursor) -> void #foreign libsdl3_ttf;
 
 /**
 * Show the cursor.
@@ -23424,7 +23426,7 @@ DestroyCursor :: (cursor: *Cursor) -> void #foreign libsdl3_ttf "SDL_DestroyCurs
 * \sa SDL_CursorVisible
 * \sa SDL_HideCursor
 */
-ShowCursor :: () -> bool #foreign libsdl3_ttf "SDL_ShowCursor";
+SDL_ShowCursor :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Hide the cursor.
@@ -23439,7 +23441,7 @@ ShowCursor :: () -> bool #foreign libsdl3_ttf "SDL_ShowCursor";
 * \sa SDL_CursorVisible
 * \sa SDL_ShowCursor
 */
-HideCursor :: () -> bool #foreign libsdl3_ttf "SDL_HideCursor";
+SDL_HideCursor :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Return whether the cursor is currently being shown.
@@ -23454,7 +23456,7 @@ HideCursor :: () -> bool #foreign libsdl3_ttf "SDL_HideCursor";
 * \sa SDL_HideCursor
 * \sa SDL_ShowCursor
 */
-CursorVisible :: () -> bool #foreign libsdl3_ttf "SDL_CursorVisible";
+SDL_CursorVisible :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * A unique ID for a touch device.
@@ -23466,7 +23468,7 @@ CursorVisible :: () -> bool #foreign libsdl3_ttf "SDL_CursorVisible";
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-TouchID :: Uint64;
+SDL_TouchID :: Uint64;
 
 /**
 * A unique ID for a single finger on a touch device.
@@ -23480,14 +23482,14 @@ TouchID :: Uint64;
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-FingerID :: Uint64;
+SDL_FingerID :: Uint64;
 
 /**
 * An enum that describes the type of a touch device.
 *
 * \since This enum is available since SDL 3.2.0.
 */
-TouchDeviceType :: enum s32 {
+SDL_TouchDeviceType :: enum s32 {
     INVALID           :: -1;
     DIRECT            :: 0;
     INDIRECT_ABSOLUTE :: 1;
@@ -23510,8 +23512,8 @@ TouchDeviceType :: enum s32 {
 *
 * \sa SDL_GetTouchFingers
 */
-Finger :: struct {
-    id:       FingerID; /**< the finger ID */
+SDL_Finger :: struct {
+    id:       SDL_FingerID; /**< the finger ID */
     x:        float; /**< the x-axis location of the touch event, normalized (0...1) */
     y:        float; /**< the y-axis location of the touch event, normalized (0...1) */
     pressure: float; /**< the quantity of pressure applied, normalized (0...1) */
@@ -23532,7 +23534,7 @@ Finger :: struct {
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetTouchDevices :: (count: *s32) -> *TouchID #foreign libsdl3_ttf "SDL_GetTouchDevices";
+SDL_GetTouchDevices :: (count: *s32) -> *SDL_TouchID #foreign libsdl3_ttf;
 
 /**
 * Get the touch device name as reported from the driver.
@@ -23543,7 +23545,7 @@ GetTouchDevices :: (count: *s32) -> *TouchID #foreign libsdl3_ttf "SDL_GetTouchD
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetTouchDeviceName :: (touchID: TouchID) -> *u8 #foreign libsdl3_ttf "SDL_GetTouchDeviceName";
+SDL_GetTouchDeviceName :: (touchID: SDL_TouchID) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the type of the given touch device.
@@ -23553,7 +23555,7 @@ GetTouchDeviceName :: (touchID: TouchID) -> *u8 #foreign libsdl3_ttf "SDL_GetTou
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetTouchDeviceType :: (touchID: TouchID) -> TouchDeviceType #foreign libsdl3_ttf "SDL_GetTouchDeviceType";
+SDL_GetTouchDeviceType :: (touchID: SDL_TouchID) -> SDL_TouchDeviceType #foreign libsdl3_ttf;
 
 /**
 * Get a list of active fingers for a given touch device.
@@ -23568,7 +23570,7 @@ GetTouchDeviceType :: (touchID: TouchID) -> TouchDeviceType #foreign libsdl3_ttf
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetTouchFingers :: (touchID: TouchID, count: *s32) -> **Finger #foreign libsdl3_ttf "SDL_GetTouchFingers";
+SDL_GetTouchFingers :: (touchID: SDL_TouchID, count: *s32) -> **SDL_Finger #foreign libsdl3_ttf;
 
 /**
 * SDL pen instance IDs.
@@ -23581,14 +23583,14 @@ GetTouchFingers :: (touchID: TouchID, count: *s32) -> **Finger #foreign libsdl3_
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-PenID :: Uint32;
+SDL_PenID :: Uint32;
 
 /**
 * Pen input flags, as reported by various pen events' `pen_state` field.
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-PenInputFlags :: Uint32;
+SDL_PenInputFlags :: Uint32;
 
 /**
 * Pen axis indices.
@@ -23605,7 +23607,7 @@ PenInputFlags :: Uint32;
 *
 * \since This enum is available since SDL 3.2.0.
 */
-PenAxis :: enum u32 {
+SDL_PenAxis :: enum u32 {
     PRESSURE            :: 0;
     XTILT               :: 1;
     YTILT               :: 2;
@@ -23630,7 +23632,7 @@ PenAxis :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-EventType :: enum u32 {
+SDL_EventType :: enum u32 {
     FIRST                         :: 0;
 
     QUIT                          :: 256;
@@ -23935,7 +23937,7 @@ EventType :: enum u32 {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-CommonEvent :: struct {
+SDL_CommonEvent :: struct {
     type:      Uint32; /**< Event type, shared with all events, Uint32 to cover user events which are not in the SDL_EventType enumeration */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
@@ -23946,11 +23948,11 @@ CommonEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-DisplayEvent :: struct {
-    type:      EventType; /**< SDL_DISPLAYEVENT_* */
+SDL_DisplayEvent :: struct {
+    type:      SDL_EventType; /**< SDL_DISPLAYEVENT_* */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    displayID: DisplayID; /**< The associated display */
+    displayID: SDL_DisplayID; /**< The associated display */
     data1:     Sint32; /**< event dependent data */
     data2:     Sint32; /**< event dependent data */
 }
@@ -23960,11 +23962,11 @@ DisplayEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-WindowEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_WINDOW_* */
+SDL_WindowEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_WINDOW_* */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The associated window */
+    windowID:  SDL_WindowID; /**< The associated window */
     data1:     Sint32; /**< event dependent data */
     data2:     Sint32; /**< event dependent data */
 }
@@ -23974,11 +23976,11 @@ WindowEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-KeyboardDeviceEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_KEYBOARD_ADDED or SDL_EVENT_KEYBOARD_REMOVED */
+SDL_KeyboardDeviceEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_KEYBOARD_ADDED or SDL_EVENT_KEYBOARD_REMOVED */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:     KeyboardID; /**< The keyboard instance id */
+    which:     SDL_KeyboardID; /**< The keyboard instance id */
 }
 
 /**
@@ -23995,15 +23997,15 @@ KeyboardDeviceEvent :: struct {
 * \sa SDL_GetKeyFromScancode
 * \sa SDL_HINT_KEYCODE_OPTIONS
 */
-KeyboardEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_KEY_DOWN or SDL_EVENT_KEY_UP */
+SDL_KeyboardEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_KEY_DOWN or SDL_EVENT_KEY_UP */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The window with keyboard focus, if any */
-    which:     KeyboardID; /**< The keyboard instance id, or 0 if unknown or virtual */
-    scancode:  Scancode; /**< SDL physical key code */
-    key:       Keycode; /**< SDL virtual key code */
-    mod:       Keymod; /**< current key modifiers */
+    windowID:  SDL_WindowID; /**< The window with keyboard focus, if any */
+    which:     SDL_KeyboardID; /**< The keyboard instance id, or 0 if unknown or virtual */
+    scancode:  SDL_Scancode; /**< SDL physical key code */
+    key:       SDL_Keycode; /**< SDL virtual key code */
+    mod:       SDL_Keymod; /**< current key modifiers */
     raw:       Uint16; /**< The platform dependent scancode for this event */
     down:      bool; /**< true if the key is pressed */
     repeat:    bool; /**< true if this is a key repeat */
@@ -24018,11 +24020,11 @@ KeyboardEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-TextEditingEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_TEXT_EDITING */
+SDL_TextEditingEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_TEXT_EDITING */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The window with keyboard focus, if any */
+    windowID:  SDL_WindowID; /**< The window with keyboard focus, if any */
     text:      *u8; /**< The editing text */
     start:     Sint32; /**< The start cursor of selected editing text, or -1 if not set */
     length:    Sint32; /**< The length of selected editing text, or -1 if not set */
@@ -24033,11 +24035,11 @@ TextEditingEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-TextEditingCandidatesEvent :: struct {
-    type:               EventType; /**< SDL_EVENT_TEXT_EDITING_CANDIDATES */
+SDL_TextEditingCandidatesEvent :: struct {
+    type:               SDL_EventType; /**< SDL_EVENT_TEXT_EDITING_CANDIDATES */
     reserved:           Uint32;
     timestamp:          Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:           WindowID; /**< The window with keyboard focus, if any */
+    windowID:           SDL_WindowID; /**< The window with keyboard focus, if any */
     candidates:         **u8; /**< The list of candidates, or NULL if there are no candidates available */
     num_candidates:     Sint32; /**< The number of strings in `candidates` */
     selected_candidate: Sint32; /**< The index of the selected candidate, or -1 if no candidate is selected */
@@ -24058,11 +24060,11 @@ TextEditingCandidatesEvent :: struct {
 * \sa SDL_StartTextInput
 * \sa SDL_StopTextInput
 */
-TextInputEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_TEXT_INPUT */
+SDL_TextInputEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_TEXT_INPUT */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The window with keyboard focus, if any */
+    windowID:  SDL_WindowID; /**< The window with keyboard focus, if any */
     text:      *u8; /**< The input text, UTF-8 encoded */
 }
 
@@ -24071,11 +24073,11 @@ TextInputEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-MouseDeviceEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_MOUSE_ADDED or SDL_EVENT_MOUSE_REMOVED */
+SDL_MouseDeviceEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_MOUSE_ADDED or SDL_EVENT_MOUSE_REMOVED */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:     MouseID; /**< The mouse instance id */
+    which:     SDL_MouseID; /**< The mouse instance id */
 }
 
 /**
@@ -24083,13 +24085,13 @@ MouseDeviceEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-MouseMotionEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_MOUSE_MOTION */
+SDL_MouseMotionEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_MOUSE_MOTION */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The window with mouse focus, if any */
-    which:     MouseID; /**< The mouse instance id in relative mode, SDL_TOUCH_MOUSEID for touch events, or 0 */
-    state:     MouseButtonFlags; /**< The current button state */
+    windowID:  SDL_WindowID; /**< The window with mouse focus, if any */
+    which:     SDL_MouseID; /**< The mouse instance id in relative mode, SDL_TOUCH_MOUSEID for touch events, or 0 */
+    state:     SDL_MouseButtonFlags; /**< The current button state */
     x:         float; /**< X coordinate, relative to window */
     y:         float; /**< Y coordinate, relative to window */
     xrel:      float; /**< The relative motion in the X direction */
@@ -24101,12 +24103,12 @@ MouseMotionEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-MouseButtonEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_MOUSE_BUTTON_DOWN or SDL_EVENT_MOUSE_BUTTON_UP */
+SDL_MouseButtonEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_MOUSE_BUTTON_DOWN or SDL_EVENT_MOUSE_BUTTON_UP */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The window with mouse focus, if any */
-    which:     MouseID; /**< The mouse instance id in relative mode, SDL_TOUCH_MOUSEID for touch events, or 0 */
+    windowID:  SDL_WindowID; /**< The window with mouse focus, if any */
+    which:     SDL_MouseID; /**< The mouse instance id in relative mode, SDL_TOUCH_MOUSEID for touch events, or 0 */
     button:    Uint8; /**< The mouse button index */
     down:      bool; /**< true if the button is pressed */
     clicks:    Uint8; /**< 1 for single-click, 2 for double-click, etc. */
@@ -24120,15 +24122,15 @@ MouseButtonEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-MouseWheelEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_MOUSE_WHEEL */
+SDL_MouseWheelEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_MOUSE_WHEEL */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The window with mouse focus, if any */
-    which:     MouseID; /**< The mouse instance id in relative mode or 0 */
+    windowID:  SDL_WindowID; /**< The window with mouse focus, if any */
+    which:     SDL_MouseID; /**< The mouse instance id in relative mode or 0 */
     x:         float; /**< The amount scrolled horizontally, positive to the right and negative to the left */
     y:         float; /**< The amount scrolled vertically, positive away from the user and negative toward the user */
-    direction: MouseWheelDirection; /**< Set to one of the SDL_MOUSEWHEEL_* defines. When FLIPPED the values in X and Y will be opposite. Multiply by -1 to change them back */
+    direction: SDL_MouseWheelDirection; /**< Set to one of the SDL_MOUSEWHEEL_* defines. When FLIPPED the values in X and Y will be opposite. Multiply by -1 to change them back */
     mouse_x:   float; /**< X coordinate, relative to window */
     mouse_y:   float; /**< Y coordinate, relative to window */
     integer_x: Sint32; /**< The amount scrolled horizontally, accumulated to whole scroll "ticks" (added in 3.2.12) */
@@ -24140,11 +24142,11 @@ MouseWheelEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-JoyAxisEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_JOYSTICK_AXIS_MOTION */
+SDL_JoyAxisEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_JOYSTICK_AXIS_MOTION */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:     JoystickID; /**< The joystick instance id */
+    which:     SDL_JoystickID; /**< The joystick instance id */
     axis:      Uint8; /**< The joystick axis index */
     padding1:  Uint8;
     padding2:  Uint8;
@@ -24158,11 +24160,11 @@ JoyAxisEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-JoyBallEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_JOYSTICK_BALL_MOTION */
+SDL_JoyBallEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_JOYSTICK_BALL_MOTION */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:     JoystickID; /**< The joystick instance id */
+    which:     SDL_JoystickID; /**< The joystick instance id */
     ball:      Uint8; /**< The joystick trackball index */
     padding1:  Uint8;
     padding2:  Uint8;
@@ -24176,11 +24178,11 @@ JoyBallEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-JoyHatEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_JOYSTICK_HAT_MOTION */
+SDL_JoyHatEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_JOYSTICK_HAT_MOTION */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:     JoystickID; /**< The joystick instance id */
+    which:     SDL_JoystickID; /**< The joystick instance id */
     hat:       Uint8; /**< The joystick hat index */
     /**< The hat position value.
     *   \sa SDL_HAT_LEFTUP SDL_HAT_UP SDL_HAT_RIGHTUP
@@ -24200,11 +24202,11 @@ JoyHatEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-JoyButtonEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_JOYSTICK_BUTTON_DOWN or SDL_EVENT_JOYSTICK_BUTTON_UP */
+SDL_JoyButtonEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_JOYSTICK_BUTTON_DOWN or SDL_EVENT_JOYSTICK_BUTTON_UP */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:     JoystickID; /**< The joystick instance id */
+    which:     SDL_JoystickID; /**< The joystick instance id */
     button:    Uint8; /**< The joystick button index */
     down:      bool; /**< true if the button is pressed */
     padding1:  Uint8;
@@ -24221,11 +24223,11 @@ JoyButtonEvent :: struct {
 *
 * \sa SDL_GamepadDeviceEvent
 */
-JoyDeviceEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_JOYSTICK_ADDED or SDL_EVENT_JOYSTICK_REMOVED or SDL_EVENT_JOYSTICK_UPDATE_COMPLETE */
+SDL_JoyDeviceEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_JOYSTICK_ADDED or SDL_EVENT_JOYSTICK_REMOVED or SDL_EVENT_JOYSTICK_UPDATE_COMPLETE */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:     JoystickID; /**< The joystick instance id */
+    which:     SDL_JoystickID; /**< The joystick instance id */
 }
 
 /**
@@ -24233,12 +24235,12 @@ JoyDeviceEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-JoyBatteryEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_JOYSTICK_BATTERY_UPDATED */
+SDL_JoyBatteryEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_JOYSTICK_BATTERY_UPDATED */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:     JoystickID; /**< The joystick instance id */
-    state:     PowerState; /**< The joystick battery state */
+    which:     SDL_JoystickID; /**< The joystick instance id */
+    state:     SDL_PowerState; /**< The joystick battery state */
     percent:   s32; /**< The joystick battery percent charge remaining */
 }
 
@@ -24247,11 +24249,11 @@ JoyBatteryEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-GamepadAxisEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_GAMEPAD_AXIS_MOTION */
+SDL_GamepadAxisEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_GAMEPAD_AXIS_MOTION */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:     JoystickID; /**< The joystick instance id */
+    which:     SDL_JoystickID; /**< The joystick instance id */
     axis:      Uint8; /**< The gamepad axis (SDL_GamepadAxis) */
     padding1:  Uint8;
     padding2:  Uint8;
@@ -24265,11 +24267,11 @@ GamepadAxisEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-GamepadButtonEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_GAMEPAD_BUTTON_DOWN or SDL_EVENT_GAMEPAD_BUTTON_UP */
+SDL_GamepadButtonEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_GAMEPAD_BUTTON_DOWN or SDL_EVENT_GAMEPAD_BUTTON_UP */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:     JoystickID; /**< The joystick instance id */
+    which:     SDL_JoystickID; /**< The joystick instance id */
     button:    Uint8; /**< The gamepad button (SDL_GamepadButton) */
     down:      bool; /**< true if the button is pressed */
     padding1:  Uint8;
@@ -24290,11 +24292,11 @@ GamepadButtonEvent :: struct {
 *
 * \sa SDL_JoyDeviceEvent
 */
-GamepadDeviceEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_GAMEPAD_ADDED, SDL_EVENT_GAMEPAD_REMOVED, or SDL_EVENT_GAMEPAD_REMAPPED, SDL_EVENT_GAMEPAD_UPDATE_COMPLETE or SDL_EVENT_GAMEPAD_STEAM_HANDLE_UPDATED */
+SDL_GamepadDeviceEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_GAMEPAD_ADDED, SDL_EVENT_GAMEPAD_REMOVED, or SDL_EVENT_GAMEPAD_REMAPPED, SDL_EVENT_GAMEPAD_UPDATE_COMPLETE or SDL_EVENT_GAMEPAD_STEAM_HANDLE_UPDATED */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:     JoystickID; /**< The joystick instance id */
+    which:     SDL_JoystickID; /**< The joystick instance id */
 }
 
 /**
@@ -24302,11 +24304,11 @@ GamepadDeviceEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-GamepadTouchpadEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_GAMEPAD_TOUCHPAD_DOWN or SDL_EVENT_GAMEPAD_TOUCHPAD_MOTION or SDL_EVENT_GAMEPAD_TOUCHPAD_UP */
+SDL_GamepadTouchpadEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_GAMEPAD_TOUCHPAD_DOWN or SDL_EVENT_GAMEPAD_TOUCHPAD_MOTION or SDL_EVENT_GAMEPAD_TOUCHPAD_UP */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:     JoystickID; /**< The joystick instance id */
+    which:     SDL_JoystickID; /**< The joystick instance id */
     touchpad:  Sint32; /**< The index of the touchpad */
     finger:    Sint32; /**< The index of the finger on the touchpad */
     x:         float; /**< Normalized in the range 0...1 with 0 being on the left */
@@ -24319,11 +24321,11 @@ GamepadTouchpadEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-GamepadSensorEvent :: struct {
-    type:             EventType; /**< SDL_EVENT_GAMEPAD_SENSOR_UPDATE */
+SDL_GamepadSensorEvent :: struct {
+    type:             SDL_EventType; /**< SDL_EVENT_GAMEPAD_SENSOR_UPDATE */
     reserved:         Uint32;
     timestamp:        Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:            JoystickID; /**< The joystick instance id */
+    which:            SDL_JoystickID; /**< The joystick instance id */
     sensor:           Sint32; /**< The type of the sensor, one of the values of SDL_SensorType */
     data:             [3] float; /**< Up to 3 values from the sensor, as defined in SDL_sensor.h */
     sensor_timestamp: Uint64; /**< The timestamp of the sensor reading in nanoseconds, not necessarily synchronized with the system clock */
@@ -24334,11 +24336,11 @@ GamepadSensorEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-AudioDeviceEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_AUDIO_DEVICE_ADDED, or SDL_EVENT_AUDIO_DEVICE_REMOVED, or SDL_EVENT_AUDIO_DEVICE_FORMAT_CHANGED */
+SDL_AudioDeviceEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_AUDIO_DEVICE_ADDED, or SDL_EVENT_AUDIO_DEVICE_REMOVED, or SDL_EVENT_AUDIO_DEVICE_FORMAT_CHANGED */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:     AudioDeviceID; /**< SDL_AudioDeviceID for the device being added or removed or changing */
+    which:     SDL_AudioDeviceID; /**< SDL_AudioDeviceID for the device being added or removed or changing */
     recording: bool; /**< false if a playback device, true if a recording device. */
     padding1:  Uint8;
     padding2:  Uint8;
@@ -24350,11 +24352,11 @@ AudioDeviceEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-CameraDeviceEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_CAMERA_DEVICE_ADDED, SDL_EVENT_CAMERA_DEVICE_REMOVED, SDL_EVENT_CAMERA_DEVICE_APPROVED, SDL_EVENT_CAMERA_DEVICE_DENIED */
+SDL_CameraDeviceEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_CAMERA_DEVICE_ADDED, SDL_EVENT_CAMERA_DEVICE_REMOVED, SDL_EVENT_CAMERA_DEVICE_APPROVED, SDL_EVENT_CAMERA_DEVICE_DENIED */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:     CameraID; /**< SDL_CameraID for the device being added or removed or changing */
+    which:     SDL_CameraID; /**< SDL_CameraID for the device being added or removed or changing */
 }
 
 /**
@@ -24362,11 +24364,11 @@ CameraDeviceEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-RenderEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_RENDER_TARGETS_RESET, SDL_EVENT_RENDER_DEVICE_RESET, SDL_EVENT_RENDER_DEVICE_LOST */
+SDL_RenderEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_RENDER_TARGETS_RESET, SDL_EVENT_RENDER_DEVICE_RESET, SDL_EVENT_RENDER_DEVICE_LOST */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The window containing the renderer in question. */
+    windowID:  SDL_WindowID; /**< The window containing the renderer in question. */
 }
 
 /**
@@ -24388,18 +24390,18 @@ RenderEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-TouchFingerEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_FINGER_DOWN, SDL_EVENT_FINGER_UP, SDL_EVENT_FINGER_MOTION, or SDL_EVENT_FINGER_CANCELED */
+SDL_TouchFingerEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_FINGER_DOWN, SDL_EVENT_FINGER_UP, SDL_EVENT_FINGER_MOTION, or SDL_EVENT_FINGER_CANCELED */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    touchID:   TouchID; /**< The touch device id */
-    fingerID:  FingerID;
+    touchID:   SDL_TouchID; /**< The touch device id */
+    fingerID:  SDL_FingerID;
     x:         float; /**< Normalized in the range 0...1 */
     y:         float; /**< Normalized in the range 0...1 */
     dx:        float; /**< Normalized in the range -1...1 */
     dy:        float; /**< Normalized in the range -1...1 */
     pressure:  float; /**< Normalized in the range 0...1 */
-    windowID:  WindowID; /**< The window underneath the finger, if any */
+    windowID:  SDL_WindowID; /**< The window underneath the finger, if any */
 }
 
 /**
@@ -24417,12 +24419,12 @@ TouchFingerEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-PenProximityEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_PEN_PROXIMITY_IN or SDL_EVENT_PEN_PROXIMITY_OUT */
+SDL_PenProximityEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_PEN_PROXIMITY_IN or SDL_EVENT_PEN_PROXIMITY_OUT */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The window with pen focus, if any */
-    which:     PenID; /**< The pen instance id */
+    windowID:  SDL_WindowID; /**< The window with pen focus, if any */
+    which:     SDL_PenID; /**< The pen instance id */
 }
 
 /**
@@ -24436,13 +24438,13 @@ PenProximityEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-PenMotionEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_PEN_MOTION */
+SDL_PenMotionEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_PEN_MOTION */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The window with pen focus, if any */
-    which:     PenID; /**< The pen instance id */
-    pen_state: PenInputFlags; /**< Complete pen input state at time of event */
+    windowID:  SDL_WindowID; /**< The window with pen focus, if any */
+    which:     SDL_PenID; /**< The pen instance id */
+    pen_state: SDL_PenInputFlags; /**< Complete pen input state at time of event */
     x:         float; /**< X coordinate, relative to window */
     y:         float; /**< Y coordinate, relative to window */
 }
@@ -24455,13 +24457,13 @@ PenMotionEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-PenTouchEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_PEN_DOWN or SDL_EVENT_PEN_UP */
+SDL_PenTouchEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_PEN_DOWN or SDL_EVENT_PEN_UP */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The window with pen focus, if any */
-    which:     PenID; /**< The pen instance id */
-    pen_state: PenInputFlags; /**< Complete pen input state at time of event */
+    windowID:  SDL_WindowID; /**< The window with pen focus, if any */
+    which:     SDL_PenID; /**< The pen instance id */
+    pen_state: SDL_PenInputFlags; /**< Complete pen input state at time of event */
     x:         float; /**< X coordinate, relative to window */
     y:         float; /**< Y coordinate, relative to window */
     eraser:    bool; /**< true if eraser end is used (not all pens support this). */
@@ -24476,13 +24478,13 @@ PenTouchEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-PenButtonEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_PEN_BUTTON_DOWN or SDL_EVENT_PEN_BUTTON_UP */
+SDL_PenButtonEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_PEN_BUTTON_DOWN or SDL_EVENT_PEN_BUTTON_UP */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The window with mouse focus, if any */
-    which:     PenID; /**< The pen instance id */
-    pen_state: PenInputFlags; /**< Complete pen input state at time of event */
+    windowID:  SDL_WindowID; /**< The window with mouse focus, if any */
+    which:     SDL_PenID; /**< The pen instance id */
+    pen_state: SDL_PenInputFlags; /**< Complete pen input state at time of event */
     x:         float; /**< X coordinate, relative to window */
     y:         float; /**< Y coordinate, relative to window */
     button:    Uint8; /**< The pen button index (first button is 1). */
@@ -24497,16 +24499,16 @@ PenButtonEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-PenAxisEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_PEN_AXIS */
+SDL_PenAxisEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_PEN_AXIS */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The window with pen focus, if any */
-    which:     PenID; /**< The pen instance id */
-    pen_state: PenInputFlags; /**< Complete pen input state at time of event */
+    windowID:  SDL_WindowID; /**< The window with pen focus, if any */
+    which:     SDL_PenID; /**< The pen instance id */
+    pen_state: SDL_PenInputFlags; /**< Complete pen input state at time of event */
     x:         float; /**< X coordinate, relative to window */
     y:         float; /**< Y coordinate, relative to window */
-    axis:      PenAxis; /**< Axis that has changed */
+    axis:      SDL_PenAxis; /**< Axis that has changed */
     value:     float; /**< New value of axis */
 }
 
@@ -24516,11 +24518,11 @@ PenAxisEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-DropEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_DROP_BEGIN or SDL_EVENT_DROP_FILE or SDL_EVENT_DROP_TEXT or SDL_EVENT_DROP_COMPLETE or SDL_EVENT_DROP_POSITION */
+SDL_DropEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_DROP_BEGIN or SDL_EVENT_DROP_FILE or SDL_EVENT_DROP_TEXT or SDL_EVENT_DROP_COMPLETE or SDL_EVENT_DROP_POSITION */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The window that was dropped on, if any */
+    windowID:  SDL_WindowID; /**< The window that was dropped on, if any */
     x:         float; /**< X coordinate, relative to window (not on begin) */
     y:         float; /**< Y coordinate, relative to window (not on begin) */
     source:    *u8; /**< The source app that sent this drop event, or NULL if that isn't available */
@@ -24533,8 +24535,8 @@ DropEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-ClipboardEvent :: struct {
-    type:           EventType; /**< SDL_EVENT_CLIPBOARD_UPDATE */
+SDL_ClipboardEvent :: struct {
+    type:           SDL_EventType; /**< SDL_EVENT_CLIPBOARD_UPDATE */
     reserved:       Uint32;
     timestamp:      Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
     owner:          bool; /**< are we owning the clipboard (internal update) */
@@ -24547,11 +24549,11 @@ ClipboardEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-SensorEvent :: struct {
-    type:             EventType; /**< SDL_EVENT_SENSOR_UPDATE */
+SDL_SensorEvent :: struct {
+    type:             SDL_EventType; /**< SDL_EVENT_SENSOR_UPDATE */
     reserved:         Uint32;
     timestamp:        Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    which:            SensorID; /**< The instance ID of the sensor */
+    which:            SDL_SensorID; /**< The instance ID of the sensor */
     data:             [6] float; /**< Up to 6 values from the sensor - additional values can be queried using SDL_GetSensorData() */
     sensor_timestamp: Uint64; /**< The timestamp of the sensor reading in nanoseconds, not necessarily synchronized with the system clock */
 }
@@ -24561,8 +24563,8 @@ SensorEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-QuitEvent :: struct {
-    type:      EventType; /**< SDL_EVENT_QUIT */
+SDL_QuitEvent :: struct {
+    type:      SDL_EventType; /**< SDL_EVENT_QUIT */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
 }
@@ -24578,11 +24580,11 @@ QuitEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-UserEvent :: struct {
+SDL_UserEvent :: struct {
     type:      Uint32; /**< SDL_EVENT_USER through SDL_EVENT_LAST-1, Uint32 because these are not in the SDL_EventType enumeration */
     reserved:  Uint32;
     timestamp: Uint64; /**< In nanoseconds, populated using SDL_GetTicksNS() */
-    windowID:  WindowID; /**< The associated window if any */
+    windowID:  SDL_WindowID; /**< The associated window if any */
     code:      Sint32; /**< User defined event code */
     data1:     *void; /**< User defined data pointer */
     data2:     *void; /**< User defined data pointer */
@@ -24596,45 +24598,45 @@ UserEvent :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-Event :: union {
+SDL_Event :: union {
     type:            Uint32; /**< Event type, shared with all events, Uint32 to cover user events which are not in the SDL_EventType enumeration */
-    common:          CommonEvent; /**< Common event data */
-    display:         DisplayEvent; /**< Display event data */
-    window:          WindowEvent; /**< Window event data */
-    kdevice:         KeyboardDeviceEvent; /**< Keyboard device change event data */
-    key:             KeyboardEvent; /**< Keyboard event data */
-    edit:            TextEditingEvent; /**< Text editing event data */
-    edit_candidates: TextEditingCandidatesEvent; /**< Text editing candidates event data */
-    text:            TextInputEvent; /**< Text input event data */
-    mdevice:         MouseDeviceEvent; /**< Mouse device change event data */
-    motion:          MouseMotionEvent; /**< Mouse motion event data */
-    button:          MouseButtonEvent; /**< Mouse button event data */
-    wheel:           MouseWheelEvent; /**< Mouse wheel event data */
-    jdevice:         JoyDeviceEvent; /**< Joystick device change event data */
-    jaxis:           JoyAxisEvent; /**< Joystick axis event data */
-    jball:           JoyBallEvent; /**< Joystick ball event data */
-    jhat:            JoyHatEvent; /**< Joystick hat event data */
-    jbutton:         JoyButtonEvent; /**< Joystick button event data */
-    jbattery:        JoyBatteryEvent; /**< Joystick battery event data */
-    gdevice:         GamepadDeviceEvent; /**< Gamepad device event data */
-    gaxis:           GamepadAxisEvent; /**< Gamepad axis event data */
-    gbutton:         GamepadButtonEvent; /**< Gamepad button event data */
-    gtouchpad:       GamepadTouchpadEvent; /**< Gamepad touchpad event data */
-    gsensor:         GamepadSensorEvent; /**< Gamepad sensor event data */
-    adevice:         AudioDeviceEvent; /**< Audio device event data */
-    cdevice:         CameraDeviceEvent; /**< Camera device event data */
-    sensor:          SensorEvent; /**< Sensor event data */
-    quit:            QuitEvent; /**< Quit request event data */
-    user:            UserEvent; /**< Custom event data */
-    tfinger:         TouchFingerEvent; /**< Touch finger event data */
-    pproximity:      PenProximityEvent; /**< Pen proximity event data */
-    ptouch:          PenTouchEvent; /**< Pen tip touching event data */
-    pmotion:         PenMotionEvent; /**< Pen motion event data */
-    pbutton:         PenButtonEvent; /**< Pen button event data */
-    paxis:           PenAxisEvent; /**< Pen axis event data */
-    render:          RenderEvent; /**< Render event data */
-    drop:            DropEvent; /**< Drag and drop event data */
-    clipboard:       ClipboardEvent; /**< Clipboard event data */
+    common:          SDL_CommonEvent; /**< Common event data */
+    display:         SDL_DisplayEvent; /**< Display event data */
+    window:          SDL_WindowEvent; /**< Window event data */
+    kdevice:         SDL_KeyboardDeviceEvent; /**< Keyboard device change event data */
+    key:             SDL_KeyboardEvent; /**< Keyboard event data */
+    edit:            SDL_TextEditingEvent; /**< Text editing event data */
+    edit_candidates: SDL_TextEditingCandidatesEvent; /**< Text editing candidates event data */
+    text:            SDL_TextInputEvent; /**< Text input event data */
+    mdevice:         SDL_MouseDeviceEvent; /**< Mouse device change event data */
+    motion:          SDL_MouseMotionEvent; /**< Mouse motion event data */
+    button:          SDL_MouseButtonEvent; /**< Mouse button event data */
+    wheel:           SDL_MouseWheelEvent; /**< Mouse wheel event data */
+    jdevice:         SDL_JoyDeviceEvent; /**< Joystick device change event data */
+    jaxis:           SDL_JoyAxisEvent; /**< Joystick axis event data */
+    jball:           SDL_JoyBallEvent; /**< Joystick ball event data */
+    jhat:            SDL_JoyHatEvent; /**< Joystick hat event data */
+    jbutton:         SDL_JoyButtonEvent; /**< Joystick button event data */
+    jbattery:        SDL_JoyBatteryEvent; /**< Joystick battery event data */
+    gdevice:         SDL_GamepadDeviceEvent; /**< Gamepad device event data */
+    gaxis:           SDL_GamepadAxisEvent; /**< Gamepad axis event data */
+    gbutton:         SDL_GamepadButtonEvent; /**< Gamepad button event data */
+    gtouchpad:       SDL_GamepadTouchpadEvent; /**< Gamepad touchpad event data */
+    gsensor:         SDL_GamepadSensorEvent; /**< Gamepad sensor event data */
+    adevice:         SDL_AudioDeviceEvent; /**< Audio device event data */
+    cdevice:         SDL_CameraDeviceEvent; /**< Camera device event data */
+    sensor:          SDL_SensorEvent; /**< Sensor event data */
+    quit:            SDL_QuitEvent; /**< Quit request event data */
+    user:            SDL_UserEvent; /**< Custom event data */
+    tfinger:         SDL_TouchFingerEvent; /**< Touch finger event data */
+    pproximity:      SDL_PenProximityEvent; /**< Pen proximity event data */
+    ptouch:          SDL_PenTouchEvent; /**< Pen tip touching event data */
+    pmotion:         SDL_PenMotionEvent; /**< Pen motion event data */
+    pbutton:         SDL_PenButtonEvent; /**< Pen button event data */
+    paxis:           SDL_PenAxisEvent; /**< Pen axis event data */
+    render:          SDL_RenderEvent; /**< Render event data */
+    drop:            SDL_DropEvent; /**< Drag and drop event data */
+    clipboard:       SDL_ClipboardEvent; /**< Clipboard event data */
 
     /* This is necessary for ABI compatibility between Visual C++ and GCC.
     Visual C++ will respect the push pack pragma and use 52 bytes (size of
@@ -24672,14 +24674,14 @@ Event :: union {
 * \sa SDL_PollEvent
 * \sa SDL_WaitEvent
 */
-PumpEvents :: () -> void #foreign libsdl3_ttf "SDL_PumpEvents";
+SDL_PumpEvents :: () -> void #foreign libsdl3_ttf;
 
 /**
 * The type of action to request from SDL_PeepEvents().
 *
 * \since This enum is available since SDL 3.2.0.
 */
-EventAction :: enum u32 {
+SDL_EventAction :: enum u32 {
     ADDEVENT  :: 0;
     PEEKEVENT :: 1;
     GETEVENT  :: 2;
@@ -24731,7 +24733,7 @@ EventAction :: enum u32 {
 * \sa SDL_PumpEvents
 * \sa SDL_PushEvent
 */
-PeepEvents :: (events: *Event, numevents: s32, action: EventAction, minType: Uint32, maxType: Uint32) -> s32 #foreign libsdl3_ttf "SDL_PeepEvents";
+SDL_PeepEvents :: (events: *SDL_Event, numevents: s32, action: SDL_EventAction, minType: Uint32, maxType: Uint32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Check for the existence of a certain event type in the event queue.
@@ -24749,7 +24751,7 @@ PeepEvents :: (events: *Event, numevents: s32, action: EventAction, minType: Uin
 *
 * \sa SDL_HasEvents
 */
-HasEvent :: (type: Uint32) -> bool #foreign libsdl3_ttf "SDL_HasEvent";
+SDL_HasEvent :: (type: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Check for the existence of certain event types in the event queue.
@@ -24769,7 +24771,7 @@ HasEvent :: (type: Uint32) -> bool #foreign libsdl3_ttf "SDL_HasEvent";
 *
 * \sa SDL_HasEvents
 */
-HasEvents :: (minType: Uint32, maxType: Uint32) -> bool #foreign libsdl3_ttf "SDL_HasEvents";
+SDL_HasEvents :: (minType: Uint32, maxType: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Clear events of a specific type from the event queue.
@@ -24797,7 +24799,7 @@ HasEvents :: (minType: Uint32, maxType: Uint32) -> bool #foreign libsdl3_ttf "SD
 *
 * \sa SDL_FlushEvents
 */
-FlushEvent :: (type: Uint32) -> void #foreign libsdl3_ttf "SDL_FlushEvent";
+SDL_FlushEvent :: (type: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Clear events of a range of types from the event queue.
@@ -24824,7 +24826,7 @@ FlushEvent :: (type: Uint32) -> void #foreign libsdl3_ttf "SDL_FlushEvent";
 *
 * \sa SDL_FlushEvent
 */
-FlushEvents :: (minType: Uint32, maxType: Uint32) -> void #foreign libsdl3_ttf "SDL_FlushEvents";
+SDL_FlushEvents :: (minType: Uint32, maxType: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Poll for currently pending events.
@@ -24870,7 +24872,7 @@ FlushEvents :: (minType: Uint32, maxType: Uint32) -> void #foreign libsdl3_ttf "
 * \sa SDL_WaitEvent
 * \sa SDL_WaitEventTimeout
 */
-PollEvent :: (event: *Event) -> bool #foreign libsdl3_ttf "SDL_PollEvent";
+SDL_PollEvent :: (event: *SDL_Event) -> bool #foreign libsdl3_ttf;
 
 /**
 * Wait indefinitely for the next available event.
@@ -24894,7 +24896,7 @@ PollEvent :: (event: *Event) -> bool #foreign libsdl3_ttf "SDL_PollEvent";
 * \sa SDL_PushEvent
 * \sa SDL_WaitEventTimeout
 */
-WaitEvent :: (event: *Event) -> bool #foreign libsdl3_ttf "SDL_WaitEvent";
+SDL_WaitEvent :: (event: *SDL_Event) -> bool #foreign libsdl3_ttf;
 
 /**
 * Wait until the specified timeout (in milliseconds) for the next available
@@ -24924,7 +24926,7 @@ WaitEvent :: (event: *Event) -> bool #foreign libsdl3_ttf "SDL_WaitEvent";
 * \sa SDL_PushEvent
 * \sa SDL_WaitEvent
 */
-WaitEventTimeout :: (event: *Event, timeoutMS: Sint32) -> bool #foreign libsdl3_ttf "SDL_WaitEventTimeout";
+SDL_WaitEventTimeout :: (event: *SDL_Event, timeoutMS: Sint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Add an event to the event queue.
@@ -24958,7 +24960,7 @@ WaitEventTimeout :: (event: *Event, timeoutMS: Sint32) -> bool #foreign libsdl3_
 * \sa SDL_PollEvent
 * \sa SDL_RegisterEvents
 */
-PushEvent :: (event: *Event) -> bool #foreign libsdl3_ttf "SDL_PushEvent";
+SDL_PushEvent :: (event: *SDL_Event) -> bool #foreign libsdl3_ttf;
 
 /**
 * A function pointer used for callbacks that watch the event queue.
@@ -24979,7 +24981,7 @@ PushEvent :: (event: *Event) -> bool #foreign libsdl3_ttf "SDL_PushEvent";
 * \sa SDL_SetEventFilter
 * \sa SDL_AddEventWatch
 */
-EventFilter :: #type (userdata: *void, event: *Event) -> bool #c_call;
+SDL_EventFilter :: #type (userdata: *void, event: *SDL_Event) -> bool #c_call;
 
 /**
 * Set up a filter to process all events before they are added to the internal
@@ -25020,7 +25022,7 @@ EventFilter :: #type (userdata: *void, event: *Event) -> bool #c_call;
 * \sa SDL_PeepEvents
 * \sa SDL_PushEvent
 */
-SetEventFilter :: (filter: EventFilter, userdata: *void) -> void #foreign libsdl3_ttf "SDL_SetEventFilter";
+SDL_SetEventFilter :: (filter: SDL_EventFilter, userdata: *void) -> void #foreign libsdl3_ttf;
 
 /**
 * Query the current event filter.
@@ -25039,7 +25041,7 @@ SetEventFilter :: (filter: EventFilter, userdata: *void) -> void #foreign libsdl
 *
 * \sa SDL_SetEventFilter
 */
-GetEventFilter :: (filter: *EventFilter, userdata: **void) -> bool #foreign libsdl3_ttf "SDL_GetEventFilter";
+SDL_GetEventFilter :: (filter: *SDL_EventFilter, userdata: **void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Add a callback to be triggered when an event is added to the event queue.
@@ -25071,7 +25073,7 @@ GetEventFilter :: (filter: *EventFilter, userdata: **void) -> bool #foreign libs
 * \sa SDL_RemoveEventWatch
 * \sa SDL_SetEventFilter
 */
-AddEventWatch :: (filter: EventFilter, userdata: *void) -> bool #foreign libsdl3_ttf "SDL_AddEventWatch";
+SDL_AddEventWatch :: (filter: SDL_EventFilter, userdata: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Remove an event watch callback added with SDL_AddEventWatch().
@@ -25088,7 +25090,7 @@ AddEventWatch :: (filter: EventFilter, userdata: *void) -> bool #foreign libsdl3
 *
 * \sa SDL_AddEventWatch
 */
-RemoveEventWatch :: (filter: EventFilter, userdata: *void) -> void #foreign libsdl3_ttf "SDL_RemoveEventWatch";
+SDL_RemoveEventWatch :: (filter: SDL_EventFilter, userdata: *void) -> void #foreign libsdl3_ttf;
 
 /**
 * Run a specific filter function on the current event queue, removing any
@@ -25108,7 +25110,7 @@ RemoveEventWatch :: (filter: EventFilter, userdata: *void) -> void #foreign libs
 * \sa SDL_GetEventFilter
 * \sa SDL_SetEventFilter
 */
-FilterEvents :: (filter: EventFilter, userdata: *void) -> void #foreign libsdl3_ttf "SDL_FilterEvents";
+SDL_FilterEvents :: (filter: SDL_EventFilter, userdata: *void) -> void #foreign libsdl3_ttf;
 
 /**
 * Set the state of processing events by type.
@@ -25122,7 +25124,7 @@ FilterEvents :: (filter: EventFilter, userdata: *void) -> void #foreign libsdl3_
 *
 * \sa SDL_EventEnabled
 */
-SetEventEnabled :: (type: Uint32, enabled: bool) -> void #foreign libsdl3_ttf "SDL_SetEventEnabled";
+SDL_SetEventEnabled :: (type: Uint32, enabled: bool) -> void #foreign libsdl3_ttf;
 
 /**
 * Query the state of processing events by type.
@@ -25136,7 +25138,7 @@ SetEventEnabled :: (type: Uint32, enabled: bool) -> void #foreign libsdl3_ttf "S
 *
 * \sa SDL_SetEventEnabled
 */
-EventEnabled :: (type: Uint32) -> bool #foreign libsdl3_ttf "SDL_EventEnabled";
+SDL_EventEnabled :: (type: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Allocate a set of user-defined events, and return the beginning event
@@ -25152,7 +25154,7 @@ EventEnabled :: (type: Uint32) -> bool #foreign libsdl3_ttf "SDL_EventEnabled";
 *
 * \sa SDL_PushEvent
 */
-RegisterEvents :: (numevents: s32) -> Uint32 #foreign libsdl3_ttf "SDL_RegisterEvents";
+SDL_RegisterEvents :: (numevents: s32) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Get window associated with an event.
@@ -25168,7 +25170,7 @@ RegisterEvents :: (numevents: s32) -> Uint32 #foreign libsdl3_ttf "SDL_RegisterE
 * \sa SDL_WaitEvent
 * \sa SDL_WaitEventTimeout
 */
-GetWindowFromEvent :: (event: *Event) -> *Window #foreign libsdl3_ttf "SDL_GetWindowFromEvent";
+SDL_GetWindowFromEvent :: (event: *SDL_Event) -> *SDL_Window #foreign libsdl3_ttf;
 
 /**
 * Get the directory where the application was run from.
@@ -25209,7 +25211,7 @@ GetWindowFromEvent :: (event: *Event) -> *Window #foreign libsdl3_ttf "SDL_GetWi
 *
 * \sa SDL_GetPrefPath
 */
-GetBasePath :: () -> *u8 #foreign libsdl3_ttf "SDL_GetBasePath";
+SDL_GetBasePath :: () -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the user-and-app-specific path where files can be written.
@@ -25264,7 +25266,7 @@ GetBasePath :: () -> *u8 #foreign libsdl3_ttf "SDL_GetBasePath";
 *
 * \sa SDL_GetBasePath
 */
-GetPrefPath :: (org: *u8, app: *u8) -> *u8 #foreign libsdl3_ttf "SDL_GetPrefPath";
+SDL_GetPrefPath :: (org: *u8, app: *u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * The type of the OS-provided default folder for a specific purpose.
@@ -25295,7 +25297,7 @@ GetPrefPath :: (org: *u8, app: *u8) -> *u8 #foreign libsdl3_ttf "SDL_GetPrefPath
 *
 * \sa SDL_GetUserFolder
 */
-Folder :: enum u32 {
+SDL_Folder :: enum u32 {
     HOME        :: 0;
     DESKTOP     :: 1;
     DOCUMENTS   :: 2;
@@ -25346,7 +25348,7 @@ Folder :: enum u32 {
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetUserFolder :: (folder: Folder) -> *u8 #foreign libsdl3_ttf "SDL_GetUserFolder";
+SDL_GetUserFolder :: (folder: SDL_Folder) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Types of filesystem entries.
@@ -25359,7 +25361,7 @@ GetUserFolder :: (folder: Folder) -> *u8 #foreign libsdl3_ttf "SDL_GetUserFolder
 *
 * \sa SDL_PathInfo
 */
-PathType :: enum u32 {
+SDL_PathType :: enum u32 {
     NONE      :: 0;
     FILE      :: 1;
     DIRECTORY :: 2;
@@ -25379,12 +25381,12 @@ PathType :: enum u32 {
 * \sa SDL_GetPathInfo
 * \sa SDL_GetStoragePathInfo
 */
-PathInfo :: struct {
-    type:        PathType; /**< the path type */
+SDL_PathInfo :: struct {
+    type:        SDL_PathType; /**< the path type */
     size:        Uint64; /**< the file size in bytes */
-    create_time: Time; /**< the time when the path was created */
-    modify_time: Time; /**< the last time the path was modified */
-    access_time: Time; /**< the last time the path was read */
+    create_time: SDL_Time; /**< the time when the path was created */
+    modify_time: SDL_Time; /**< the last time the path was modified */
+    access_time: SDL_Time; /**< the last time the path was read */
 }
 
 /**
@@ -25395,7 +25397,7 @@ PathInfo :: struct {
 * \sa SDL_GlobDirectory
 * \sa SDL_GlobStorageDirectory
 */
-GlobFlags :: Uint32;
+SDL_GlobFlags :: Uint32;
 
 /**
 * Create a directory, and any missing parent directories.
@@ -25411,7 +25413,7 @@ GlobFlags :: Uint32;
 *
 * \since This function is available since SDL 3.2.0.
 */
-CreateDirectory :: (path: *u8) -> bool #foreign libsdl3_ttf "SDL_CreateDirectory";
+SDL_CreateDirectory :: (path: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Possible results from an enumeration callback.
@@ -25420,7 +25422,7 @@ CreateDirectory :: (path: *u8) -> bool #foreign libsdl3_ttf "SDL_CreateDirectory
 *
 * \sa SDL_EnumerateDirectoryCallback
 */
-EnumerationResult :: enum u32 {
+SDL_EnumerationResult :: enum u32 {
     CONTINUE :: 0;
     SUCCESS  :: 1;
     FAILURE  :: 2;
@@ -25454,7 +25456,7 @@ EnumerationResult :: enum u32 {
 *
 * \sa SDL_EnumerateDirectory
 */
-EnumerateDirectoryCallback :: #type (userdata: *void, dirname: *u8, fname: *u8) -> EnumerationResult #c_call;
+SDL_EnumerateDirectoryCallback :: #type (userdata: *void, dirname: *u8, fname: *u8) -> SDL_EnumerationResult #c_call;
 
 /**
 * Enumerate a directory through a callback function.
@@ -25477,7 +25479,7 @@ EnumerateDirectoryCallback :: #type (userdata: *void, dirname: *u8, fname: *u8) 
 *
 * \since This function is available since SDL 3.2.0.
 */
-EnumerateDirectory :: (path: *u8, callback: EnumerateDirectoryCallback, userdata: *void) -> bool #foreign libsdl3_ttf "SDL_EnumerateDirectory";
+SDL_EnumerateDirectory :: (path: *u8, callback: SDL_EnumerateDirectoryCallback, userdata: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Remove a file or an empty directory.
@@ -25491,7 +25493,7 @@ EnumerateDirectory :: (path: *u8, callback: EnumerateDirectoryCallback, userdata
 *
 * \since This function is available since SDL 3.2.0.
 */
-RemovePath :: (path: *u8) -> bool #foreign libsdl3_ttf "SDL_RemovePath";
+SDL_RemovePath :: (path: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Rename a file or directory.
@@ -25514,7 +25516,7 @@ RemovePath :: (path: *u8) -> bool #foreign libsdl3_ttf "SDL_RemovePath";
 *
 * \since This function is available since SDL 3.2.0.
 */
-RenamePath :: (oldpath: *u8, newpath: *u8) -> bool #foreign libsdl3_ttf "SDL_RenamePath";
+SDL_RenamePath :: (oldpath: *u8, newpath: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Copy a file.
@@ -25554,7 +25556,7 @@ RenamePath :: (oldpath: *u8, newpath: *u8) -> bool #foreign libsdl3_ttf "SDL_Ren
 *
 * \since This function is available since SDL 3.2.0.
 */
-CopyFile :: (oldpath: *u8, newpath: *u8) -> bool #foreign libsdl3_ttf "SDL_CopyFile";
+SDL_CopyFile :: (oldpath: *u8, newpath: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get information about a filesystem path.
@@ -25567,7 +25569,7 @@ CopyFile :: (oldpath: *u8, newpath: *u8) -> bool #foreign libsdl3_ttf "SDL_CopyF
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetPathInfo :: (path: *u8, info: *PathInfo) -> bool #foreign libsdl3_ttf "SDL_GetPathInfo";
+SDL_GetPathInfo :: (path: *u8, info: *SDL_PathInfo) -> bool #foreign libsdl3_ttf;
 
 /**
 * Enumerate a directory tree, filtered by pattern, and return a list.
@@ -25600,7 +25602,7 @@ GetPathInfo :: (path: *u8, info: *PathInfo) -> bool #foreign libsdl3_ttf "SDL_Ge
 *
 * \since This function is available since SDL 3.2.0.
 */
-GlobDirectory :: (path: *u8, pattern: *u8, flags: GlobFlags, count: *s32) -> **u8 #foreign libsdl3_ttf "SDL_GlobDirectory";
+SDL_GlobDirectory :: (path: *u8, pattern: *u8, flags: SDL_GlobFlags, count: *s32) -> **u8 #foreign libsdl3_ttf;
 
 /**
 * Get what the system believes is the "current working directory."
@@ -25621,33 +25623,33 @@ GlobDirectory :: (path: *u8, pattern: *u8, flags: GlobFlags, count: *s32) -> **u
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetCurrentDirectory :: () -> *u8 #foreign libsdl3_ttf "SDL_GetCurrentDirectory";
+SDL_GetCurrentDirectory :: () -> *u8 #foreign libsdl3_ttf;
 
-GPUDevice :: struct {}
+SDL_GPUDevice :: struct {}
 
-GPUBuffer :: struct {}
+SDL_GPUBuffer :: struct {}
 
-GPUTransferBuffer :: struct {}
+SDL_GPUTransferBuffer :: struct {}
 
-GPUTexture :: struct {}
+SDL_GPUTexture :: struct {}
 
-GPUSampler :: struct {}
+SDL_GPUSampler :: struct {}
 
-GPUShader :: struct {}
+SDL_GPUShader :: struct {}
 
-GPUComputePipeline :: struct {}
+SDL_GPUComputePipeline :: struct {}
 
-GPUGraphicsPipeline :: struct {}
+SDL_GPUGraphicsPipeline :: struct {}
 
-GPUCommandBuffer :: struct {}
+SDL_GPUCommandBuffer :: struct {}
 
-GPURenderPass :: struct {}
+SDL_GPURenderPass :: struct {}
 
-GPUComputePass :: struct {}
+SDL_GPUComputePass :: struct {}
 
-GPUCopyPass :: struct {}
+SDL_GPUCopyPass :: struct {}
 
-GPUFence :: struct {}
+SDL_GPUFence :: struct {}
 
 /**
 * Specifies the primitive topology of a graphics pipeline.
@@ -25670,7 +25672,7 @@ GPUFence :: struct {}
 *
 * \sa SDL_CreateGPUGraphicsPipeline
 */
-GPUPrimitiveType :: enum u32 {
+SDL_GPUPrimitiveType :: enum u32 {
     TRIANGLELIST  :: 0;
     TRIANGLESTRIP :: 1;
     LINELIST      :: 2;
@@ -25692,7 +25694,7 @@ GPUPrimitiveType :: enum u32 {
 *
 * \sa SDL_BeginGPURenderPass
 */
-GPULoadOp :: enum u32 {
+SDL_GPULoadOp :: enum u32 {
     LOAD      :: 0;
     CLEAR     :: 1;
     DONT_CARE :: 2;
@@ -25710,7 +25712,7 @@ GPULoadOp :: enum u32 {
 *
 * \sa SDL_BeginGPURenderPass
 */
-GPUStoreOp :: enum u32 {
+SDL_GPUStoreOp :: enum u32 {
     STORE             :: 0;
     DONT_CARE         :: 1;
     RESOLVE           :: 2;
@@ -25729,7 +25731,7 @@ GPUStoreOp :: enum u32 {
 *
 * \sa SDL_CreateGPUGraphicsPipeline
 */
-GPUIndexElementSize :: enum u32 {
+SDL_GPUIndexElementSize :: enum u32 {
     _16BIT :: 0;
     _32BIT :: 1;
 
@@ -25822,7 +25824,7 @@ GPUIndexElementSize :: enum u32 {
 * \sa SDL_CreateGPUTexture
 * \sa SDL_GPUTextureSupportsFormat
 */
-GPUTextureFormat :: enum u32 {
+SDL_GPUTextureFormat :: enum u32 {
     INVALID               :: 0;
 
     A8_UNORM              :: 1;
@@ -26086,7 +26088,7 @@ GPUTextureFormat :: enum u32 {
 *
 * \sa SDL_CreateGPUTexture
 */
-GPUTextureUsageFlags :: Uint32;
+SDL_GPUTextureUsageFlags :: Uint32;
 
 /**
 * Specifies the type of a texture.
@@ -26095,7 +26097,7 @@ GPUTextureUsageFlags :: Uint32;
 *
 * \sa SDL_CreateGPUTexture
 */
-GPUTextureType :: enum u32 {
+SDL_GPUTextureType :: enum u32 {
     _2D        :: 0;
     _2D_ARRAY  :: 1;
     _3D        :: 2;
@@ -26120,7 +26122,7 @@ GPUTextureType :: enum u32 {
 * \sa SDL_CreateGPUTexture
 * \sa SDL_GPUTextureSupportsSampleCount
 */
-GPUSampleCount :: enum u32 {
+SDL_GPUSampleCount :: enum u32 {
     _1 :: 0;
     _2 :: 1;
     _4 :: 2;
@@ -26139,7 +26141,7 @@ GPUSampleCount :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-GPUCubeMapFace :: enum u32 {
+SDL_GPUCubeMapFace :: enum u32 {
     POSITIVEX :: 0;
     NEGATIVEX :: 1;
     POSITIVEY :: 2;
@@ -26172,7 +26174,7 @@ GPUCubeMapFace :: enum u32 {
 *
 * \sa SDL_CreateGPUBuffer
 */
-GPUBufferUsageFlags :: Uint32;
+SDL_GPUBufferUsageFlags :: Uint32;
 
 /**
 * Specifies how a transfer buffer is intended to be used by the client.
@@ -26184,7 +26186,7 @@ GPUBufferUsageFlags :: Uint32;
 *
 * \sa SDL_CreateGPUTransferBuffer
 */
-GPUTransferBufferUsage :: enum u32 {
+SDL_GPUTransferBufferUsage :: enum u32 {
     UPLOAD   :: 0;
     DOWNLOAD :: 1;
 
@@ -26199,7 +26201,7 @@ GPUTransferBufferUsage :: enum u32 {
 *
 * \sa SDL_CreateGPUShader
 */
-GPUShaderStage :: enum u32 {
+SDL_GPUShaderStage :: enum u32 {
     VERTEX   :: 0;
     FRAGMENT :: 1;
 
@@ -26216,7 +26218,7 @@ GPUShaderStage :: enum u32 {
 *
 * \sa SDL_CreateGPUShader
 */
-GPUShaderFormat :: Uint32;
+SDL_GPUShaderFormat :: Uint32;
 
 /**
 * Specifies the format of a vertex attribute.
@@ -26225,7 +26227,7 @@ GPUShaderFormat :: Uint32;
 *
 * \sa SDL_CreateGPUGraphicsPipeline
 */
-GPUVertexElementFormat :: enum u32 {
+SDL_GPUVertexElementFormat :: enum u32 {
     INVALID      :: 0;
 
     INT          :: 1;
@@ -26322,7 +26324,7 @@ GPUVertexElementFormat :: enum u32 {
 *
 * \sa SDL_CreateGPUGraphicsPipeline
 */
-GPUVertexInputRate :: enum u32 {
+SDL_GPUVertexInputRate :: enum u32 {
     VERTEX   :: 0;
     INSTANCE :: 1;
 
@@ -26337,7 +26339,7 @@ GPUVertexInputRate :: enum u32 {
 *
 * \sa SDL_CreateGPUGraphicsPipeline
 */
-GPUFillMode :: enum u32 {
+SDL_GPUFillMode :: enum u32 {
     FILL :: 0;
     LINE :: 1;
 
@@ -26352,7 +26354,7 @@ GPUFillMode :: enum u32 {
 *
 * \sa SDL_CreateGPUGraphicsPipeline
 */
-GPUCullMode :: enum u32 {
+SDL_GPUCullMode :: enum u32 {
     NONE  :: 0;
     FRONT :: 1;
     BACK  :: 2;
@@ -26370,7 +26372,7 @@ GPUCullMode :: enum u32 {
 *
 * \sa SDL_CreateGPUGraphicsPipeline
 */
-GPUFrontFace :: enum u32 {
+SDL_GPUFrontFace :: enum u32 {
     COUNTER_CLOCKWISE :: 0;
     CLOCKWISE         :: 1;
 
@@ -26385,7 +26387,7 @@ GPUFrontFace :: enum u32 {
 *
 * \sa SDL_CreateGPUGraphicsPipeline
 */
-GPUCompareOp :: enum u32 {
+SDL_GPUCompareOp :: enum u32 {
     INVALID          :: 0;
     NEVER            :: 1;
     LESS             :: 2;
@@ -26415,7 +26417,7 @@ GPUCompareOp :: enum u32 {
 *
 * \sa SDL_CreateGPUGraphicsPipeline
 */
-GPUStencilOp :: enum u32 {
+SDL_GPUStencilOp :: enum u32 {
     INVALID             :: 0;
     KEEP                :: 1;
     ZERO                :: 2;
@@ -26448,7 +26450,7 @@ GPUStencilOp :: enum u32 {
 *
 * \sa SDL_CreateGPUGraphicsPipeline
 */
-GPUBlendOp :: enum u32 {
+SDL_GPUBlendOp :: enum u32 {
     INVALID          :: 0;
     ADD              :: 1;
     SUBTRACT         :: 2;
@@ -26475,7 +26477,7 @@ GPUBlendOp :: enum u32 {
 *
 * \sa SDL_CreateGPUGraphicsPipeline
 */
-GPUBlendFactor :: enum u32 {
+SDL_GPUBlendFactor :: enum u32 {
     INVALID                  :: 0;
     ZERO                     :: 1;
     ONE                      :: 2;
@@ -26514,7 +26516,7 @@ GPUBlendFactor :: enum u32 {
 *
 * \sa SDL_CreateGPUGraphicsPipeline
 */
-GPUColorComponentFlags :: Uint8;
+SDL_GPUColorComponentFlags :: Uint8;
 
 /**
 * Specifies a filter operation used by a sampler.
@@ -26523,7 +26525,7 @@ GPUColorComponentFlags :: Uint8;
 *
 * \sa SDL_CreateGPUSampler
 */
-GPUFilter :: enum u32 {
+SDL_GPUFilter :: enum u32 {
     NEAREST :: 0;
     LINEAR  :: 1;
 
@@ -26538,7 +26540,7 @@ GPUFilter :: enum u32 {
 *
 * \sa SDL_CreateGPUSampler
 */
-GPUSamplerMipmapMode :: enum u32 {
+SDL_GPUSamplerMipmapMode :: enum u32 {
     NEAREST :: 0;
     LINEAR  :: 1;
 
@@ -26554,7 +26556,7 @@ GPUSamplerMipmapMode :: enum u32 {
 *
 * \sa SDL_CreateGPUSampler
 */
-GPUSamplerAddressMode :: enum u32 {
+SDL_GPUSamplerAddressMode :: enum u32 {
     REPEAT          :: 0;
     MIRRORED_REPEAT :: 1;
     CLAMP_TO_EDGE   :: 2;
@@ -26589,7 +26591,7 @@ GPUSamplerAddressMode :: enum u32 {
 * \sa SDL_WindowSupportsGPUPresentMode
 * \sa SDL_WaitAndAcquireGPUSwapchainTexture
 */
-GPUPresentMode :: enum u32 {
+SDL_GPUPresentMode :: enum u32 {
     VSYNC     :: 0;
     IMMEDIATE :: 1;
     MAILBOX   :: 2;
@@ -26625,7 +26627,7 @@ GPUPresentMode :: enum u32 {
 * \sa SDL_WindowSupportsGPUSwapchainComposition
 * \sa SDL_WaitAndAcquireGPUSwapchainTexture
 */
-GPUSwapchainComposition :: enum u32 {
+SDL_GPUSwapchainComposition :: enum u32 {
     SDR                 :: 0;
     SDR_LINEAR          :: 1;
     HDR_EXTENDED_LINEAR :: 2;
@@ -26644,7 +26646,7 @@ GPUSwapchainComposition :: enum u32 {
 *
 * \sa SDL_SetGPUViewport
 */
-GPUViewport :: struct {
+SDL_GPUViewport :: struct {
     x:         float; /**< The left offset of the viewport. */
     y:         float; /**< The top offset of the viewport. */
     w:         float; /**< The width of the viewport. */
@@ -26662,8 +26664,8 @@ GPUViewport :: struct {
 * \sa SDL_UploadToGPUTexture
 * \sa SDL_DownloadFromGPUTexture
 */
-GPUTextureTransferInfo :: struct {
-    transfer_buffer: *GPUTransferBuffer; /**< The transfer buffer used in the transfer operation. */
+SDL_GPUTextureTransferInfo :: struct {
+    transfer_buffer: *SDL_GPUTransferBuffer; /**< The transfer buffer used in the transfer operation. */
     offset:          Uint32; /**< The starting byte of the image data in the transfer buffer. */
     pixels_per_row:  Uint32; /**< The number of pixels from one row to the next. */
     rows_per_layer:  Uint32; /**< The number of rows from one layer/depth-slice to the next. */
@@ -26679,8 +26681,8 @@ GPUTextureTransferInfo :: struct {
 * \sa SDL_UploadToGPUBuffer
 * \sa SDL_DownloadFromGPUBuffer
 */
-GPUTransferBufferLocation :: struct {
-    transfer_buffer: *GPUTransferBuffer; /**< The transfer buffer used in the transfer operation. */
+SDL_GPUTransferBufferLocation :: struct {
+    transfer_buffer: *SDL_GPUTransferBuffer; /**< The transfer buffer used in the transfer operation. */
     offset:          Uint32; /**< The starting byte of the buffer data in the transfer buffer. */
 }
 
@@ -26693,8 +26695,8 @@ GPUTransferBufferLocation :: struct {
 *
 * \sa SDL_CopyGPUTextureToTexture
 */
-GPUTextureLocation :: struct {
-    texture:   *GPUTexture; /**< The texture used in the copy operation. */
+SDL_GPUTextureLocation :: struct {
+    texture:   *SDL_GPUTexture; /**< The texture used in the copy operation. */
     mip_level: Uint32; /**< The mip level index of the location. */
     layer:     Uint32; /**< The layer index of the location. */
     x:         Uint32; /**< The left offset of the location. */
@@ -26713,8 +26715,8 @@ GPUTextureLocation :: struct {
 * \sa SDL_DownloadFromGPUTexture
 * \sa SDL_CreateGPUTexture
 */
-GPUTextureRegion :: struct {
-    texture:   *GPUTexture; /**< The texture used in the copy operation. */
+SDL_GPUTextureRegion :: struct {
+    texture:   *SDL_GPUTexture; /**< The texture used in the copy operation. */
     mip_level: Uint32; /**< The mip level index to transfer. */
     layer:     Uint32; /**< The layer index to transfer. */
     x:         Uint32; /**< The left offset of the region. */
@@ -26732,8 +26734,8 @@ GPUTextureRegion :: struct {
 *
 * \sa SDL_BlitGPUTexture
 */
-GPUBlitRegion :: struct {
-    texture:              *GPUTexture; /**< The texture. */
+SDL_GPUBlitRegion :: struct {
+    texture:              *SDL_GPUTexture; /**< The texture. */
     mip_level:            Uint32; /**< The mip level index of the region. */
     layer_or_depth_plane: Uint32; /**< The layer index or depth plane of the region. This value is treated as a layer index on 2D array and cube textures, and as a depth plane on 3D textures. */
     x:                    Uint32; /**< The left offset of the region. */
@@ -26751,8 +26753,8 @@ GPUBlitRegion :: struct {
 *
 * \sa SDL_CopyGPUBufferToBuffer
 */
-GPUBufferLocation :: struct {
-    buffer: *GPUBuffer; /**< The buffer. */
+SDL_GPUBufferLocation :: struct {
+    buffer: *SDL_GPUBuffer; /**< The buffer. */
     offset: Uint32; /**< The starting byte within the buffer. */
 }
 
@@ -26766,8 +26768,8 @@ GPUBufferLocation :: struct {
 * \sa SDL_UploadToGPUBuffer
 * \sa SDL_DownloadFromGPUBuffer
 */
-GPUBufferRegion :: struct {
-    buffer: *GPUBuffer; /**< The buffer. */
+SDL_GPUBufferRegion :: struct {
+    buffer: *SDL_GPUBuffer; /**< The buffer. */
     offset: Uint32; /**< The starting byte within the buffer. */
     size:   Uint32; /**< The size in bytes of the region. */
 }
@@ -26786,7 +26788,7 @@ GPUBufferRegion :: struct {
 *
 * \sa SDL_DrawGPUPrimitivesIndirect
 */
-GPUIndirectDrawCommand :: struct {
+SDL_GPUIndirectDrawCommand :: struct {
     num_vertices:   Uint32; /**< The number of vertices to draw. */
     num_instances:  Uint32; /**< The number of instances to draw. */
     first_vertex:   Uint32; /**< The index of the first vertex to draw. */
@@ -26807,7 +26809,7 @@ GPUIndirectDrawCommand :: struct {
 *
 * \sa SDL_DrawGPUIndexedPrimitivesIndirect
 */
-GPUIndexedIndirectDrawCommand :: struct {
+SDL_GPUIndexedIndirectDrawCommand :: struct {
     num_indices:    Uint32; /**< The number of indices to draw per instance. */
     num_instances:  Uint32; /**< The number of instances to draw. */
     first_index:    Uint32; /**< The base index within the index buffer. */
@@ -26822,7 +26824,7 @@ GPUIndexedIndirectDrawCommand :: struct {
 *
 * \sa SDL_DispatchGPUComputeIndirect
 */
-GPUIndirectDispatchCommand :: struct {
+SDL_GPUIndirectDispatchCommand :: struct {
     groupcount_x: Uint32; /**< The number of local workgroups to dispatch in the X dimension. */
     groupcount_y: Uint32; /**< The number of local workgroups to dispatch in the Y dimension. */
     groupcount_z: Uint32; /**< The number of local workgroups to dispatch in the Z dimension. */
@@ -26842,16 +26844,16 @@ GPUIndirectDispatchCommand :: struct {
 * \sa SDL_GPUSamplerAddressMode
 * \sa SDL_GPUCompareOp
 */
-GPUSamplerCreateInfo :: struct {
-    min_filter:        GPUFilter; /**< The minification filter to apply to lookups. */
-    mag_filter:        GPUFilter; /**< The magnification filter to apply to lookups. */
-    mipmap_mode:       GPUSamplerMipmapMode; /**< The mipmap filter to apply to lookups. */
-    address_mode_u:    GPUSamplerAddressMode; /**< The addressing mode for U coordinates outside [0, 1). */
-    address_mode_v:    GPUSamplerAddressMode; /**< The addressing mode for V coordinates outside [0, 1). */
-    address_mode_w:    GPUSamplerAddressMode; /**< The addressing mode for W coordinates outside [0, 1). */
+SDL_GPUSamplerCreateInfo :: struct {
+    min_filter:        SDL_GPUFilter; /**< The minification filter to apply to lookups. */
+    mag_filter:        SDL_GPUFilter; /**< The magnification filter to apply to lookups. */
+    mipmap_mode:       SDL_GPUSamplerMipmapMode; /**< The mipmap filter to apply to lookups. */
+    address_mode_u:    SDL_GPUSamplerAddressMode; /**< The addressing mode for U coordinates outside [0, 1). */
+    address_mode_v:    SDL_GPUSamplerAddressMode; /**< The addressing mode for V coordinates outside [0, 1). */
+    address_mode_w:    SDL_GPUSamplerAddressMode; /**< The addressing mode for W coordinates outside [0, 1). */
     mip_lod_bias:      float; /**< The bias to be added to mipmap LOD calculation. */
     max_anisotropy:    float; /**< The anisotropy value clamp used by the sampler. If enable_anisotropy is false, this is ignored. */
-    compare_op:        GPUCompareOp; /**< The comparison operator to apply to fetched data before filtering. */
+    compare_op:        SDL_GPUCompareOp; /**< The comparison operator to apply to fetched data before filtering. */
     min_lod:           float; /**< Clamps the minimum of the computed LOD value. */
     max_lod:           float; /**< Clamps the maximum of the computed LOD value. */
     enable_anisotropy: bool; /**< true to enable anisotropic filtering. */
@@ -26859,7 +26861,7 @@ GPUSamplerCreateInfo :: struct {
     padding1:          Uint8;
     padding2:          Uint8;
 
-    props:             PropertiesID; /**< A properties ID for extensions. Should be 0 if no extensions are needed. */
+    props:             SDL_PropertiesID; /**< A properties ID for extensions. Should be 0 if no extensions are needed. */
 }
 
 /**
@@ -26880,10 +26882,10 @@ GPUSamplerCreateInfo :: struct {
 * \sa SDL_GPUVertexAttribute
 * \sa SDL_GPUVertexInputRate
 */
-GPUVertexBufferDescription :: struct {
+SDL_GPUVertexBufferDescription :: struct {
     slot:               Uint32; /**< The binding slot of the vertex buffer. */
     pitch:              Uint32; /**< The size of a single element + the offset between elements. */
-    input_rate:         GPUVertexInputRate; /**< Whether attribute addressing is a function of the vertex index or instance index. */
+    input_rate:         SDL_GPUVertexInputRate; /**< Whether attribute addressing is a function of the vertex index or instance index. */
     instance_step_rate: Uint32; /**< Reserved for future use. Must be set to 0. */
 }
 
@@ -26899,10 +26901,10 @@ GPUVertexBufferDescription :: struct {
 * \sa SDL_GPUVertexInputState
 * \sa SDL_GPUVertexElementFormat
 */
-GPUVertexAttribute :: struct {
+SDL_GPUVertexAttribute :: struct {
     location:    Uint32; /**< The shader input location index. */
     buffer_slot: Uint32; /**< The binding slot of the associated vertex buffer. */
-    format:      GPUVertexElementFormat; /**< The size and type of the attribute data. */
+    format:      SDL_GPUVertexElementFormat; /**< The size and type of the attribute data. */
     offset:      Uint32; /**< The byte offset of this attribute relative to the start of the vertex element. */
 }
 
@@ -26916,10 +26918,10 @@ GPUVertexAttribute :: struct {
 * \sa SDL_GPUVertexBufferDescription
 * \sa SDL_GPUVertexAttribute
 */
-GPUVertexInputState :: struct {
-    vertex_buffer_descriptions: *GPUVertexBufferDescription; /**< A pointer to an array of vertex buffer descriptions. */
+SDL_GPUVertexInputState :: struct {
+    vertex_buffer_descriptions: *SDL_GPUVertexBufferDescription; /**< A pointer to an array of vertex buffer descriptions. */
     num_vertex_buffers:         Uint32; /**< The number of vertex buffer descriptions in the above array. */
-    vertex_attributes:          *GPUVertexAttribute; /**< A pointer to an array of vertex attribute descriptions. */
+    vertex_attributes:          *SDL_GPUVertexAttribute; /**< A pointer to an array of vertex attribute descriptions. */
     num_vertex_attributes:      Uint32; /**< The number of vertex attribute descriptions in the above array. */
 }
 
@@ -26930,11 +26932,11 @@ GPUVertexInputState :: struct {
 *
 * \sa SDL_GPUDepthStencilState
 */
-GPUStencilOpState :: struct {
-    fail_op:       GPUStencilOp; /**< The action performed on samples that fail the stencil test. */
-    pass_op:       GPUStencilOp; /**< The action performed on samples that pass the depth and stencil tests. */
-    depth_fail_op: GPUStencilOp; /**< The action performed on samples that pass the stencil test and fail the depth test. */
-    compare_op:    GPUCompareOp; /**< The comparison operator used in the stencil test. */
+SDL_GPUStencilOpState :: struct {
+    fail_op:       SDL_GPUStencilOp; /**< The action performed on samples that fail the stencil test. */
+    pass_op:       SDL_GPUStencilOp; /**< The action performed on samples that pass the depth and stencil tests. */
+    depth_fail_op: SDL_GPUStencilOp; /**< The action performed on samples that pass the stencil test and fail the depth test. */
+    compare_op:    SDL_GPUCompareOp; /**< The comparison operator used in the stencil test. */
 }
 
 /**
@@ -26944,14 +26946,14 @@ GPUStencilOpState :: struct {
 *
 * \sa SDL_GPUColorTargetDescription
 */
-GPUColorTargetBlendState :: struct {
-    src_color_blendfactor:   GPUBlendFactor; /**< The value to be multiplied by the source RGB value. */
-    dst_color_blendfactor:   GPUBlendFactor; /**< The value to be multiplied by the destination RGB value. */
-    color_blend_op:          GPUBlendOp; /**< The blend operation for the RGB components. */
-    src_alpha_blendfactor:   GPUBlendFactor; /**< The value to be multiplied by the source alpha. */
-    dst_alpha_blendfactor:   GPUBlendFactor; /**< The value to be multiplied by the destination alpha. */
-    alpha_blend_op:          GPUBlendOp; /**< The blend operation for the alpha component. */
-    color_write_mask:        GPUColorComponentFlags; /**< A bitmask specifying which of the RGBA components are enabled for writing. Writes to all channels if enable_color_write_mask is false. */
+SDL_GPUColorTargetBlendState :: struct {
+    src_color_blendfactor:   SDL_GPUBlendFactor; /**< The value to be multiplied by the source RGB value. */
+    dst_color_blendfactor:   SDL_GPUBlendFactor; /**< The value to be multiplied by the destination RGB value. */
+    color_blend_op:          SDL_GPUBlendOp; /**< The blend operation for the RGB components. */
+    src_alpha_blendfactor:   SDL_GPUBlendFactor; /**< The value to be multiplied by the source alpha. */
+    dst_alpha_blendfactor:   SDL_GPUBlendFactor; /**< The value to be multiplied by the destination alpha. */
+    alpha_blend_op:          SDL_GPUBlendOp; /**< The blend operation for the alpha component. */
+    color_write_mask:        SDL_GPUColorComponentFlags; /**< A bitmask specifying which of the RGBA components are enabled for writing. Writes to all channels if enable_color_write_mask is false. */
     enable_blend:            bool; /**< Whether blending is enabled for the color target. */
     enable_color_write_mask: bool; /**< Whether the color write mask is enabled. */
     padding1:                Uint8;
@@ -26965,18 +26967,18 @@ GPUColorTargetBlendState :: struct {
 *
 * \sa SDL_CreateGPUShader
 */
-GPUShaderCreateInfo :: struct {
+SDL_GPUShaderCreateInfo :: struct {
     code_size:            u64; /**< The size in bytes of the code pointed to. */
     code:                 *Uint8; /**< A pointer to shader code. */
     entrypoint:           *u8; /**< A pointer to a null-terminated UTF-8 string specifying the entry point function name for the shader. */
-    format:               GPUShaderFormat; /**< The format of the shader code. */
-    stage:                GPUShaderStage; /**< The stage the shader program corresponds to. */
+    format:               SDL_GPUShaderFormat; /**< The format of the shader code. */
+    stage:                SDL_GPUShaderStage; /**< The stage the shader program corresponds to. */
     num_samplers:         Uint32; /**< The number of samplers defined in the shader. */
     num_storage_textures: Uint32; /**< The number of storage textures defined in the shader. */
     num_storage_buffers:  Uint32; /**< The number of storage buffers defined in the shader. */
     num_uniform_buffers:  Uint32; /**< The number of uniform buffers defined in the shader. */
 
-    props:                PropertiesID; /**< A properties ID for extensions. Should be 0 if no extensions are needed. */
+    props:                SDL_PropertiesID; /**< A properties ID for extensions. Should be 0 if no extensions are needed. */
 }
 
 /**
@@ -26994,17 +26996,17 @@ GPUShaderCreateInfo :: struct {
 * \sa SDL_GPUTextureUsageFlags
 * \sa SDL_GPUSampleCount
 */
-GPUTextureCreateInfo :: struct {
-    type:                 GPUTextureType; /**< The base dimensionality of the texture. */
-    format:               GPUTextureFormat; /**< The pixel format of the texture. */
-    usage:                GPUTextureUsageFlags; /**< How the texture is intended to be used by the client. */
+SDL_GPUTextureCreateInfo :: struct {
+    type:                 SDL_GPUTextureType; /**< The base dimensionality of the texture. */
+    format:               SDL_GPUTextureFormat; /**< The pixel format of the texture. */
+    usage:                SDL_GPUTextureUsageFlags; /**< How the texture is intended to be used by the client. */
     width:                Uint32; /**< The width of the texture. */
     height:               Uint32; /**< The height of the texture. */
     layer_count_or_depth: Uint32; /**< The layer count or depth of the texture. This value is treated as a layer count on 2D array textures, and as a depth value on 3D textures. */
     num_levels:           Uint32; /**< The number of mip levels in the texture. */
-    sample_count:         GPUSampleCount; /**< The number of samples per texel. Only applies if the texture is used as a render target. */
+    sample_count:         SDL_GPUSampleCount; /**< The number of samples per texel. Only applies if the texture is used as a render target. */
 
-    props:                PropertiesID; /**< A properties ID for extensions. Should be 0 if no extensions are needed. */
+    props:                SDL_PropertiesID; /**< A properties ID for extensions. Should be 0 if no extensions are needed. */
 }
 
 /**
@@ -27018,11 +27020,11 @@ GPUTextureCreateInfo :: struct {
 * \sa SDL_CreateGPUBuffer
 * \sa SDL_GPUBufferUsageFlags
 */
-GPUBufferCreateInfo :: struct {
-    usage: GPUBufferUsageFlags; /**< How the buffer is intended to be used by the client. */
+SDL_GPUBufferCreateInfo :: struct {
+    usage: SDL_GPUBufferUsageFlags; /**< How the buffer is intended to be used by the client. */
     size:  Uint32; /**< The size in bytes of the buffer. */
 
-    props: PropertiesID; /**< A properties ID for extensions. Should be 0 if no extensions are needed. */
+    props: SDL_PropertiesID; /**< A properties ID for extensions. Should be 0 if no extensions are needed. */
 }
 
 /**
@@ -27032,11 +27034,11 @@ GPUBufferCreateInfo :: struct {
 *
 * \sa SDL_CreateGPUTransferBuffer
 */
-GPUTransferBufferCreateInfo :: struct {
-    usage: GPUTransferBufferUsage; /**< How the transfer buffer is intended to be used by the client. */
+SDL_GPUTransferBufferCreateInfo :: struct {
+    usage: SDL_GPUTransferBufferUsage; /**< How the transfer buffer is intended to be used by the client. */
     size:  Uint32; /**< The size in bytes of the transfer buffer. */
 
-    props: PropertiesID; /**< A properties ID for extensions. Should be 0 if no extensions are needed. */
+    props: SDL_PropertiesID; /**< A properties ID for extensions. Should be 0 if no extensions are needed. */
 }
 
 /**
@@ -27055,10 +27057,10 @@ GPUTransferBufferCreateInfo :: struct {
 *
 * \sa SDL_GPUGraphicsPipelineCreateInfo
 */
-GPURasterizerState :: struct {
-    fill_mode:                  GPUFillMode; /**< Whether polygons will be filled in or drawn as lines. */
-    cull_mode:                  GPUCullMode; /**< The facing direction in which triangles will be culled. */
-    front_face:                 GPUFrontFace; /**< The vertex winding that will cause a triangle to be determined as front-facing. */
+SDL_GPURasterizerState :: struct {
+    fill_mode:                  SDL_GPUFillMode; /**< Whether polygons will be filled in or drawn as lines. */
+    cull_mode:                  SDL_GPUCullMode; /**< The facing direction in which triangles will be culled. */
+    front_face:                 SDL_GPUFrontFace; /**< The vertex winding that will cause a triangle to be determined as front-facing. */
     depth_bias_constant_factor: float; /**< A scalar factor controlling the depth value added to each fragment. */
     depth_bias_clamp:           float; /**< The maximum depth bias of a fragment. */
     depth_bias_slope_factor:    float; /**< A scalar factor applied to a fragment's slope in depth calculations. */
@@ -27076,8 +27078,8 @@ GPURasterizerState :: struct {
 *
 * \sa SDL_GPUGraphicsPipelineCreateInfo
 */
-GPUMultisampleState :: struct {
-    sample_count: GPUSampleCount; /**< The number of samples to be used in rasterization. */
+SDL_GPUMultisampleState :: struct {
+    sample_count: SDL_GPUSampleCount; /**< The number of samples to be used in rasterization. */
     sample_mask:  Uint32; /**< Reserved for future use. Must be set to 0. */
     enable_mask:  bool; /**< Reserved for future use. Must be set to false. */
     padding1:     Uint8;
@@ -27093,10 +27095,10 @@ GPUMultisampleState :: struct {
 *
 * \sa SDL_GPUGraphicsPipelineCreateInfo
 */
-GPUDepthStencilState :: struct {
-    compare_op:          GPUCompareOp; /**< The comparison operator used for depth testing. */
-    back_stencil_state:  GPUStencilOpState; /**< The stencil op state for back-facing triangles. */
-    front_stencil_state: GPUStencilOpState; /**< The stencil op state for front-facing triangles. */
+SDL_GPUDepthStencilState :: struct {
+    compare_op:          SDL_GPUCompareOp; /**< The comparison operator used for depth testing. */
+    back_stencil_state:  SDL_GPUStencilOpState; /**< The stencil op state for back-facing triangles. */
+    front_stencil_state: SDL_GPUStencilOpState; /**< The stencil op state for front-facing triangles. */
     compare_mask:        Uint8; /**< Selects the bits of the stencil values participating in the stencil test. */
     write_mask:          Uint8; /**< Selects the bits of the stencil values updated by the stencil test. */
     enable_depth_test:   bool; /**< true enables the depth test. */
@@ -27115,9 +27117,9 @@ GPUDepthStencilState :: struct {
 *
 * \sa SDL_GPUGraphicsPipelineTargetInfo
 */
-GPUColorTargetDescription :: struct {
-    format:      GPUTextureFormat; /**< The pixel format of the texture to be used as a color target. */
-    blend_state: GPUColorTargetBlendState; /**< The blend state to be used for the color target. */
+SDL_GPUColorTargetDescription :: struct {
+    format:      SDL_GPUTextureFormat; /**< The pixel format of the texture to be used as a color target. */
+    blend_state: SDL_GPUColorTargetBlendState; /**< The blend state to be used for the color target. */
 }
 
 /**
@@ -27130,10 +27132,10 @@ GPUColorTargetDescription :: struct {
 * \sa SDL_GPUColorTargetDescription
 * \sa SDL_GPUTextureFormat
 */
-GPUGraphicsPipelineTargetInfo :: struct {
-    color_target_descriptions: *GPUColorTargetDescription; /**< A pointer to an array of color target descriptions. */
+SDL_GPUGraphicsPipelineTargetInfo :: struct {
+    color_target_descriptions: *SDL_GPUColorTargetDescription; /**< A pointer to an array of color target descriptions. */
     num_color_targets:         Uint32; /**< The number of color target descriptions in the above array. */
-    depth_stencil_format:      GPUTextureFormat; /**< The pixel format of the depth-stencil target. Ignored if has_depth_stencil_target is false. */
+    depth_stencil_format:      SDL_GPUTextureFormat; /**< The pixel format of the depth-stencil target. Ignored if has_depth_stencil_target is false. */
     has_depth_stencil_target:  bool; /**< true specifies that the pipeline uses a depth-stencil target. */
     padding1:                  Uint8;
     padding2:                  Uint8;
@@ -27154,17 +27156,17 @@ GPUGraphicsPipelineTargetInfo :: struct {
 * \sa SDL_GPUDepthStencilState
 * \sa SDL_GPUGraphicsPipelineTargetInfo
 */
-GPUGraphicsPipelineCreateInfo :: struct {
-    vertex_shader:       *GPUShader; /**< The vertex shader used by the graphics pipeline. */
-    fragment_shader:     *GPUShader; /**< The fragment shader used by the graphics pipeline. */
-    vertex_input_state:  GPUVertexInputState; /**< The vertex layout of the graphics pipeline. */
-    primitive_type:      GPUPrimitiveType; /**< The primitive topology of the graphics pipeline. */
-    rasterizer_state:    GPURasterizerState; /**< The rasterizer state of the graphics pipeline. */
-    multisample_state:   GPUMultisampleState; /**< The multisample state of the graphics pipeline. */
-    depth_stencil_state: GPUDepthStencilState; /**< The depth-stencil state of the graphics pipeline. */
-    target_info:         GPUGraphicsPipelineTargetInfo; /**< Formats and blend modes for the render targets of the graphics pipeline. */
+SDL_GPUGraphicsPipelineCreateInfo :: struct {
+    vertex_shader:       *SDL_GPUShader; /**< The vertex shader used by the graphics pipeline. */
+    fragment_shader:     *SDL_GPUShader; /**< The fragment shader used by the graphics pipeline. */
+    vertex_input_state:  SDL_GPUVertexInputState; /**< The vertex layout of the graphics pipeline. */
+    primitive_type:      SDL_GPUPrimitiveType; /**< The primitive topology of the graphics pipeline. */
+    rasterizer_state:    SDL_GPURasterizerState; /**< The rasterizer state of the graphics pipeline. */
+    multisample_state:   SDL_GPUMultisampleState; /**< The multisample state of the graphics pipeline. */
+    depth_stencil_state: SDL_GPUDepthStencilState; /**< The depth-stencil state of the graphics pipeline. */
+    target_info:         SDL_GPUGraphicsPipelineTargetInfo; /**< Formats and blend modes for the render targets of the graphics pipeline. */
 
-    props:               PropertiesID; /**< A properties ID for extensions. Should be 0 if no extensions are needed. */
+    props:               SDL_PropertiesID; /**< A properties ID for extensions. Should be 0 if no extensions are needed. */
 }
 
 /**
@@ -27175,11 +27177,11 @@ GPUGraphicsPipelineCreateInfo :: struct {
 * \sa SDL_CreateGPUComputePipeline
 * \sa SDL_GPUShaderFormat
 */
-GPUComputePipelineCreateInfo :: struct {
+SDL_GPUComputePipelineCreateInfo :: struct {
     code_size:                      u64; /**< The size in bytes of the compute shader code pointed to. */
     code:                           *Uint8; /**< A pointer to compute shader code. */
     entrypoint:                     *u8; /**< A pointer to a null-terminated UTF-8 string specifying the entry point function name for the shader. */
-    format:                         GPUShaderFormat; /**< The format of the compute shader code. */
+    format:                         SDL_GPUShaderFormat; /**< The format of the compute shader code. */
     num_samplers:                   Uint32; /**< The number of samplers defined in the shader. */
     num_readonly_storage_textures:  Uint32; /**< The number of readonly storage textures defined in the shader. */
     num_readonly_storage_buffers:   Uint32; /**< The number of readonly storage buffers defined in the shader. */
@@ -27190,7 +27192,7 @@ GPUComputePipelineCreateInfo :: struct {
     threadcount_y:                  Uint32; /**< The number of threads in the Y dimension. This should match the value in the shader. */
     threadcount_z:                  Uint32; /**< The number of threads in the Z dimension. This should match the value in the shader. */
 
-    props:                          PropertiesID; /**< A properties ID for extensions. Should be 0 if no extensions are needed. */
+    props:                          SDL_PropertiesID; /**< A properties ID for extensions. Should be 0 if no extensions are needed. */
 }
 
 /**
@@ -27228,14 +27230,14 @@ GPUComputePipelineCreateInfo :: struct {
 *
 * \sa SDL_BeginGPURenderPass
 */
-GPUColorTargetInfo :: struct {
-    texture:               *GPUTexture; /**< The texture that will be used as a color target by a render pass. */
+SDL_GPUColorTargetInfo :: struct {
+    texture:               *SDL_GPUTexture; /**< The texture that will be used as a color target by a render pass. */
     mip_level:             Uint32; /**< The mip level to use as a color target. */
     layer_or_depth_plane:  Uint32; /**< The layer index or depth plane to use as a color target. This value is treated as a layer index on 2D array and cube textures, and as a depth plane on 3D textures. */
-    clear_color:           FColor; /**< The color to clear the color target to at the start of the render pass. Ignored if SDL_GPU_LOADOP_CLEAR is not used. */
-    load_op:               GPULoadOp; /**< What is done with the contents of the color target at the beginning of the render pass. */
-    store_op:              GPUStoreOp; /**< What is done with the results of the render pass. */
-    resolve_texture:       *GPUTexture; /**< The texture that will receive the results of a multisample resolve operation. Ignored if a RESOLVE* store_op is not used. */
+    clear_color:           SDL_FColor; /**< The color to clear the color target to at the start of the render pass. Ignored if SDL_GPU_LOADOP_CLEAR is not used. */
+    load_op:               SDL_GPULoadOp; /**< What is done with the contents of the color target at the beginning of the render pass. */
+    store_op:              SDL_GPUStoreOp; /**< What is done with the results of the render pass. */
+    resolve_texture:       *SDL_GPUTexture; /**< The texture that will receive the results of a multisample resolve operation. Ignored if a RESOLVE* store_op is not used. */
     resolve_mip_level:     Uint32; /**< The mip level of the resolve texture to use for the resolve operation. Ignored if a RESOLVE* store_op is not used. */
     resolve_layer:         Uint32; /**< The layer index of the resolve texture to use for the resolve operation. Ignored if a RESOLVE* store_op is not used. */
     cycle:                 bool; /**< true cycles the texture if the texture is bound and load_op is not LOAD */
@@ -27288,13 +27290,13 @@ GPUColorTargetInfo :: struct {
 *
 * \sa SDL_BeginGPURenderPass
 */
-GPUDepthStencilTargetInfo :: struct {
-    texture:          *GPUTexture; /**< The texture that will be used as the depth stencil target by the render pass. */
+SDL_GPUDepthStencilTargetInfo :: struct {
+    texture:          *SDL_GPUTexture; /**< The texture that will be used as the depth stencil target by the render pass. */
     clear_depth:      float; /**< The value to clear the depth component to at the beginning of the render pass. Ignored if SDL_GPU_LOADOP_CLEAR is not used. */
-    load_op:          GPULoadOp; /**< What is done with the depth contents at the beginning of the render pass. */
-    store_op:         GPUStoreOp; /**< What is done with the depth results of the render pass. */
-    stencil_load_op:  GPULoadOp; /**< What is done with the stencil contents at the beginning of the render pass. */
-    stencil_store_op: GPUStoreOp; /**< What is done with the stencil results of the render pass. */
+    load_op:          SDL_GPULoadOp; /**< What is done with the depth contents at the beginning of the render pass. */
+    store_op:         SDL_GPUStoreOp; /**< What is done with the depth results of the render pass. */
+    stencil_load_op:  SDL_GPULoadOp; /**< What is done with the stencil contents at the beginning of the render pass. */
+    stencil_store_op: SDL_GPUStoreOp; /**< What is done with the stencil results of the render pass. */
     cycle:            bool; /**< true cycles the texture if the texture is bound and any load ops are not LOAD */
     clear_stencil:    Uint8; /**< The value to clear the stencil component to at the beginning of the render pass. Ignored if SDL_GPU_LOADOP_CLEAR is not used. */
     padding1:         Uint8;
@@ -27308,13 +27310,13 @@ GPUDepthStencilTargetInfo :: struct {
 *
 * \sa SDL_BlitGPUTexture
 */
-GPUBlitInfo :: struct {
-    source:      GPUBlitRegion; /**< The source region for the blit. */
-    destination: GPUBlitRegion; /**< The destination region for the blit. */
-    load_op:     GPULoadOp; /**< What is done with the contents of the destination before the blit. */
-    clear_color: FColor; /**< The color to clear the destination region to before the blit. Ignored if load_op is not SDL_GPU_LOADOP_CLEAR. */
-    flip_mode:   FlipMode; /**< The flip mode for the source region. */
-    filter:      GPUFilter; /**< The filter mode used when blitting. */
+SDL_GPUBlitInfo :: struct {
+    source:      SDL_GPUBlitRegion; /**< The source region for the blit. */
+    destination: SDL_GPUBlitRegion; /**< The destination region for the blit. */
+    load_op:     SDL_GPULoadOp; /**< What is done with the contents of the destination before the blit. */
+    clear_color: SDL_FColor; /**< The color to clear the destination region to before the blit. Ignored if load_op is not SDL_GPU_LOADOP_CLEAR. */
+    flip_mode:   SDL_FlipMode; /**< The flip mode for the source region. */
+    filter:      SDL_GPUFilter; /**< The filter mode used when blitting. */
     cycle:       bool; /**< true cycles the destination texture if it is already bound. */
     padding1:    Uint8;
     padding2:    Uint8;
@@ -27329,8 +27331,8 @@ GPUBlitInfo :: struct {
 * \sa SDL_BindGPUVertexBuffers
 * \sa SDL_BindGPUIndexBuffer
 */
-GPUBufferBinding :: struct {
-    buffer: *GPUBuffer; /**< The buffer to bind. Must have been created with SDL_GPU_BUFFERUSAGE_VERTEX for SDL_BindGPUVertexBuffers, or SDL_GPU_BUFFERUSAGE_INDEX for SDL_BindGPUIndexBuffer. */
+SDL_GPUBufferBinding :: struct {
+    buffer: *SDL_GPUBuffer; /**< The buffer to bind. Must have been created with SDL_GPU_BUFFERUSAGE_VERTEX for SDL_BindGPUVertexBuffers, or SDL_GPU_BUFFERUSAGE_INDEX for SDL_BindGPUIndexBuffer. */
     offset: Uint32; /**< The starting byte of the data to bind in the buffer. */
 }
 
@@ -27342,9 +27344,9 @@ GPUBufferBinding :: struct {
 * \sa SDL_BindGPUVertexSamplers
 * \sa SDL_BindGPUFragmentSamplers
 */
-GPUTextureSamplerBinding :: struct {
-    texture: *GPUTexture; /**< The texture to bind. Must have been created with SDL_GPU_TEXTUREUSAGE_SAMPLER. */
-    sampler: *GPUSampler; /**< The sampler to bind. */
+SDL_GPUTextureSamplerBinding :: struct {
+    texture: *SDL_GPUTexture; /**< The texture to bind. Must have been created with SDL_GPU_TEXTUREUSAGE_SAMPLER. */
+    sampler: *SDL_GPUSampler; /**< The sampler to bind. */
 }
 
 /**
@@ -27355,8 +27357,8 @@ GPUTextureSamplerBinding :: struct {
 *
 * \sa SDL_BeginGPUComputePass
 */
-GPUStorageBufferReadWriteBinding :: struct {
-    buffer:   *GPUBuffer; /**< The buffer to bind. Must have been created with SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE. */
+SDL_GPUStorageBufferReadWriteBinding :: struct {
+    buffer:   *SDL_GPUBuffer; /**< The buffer to bind. Must have been created with SDL_GPU_BUFFERUSAGE_COMPUTE_STORAGE_WRITE. */
     cycle:    bool; /**< true cycles the buffer if it is already bound. */
     padding1: Uint8;
     padding2: Uint8;
@@ -27371,8 +27373,8 @@ GPUStorageBufferReadWriteBinding :: struct {
 *
 * \sa SDL_BeginGPUComputePass
 */
-GPUStorageTextureReadWriteBinding :: struct {
-    texture:   *GPUTexture; /**< The texture to bind. Must have been created with SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE or SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_SIMULTANEOUS_READ_WRITE. */
+SDL_GPUStorageTextureReadWriteBinding :: struct {
+    texture:   *SDL_GPUTexture; /**< The texture to bind. Must have been created with SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_WRITE or SDL_GPU_TEXTUREUSAGE_COMPUTE_STORAGE_SIMULTANEOUS_READ_WRITE. */
     mip_level: Uint32; /**< The mip level index to bind. */
     layer:     Uint32; /**< The layer index to bind. */
     cycle:     bool; /**< true cycles the texture if it is already bound. */
@@ -27394,7 +27396,7 @@ GPUStorageTextureReadWriteBinding :: struct {
 *
 * \sa SDL_CreateGPUDevice
 */
-GPUSupportsShaderFormats :: (format_flags: GPUShaderFormat, name: *u8) -> bool #foreign libsdl3_ttf "SDL_GPUSupportsShaderFormats";
+SDL_GPUSupportsShaderFormats :: (format_flags: SDL_GPUShaderFormat, name: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Checks for GPU runtime support.
@@ -27406,7 +27408,7 @@ GPUSupportsShaderFormats :: (format_flags: GPUShaderFormat, name: *u8) -> bool #
 *
 * \sa SDL_CreateGPUDeviceWithProperties
 */
-GPUSupportsProperties :: (props: PropertiesID) -> bool #foreign libsdl3_ttf "SDL_GPUSupportsProperties";
+SDL_GPUSupportsProperties :: (props: SDL_PropertiesID) -> bool #foreign libsdl3_ttf;
 
 /**
 * Creates a GPU context.
@@ -27426,7 +27428,7 @@ GPUSupportsProperties :: (props: PropertiesID) -> bool #foreign libsdl3_ttf "SDL
 * \sa SDL_DestroyGPUDevice
 * \sa SDL_GPUSupportsShaderFormats
 */
-CreateGPUDevice :: (format_flags: GPUShaderFormat, debug_mode: bool, name: *u8) -> *GPUDevice #foreign libsdl3_ttf "SDL_CreateGPUDevice";
+SDL_CreateGPUDevice :: (format_flags: SDL_GPUShaderFormat, debug_mode: bool, name: *u8) -> *SDL_GPUDevice #foreign libsdl3_ttf;
 
 /**
 * Creates a GPU context.
@@ -27471,7 +27473,7 @@ CreateGPUDevice :: (format_flags: GPUShaderFormat, debug_mode: bool, name: *u8) 
 * \sa SDL_DestroyGPUDevice
 * \sa SDL_GPUSupportsProperties
 */
-CreateGPUDeviceWithProperties :: (props: PropertiesID) -> *GPUDevice #foreign libsdl3_ttf "SDL_CreateGPUDeviceWithProperties";
+SDL_CreateGPUDeviceWithProperties :: (props: SDL_PropertiesID) -> *SDL_GPUDevice #foreign libsdl3_ttf;
 
 /**
 * Destroys a GPU context previously returned by SDL_CreateGPUDevice.
@@ -27482,7 +27484,7 @@ CreateGPUDeviceWithProperties :: (props: PropertiesID) -> *GPUDevice #foreign li
 *
 * \sa SDL_CreateGPUDevice
 */
-DestroyGPUDevice :: (device: *GPUDevice) -> void #foreign libsdl3_ttf "SDL_DestroyGPUDevice";
+SDL_DestroyGPUDevice :: (device: *SDL_GPUDevice) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the number of GPU drivers compiled into SDL.
@@ -27493,7 +27495,7 @@ DestroyGPUDevice :: (device: *GPUDevice) -> void #foreign libsdl3_ttf "SDL_Destr
 *
 * \sa SDL_GetGPUDriver
 */
-GetNumGPUDrivers :: () -> s32 #foreign libsdl3_ttf "SDL_GetNumGPUDrivers";
+SDL_GetNumGPUDrivers :: () -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the name of a built in GPU driver.
@@ -27512,7 +27514,7 @@ GetNumGPUDrivers :: () -> s32 #foreign libsdl3_ttf "SDL_GetNumGPUDrivers";
 *
 * \sa SDL_GetNumGPUDrivers
 */
-GetGPUDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf "SDL_GetGPUDriver";
+SDL_GetGPUDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Returns the name of the backend used to create this GPU context.
@@ -27522,7 +27524,7 @@ GetGPUDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf "SDL_GetGPUDriver";
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGPUDeviceDriver :: (device: *GPUDevice) -> *u8 #foreign libsdl3_ttf "SDL_GetGPUDeviceDriver";
+SDL_GetGPUDeviceDriver :: (device: *SDL_GPUDevice) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Returns the supported shader formats for this GPU context.
@@ -27533,7 +27535,7 @@ GetGPUDeviceDriver :: (device: *GPUDevice) -> *u8 #foreign libsdl3_ttf "SDL_GetG
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGPUShaderFormats :: (device: *GPUDevice) -> GPUShaderFormat #foreign libsdl3_ttf "SDL_GetGPUShaderFormats";
+SDL_GetGPUShaderFormats :: (device: *SDL_GPUDevice) -> SDL_GPUShaderFormat #foreign libsdl3_ttf;
 
 /**
 * Creates a pipeline object to be used in a compute workflow.
@@ -27580,7 +27582,7 @@ GetGPUShaderFormats :: (device: *GPUDevice) -> GPUShaderFormat #foreign libsdl3_
 * \sa SDL_BindGPUComputePipeline
 * \sa SDL_ReleaseGPUComputePipeline
 */
-CreateGPUComputePipeline :: (device: *GPUDevice, createinfo: *GPUComputePipelineCreateInfo) -> *GPUComputePipeline #foreign libsdl3_ttf "SDL_CreateGPUComputePipeline";
+SDL_CreateGPUComputePipeline :: (device: *SDL_GPUDevice, createinfo: *SDL_GPUComputePipelineCreateInfo) -> *SDL_GPUComputePipeline #foreign libsdl3_ttf;
 
 /**
 * Creates a pipeline object to be used in a graphics workflow.
@@ -27603,7 +27605,7 @@ CreateGPUComputePipeline :: (device: *GPUDevice, createinfo: *GPUComputePipeline
 * \sa SDL_BindGPUGraphicsPipeline
 * \sa SDL_ReleaseGPUGraphicsPipeline
 */
-CreateGPUGraphicsPipeline :: (device: *GPUDevice, createinfo: *GPUGraphicsPipelineCreateInfo) -> *GPUGraphicsPipeline #foreign libsdl3_ttf "SDL_CreateGPUGraphicsPipeline";
+SDL_CreateGPUGraphicsPipeline :: (device: *SDL_GPUDevice, createinfo: *SDL_GPUGraphicsPipelineCreateInfo) -> *SDL_GPUGraphicsPipeline #foreign libsdl3_ttf;
 
 /**
 * Creates a sampler object to be used when binding textures in a graphics
@@ -27626,7 +27628,7 @@ CreateGPUGraphicsPipeline :: (device: *GPUDevice, createinfo: *GPUGraphicsPipeli
 * \sa SDL_BindGPUFragmentSamplers
 * \sa SDL_ReleaseGPUSampler
 */
-CreateGPUSampler :: (device: *GPUDevice, createinfo: *GPUSamplerCreateInfo) -> *GPUSampler #foreign libsdl3_ttf "SDL_CreateGPUSampler";
+SDL_CreateGPUSampler :: (device: *SDL_GPUDevice, createinfo: *SDL_GPUSamplerCreateInfo) -> *SDL_GPUSampler #foreign libsdl3_ttf;
 
 /**
 * Creates a shader to be used when creating a graphics pipeline.
@@ -27701,7 +27703,7 @@ CreateGPUSampler :: (device: *GPUDevice, createinfo: *GPUSamplerCreateInfo) -> *
 * \sa SDL_CreateGPUGraphicsPipeline
 * \sa SDL_ReleaseGPUShader
 */
-CreateGPUShader :: (device: *GPUDevice, createinfo: *GPUShaderCreateInfo) -> *GPUShader #foreign libsdl3_ttf "SDL_CreateGPUShader";
+SDL_CreateGPUShader :: (device: *SDL_GPUDevice, createinfo: *SDL_GPUShaderCreateInfo) -> *SDL_GPUShader #foreign libsdl3_ttf;
 
 /**
 * Creates a texture object to be used in graphics or compute workflows.
@@ -27758,7 +27760,7 @@ CreateGPUShader :: (device: *GPUDevice, createinfo: *GPUShaderCreateInfo) -> *GP
 * \sa SDL_ReleaseGPUTexture
 * \sa SDL_GPUTextureSupportsFormat
 */
-CreateGPUTexture :: (device: *GPUDevice, createinfo: *GPUTextureCreateInfo) -> *GPUTexture #foreign libsdl3_ttf "SDL_CreateGPUTexture";
+SDL_CreateGPUTexture :: (device: *SDL_GPUDevice, createinfo: *SDL_GPUTextureCreateInfo) -> *SDL_GPUTexture #foreign libsdl3_ttf;
 
 /**
 * Creates a buffer object to be used in graphics or compute workflows.
@@ -27804,7 +27806,7 @@ CreateGPUTexture :: (device: *GPUDevice, createinfo: *GPUTextureCreateInfo) -> *
 * \sa SDL_DispatchGPUComputeIndirect
 * \sa SDL_ReleaseGPUBuffer
 */
-CreateGPUBuffer :: (device: *GPUDevice, createinfo: *GPUBufferCreateInfo) -> *GPUBuffer #foreign libsdl3_ttf "SDL_CreateGPUBuffer";
+SDL_CreateGPUBuffer :: (device: *SDL_GPUDevice, createinfo: *SDL_GPUBufferCreateInfo) -> *SDL_GPUBuffer #foreign libsdl3_ttf;
 
 /**
 * Creates a transfer buffer to be used when uploading to or downloading from
@@ -27833,7 +27835,7 @@ CreateGPUBuffer :: (device: *GPUDevice, createinfo: *GPUBufferCreateInfo) -> *GP
 * \sa SDL_DownloadFromGPUTexture
 * \sa SDL_ReleaseGPUTransferBuffer
 */
-CreateGPUTransferBuffer :: (device: *GPUDevice, createinfo: *GPUTransferBufferCreateInfo) -> *GPUTransferBuffer #foreign libsdl3_ttf "SDL_CreateGPUTransferBuffer";
+SDL_CreateGPUTransferBuffer :: (device: *SDL_GPUDevice, createinfo: *SDL_GPUTransferBufferCreateInfo) -> *SDL_GPUTransferBuffer #foreign libsdl3_ttf;
 
 /**
 * Sets an arbitrary string constant to label a buffer.
@@ -27852,7 +27854,7 @@ CreateGPUTransferBuffer :: (device: *GPUDevice, createinfo: *GPUTransferBufferCr
 *
 * \sa SDL_CreateGPUBuffer
 */
-SetGPUBufferName :: (device: *GPUDevice, buffer: *GPUBuffer, text: *u8) -> void #foreign libsdl3_ttf "SDL_SetGPUBufferName";
+SDL_SetGPUBufferName :: (device: *SDL_GPUDevice, buffer: *SDL_GPUBuffer, text: *u8) -> void #foreign libsdl3_ttf;
 
 /**
 * Sets an arbitrary string constant to label a texture.
@@ -27872,7 +27874,7 @@ SetGPUBufferName :: (device: *GPUDevice, buffer: *GPUBuffer, text: *u8) -> void 
 *
 * \sa SDL_CreateGPUTexture
 */
-SetGPUTextureName :: (device: *GPUDevice, texture: *GPUTexture, text: *u8) -> void #foreign libsdl3_ttf "SDL_SetGPUTextureName";
+SDL_SetGPUTextureName :: (device: *SDL_GPUDevice, texture: *SDL_GPUTexture, text: *u8) -> void #foreign libsdl3_ttf;
 
 /**
 * Inserts an arbitrary string label into the command buffer callstream.
@@ -27884,10 +27886,10 @@ SetGPUTextureName :: (device: *GPUDevice, texture: *GPUTexture, text: *u8) -> vo
 *
 * \since This function is available since SDL 3.2.0.
 */
-InsertGPUDebugLabel :: (command_buffer: *GPUCommandBuffer, text: *u8) -> void #foreign libsdl3_ttf "SDL_InsertGPUDebugLabel";
+SDL_InsertGPUDebugLabel :: (command_buffer: *SDL_GPUCommandBuffer, text: *u8) -> void #foreign libsdl3_ttf;
 
 /**
-* Begins a debug group with an arbitary name.
+* Begins a debug group with an arbitrary name.
 *
 * Used for denoting groups of calls when viewing the command buffer
 * callstream in a graphics debugging tool.
@@ -27907,7 +27909,7 @@ InsertGPUDebugLabel :: (command_buffer: *GPUCommandBuffer, text: *u8) -> void #f
 *
 * \sa SDL_PopGPUDebugGroup
 */
-PushGPUDebugGroup :: (command_buffer: *GPUCommandBuffer, name: *u8) -> void #foreign libsdl3_ttf "SDL_PushGPUDebugGroup";
+SDL_PushGPUDebugGroup :: (command_buffer: *SDL_GPUCommandBuffer, name: *u8) -> void #foreign libsdl3_ttf;
 
 /**
 * Ends the most-recently pushed debug group.
@@ -27918,7 +27920,7 @@ PushGPUDebugGroup :: (command_buffer: *GPUCommandBuffer, name: *u8) -> void #for
 *
 * \sa SDL_PushGPUDebugGroup
 */
-PopGPUDebugGroup :: (command_buffer: *GPUCommandBuffer) -> void #foreign libsdl3_ttf "SDL_PopGPUDebugGroup";
+SDL_PopGPUDebugGroup :: (command_buffer: *SDL_GPUCommandBuffer) -> void #foreign libsdl3_ttf;
 
 /**
 * Frees the given texture as soon as it is safe to do so.
@@ -27930,7 +27932,7 @@ PopGPUDebugGroup :: (command_buffer: *GPUCommandBuffer) -> void #foreign libsdl3
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReleaseGPUTexture :: (device: *GPUDevice, texture: *GPUTexture) -> void #foreign libsdl3_ttf "SDL_ReleaseGPUTexture";
+SDL_ReleaseGPUTexture :: (device: *SDL_GPUDevice, texture: *SDL_GPUTexture) -> void #foreign libsdl3_ttf;
 
 /**
 * Frees the given sampler as soon as it is safe to do so.
@@ -27942,7 +27944,7 @@ ReleaseGPUTexture :: (device: *GPUDevice, texture: *GPUTexture) -> void #foreign
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReleaseGPUSampler :: (device: *GPUDevice, sampler: *GPUSampler) -> void #foreign libsdl3_ttf "SDL_ReleaseGPUSampler";
+SDL_ReleaseGPUSampler :: (device: *SDL_GPUDevice, sampler: *SDL_GPUSampler) -> void #foreign libsdl3_ttf;
 
 /**
 * Frees the given buffer as soon as it is safe to do so.
@@ -27954,7 +27956,7 @@ ReleaseGPUSampler :: (device: *GPUDevice, sampler: *GPUSampler) -> void #foreign
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReleaseGPUBuffer :: (device: *GPUDevice, buffer: *GPUBuffer) -> void #foreign libsdl3_ttf "SDL_ReleaseGPUBuffer";
+SDL_ReleaseGPUBuffer :: (device: *SDL_GPUDevice, buffer: *SDL_GPUBuffer) -> void #foreign libsdl3_ttf;
 
 /**
 * Frees the given transfer buffer as soon as it is safe to do so.
@@ -27966,7 +27968,7 @@ ReleaseGPUBuffer :: (device: *GPUDevice, buffer: *GPUBuffer) -> void #foreign li
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReleaseGPUTransferBuffer :: (device: *GPUDevice, transfer_buffer: *GPUTransferBuffer) -> void #foreign libsdl3_ttf "SDL_ReleaseGPUTransferBuffer";
+SDL_ReleaseGPUTransferBuffer :: (device: *SDL_GPUDevice, transfer_buffer: *SDL_GPUTransferBuffer) -> void #foreign libsdl3_ttf;
 
 /**
 * Frees the given compute pipeline as soon as it is safe to do so.
@@ -27978,7 +27980,7 @@ ReleaseGPUTransferBuffer :: (device: *GPUDevice, transfer_buffer: *GPUTransferBu
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReleaseGPUComputePipeline :: (device: *GPUDevice, compute_pipeline: *GPUComputePipeline) -> void #foreign libsdl3_ttf "SDL_ReleaseGPUComputePipeline";
+SDL_ReleaseGPUComputePipeline :: (device: *SDL_GPUDevice, compute_pipeline: *SDL_GPUComputePipeline) -> void #foreign libsdl3_ttf;
 
 /**
 * Frees the given shader as soon as it is safe to do so.
@@ -27990,7 +27992,7 @@ ReleaseGPUComputePipeline :: (device: *GPUDevice, compute_pipeline: *GPUComputeP
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReleaseGPUShader :: (device: *GPUDevice, shader: *GPUShader) -> void #foreign libsdl3_ttf "SDL_ReleaseGPUShader";
+SDL_ReleaseGPUShader :: (device: *SDL_GPUDevice, shader: *SDL_GPUShader) -> void #foreign libsdl3_ttf;
 
 /**
 * Frees the given graphics pipeline as soon as it is safe to do so.
@@ -28002,7 +28004,7 @@ ReleaseGPUShader :: (device: *GPUDevice, shader: *GPUShader) -> void #foreign li
 *
 * \since This function is available since SDL 3.2.0.
 */
-ReleaseGPUGraphicsPipeline :: (device: *GPUDevice, graphics_pipeline: *GPUGraphicsPipeline) -> void #foreign libsdl3_ttf "SDL_ReleaseGPUGraphicsPipeline";
+SDL_ReleaseGPUGraphicsPipeline :: (device: *SDL_GPUDevice, graphics_pipeline: *SDL_GPUGraphicsPipeline) -> void #foreign libsdl3_ttf;
 
 /**
 * Acquire a command buffer.
@@ -28028,7 +28030,7 @@ ReleaseGPUGraphicsPipeline :: (device: *GPUDevice, graphics_pipeline: *GPUGraphi
 * \sa SDL_SubmitGPUCommandBuffer
 * \sa SDL_SubmitGPUCommandBufferAndAcquireFence
 */
-AcquireGPUCommandBuffer :: (device: *GPUDevice) -> *GPUCommandBuffer #foreign libsdl3_ttf "SDL_AcquireGPUCommandBuffer";
+SDL_AcquireGPUCommandBuffer :: (device: *SDL_GPUDevice) -> *SDL_GPUCommandBuffer #foreign libsdl3_ttf;
 
 /**
 * Pushes data to a vertex uniform slot on the command buffer.
@@ -28046,7 +28048,7 @@ AcquireGPUCommandBuffer :: (device: *GPUDevice) -> *GPUCommandBuffer #foreign li
 *
 * \since This function is available since SDL 3.2.0.
 */
-PushGPUVertexUniformData :: (command_buffer: *GPUCommandBuffer, slot_index: Uint32, data: *void, length: Uint32) -> void #foreign libsdl3_ttf "SDL_PushGPUVertexUniformData";
+SDL_PushGPUVertexUniformData :: (command_buffer: *SDL_GPUCommandBuffer, slot_index: Uint32, data: *void, length: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Pushes data to a fragment uniform slot on the command buffer.
@@ -28064,7 +28066,7 @@ PushGPUVertexUniformData :: (command_buffer: *GPUCommandBuffer, slot_index: Uint
 *
 * \since This function is available since SDL 3.2.0.
 */
-PushGPUFragmentUniformData :: (command_buffer: *GPUCommandBuffer, slot_index: Uint32, data: *void, length: Uint32) -> void #foreign libsdl3_ttf "SDL_PushGPUFragmentUniformData";
+SDL_PushGPUFragmentUniformData :: (command_buffer: *SDL_GPUCommandBuffer, slot_index: Uint32, data: *void, length: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Pushes data to a uniform slot on the command buffer.
@@ -28082,7 +28084,7 @@ PushGPUFragmentUniformData :: (command_buffer: *GPUCommandBuffer, slot_index: Ui
 *
 * \since This function is available since SDL 3.2.0.
 */
-PushGPUComputeUniformData :: (command_buffer: *GPUCommandBuffer, slot_index: Uint32, data: *void, length: Uint32) -> void #foreign libsdl3_ttf "SDL_PushGPUComputeUniformData";
+SDL_PushGPUComputeUniformData :: (command_buffer: *SDL_GPUCommandBuffer, slot_index: Uint32, data: *void, length: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Begins a render pass on a command buffer.
@@ -28109,7 +28111,7 @@ PushGPUComputeUniformData :: (command_buffer: *GPUCommandBuffer, slot_index: Uin
 *
 * \sa SDL_EndGPURenderPass
 */
-BeginGPURenderPass :: (command_buffer: *GPUCommandBuffer, color_target_infos: *GPUColorTargetInfo, num_color_targets: Uint32, depth_stencil_target_info: *GPUDepthStencilTargetInfo) -> *GPURenderPass #foreign libsdl3_ttf "SDL_BeginGPURenderPass";
+SDL_BeginGPURenderPass :: (command_buffer: *SDL_GPUCommandBuffer, color_target_infos: *SDL_GPUColorTargetInfo, num_color_targets: Uint32, depth_stencil_target_info: *SDL_GPUDepthStencilTargetInfo) -> *SDL_GPURenderPass #foreign libsdl3_ttf;
 
 /**
 * Binds a graphics pipeline on a render pass to be used in rendering.
@@ -28121,7 +28123,7 @@ BeginGPURenderPass :: (command_buffer: *GPUCommandBuffer, color_target_infos: *G
 *
 * \since This function is available since SDL 3.2.0.
 */
-BindGPUGraphicsPipeline :: (render_pass: *GPURenderPass, graphics_pipeline: *GPUGraphicsPipeline) -> void #foreign libsdl3_ttf "SDL_BindGPUGraphicsPipeline";
+SDL_BindGPUGraphicsPipeline :: (render_pass: *SDL_GPURenderPass, graphics_pipeline: *SDL_GPUGraphicsPipeline) -> void #foreign libsdl3_ttf;
 
 /**
 * Sets the current viewport state on a command buffer.
@@ -28131,7 +28133,7 @@ BindGPUGraphicsPipeline :: (render_pass: *GPURenderPass, graphics_pipeline: *GPU
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetGPUViewport :: (render_pass: *GPURenderPass, viewport: *GPUViewport) -> void #foreign libsdl3_ttf "SDL_SetGPUViewport";
+SDL_SetGPUViewport :: (render_pass: *SDL_GPURenderPass, viewport: *SDL_GPUViewport) -> void #foreign libsdl3_ttf;
 
 /**
 * Sets the current scissor state on a command buffer.
@@ -28141,7 +28143,7 @@ SetGPUViewport :: (render_pass: *GPURenderPass, viewport: *GPUViewport) -> void 
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetGPUScissor :: (render_pass: *GPURenderPass, scissor: *Rect) -> void #foreign libsdl3_ttf "SDL_SetGPUScissor";
+SDL_SetGPUScissor :: (render_pass: *SDL_GPURenderPass, scissor: *SDL_Rect) -> void #foreign libsdl3_ttf;
 
 /**
 * Sets the current blend constants on a command buffer.
@@ -28154,7 +28156,7 @@ SetGPUScissor :: (render_pass: *GPURenderPass, scissor: *Rect) -> void #foreign 
 * \sa SDL_GPU_BLENDFACTOR_CONSTANT_COLOR
 * \sa SDL_GPU_BLENDFACTOR_ONE_MINUS_CONSTANT_COLOR
 */
-SetGPUBlendConstants :: (render_pass: *GPURenderPass, blend_constants: FColor) -> void #foreign libsdl3_ttf "SDL_SetGPUBlendConstants";
+SDL_SetGPUBlendConstants :: (render_pass: *SDL_GPURenderPass, blend_constants: SDL_FColor) -> void #foreign libsdl3_ttf;
 
 /**
 * Sets the current stencil reference value on a command buffer.
@@ -28164,7 +28166,7 @@ SetGPUBlendConstants :: (render_pass: *GPURenderPass, blend_constants: FColor) -
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetGPUStencilReference :: (render_pass: *GPURenderPass, reference: Uint8) -> void #foreign libsdl3_ttf "SDL_SetGPUStencilReference";
+SDL_SetGPUStencilReference :: (render_pass: *SDL_GPURenderPass, reference: Uint8) -> void #foreign libsdl3_ttf;
 
 /**
 * Binds vertex buffers on a command buffer for use with subsequent draw
@@ -28178,7 +28180,7 @@ SetGPUStencilReference :: (render_pass: *GPURenderPass, reference: Uint8) -> voi
 *
 * \since This function is available since SDL 3.2.0.
 */
-BindGPUVertexBuffers :: (render_pass: *GPURenderPass, first_slot: Uint32, bindings: *GPUBufferBinding, num_bindings: Uint32) -> void #foreign libsdl3_ttf "SDL_BindGPUVertexBuffers";
+SDL_BindGPUVertexBuffers :: (render_pass: *SDL_GPURenderPass, first_slot: Uint32, bindings: *SDL_GPUBufferBinding, num_bindings: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Binds an index buffer on a command buffer for use with subsequent draw
@@ -28191,7 +28193,7 @@ BindGPUVertexBuffers :: (render_pass: *GPURenderPass, first_slot: Uint32, bindin
 *
 * \since This function is available since SDL 3.2.0.
 */
-BindGPUIndexBuffer :: (render_pass: *GPURenderPass, binding: *GPUBufferBinding, index_element_size: GPUIndexElementSize) -> void #foreign libsdl3_ttf "SDL_BindGPUIndexBuffer";
+SDL_BindGPUIndexBuffer :: (render_pass: *SDL_GPURenderPass, binding: *SDL_GPUBufferBinding, index_element_size: SDL_GPUIndexElementSize) -> void #foreign libsdl3_ttf;
 
 /**
 * Binds texture-sampler pairs for use on the vertex shader.
@@ -28212,7 +28214,7 @@ BindGPUIndexBuffer :: (render_pass: *GPURenderPass, binding: *GPUBufferBinding, 
 *
 * \sa SDL_CreateGPUShader
 */
-BindGPUVertexSamplers :: (render_pass: *GPURenderPass, first_slot: Uint32, texture_sampler_bindings: *GPUTextureSamplerBinding, num_bindings: Uint32) -> void #foreign libsdl3_ttf "SDL_BindGPUVertexSamplers";
+SDL_BindGPUVertexSamplers :: (render_pass: *SDL_GPURenderPass, first_slot: Uint32, texture_sampler_bindings: *SDL_GPUTextureSamplerBinding, num_bindings: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Binds storage textures for use on the vertex shader.
@@ -28232,7 +28234,7 @@ BindGPUVertexSamplers :: (render_pass: *GPURenderPass, first_slot: Uint32, textu
 *
 * \sa SDL_CreateGPUShader
 */
-BindGPUVertexStorageTextures :: (render_pass: *GPURenderPass, first_slot: Uint32, storage_textures: **GPUTexture, num_bindings: Uint32) -> void #foreign libsdl3_ttf "SDL_BindGPUVertexStorageTextures";
+SDL_BindGPUVertexStorageTextures :: (render_pass: *SDL_GPURenderPass, first_slot: Uint32, storage_textures: **SDL_GPUTexture, num_bindings: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Binds storage buffers for use on the vertex shader.
@@ -28252,7 +28254,7 @@ BindGPUVertexStorageTextures :: (render_pass: *GPURenderPass, first_slot: Uint32
 *
 * \sa SDL_CreateGPUShader
 */
-BindGPUVertexStorageBuffers :: (render_pass: *GPURenderPass, first_slot: Uint32, storage_buffers: **GPUBuffer, num_bindings: Uint32) -> void #foreign libsdl3_ttf "SDL_BindGPUVertexStorageBuffers";
+SDL_BindGPUVertexStorageBuffers :: (render_pass: *SDL_GPURenderPass, first_slot: Uint32, storage_buffers: **SDL_GPUBuffer, num_bindings: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Binds texture-sampler pairs for use on the fragment shader.
@@ -28273,7 +28275,7 @@ BindGPUVertexStorageBuffers :: (render_pass: *GPURenderPass, first_slot: Uint32,
 *
 * \sa SDL_CreateGPUShader
 */
-BindGPUFragmentSamplers :: (render_pass: *GPURenderPass, first_slot: Uint32, texture_sampler_bindings: *GPUTextureSamplerBinding, num_bindings: Uint32) -> void #foreign libsdl3_ttf "SDL_BindGPUFragmentSamplers";
+SDL_BindGPUFragmentSamplers :: (render_pass: *SDL_GPURenderPass, first_slot: Uint32, texture_sampler_bindings: *SDL_GPUTextureSamplerBinding, num_bindings: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Binds storage textures for use on the fragment shader.
@@ -28293,7 +28295,7 @@ BindGPUFragmentSamplers :: (render_pass: *GPURenderPass, first_slot: Uint32, tex
 *
 * \sa SDL_CreateGPUShader
 */
-BindGPUFragmentStorageTextures :: (render_pass: *GPURenderPass, first_slot: Uint32, storage_textures: **GPUTexture, num_bindings: Uint32) -> void #foreign libsdl3_ttf "SDL_BindGPUFragmentStorageTextures";
+SDL_BindGPUFragmentStorageTextures :: (render_pass: *SDL_GPURenderPass, first_slot: Uint32, storage_textures: **SDL_GPUTexture, num_bindings: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Binds storage buffers for use on the fragment shader.
@@ -28313,7 +28315,7 @@ BindGPUFragmentStorageTextures :: (render_pass: *GPURenderPass, first_slot: Uint
 *
 * \sa SDL_CreateGPUShader
 */
-BindGPUFragmentStorageBuffers :: (render_pass: *GPURenderPass, first_slot: Uint32, storage_buffers: **GPUBuffer, num_bindings: Uint32) -> void #foreign libsdl3_ttf "SDL_BindGPUFragmentStorageBuffers";
+SDL_BindGPUFragmentStorageBuffers :: (render_pass: *SDL_GPURenderPass, first_slot: Uint32, storage_buffers: **SDL_GPUBuffer, num_bindings: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Draws data using bound graphics state with an index buffer and instancing
@@ -28338,7 +28340,7 @@ BindGPUFragmentStorageBuffers :: (render_pass: *GPURenderPass, first_slot: Uint3
 *
 * \since This function is available since SDL 3.2.0.
 */
-DrawGPUIndexedPrimitives :: (render_pass: *GPURenderPass, num_indices: Uint32, num_instances: Uint32, first_index: Uint32, vertex_offset: Sint32, first_instance: Uint32) -> void #foreign libsdl3_ttf "SDL_DrawGPUIndexedPrimitives";
+SDL_DrawGPUIndexedPrimitives :: (render_pass: *SDL_GPURenderPass, num_indices: Uint32, num_instances: Uint32, first_index: Uint32, vertex_offset: Sint32, first_instance: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Draws data using bound graphics state.
@@ -28360,7 +28362,7 @@ DrawGPUIndexedPrimitives :: (render_pass: *GPURenderPass, num_indices: Uint32, n
 *
 * \since This function is available since SDL 3.2.0.
 */
-DrawGPUPrimitives :: (render_pass: *GPURenderPass, num_vertices: Uint32, num_instances: Uint32, first_vertex: Uint32, first_instance: Uint32) -> void #foreign libsdl3_ttf "SDL_DrawGPUPrimitives";
+SDL_DrawGPUPrimitives :: (render_pass: *SDL_GPURenderPass, num_vertices: Uint32, num_instances: Uint32, first_vertex: Uint32, first_instance: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Draws data using bound graphics state and with draw parameters set from a
@@ -28378,7 +28380,7 @@ DrawGPUPrimitives :: (render_pass: *GPURenderPass, num_vertices: Uint32, num_ins
 *
 * \since This function is available since SDL 3.2.0.
 */
-DrawGPUPrimitivesIndirect :: (render_pass: *GPURenderPass, buffer: *GPUBuffer, offset: Uint32, draw_count: Uint32) -> void #foreign libsdl3_ttf "SDL_DrawGPUPrimitivesIndirect";
+SDL_DrawGPUPrimitivesIndirect :: (render_pass: *SDL_GPURenderPass, buffer: *SDL_GPUBuffer, offset: Uint32, draw_count: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Draws data using bound graphics state with an index buffer enabled and with
@@ -28396,7 +28398,7 @@ DrawGPUPrimitivesIndirect :: (render_pass: *GPURenderPass, buffer: *GPUBuffer, o
 *
 * \since This function is available since SDL 3.2.0.
 */
-DrawGPUIndexedPrimitivesIndirect :: (render_pass: *GPURenderPass, buffer: *GPUBuffer, offset: Uint32, draw_count: Uint32) -> void #foreign libsdl3_ttf "SDL_DrawGPUIndexedPrimitivesIndirect";
+SDL_DrawGPUIndexedPrimitivesIndirect :: (render_pass: *SDL_GPURenderPass, buffer: *SDL_GPUBuffer, offset: Uint32, draw_count: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Ends the given render pass.
@@ -28408,7 +28410,7 @@ DrawGPUIndexedPrimitivesIndirect :: (render_pass: *GPURenderPass, buffer: *GPUBu
 *
 * \since This function is available since SDL 3.2.0.
 */
-EndGPURenderPass :: (render_pass: *GPURenderPass) -> void #foreign libsdl3_ttf "SDL_EndGPURenderPass";
+SDL_EndGPURenderPass :: (render_pass: *SDL_GPURenderPass) -> void #foreign libsdl3_ttf;
 
 /**
 * Begins a compute pass on a command buffer.
@@ -28447,7 +28449,7 @@ EndGPURenderPass :: (render_pass: *GPURenderPass) -> void #foreign libsdl3_ttf "
 *
 * \sa SDL_EndGPUComputePass
 */
-BeginGPUComputePass :: (command_buffer: *GPUCommandBuffer, storage_texture_bindings: *GPUStorageTextureReadWriteBinding, num_storage_texture_bindings: Uint32, storage_buffer_bindings: *GPUStorageBufferReadWriteBinding, num_storage_buffer_bindings: Uint32) -> *GPUComputePass #foreign libsdl3_ttf "SDL_BeginGPUComputePass";
+SDL_BeginGPUComputePass :: (command_buffer: *SDL_GPUCommandBuffer, storage_texture_bindings: *SDL_GPUStorageTextureReadWriteBinding, num_storage_texture_bindings: Uint32, storage_buffer_bindings: *SDL_GPUStorageBufferReadWriteBinding, num_storage_buffer_bindings: Uint32) -> *SDL_GPUComputePass #foreign libsdl3_ttf;
 
 /**
 * Binds a compute pipeline on a command buffer for use in compute dispatch.
@@ -28457,7 +28459,7 @@ BeginGPUComputePass :: (command_buffer: *GPUCommandBuffer, storage_texture_bindi
 *
 * \since This function is available since SDL 3.2.0.
 */
-BindGPUComputePipeline :: (compute_pass: *GPUComputePass, compute_pipeline: *GPUComputePipeline) -> void #foreign libsdl3_ttf "SDL_BindGPUComputePipeline";
+SDL_BindGPUComputePipeline :: (compute_pass: *SDL_GPUComputePass, compute_pipeline: *SDL_GPUComputePipeline) -> void #foreign libsdl3_ttf;
 
 /**
 * Binds texture-sampler pairs for use on the compute shader.
@@ -28478,7 +28480,7 @@ BindGPUComputePipeline :: (compute_pass: *GPUComputePass, compute_pipeline: *GPU
 *
 * \sa SDL_CreateGPUShader
 */
-BindGPUComputeSamplers :: (compute_pass: *GPUComputePass, first_slot: Uint32, texture_sampler_bindings: *GPUTextureSamplerBinding, num_bindings: Uint32) -> void #foreign libsdl3_ttf "SDL_BindGPUComputeSamplers";
+SDL_BindGPUComputeSamplers :: (compute_pass: *SDL_GPUComputePass, first_slot: Uint32, texture_sampler_bindings: *SDL_GPUTextureSamplerBinding, num_bindings: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Binds storage textures as readonly for use on the compute pipeline.
@@ -28498,7 +28500,7 @@ BindGPUComputeSamplers :: (compute_pass: *GPUComputePass, first_slot: Uint32, te
 *
 * \sa SDL_CreateGPUShader
 */
-BindGPUComputeStorageTextures :: (compute_pass: *GPUComputePass, first_slot: Uint32, storage_textures: **GPUTexture, num_bindings: Uint32) -> void #foreign libsdl3_ttf "SDL_BindGPUComputeStorageTextures";
+SDL_BindGPUComputeStorageTextures :: (compute_pass: *SDL_GPUComputePass, first_slot: Uint32, storage_textures: **SDL_GPUTexture, num_bindings: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Binds storage buffers as readonly for use on the compute pipeline.
@@ -28518,7 +28520,7 @@ BindGPUComputeStorageTextures :: (compute_pass: *GPUComputePass, first_slot: Uin
 *
 * \sa SDL_CreateGPUShader
 */
-BindGPUComputeStorageBuffers :: (compute_pass: *GPUComputePass, first_slot: Uint32, storage_buffers: **GPUBuffer, num_bindings: Uint32) -> void #foreign libsdl3_ttf "SDL_BindGPUComputeStorageBuffers";
+SDL_BindGPUComputeStorageBuffers :: (compute_pass: *SDL_GPUComputePass, first_slot: Uint32, storage_buffers: **SDL_GPUBuffer, num_bindings: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Dispatches compute work.
@@ -28540,7 +28542,7 @@ BindGPUComputeStorageBuffers :: (compute_pass: *GPUComputePass, first_slot: Uint
 *
 * \since This function is available since SDL 3.2.0.
 */
-DispatchGPUCompute :: (compute_pass: *GPUComputePass, groupcount_x: Uint32, groupcount_y: Uint32, groupcount_z: Uint32) -> void #foreign libsdl3_ttf "SDL_DispatchGPUCompute";
+SDL_DispatchGPUCompute :: (compute_pass: *SDL_GPUComputePass, groupcount_x: Uint32, groupcount_y: Uint32, groupcount_z: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Dispatches compute work with parameters set from a buffer.
@@ -28560,7 +28562,7 @@ DispatchGPUCompute :: (compute_pass: *GPUComputePass, groupcount_x: Uint32, grou
 *
 * \since This function is available since SDL 3.2.0.
 */
-DispatchGPUComputeIndirect :: (compute_pass: *GPUComputePass, buffer: *GPUBuffer, offset: Uint32) -> void #foreign libsdl3_ttf "SDL_DispatchGPUComputeIndirect";
+SDL_DispatchGPUComputeIndirect :: (compute_pass: *SDL_GPUComputePass, buffer: *SDL_GPUBuffer, offset: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Ends the current compute pass.
@@ -28572,7 +28574,7 @@ DispatchGPUComputeIndirect :: (compute_pass: *GPUComputePass, buffer: *GPUBuffer
 *
 * \since This function is available since SDL 3.2.0.
 */
-EndGPUComputePass :: (compute_pass: *GPUComputePass) -> void #foreign libsdl3_ttf "SDL_EndGPUComputePass";
+SDL_EndGPUComputePass :: (compute_pass: *SDL_GPUComputePass) -> void #foreign libsdl3_ttf;
 
 /**
 * Maps a transfer buffer into application address space.
@@ -28589,7 +28591,7 @@ EndGPUComputePass :: (compute_pass: *GPUComputePass) -> void #foreign libsdl3_tt
 *
 * \since This function is available since SDL 3.2.0.
 */
-MapGPUTransferBuffer :: (device: *GPUDevice, transfer_buffer: *GPUTransferBuffer, cycle: bool) -> *void #foreign libsdl3_ttf "SDL_MapGPUTransferBuffer";
+SDL_MapGPUTransferBuffer :: (device: *SDL_GPUDevice, transfer_buffer: *SDL_GPUTransferBuffer, cycle: bool) -> *void #foreign libsdl3_ttf;
 
 /**
 * Unmaps a previously mapped transfer buffer.
@@ -28599,7 +28601,7 @@ MapGPUTransferBuffer :: (device: *GPUDevice, transfer_buffer: *GPUTransferBuffer
 *
 * \since This function is available since SDL 3.2.0.
 */
-UnmapGPUTransferBuffer :: (device: *GPUDevice, transfer_buffer: *GPUTransferBuffer) -> void #foreign libsdl3_ttf "SDL_UnmapGPUTransferBuffer";
+SDL_UnmapGPUTransferBuffer :: (device: *SDL_GPUDevice, transfer_buffer: *SDL_GPUTransferBuffer) -> void #foreign libsdl3_ttf;
 
 /**
 * Begins a copy pass on a command buffer.
@@ -28613,7 +28615,7 @@ UnmapGPUTransferBuffer :: (device: *GPUDevice, transfer_buffer: *GPUTransferBuff
 *
 * \since This function is available since SDL 3.2.0.
 */
-BeginGPUCopyPass :: (command_buffer: *GPUCommandBuffer) -> *GPUCopyPass #foreign libsdl3_ttf "SDL_BeginGPUCopyPass";
+SDL_BeginGPUCopyPass :: (command_buffer: *SDL_GPUCommandBuffer) -> *SDL_GPUCopyPass #foreign libsdl3_ttf;
 
 /**
 * Uploads data from a transfer buffer to a texture.
@@ -28632,7 +28634,7 @@ BeginGPUCopyPass :: (command_buffer: *GPUCommandBuffer) -> *GPUCopyPass #foreign
 *
 * \since This function is available since SDL 3.2.0.
 */
-UploadToGPUTexture :: (copy_pass: *GPUCopyPass, source: *GPUTextureTransferInfo, destination: *GPUTextureRegion, cycle: bool) -> void #foreign libsdl3_ttf "SDL_UploadToGPUTexture";
+SDL_UploadToGPUTexture :: (copy_pass: *SDL_GPUCopyPass, source: *SDL_GPUTextureTransferInfo, destination: *SDL_GPUTextureRegion, cycle: bool) -> void #foreign libsdl3_ttf;
 
 /**
 * Uploads data from a transfer buffer to a buffer.
@@ -28648,7 +28650,7 @@ UploadToGPUTexture :: (copy_pass: *GPUCopyPass, source: *GPUTextureTransferInfo,
 *
 * \since This function is available since SDL 3.2.0.
 */
-UploadToGPUBuffer :: (copy_pass: *GPUCopyPass, source: *GPUTransferBufferLocation, destination: *GPUBufferRegion, cycle: bool) -> void #foreign libsdl3_ttf "SDL_UploadToGPUBuffer";
+SDL_UploadToGPUBuffer :: (copy_pass: *SDL_GPUCopyPass, source: *SDL_GPUTransferBufferLocation, destination: *SDL_GPUBufferRegion, cycle: bool) -> void #foreign libsdl3_ttf;
 
 /**
 * Performs a texture-to-texture copy.
@@ -28667,7 +28669,7 @@ UploadToGPUBuffer :: (copy_pass: *GPUCopyPass, source: *GPUTransferBufferLocatio
 *
 * \since This function is available since SDL 3.2.0.
 */
-CopyGPUTextureToTexture :: (copy_pass: *GPUCopyPass, source: *GPUTextureLocation, destination: *GPUTextureLocation, w: Uint32, h: Uint32, d: Uint32, cycle: bool) -> void #foreign libsdl3_ttf "SDL_CopyGPUTextureToTexture";
+SDL_CopyGPUTextureToTexture :: (copy_pass: *SDL_GPUCopyPass, source: *SDL_GPUTextureLocation, destination: *SDL_GPUTextureLocation, w: Uint32, h: Uint32, d: Uint32, cycle: bool) -> void #foreign libsdl3_ttf;
 
 /**
 * Performs a buffer-to-buffer copy.
@@ -28684,7 +28686,7 @@ CopyGPUTextureToTexture :: (copy_pass: *GPUCopyPass, source: *GPUTextureLocation
 *
 * \since This function is available since SDL 3.2.0.
 */
-CopyGPUBufferToBuffer :: (copy_pass: *GPUCopyPass, source: *GPUBufferLocation, destination: *GPUBufferLocation, size: Uint32, cycle: bool) -> void #foreign libsdl3_ttf "SDL_CopyGPUBufferToBuffer";
+SDL_CopyGPUBufferToBuffer :: (copy_pass: *SDL_GPUCopyPass, source: *SDL_GPUBufferLocation, destination: *SDL_GPUBufferLocation, size: Uint32, cycle: bool) -> void #foreign libsdl3_ttf;
 
 /**
 * Copies data from a texture to a transfer buffer on the GPU timeline.
@@ -28699,7 +28701,7 @@ CopyGPUBufferToBuffer :: (copy_pass: *GPUCopyPass, source: *GPUBufferLocation, d
 *
 * \since This function is available since SDL 3.2.0.
 */
-DownloadFromGPUTexture :: (copy_pass: *GPUCopyPass, source: *GPUTextureRegion, destination: *GPUTextureTransferInfo) -> void #foreign libsdl3_ttf "SDL_DownloadFromGPUTexture";
+SDL_DownloadFromGPUTexture :: (copy_pass: *SDL_GPUCopyPass, source: *SDL_GPUTextureRegion, destination: *SDL_GPUTextureTransferInfo) -> void #foreign libsdl3_ttf;
 
 /**
 * Copies data from a buffer to a transfer buffer on the GPU timeline.
@@ -28713,7 +28715,7 @@ DownloadFromGPUTexture :: (copy_pass: *GPUCopyPass, source: *GPUTextureRegion, d
 *
 * \since This function is available since SDL 3.2.0.
 */
-DownloadFromGPUBuffer :: (copy_pass: *GPUCopyPass, source: *GPUBufferRegion, destination: *GPUTransferBufferLocation) -> void #foreign libsdl3_ttf "SDL_DownloadFromGPUBuffer";
+SDL_DownloadFromGPUBuffer :: (copy_pass: *SDL_GPUCopyPass, source: *SDL_GPUBufferRegion, destination: *SDL_GPUTransferBufferLocation) -> void #foreign libsdl3_ttf;
 
 /**
 * Ends the current copy pass.
@@ -28722,7 +28724,7 @@ DownloadFromGPUBuffer :: (copy_pass: *GPUCopyPass, source: *GPUBufferRegion, des
 *
 * \since This function is available since SDL 3.2.0.
 */
-EndGPUCopyPass :: (copy_pass: *GPUCopyPass) -> void #foreign libsdl3_ttf "SDL_EndGPUCopyPass";
+SDL_EndGPUCopyPass :: (copy_pass: *SDL_GPUCopyPass) -> void #foreign libsdl3_ttf;
 
 /**
 * Generates mipmaps for the given texture.
@@ -28734,7 +28736,7 @@ EndGPUCopyPass :: (copy_pass: *GPUCopyPass) -> void #foreign libsdl3_ttf "SDL_En
 *
 * \since This function is available since SDL 3.2.0.
 */
-GenerateMipmapsForGPUTexture :: (command_buffer: *GPUCommandBuffer, texture: *GPUTexture) -> void #foreign libsdl3_ttf "SDL_GenerateMipmapsForGPUTexture";
+SDL_GenerateMipmapsForGPUTexture :: (command_buffer: *SDL_GPUCommandBuffer, texture: *SDL_GPUTexture) -> void #foreign libsdl3_ttf;
 
 /**
 * Blits from a source texture region to a destination texture region.
@@ -28746,7 +28748,7 @@ GenerateMipmapsForGPUTexture :: (command_buffer: *GPUCommandBuffer, texture: *GP
 *
 * \since This function is available since SDL 3.2.0.
 */
-BlitGPUTexture :: (command_buffer: *GPUCommandBuffer, info: *GPUBlitInfo) -> void #foreign libsdl3_ttf "SDL_BlitGPUTexture";
+SDL_BlitGPUTexture :: (command_buffer: *SDL_GPUCommandBuffer, info: *SDL_GPUBlitInfo) -> void #foreign libsdl3_ttf;
 
 /**
 * Determines whether a swapchain composition is supported by the window.
@@ -28762,7 +28764,7 @@ BlitGPUTexture :: (command_buffer: *GPUCommandBuffer, info: *GPUBlitInfo) -> voi
 *
 * \sa SDL_ClaimWindowForGPUDevice
 */
-WindowSupportsGPUSwapchainComposition :: (device: *GPUDevice, window: *Window, swapchain_composition: GPUSwapchainComposition) -> bool #foreign libsdl3_ttf "SDL_WindowSupportsGPUSwapchainComposition";
+SDL_WindowSupportsGPUSwapchainComposition :: (device: *SDL_GPUDevice, window: *SDL_Window, swapchain_composition: SDL_GPUSwapchainComposition) -> bool #foreign libsdl3_ttf;
 
 /**
 * Determines whether a presentation mode is supported by the window.
@@ -28778,7 +28780,7 @@ WindowSupportsGPUSwapchainComposition :: (device: *GPUDevice, window: *Window, s
 *
 * \sa SDL_ClaimWindowForGPUDevice
 */
-WindowSupportsGPUPresentMode :: (device: *GPUDevice, window: *Window, present_mode: GPUPresentMode) -> bool #foreign libsdl3_ttf "SDL_WindowSupportsGPUPresentMode";
+SDL_WindowSupportsGPUPresentMode :: (device: *SDL_GPUDevice, window: *SDL_Window, present_mode: SDL_GPUPresentMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Claims a window, creating a swapchain structure for it.
@@ -28807,7 +28809,7 @@ WindowSupportsGPUPresentMode :: (device: *GPUDevice, window: *Window, present_mo
 * \sa SDL_WindowSupportsGPUPresentMode
 * \sa SDL_WindowSupportsGPUSwapchainComposition
 */
-ClaimWindowForGPUDevice :: (device: *GPUDevice, window: *Window) -> bool #foreign libsdl3_ttf "SDL_ClaimWindowForGPUDevice";
+SDL_ClaimWindowForGPUDevice :: (device: *SDL_GPUDevice, window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Unclaims a window, destroying its swapchain structure.
@@ -28819,7 +28821,7 @@ ClaimWindowForGPUDevice :: (device: *GPUDevice, window: *Window) -> bool #foreig
 *
 * \sa SDL_ClaimWindowForGPUDevice
 */
-ReleaseWindowFromGPUDevice :: (device: *GPUDevice, window: *Window) -> void #foreign libsdl3_ttf "SDL_ReleaseWindowFromGPUDevice";
+SDL_ReleaseWindowFromGPUDevice :: (device: *SDL_GPUDevice, window: *SDL_Window) -> void #foreign libsdl3_ttf;
 
 /**
 * Changes the swapchain parameters for the given claimed window.
@@ -28844,7 +28846,7 @@ ReleaseWindowFromGPUDevice :: (device: *GPUDevice, window: *Window) -> void #for
 * \sa SDL_WindowSupportsGPUPresentMode
 * \sa SDL_WindowSupportsGPUSwapchainComposition
 */
-SetGPUSwapchainParameters :: (device: *GPUDevice, window: *Window, swapchain_composition: GPUSwapchainComposition, present_mode: GPUPresentMode) -> bool #foreign libsdl3_ttf "SDL_SetGPUSwapchainParameters";
+SDL_SetGPUSwapchainParameters :: (device: *SDL_GPUDevice, window: *SDL_Window, swapchain_composition: SDL_GPUSwapchainComposition, present_mode: SDL_GPUPresentMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Configures the maximum allowed number of frames in flight.
@@ -28871,7 +28873,7 @@ SetGPUSwapchainParameters :: (device: *GPUDevice, window: *Window, swapchain_com
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetGPUAllowedFramesInFlight :: (device: *GPUDevice, allowed_frames_in_flight: Uint32) -> bool #foreign libsdl3_ttf "SDL_SetGPUAllowedFramesInFlight";
+SDL_SetGPUAllowedFramesInFlight :: (device: *SDL_GPUDevice, allowed_frames_in_flight: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Obtains the texture format of the swapchain for the given window.
@@ -28884,7 +28886,7 @@ SetGPUAllowedFramesInFlight :: (device: *GPUDevice, allowed_frames_in_flight: Ui
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetGPUSwapchainTextureFormat :: (device: *GPUDevice, window: *Window) -> GPUTextureFormat #foreign libsdl3_ttf "SDL_GetGPUSwapchainTextureFormat";
+SDL_GetGPUSwapchainTextureFormat :: (device: *SDL_GPUDevice, window: *SDL_Window) -> SDL_GPUTextureFormat #foreign libsdl3_ttf;
 
 /**
 * Acquire a texture to use in presentation.
@@ -28932,7 +28934,7 @@ GetGPUSwapchainTextureFormat :: (device: *GPUDevice, window: *Window) -> GPUText
 * \sa SDL_WaitAndAcquireGPUSwapchainTexture
 * \sa SDL_SetGPUAllowedFramesInFlight
 */
-AcquireGPUSwapchainTexture :: (command_buffer: *GPUCommandBuffer, window: *Window, swapchain_texture: **GPUTexture, swapchain_texture_width: *Uint32, swapchain_texture_height: *Uint32) -> bool #foreign libsdl3_ttf "SDL_AcquireGPUSwapchainTexture";
+SDL_AcquireGPUSwapchainTexture :: (command_buffer: *SDL_GPUCommandBuffer, window: *SDL_Window, swapchain_texture: **SDL_GPUTexture, swapchain_texture_width: *Uint32, swapchain_texture_height: *Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Blocks the thread until a swapchain texture is available to be acquired.
@@ -28951,7 +28953,7 @@ AcquireGPUSwapchainTexture :: (command_buffer: *GPUCommandBuffer, window: *Windo
 * \sa SDL_WaitAndAcquireGPUSwapchainTexture
 * \sa SDL_SetGPUAllowedFramesInFlight
 */
-WaitForGPUSwapchain :: (device: *GPUDevice, window: *Window) -> bool #foreign libsdl3_ttf "SDL_WaitForGPUSwapchain";
+SDL_WaitForGPUSwapchain :: (device: *SDL_GPUDevice, window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * Blocks the thread until a swapchain texture is available to be acquired,
@@ -28995,7 +28997,7 @@ WaitForGPUSwapchain :: (device: *GPUDevice, window: *Window) -> bool #foreign li
 * \sa SDL_SubmitGPUCommandBufferAndAcquireFence
 * \sa SDL_AcquireGPUSwapchainTexture
 */
-WaitAndAcquireGPUSwapchainTexture :: (command_buffer: *GPUCommandBuffer, window: *Window, swapchain_texture: **GPUTexture, swapchain_texture_width: *Uint32, swapchain_texture_height: *Uint32) -> bool #foreign libsdl3_ttf "SDL_WaitAndAcquireGPUSwapchainTexture";
+SDL_WaitAndAcquireGPUSwapchainTexture :: (command_buffer: *SDL_GPUCommandBuffer, window: *SDL_Window, swapchain_texture: **SDL_GPUTexture, swapchain_texture_width: *Uint32, swapchain_texture_height: *Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Submits a command buffer so its commands can be processed on the GPU.
@@ -29018,7 +29020,7 @@ WaitAndAcquireGPUSwapchainTexture :: (command_buffer: *GPUCommandBuffer, window:
 * \sa SDL_AcquireGPUSwapchainTexture
 * \sa SDL_SubmitGPUCommandBufferAndAcquireFence
 */
-SubmitGPUCommandBuffer :: (command_buffer: *GPUCommandBuffer) -> bool #foreign libsdl3_ttf "SDL_SubmitGPUCommandBuffer";
+SDL_SubmitGPUCommandBuffer :: (command_buffer: *SDL_GPUCommandBuffer) -> bool #foreign libsdl3_ttf;
 
 /**
 * Submits a command buffer so its commands can be processed on the GPU, and
@@ -29044,7 +29046,7 @@ SubmitGPUCommandBuffer :: (command_buffer: *GPUCommandBuffer) -> bool #foreign l
 * \sa SDL_SubmitGPUCommandBuffer
 * \sa SDL_ReleaseGPUFence
 */
-SubmitGPUCommandBufferAndAcquireFence :: (command_buffer: *GPUCommandBuffer) -> *GPUFence #foreign libsdl3_ttf "SDL_SubmitGPUCommandBufferAndAcquireFence";
+SDL_SubmitGPUCommandBufferAndAcquireFence :: (command_buffer: *SDL_GPUCommandBuffer) -> *SDL_GPUFence #foreign libsdl3_ttf;
 
 /**
 * Cancels a command buffer.
@@ -29068,7 +29070,7 @@ SubmitGPUCommandBufferAndAcquireFence :: (command_buffer: *GPUCommandBuffer) -> 
 * \sa SDL_AcquireGPUCommandBuffer
 * \sa SDL_AcquireGPUSwapchainTexture
 */
-CancelGPUCommandBuffer :: (command_buffer: *GPUCommandBuffer) -> bool #foreign libsdl3_ttf "SDL_CancelGPUCommandBuffer";
+SDL_CancelGPUCommandBuffer :: (command_buffer: *SDL_GPUCommandBuffer) -> bool #foreign libsdl3_ttf;
 
 /**
 * Blocks the thread until the GPU is completely idle.
@@ -29081,7 +29083,7 @@ CancelGPUCommandBuffer :: (command_buffer: *GPUCommandBuffer) -> bool #foreign l
 *
 * \sa SDL_WaitForGPUFences
 */
-WaitForGPUIdle :: (device: *GPUDevice) -> bool #foreign libsdl3_ttf "SDL_WaitForGPUIdle";
+SDL_WaitForGPUIdle :: (device: *SDL_GPUDevice) -> bool #foreign libsdl3_ttf;
 
 /**
 * Blocks the thread until the given fences are signaled.
@@ -29099,7 +29101,7 @@ WaitForGPUIdle :: (device: *GPUDevice) -> bool #foreign libsdl3_ttf "SDL_WaitFor
 * \sa SDL_SubmitGPUCommandBufferAndAcquireFence
 * \sa SDL_WaitForGPUIdle
 */
-WaitForGPUFences :: (device: *GPUDevice, wait_all: bool, fences: **GPUFence, num_fences: Uint32) -> bool #foreign libsdl3_ttf "SDL_WaitForGPUFences";
+SDL_WaitForGPUFences :: (device: *SDL_GPUDevice, wait_all: bool, fences: **SDL_GPUFence, num_fences: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Checks the status of a fence.
@@ -29112,7 +29114,7 @@ WaitForGPUFences :: (device: *GPUDevice, wait_all: bool, fences: **GPUFence, num
 *
 * \sa SDL_SubmitGPUCommandBufferAndAcquireFence
 */
-QueryGPUFence :: (device: *GPUDevice, fence: *GPUFence) -> bool #foreign libsdl3_ttf "SDL_QueryGPUFence";
+SDL_QueryGPUFence :: (device: *SDL_GPUDevice, fence: *SDL_GPUFence) -> bool #foreign libsdl3_ttf;
 
 /**
 * Releases a fence obtained from SDL_SubmitGPUCommandBufferAndAcquireFence.
@@ -29126,7 +29128,7 @@ QueryGPUFence :: (device: *GPUDevice, fence: *GPUFence) -> bool #foreign libsdl3
 *
 * \sa SDL_SubmitGPUCommandBufferAndAcquireFence
 */
-ReleaseGPUFence :: (device: *GPUDevice, fence: *GPUFence) -> void #foreign libsdl3_ttf "SDL_ReleaseGPUFence";
+SDL_ReleaseGPUFence :: (device: *SDL_GPUDevice, fence: *SDL_GPUFence) -> void #foreign libsdl3_ttf;
 
 /**
 * Obtains the texel block size for a texture format.
@@ -29138,7 +29140,7 @@ ReleaseGPUFence :: (device: *GPUDevice, fence: *GPUFence) -> void #foreign libsd
 *
 * \sa SDL_UploadToGPUTexture
 */
-GPUTextureFormatTexelBlockSize :: (format: GPUTextureFormat) -> Uint32 #foreign libsdl3_ttf "SDL_GPUTextureFormatTexelBlockSize";
+SDL_GPUTextureFormatTexelBlockSize :: (format: SDL_GPUTextureFormat) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Determines whether a texture format is supported for a given type and
@@ -29152,7 +29154,7 @@ GPUTextureFormatTexelBlockSize :: (format: GPUTextureFormat) -> Uint32 #foreign 
 *
 * \since This function is available since SDL 3.2.0.
 */
-GPUTextureSupportsFormat :: (device: *GPUDevice, format: GPUTextureFormat, type: GPUTextureType, usage: GPUTextureUsageFlags) -> bool #foreign libsdl3_ttf "SDL_GPUTextureSupportsFormat";
+SDL_GPUTextureSupportsFormat :: (device: *SDL_GPUDevice, format: SDL_GPUTextureFormat, type: SDL_GPUTextureType, usage: SDL_GPUTextureUsageFlags) -> bool #foreign libsdl3_ttf;
 
 /**
 * Determines if a sample count for a texture format is supported.
@@ -29164,7 +29166,7 @@ GPUTextureSupportsFormat :: (device: *GPUDevice, format: GPUTextureFormat, type:
 *
 * \since This function is available since SDL 3.2.0.
 */
-GPUTextureSupportsSampleCount :: (device: *GPUDevice, format: GPUTextureFormat, sample_count: GPUSampleCount) -> bool #foreign libsdl3_ttf "SDL_GPUTextureSupportsSampleCount";
+SDL_GPUTextureSupportsSampleCount :: (device: *SDL_GPUDevice, format: SDL_GPUTextureFormat, sample_count: SDL_GPUSampleCount) -> bool #foreign libsdl3_ttf;
 
 /**
 * Calculate the size in bytes of a texture format with dimensions.
@@ -29177,9 +29179,9 @@ GPUTextureSupportsSampleCount :: (device: *GPUDevice, format: GPUTextureFormat, 
 *
 * \since This function is available since SDL 3.2.0.
 */
-CalculateGPUTextureFormatSize :: (format: GPUTextureFormat, width: Uint32, height: Uint32, depth_or_layer_count: Uint32) -> Uint32 #foreign libsdl3_ttf "SDL_CalculateGPUTextureFormatSize";
+SDL_CalculateGPUTextureFormatSize :: (format: SDL_GPUTextureFormat, width: Uint32, height: Uint32, depth_or_layer_count: Uint32) -> Uint32 #foreign libsdl3_ttf;
 
-Haptic :: struct {}
+SDL_Haptic :: struct {}
 
 /**
 * Structure that represents a haptic direction.
@@ -29284,7 +29286,7 @@ Haptic :: struct {}
 * \sa SDL_HapticEffect
 * \sa SDL_GetNumHapticAxes
 */
-HapticDirection :: struct {
+SDL_HapticDirection :: struct {
     type: Uint8; /**< The type of encoding. */
     dir:  [3] Sint32; /**< The encoded direction. */
 }
@@ -29302,9 +29304,9 @@ HapticDirection :: struct {
 * \sa SDL_HAPTIC_CONSTANT
 * \sa SDL_HapticEffect
 */
-HapticConstant :: struct {
+SDL_HapticConstant :: struct {
     type:          Uint16; /**< SDL_HAPTIC_CONSTANT */
-    direction:     HapticDirection; /**< Direction of the effect. */
+    direction:     SDL_HapticDirection; /**< Direction of the effect. */
 
     length:        Uint32; /**< Duration of the effect. */
     delay:         Uint16; /**< Delay before starting the effect. */
@@ -29382,13 +29384,13 @@ HapticConstant :: struct {
 * \sa SDL_HAPTIC_SAWTOOTHDOWN
 * \sa SDL_HapticEffect
 */
-HapticPeriodic :: struct {
+SDL_HapticPeriodic :: struct {
     /**< SDL_HAPTIC_SINE, SDL_HAPTIC_SQUARE
     SDL_HAPTIC_TRIANGLE, SDL_HAPTIC_SAWTOOTHUP or
     SDL_HAPTIC_SAWTOOTHDOWN */
     type:          Uint16;
 
-    direction:     HapticDirection; /**< Direction of the effect. */
+    direction:     SDL_HapticDirection; /**< Direction of the effect. */
 
     length:        Uint32; /**< Duration of the effect. */
     delay:         Uint16; /**< Delay before starting the effect. */
@@ -29434,12 +29436,12 @@ HapticPeriodic :: struct {
 * \sa SDL_HAPTIC_FRICTION
 * \sa SDL_HapticEffect
 */
-HapticCondition :: struct {
+SDL_HapticCondition :: struct {
     /**< SDL_HAPTIC_SPRING, SDL_HAPTIC_DAMPER,
     SDL_HAPTIC_INERTIA or SDL_HAPTIC_FRICTION */
     type:        Uint16;
 
-    direction:   HapticDirection; /**< Direction of the effect. */
+    direction:   SDL_HapticDirection; /**< Direction of the effect. */
 
     length:      Uint32; /**< Duration of the effect. */
     delay:       Uint16; /**< Delay before starting the effect. */
@@ -29470,9 +29472,9 @@ HapticCondition :: struct {
 * \sa SDL_HAPTIC_RAMP
 * \sa SDL_HapticEffect
 */
-HapticRamp :: struct {
+SDL_HapticRamp :: struct {
     type:          Uint16; /**< SDL_HAPTIC_RAMP */
-    direction:     HapticDirection; /**< Direction of the effect. */
+    direction:     SDL_HapticDirection; /**< Direction of the effect. */
 
     length:        Uint32; /**< Duration of the effect. */
     delay:         Uint16; /**< Delay before starting the effect. */
@@ -29503,7 +29505,7 @@ HapticRamp :: struct {
 * \sa SDL_HAPTIC_LEFTRIGHT
 * \sa SDL_HapticEffect
 */
-HapticLeftRight :: struct {
+SDL_HapticLeftRight :: struct {
     type:            Uint16; /**< SDL_HAPTIC_LEFTRIGHT */
 
     length:          Uint32; /**< Duration of the effect in milliseconds. */
@@ -29529,9 +29531,9 @@ HapticLeftRight :: struct {
 * \sa SDL_HAPTIC_CUSTOM
 * \sa SDL_HapticEffect
 */
-HapticCustom :: struct {
+SDL_HapticCustom :: struct {
     type:          Uint16; /**< SDL_HAPTIC_CUSTOM */
-    direction:     HapticDirection; /**< Direction of the effect. */
+    direction:     SDL_HapticDirection; /**< Direction of the effect. */
 
     length:        Uint32; /**< Duration of the effect. */
     delay:         Uint16; /**< Delay before starting the effect. */
@@ -29622,14 +29624,14 @@ HapticCustom :: struct {
 * \sa SDL_HapticLeftRight
 * \sa SDL_HapticCustom
 */
-HapticEffect :: union {
+SDL_HapticEffect :: union {
     type:      Uint16; /**< Effect type. */
-    constant:  HapticConstant; /**< Constant effect. */
-    periodic:  HapticPeriodic; /**< Periodic effect. */
-    condition: HapticCondition; /**< Condition effect. */
-    ramp:      HapticRamp; /**< Ramp effect. */
-    leftright: HapticLeftRight; /**< Left/Right effect. */
-    custom:    HapticCustom; /**< Custom effect. */
+    constant:  SDL_HapticConstant; /**< Constant effect. */
+    periodic:  SDL_HapticPeriodic; /**< Periodic effect. */
+    condition: SDL_HapticCondition; /**< Condition effect. */
+    ramp:      SDL_HapticRamp; /**< Ramp effect. */
+    leftright: SDL_HapticLeftRight; /**< Left/Right effect. */
+    custom:    SDL_HapticCustom; /**< Custom effect. */
 }
 
 /**
@@ -29642,7 +29644,7 @@ HapticEffect :: union {
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-HapticID :: Uint32;
+SDL_HapticID :: Uint32;
 
 /**
 * Get a list of currently connected haptic devices.
@@ -29657,7 +29659,7 @@ HapticID :: Uint32;
 *
 * \sa SDL_OpenHaptic
 */
-GetHaptics :: (count: *s32) -> *HapticID #foreign libsdl3_ttf "SDL_GetHaptics";
+SDL_GetHaptics :: (count: *s32) -> *SDL_HapticID #foreign libsdl3_ttf;
 
 /**
 * Get the implementation dependent name of a haptic device.
@@ -29674,7 +29676,7 @@ GetHaptics :: (count: *s32) -> *HapticID #foreign libsdl3_ttf "SDL_GetHaptics";
 * \sa SDL_GetHapticName
 * \sa SDL_OpenHaptic
 */
-GetHapticNameForID :: (instance_id: HapticID) -> *u8 #foreign libsdl3_ttf "SDL_GetHapticNameForID";
+SDL_GetHapticNameForID :: (instance_id: SDL_HapticID) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Open a haptic device for use.
@@ -29699,7 +29701,7 @@ GetHapticNameForID :: (instance_id: HapticID) -> *u8 #foreign libsdl3_ttf "SDL_G
 * \sa SDL_SetHapticAutocenter
 * \sa SDL_SetHapticGain
 */
-OpenHaptic :: (instance_id: HapticID) -> *Haptic #foreign libsdl3_ttf "SDL_OpenHaptic";
+SDL_OpenHaptic :: (instance_id: SDL_HapticID) -> *SDL_Haptic #foreign libsdl3_ttf;
 
 /**
 * Get the SDL_Haptic associated with an instance ID, if it has been opened.
@@ -29710,7 +29712,7 @@ OpenHaptic :: (instance_id: HapticID) -> *Haptic #foreign libsdl3_ttf "SDL_OpenH
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetHapticFromID :: (instance_id: HapticID) -> *Haptic #foreign libsdl3_ttf "SDL_GetHapticFromID";
+SDL_GetHapticFromID :: (instance_id: SDL_HapticID) -> *SDL_Haptic #foreign libsdl3_ttf;
 
 /**
 * Get the instance ID of an opened haptic device.
@@ -29721,7 +29723,7 @@ GetHapticFromID :: (instance_id: HapticID) -> *Haptic #foreign libsdl3_ttf "SDL_
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetHapticID :: (haptic: *Haptic) -> HapticID #foreign libsdl3_ttf "SDL_GetHapticID";
+SDL_GetHapticID :: (haptic: *SDL_Haptic) -> SDL_HapticID #foreign libsdl3_ttf;
 
 /**
 * Get the implementation dependent name of a haptic device.
@@ -29735,7 +29737,7 @@ GetHapticID :: (haptic: *Haptic) -> HapticID #foreign libsdl3_ttf "SDL_GetHaptic
 *
 * \sa SDL_GetHapticNameForID
 */
-GetHapticName :: (haptic: *Haptic) -> *u8 #foreign libsdl3_ttf "SDL_GetHapticName";
+SDL_GetHapticName :: (haptic: *SDL_Haptic) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Query whether or not the current mouse has haptic capabilities.
@@ -29746,7 +29748,7 @@ GetHapticName :: (haptic: *Haptic) -> *u8 #foreign libsdl3_ttf "SDL_GetHapticNam
 *
 * \sa SDL_OpenHapticFromMouse
 */
-IsMouseHaptic :: () -> bool #foreign libsdl3_ttf "SDL_IsMouseHaptic";
+SDL_IsMouseHaptic :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Try to open a haptic device from the current mouse.
@@ -29759,7 +29761,7 @@ IsMouseHaptic :: () -> bool #foreign libsdl3_ttf "SDL_IsMouseHaptic";
 * \sa SDL_CloseHaptic
 * \sa SDL_IsMouseHaptic
 */
-OpenHapticFromMouse :: () -> *Haptic #foreign libsdl3_ttf "SDL_OpenHapticFromMouse";
+SDL_OpenHapticFromMouse :: () -> *SDL_Haptic #foreign libsdl3_ttf;
 
 /**
 * Query if a joystick has haptic features.
@@ -29771,7 +29773,7 @@ OpenHapticFromMouse :: () -> *Haptic #foreign libsdl3_ttf "SDL_OpenHapticFromMou
 *
 * \sa SDL_OpenHapticFromJoystick
 */
-IsJoystickHaptic :: (joystick: *Joystick) -> bool #foreign libsdl3_ttf "SDL_IsJoystickHaptic";
+SDL_IsJoystickHaptic :: (joystick: *SDL_Joystick) -> bool #foreign libsdl3_ttf;
 
 /**
 * Open a haptic device for use from a joystick device.
@@ -29793,7 +29795,7 @@ IsJoystickHaptic :: (joystick: *Joystick) -> bool #foreign libsdl3_ttf "SDL_IsJo
 * \sa SDL_CloseHaptic
 * \sa SDL_IsJoystickHaptic
 */
-OpenHapticFromJoystick :: (joystick: *Joystick) -> *Haptic #foreign libsdl3_ttf "SDL_OpenHapticFromJoystick";
+SDL_OpenHapticFromJoystick :: (joystick: *SDL_Joystick) -> *SDL_Haptic #foreign libsdl3_ttf;
 
 /**
 * Close a haptic device previously opened with SDL_OpenHaptic().
@@ -29804,7 +29806,7 @@ OpenHapticFromJoystick :: (joystick: *Joystick) -> *Haptic #foreign libsdl3_ttf 
 *
 * \sa SDL_OpenHaptic
 */
-CloseHaptic :: (haptic: *Haptic) -> void #foreign libsdl3_ttf "SDL_CloseHaptic";
+SDL_CloseHaptic :: (haptic: *SDL_Haptic) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the number of effects a haptic device can store.
@@ -29822,7 +29824,7 @@ CloseHaptic :: (haptic: *Haptic) -> void #foreign libsdl3_ttf "SDL_CloseHaptic";
 * \sa SDL_GetMaxHapticEffectsPlaying
 * \sa SDL_GetHapticFeatures
 */
-GetMaxHapticEffects :: (haptic: *Haptic) -> s32 #foreign libsdl3_ttf "SDL_GetMaxHapticEffects";
+SDL_GetMaxHapticEffects :: (haptic: *SDL_Haptic) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the number of effects a haptic device can play at the same time.
@@ -29838,7 +29840,7 @@ GetMaxHapticEffects :: (haptic: *Haptic) -> s32 #foreign libsdl3_ttf "SDL_GetMax
 * \sa SDL_GetMaxHapticEffects
 * \sa SDL_GetHapticFeatures
 */
-GetMaxHapticEffectsPlaying :: (haptic: *Haptic) -> s32 #foreign libsdl3_ttf "SDL_GetMaxHapticEffectsPlaying";
+SDL_GetMaxHapticEffectsPlaying :: (haptic: *SDL_Haptic) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the haptic device's supported features in bitwise manner.
@@ -29852,7 +29854,7 @@ GetMaxHapticEffectsPlaying :: (haptic: *Haptic) -> s32 #foreign libsdl3_ttf "SDL
 * \sa SDL_HapticEffectSupported
 * \sa SDL_GetMaxHapticEffects
 */
-GetHapticFeatures :: (haptic: *Haptic) -> Uint32 #foreign libsdl3_ttf "SDL_GetHapticFeatures";
+SDL_GetHapticFeatures :: (haptic: *SDL_Haptic) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Get the number of haptic axes the device has.
@@ -29866,7 +29868,7 @@ GetHapticFeatures :: (haptic: *Haptic) -> Uint32 #foreign libsdl3_ttf "SDL_GetHa
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetNumHapticAxes :: (haptic: *Haptic) -> s32 #foreign libsdl3_ttf "SDL_GetNumHapticAxes";
+SDL_GetNumHapticAxes :: (haptic: *SDL_Haptic) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Check to see if an effect is supported by a haptic device.
@@ -29880,7 +29882,7 @@ GetNumHapticAxes :: (haptic: *Haptic) -> s32 #foreign libsdl3_ttf "SDL_GetNumHap
 * \sa SDL_CreateHapticEffect
 * \sa SDL_GetHapticFeatures
 */
-HapticEffectSupported :: (haptic: *Haptic, effect: *HapticEffect) -> bool #foreign libsdl3_ttf "SDL_HapticEffectSupported";
+SDL_HapticEffectSupported :: (haptic: *SDL_Haptic, effect: *SDL_HapticEffect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Create a new haptic effect on a specified device.
@@ -29897,7 +29899,7 @@ HapticEffectSupported :: (haptic: *Haptic, effect: *HapticEffect) -> bool #forei
 * \sa SDL_RunHapticEffect
 * \sa SDL_UpdateHapticEffect
 */
-CreateHapticEffect :: (haptic: *Haptic, effect: *HapticEffect) -> s32 #foreign libsdl3_ttf "SDL_CreateHapticEffect";
+SDL_CreateHapticEffect :: (haptic: *SDL_Haptic, effect: *SDL_HapticEffect) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Update the properties of an effect.
@@ -29919,7 +29921,7 @@ CreateHapticEffect :: (haptic: *Haptic, effect: *HapticEffect) -> s32 #foreign l
 * \sa SDL_CreateHapticEffect
 * \sa SDL_RunHapticEffect
 */
-UpdateHapticEffect :: (haptic: *Haptic, effect: s32, data: *HapticEffect) -> bool #foreign libsdl3_ttf "SDL_UpdateHapticEffect";
+SDL_UpdateHapticEffect :: (haptic: *SDL_Haptic, effect: s32, data: *SDL_HapticEffect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Run the haptic effect on its associated haptic device.
@@ -29943,7 +29945,7 @@ UpdateHapticEffect :: (haptic: *Haptic, effect: s32, data: *HapticEffect) -> boo
 * \sa SDL_StopHapticEffect
 * \sa SDL_StopHapticEffects
 */
-RunHapticEffect :: (haptic: *Haptic, effect: s32, iterations: Uint32) -> bool #foreign libsdl3_ttf "SDL_RunHapticEffect";
+SDL_RunHapticEffect :: (haptic: *SDL_Haptic, effect: s32, iterations: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Stop the haptic effect on its associated haptic device.
@@ -29958,7 +29960,7 @@ RunHapticEffect :: (haptic: *Haptic, effect: s32, iterations: Uint32) -> bool #f
 * \sa SDL_RunHapticEffect
 * \sa SDL_StopHapticEffects
 */
-StopHapticEffect :: (haptic: *Haptic, effect: s32) -> bool #foreign libsdl3_ttf "SDL_StopHapticEffect";
+SDL_StopHapticEffect :: (haptic: *SDL_Haptic, effect: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Destroy a haptic effect on the device.
@@ -29973,7 +29975,7 @@ StopHapticEffect :: (haptic: *Haptic, effect: s32) -> bool #foreign libsdl3_ttf 
 *
 * \sa SDL_CreateHapticEffect
 */
-DestroyHapticEffect :: (haptic: *Haptic, effect: s32) -> void #foreign libsdl3_ttf "SDL_DestroyHapticEffect";
+SDL_DestroyHapticEffect :: (haptic: *SDL_Haptic, effect: s32) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the status of the current effect on the specified haptic device.
@@ -29989,7 +29991,7 @@ DestroyHapticEffect :: (haptic: *Haptic, effect: s32) -> void #foreign libsdl3_t
 *
 * \sa SDL_GetHapticFeatures
 */
-GetHapticEffectStatus :: (haptic: *Haptic, effect: s32) -> bool #foreign libsdl3_ttf "SDL_GetHapticEffectStatus";
+SDL_GetHapticEffectStatus :: (haptic: *SDL_Haptic, effect: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the global gain of the specified haptic device.
@@ -30011,7 +30013,7 @@ GetHapticEffectStatus :: (haptic: *Haptic, effect: s32) -> bool #foreign libsdl3
 *
 * \sa SDL_GetHapticFeatures
 */
-SetHapticGain :: (haptic: *Haptic, gain: s32) -> bool #foreign libsdl3_ttf "SDL_SetHapticGain";
+SDL_SetHapticGain :: (haptic: *SDL_Haptic, gain: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the global autocenter of the device.
@@ -30030,7 +30032,7 @@ SetHapticGain :: (haptic: *Haptic, gain: s32) -> bool #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_GetHapticFeatures
 */
-SetHapticAutocenter :: (haptic: *Haptic, autocenter: s32) -> bool #foreign libsdl3_ttf "SDL_SetHapticAutocenter";
+SDL_SetHapticAutocenter :: (haptic: *SDL_Haptic, autocenter: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Pause a haptic device.
@@ -30049,7 +30051,7 @@ SetHapticAutocenter :: (haptic: *Haptic, autocenter: s32) -> bool #foreign libsd
 *
 * \sa SDL_ResumeHaptic
 */
-PauseHaptic :: (haptic: *Haptic) -> bool #foreign libsdl3_ttf "SDL_PauseHaptic";
+SDL_PauseHaptic :: (haptic: *SDL_Haptic) -> bool #foreign libsdl3_ttf;
 
 /**
 * Resume a haptic device.
@@ -30064,7 +30066,7 @@ PauseHaptic :: (haptic: *Haptic) -> bool #foreign libsdl3_ttf "SDL_PauseHaptic";
 *
 * \sa SDL_PauseHaptic
 */
-ResumeHaptic :: (haptic: *Haptic) -> bool #foreign libsdl3_ttf "SDL_ResumeHaptic";
+SDL_ResumeHaptic :: (haptic: *SDL_Haptic) -> bool #foreign libsdl3_ttf;
 
 /**
 * Stop all the currently playing effects on a haptic device.
@@ -30078,7 +30080,7 @@ ResumeHaptic :: (haptic: *Haptic) -> bool #foreign libsdl3_ttf "SDL_ResumeHaptic
 * \sa SDL_RunHapticEffect
 * \sa SDL_StopHapticEffects
 */
-StopHapticEffects :: (haptic: *Haptic) -> bool #foreign libsdl3_ttf "SDL_StopHapticEffects";
+SDL_StopHapticEffects :: (haptic: *SDL_Haptic) -> bool #foreign libsdl3_ttf;
 
 /**
 * Check whether rumble is supported on a haptic device.
@@ -30090,7 +30092,7 @@ StopHapticEffects :: (haptic: *Haptic) -> bool #foreign libsdl3_ttf "SDL_StopHap
 *
 * \sa SDL_InitHapticRumble
 */
-HapticRumbleSupported :: (haptic: *Haptic) -> bool #foreign libsdl3_ttf "SDL_HapticRumbleSupported";
+SDL_HapticRumbleSupported :: (haptic: *SDL_Haptic) -> bool #foreign libsdl3_ttf;
 
 /**
 * Initialize a haptic device for simple rumble playback.
@@ -30105,7 +30107,7 @@ HapticRumbleSupported :: (haptic: *Haptic) -> bool #foreign libsdl3_ttf "SDL_Hap
 * \sa SDL_StopHapticRumble
 * \sa SDL_HapticRumbleSupported
 */
-InitHapticRumble :: (haptic: *Haptic) -> bool #foreign libsdl3_ttf "SDL_InitHapticRumble";
+SDL_InitHapticRumble :: (haptic: *SDL_Haptic) -> bool #foreign libsdl3_ttf;
 
 /**
 * Run a simple rumble effect on a haptic device.
@@ -30121,7 +30123,7 @@ InitHapticRumble :: (haptic: *Haptic) -> bool #foreign libsdl3_ttf "SDL_InitHapt
 * \sa SDL_InitHapticRumble
 * \sa SDL_StopHapticRumble
 */
-PlayHapticRumble :: (haptic: *Haptic, strength: float, length: Uint32) -> bool #foreign libsdl3_ttf "SDL_PlayHapticRumble";
+SDL_PlayHapticRumble :: (haptic: *SDL_Haptic, strength: float, length: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Stop the simple rumble on a haptic device.
@@ -30134,16 +30136,16 @@ PlayHapticRumble :: (haptic: *Haptic, strength: float, length: Uint32) -> bool #
 *
 * \sa SDL_PlayHapticRumble
 */
-StopHapticRumble :: (haptic: *Haptic) -> bool #foreign libsdl3_ttf "SDL_StopHapticRumble";
+SDL_StopHapticRumble :: (haptic: *SDL_Haptic) -> bool #foreign libsdl3_ttf;
 
-hid_device :: struct {}
+SDL_hid_device :: struct {}
 
 /**
 * HID underlying bus types.
 *
 * \since This enum is available since SDL 3.2.0.
 */
-hid_bus_type :: enum u32 {
+SDL_hid_bus_type :: enum u32 {
     UNKNOWN   :: 0;
 
     USB       :: 1;
@@ -30170,7 +30172,7 @@ hid_bus_type :: enum u32 {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-hid_device_info :: struct {
+SDL_hid_device_info :: struct {
     /** Platform-specific device path */
     path:                *u8;
 
@@ -30216,10 +30218,10 @@ hid_device_info :: struct {
     interface_protocol:  s32;
 
     /** Underlying bus type */
-    bus_type:            hid_bus_type;
+    bus_type:            SDL_hid_bus_type;
 
     /** Pointer to the next device */
-    next:                *hid_device_info;
+    next:                *SDL_hid_device_info;
 }
 
 /**
@@ -30240,7 +30242,7 @@ hid_device_info :: struct {
 *
 * \sa SDL_hid_exit
 */
-hid_init :: () -> s32 #foreign libsdl3_ttf "SDL_hid_init";
+SDL_hid_init :: () -> s32 #foreign libsdl3_ttf;
 
 /**
 * Finalize the HIDAPI library.
@@ -30255,7 +30257,7 @@ hid_init :: () -> s32 #foreign libsdl3_ttf "SDL_hid_init";
 *
 * \sa SDL_hid_init
 */
-hid_exit :: () -> s32 #foreign libsdl3_ttf "SDL_hid_exit";
+SDL_hid_exit :: () -> s32 #foreign libsdl3_ttf;
 
 /**
 * Check to see if devices may have been added or removed.
@@ -30276,7 +30278,7 @@ hid_exit :: () -> s32 #foreign libsdl3_ttf "SDL_hid_exit";
 *
 * \sa SDL_hid_enumerate
 */
-hid_device_change_count :: () -> Uint32 #foreign libsdl3_ttf "SDL_hid_device_change_count";
+SDL_hid_device_change_count :: () -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Enumerate the HID Devices.
@@ -30304,7 +30306,7 @@ hid_device_change_count :: () -> Uint32 #foreign libsdl3_ttf "SDL_hid_device_cha
 *
 * \sa SDL_hid_device_change_count
 */
-hid_enumerate :: (vendor_id: u16, product_id: u16) -> *hid_device_info #foreign libsdl3_ttf "SDL_hid_enumerate";
+SDL_hid_enumerate :: (vendor_id: u16, product_id: u16) -> *SDL_hid_device_info #foreign libsdl3_ttf;
 
 /**
 * Free an enumeration linked list.
@@ -30316,7 +30318,7 @@ hid_enumerate :: (vendor_id: u16, product_id: u16) -> *hid_device_info #foreign 
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_free_enumeration :: (devs: *hid_device_info) -> void #foreign libsdl3_ttf "SDL_hid_free_enumeration";
+SDL_hid_free_enumeration :: (devs: *SDL_hid_device_info) -> void #foreign libsdl3_ttf;
 
 /**
 * Open a HID device using a Vendor ID (VID), Product ID (PID) and optionally
@@ -30334,7 +30336,7 @@ hid_free_enumeration :: (devs: *hid_device_info) -> void #foreign libsdl3_ttf "S
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_open :: (vendor_id: u16, product_id: u16, serial_number: *s32) -> *hid_device #foreign libsdl3_ttf "SDL_hid_open";
+SDL_hid_open :: (vendor_id: u16, product_id: u16, serial_number: *s32) -> *SDL_hid_device #foreign libsdl3_ttf;
 
 /**
 * Open a HID device by its path name.
@@ -30348,7 +30350,7 @@ hid_open :: (vendor_id: u16, product_id: u16, serial_number: *s32) -> *hid_devic
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_open_path :: (path: *u8) -> *hid_device #foreign libsdl3_ttf "SDL_hid_open_path";
+SDL_hid_open_path :: (path: *u8) -> *SDL_hid_device #foreign libsdl3_ttf;
 
 /**
 * Write an Output report to a HID device.
@@ -30375,7 +30377,7 @@ hid_open_path :: (path: *u8) -> *hid_device #foreign libsdl3_ttf "SDL_hid_open_p
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_write :: (dev: *hid_device, data: *u8, length: u64) -> s32 #foreign libsdl3_ttf "SDL_hid_write";
+SDL_hid_write :: (dev: *SDL_hid_device, data: *u8, length: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Read an Input report from a HID device with timeout.
@@ -30396,7 +30398,7 @@ hid_write :: (dev: *hid_device, data: *u8, length: u64) -> s32 #foreign libsdl3_
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_read_timeout :: (dev: *hid_device, data: *u8, length: u64, milliseconds: s32) -> s32 #foreign libsdl3_ttf "SDL_hid_read_timeout";
+SDL_hid_read_timeout :: (dev: *SDL_hid_device, data: *u8, length: u64, milliseconds: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Read an Input report from a HID device.
@@ -30417,7 +30419,7 @@ hid_read_timeout :: (dev: *hid_device, data: *u8, length: u64, milliseconds: s32
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_read :: (dev: *hid_device, data: *u8, length: u64) -> s32 #foreign libsdl3_ttf "SDL_hid_read";
+SDL_hid_read :: (dev: *SDL_hid_device, data: *u8, length: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Set the device handle to be non-blocking.
@@ -30436,7 +30438,7 @@ hid_read :: (dev: *hid_device, data: *u8, length: u64) -> s32 #foreign libsdl3_t
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_set_nonblocking :: (dev: *hid_device, nonblock: s32) -> s32 #foreign libsdl3_ttf "SDL_hid_set_nonblocking";
+SDL_hid_set_nonblocking :: (dev: *SDL_hid_device, nonblock: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Send a Feature report to the device.
@@ -30461,7 +30463,7 @@ hid_set_nonblocking :: (dev: *hid_device, nonblock: s32) -> s32 #foreign libsdl3
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_send_feature_report :: (dev: *hid_device, data: *u8, length: u64) -> s32 #foreign libsdl3_ttf "SDL_hid_send_feature_report";
+SDL_hid_send_feature_report :: (dev: *SDL_hid_device, data: *u8, length: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get a feature report from a HID device.
@@ -30484,7 +30486,7 @@ hid_send_feature_report :: (dev: *hid_device, data: *u8, length: u64) -> s32 #fo
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_get_feature_report :: (dev: *hid_device, data: *u8, length: u64) -> s32 #foreign libsdl3_ttf "SDL_hid_get_feature_report";
+SDL_hid_get_feature_report :: (dev: *SDL_hid_device, data: *u8, length: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get an input report from a HID device.
@@ -30507,7 +30509,7 @@ hid_get_feature_report :: (dev: *hid_device, data: *u8, length: u64) -> s32 #for
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_get_input_report :: (dev: *hid_device, data: *u8, length: u64) -> s32 #foreign libsdl3_ttf "SDL_hid_get_input_report";
+SDL_hid_get_input_report :: (dev: *SDL_hid_device, data: *u8, length: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Close a HID device.
@@ -30518,7 +30520,7 @@ hid_get_input_report :: (dev: *hid_device, data: *u8, length: u64) -> s32 #forei
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_close :: (dev: *hid_device) -> s32 #foreign libsdl3_ttf "SDL_hid_close";
+SDL_hid_close :: (dev: *SDL_hid_device) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get The Manufacturer String from a HID device.
@@ -30531,7 +30533,7 @@ hid_close :: (dev: *hid_device) -> s32 #foreign libsdl3_ttf "SDL_hid_close";
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_get_manufacturer_string :: (dev: *hid_device, _string: *s32, maxlen: u64) -> s32 #foreign libsdl3_ttf "SDL_hid_get_manufacturer_string";
+SDL_hid_get_manufacturer_string :: (dev: *SDL_hid_device, _string: *s32, maxlen: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get The Product String from a HID device.
@@ -30544,7 +30546,7 @@ hid_get_manufacturer_string :: (dev: *hid_device, _string: *s32, maxlen: u64) ->
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_get_product_string :: (dev: *hid_device, _string: *s32, maxlen: u64) -> s32 #foreign libsdl3_ttf "SDL_hid_get_product_string";
+SDL_hid_get_product_string :: (dev: *SDL_hid_device, _string: *s32, maxlen: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get The Serial Number String from a HID device.
@@ -30557,7 +30559,7 @@ hid_get_product_string :: (dev: *hid_device, _string: *s32, maxlen: u64) -> s32 
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_get_serial_number_string :: (dev: *hid_device, _string: *s32, maxlen: u64) -> s32 #foreign libsdl3_ttf "SDL_hid_get_serial_number_string";
+SDL_hid_get_serial_number_string :: (dev: *SDL_hid_device, _string: *s32, maxlen: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get a string from a HID device, based on its string index.
@@ -30571,7 +30573,7 @@ hid_get_serial_number_string :: (dev: *hid_device, _string: *s32, maxlen: u64) -
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_get_indexed_string :: (dev: *hid_device, string_index: s32, _string: *s32, maxlen: u64) -> s32 #foreign libsdl3_ttf "SDL_hid_get_indexed_string";
+SDL_hid_get_indexed_string :: (dev: *SDL_hid_device, string_index: s32, _string: *s32, maxlen: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the device info from a HID device.
@@ -30583,7 +30585,7 @@ hid_get_indexed_string :: (dev: *hid_device, string_index: s32, _string: *s32, m
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_get_device_info :: (dev: *hid_device) -> *hid_device_info #foreign libsdl3_ttf "SDL_hid_get_device_info";
+SDL_hid_get_device_info :: (dev: *SDL_hid_device) -> *SDL_hid_device_info #foreign libsdl3_ttf;
 
 /**
 * Get a report descriptor from a HID device.
@@ -30599,7 +30601,7 @@ hid_get_device_info :: (dev: *hid_device) -> *hid_device_info #foreign libsdl3_t
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_get_report_descriptor :: (dev: *hid_device, buf: *u8, buf_size: u64) -> s32 #foreign libsdl3_ttf "SDL_hid_get_report_descriptor";
+SDL_hid_get_report_descriptor :: (dev: *SDL_hid_device, buf: *u8, buf_size: u64) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Start or stop a BLE scan on iOS and tvOS to pair Steam Controllers.
@@ -30608,14 +30610,14 @@ hid_get_report_descriptor :: (dev: *hid_device, buf: *u8, buf_size: u64) -> s32 
 *
 * \since This function is available since SDL 3.2.0.
 */
-hid_ble_scan :: (active: bool) -> void #foreign libsdl3_ttf "SDL_hid_ble_scan";
+SDL_hid_ble_scan :: (active: bool) -> void #foreign libsdl3_ttf;
 
 /**
 * An enumeration of hint priorities.
 *
 * \since This enum is available since SDL 3.2.0.
 */
-HintPriority :: enum u32 {
+SDL_HintPriority :: enum u32 {
     DEFAULT  :: 0;
     NORMAL   :: 1;
     OVERRIDE :: 2;
@@ -30646,7 +30648,7 @@ HintPriority :: enum u32 {
 * \sa SDL_ResetHint
 * \sa SDL_SetHint
 */
-SetHintWithPriority :: (name: *u8, value: *u8, priority: HintPriority) -> bool #foreign libsdl3_ttf "SDL_SetHintWithPriority";
+SDL_SetHintWithPriority :: (name: *u8, value: *u8, priority: SDL_HintPriority) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set a hint with normal priority.
@@ -30668,7 +30670,7 @@ SetHintWithPriority :: (name: *u8, value: *u8, priority: HintPriority) -> bool #
 * \sa SDL_ResetHint
 * \sa SDL_SetHintWithPriority
 */
-SetHint :: (name: *u8, value: *u8) -> bool #foreign libsdl3_ttf "SDL_SetHint";
+SDL_SetHint :: (name: *u8, value: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Reset a hint to the default value.
@@ -30688,7 +30690,7 @@ SetHint :: (name: *u8, value: *u8) -> bool #foreign libsdl3_ttf "SDL_SetHint";
 * \sa SDL_SetHint
 * \sa SDL_ResetHints
 */
-ResetHint :: (name: *u8) -> bool #foreign libsdl3_ttf "SDL_ResetHint";
+SDL_ResetHint :: (name: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Reset all hints to the default values.
@@ -30703,7 +30705,7 @@ ResetHint :: (name: *u8) -> bool #foreign libsdl3_ttf "SDL_ResetHint";
 *
 * \sa SDL_ResetHint
 */
-ResetHints :: () -> void #foreign libsdl3_ttf "SDL_ResetHints";
+SDL_ResetHints :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Get the value of a hint.
@@ -30723,7 +30725,7 @@ ResetHints :: () -> void #foreign libsdl3_ttf "SDL_ResetHints";
 * \sa SDL_SetHint
 * \sa SDL_SetHintWithPriority
 */
-GetHint :: (name: *u8) -> *u8 #foreign libsdl3_ttf "SDL_GetHint";
+SDL_GetHint :: (name: *u8) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the boolean value of a hint variable.
@@ -30740,7 +30742,7 @@ GetHint :: (name: *u8) -> *u8 #foreign libsdl3_ttf "SDL_GetHint";
 * \sa SDL_GetHint
 * \sa SDL_SetHint
 */
-GetHintBoolean :: (name: *u8, default_value: bool) -> bool #foreign libsdl3_ttf "SDL_GetHintBoolean";
+SDL_GetHintBoolean :: (name: *u8, default_value: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * A callback used to send notifications of hint value changes.
@@ -30761,7 +30763,7 @@ GetHintBoolean :: (name: *u8, default_value: bool) -> bool #foreign libsdl3_ttf 
 *
 * \sa SDL_AddHintCallback
 */
-HintCallback :: #type (userdata: *void, name: *u8, oldValue: *u8, newValue: *u8) -> void #c_call;
+SDL_HintCallback :: #type (userdata: *void, name: *u8, oldValue: *u8, newValue: *u8) -> void #c_call;
 
 /**
 * Add a function to watch a particular hint.
@@ -30782,7 +30784,7 @@ HintCallback :: #type (userdata: *void, name: *u8, oldValue: *u8, newValue: *u8)
 *
 * \sa SDL_RemoveHintCallback
 */
-AddHintCallback :: (name: *u8, callback: HintCallback, userdata: *void) -> bool #foreign libsdl3_ttf "SDL_AddHintCallback";
+SDL_AddHintCallback :: (name: *u8, callback: SDL_HintCallback, userdata: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Remove a function watching a particular hint.
@@ -30798,7 +30800,7 @@ AddHintCallback :: (name: *u8, callback: HintCallback, userdata: *void) -> bool 
 *
 * \sa SDL_AddHintCallback
 */
-RemoveHintCallback :: (name: *u8, callback: HintCallback, userdata: *void) -> void #foreign libsdl3_ttf "SDL_RemoveHintCallback";
+SDL_RemoveHintCallback :: (name: *u8, callback: SDL_HintCallback, userdata: *void) -> void #foreign libsdl3_ttf;
 
 /**
 * Initialization flags for SDL_Init and/or SDL_InitSubSystem
@@ -30814,7 +30816,7 @@ RemoveHintCallback :: (name: *u8, callback: HintCallback, userdata: *void) -> vo
 * \sa SDL_QuitSubSystem
 * \sa SDL_WasInit
 */
-InitFlags :: Uint32;
+SDL_InitFlags :: Uint32;
 
 /**
 * Return values for optional main callbacks.
@@ -30836,7 +30838,7 @@ InitFlags :: Uint32;
 *
 * \since This enum is available since SDL 3.2.0.
 */
-AppResult :: enum u32 {
+SDL_AppResult :: enum u32 {
     CONTINUE :: 0;
     SUCCESS  :: 1;
     FAILURE  :: 2;
@@ -30863,7 +30865,7 @@ AppResult :: enum u32 {
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-AppInit_func :: #type (appstate: **void, argc: s32, argv: **u8) -> AppResult #c_call;
+SDL_AppInit_func :: #type (appstate: **void, argc: s32, argv: **u8) -> SDL_AppResult #c_call;
 
 /**
 * Function pointer typedef for SDL_AppIterate.
@@ -30878,7 +30880,7 @@ AppInit_func :: #type (appstate: **void, argc: s32, argv: **u8) -> AppResult #c_
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-AppIterate_func :: #type (appstate: *void) -> AppResult #c_call;
+SDL_AppIterate_func :: #type (appstate: *void) -> SDL_AppResult #c_call;
 
 /**
 * Function pointer typedef for SDL_AppEvent.
@@ -30894,7 +30896,7 @@ AppIterate_func :: #type (appstate: *void) -> AppResult #c_call;
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-AppEvent_func :: #type (appstate: *void, event: *Event) -> AppResult #c_call;
+SDL_AppEvent_func :: #type (appstate: *void, event: *SDL_Event) -> SDL_AppResult #c_call;
 
 /**
 * Function pointer typedef for SDL_AppQuit.
@@ -30908,7 +30910,7 @@ AppEvent_func :: #type (appstate: *void, event: *Event) -> AppResult #c_call;
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-AppQuit_func :: #type (appstate: *void, result: AppResult) -> void #c_call;
+SDL_AppQuit_func :: #type (appstate: *void, result: SDL_AppResult) -> void #c_call;
 
 /**
 * Initialize the SDL library.
@@ -30965,7 +30967,7 @@ AppQuit_func :: #type (appstate: *void, result: AppResult) -> void #c_call;
 * \sa SDL_SetMainReady
 * \sa SDL_WasInit
 */
-Init :: (flags: InitFlags) -> bool #foreign libsdl3_ttf "SDL_Init";
+SDL_Init :: (flags: SDL_InitFlags) -> bool #foreign libsdl3_ttf;
 
 /**
 * Compatibility function to initialize the SDL library.
@@ -30982,7 +30984,7 @@ Init :: (flags: InitFlags) -> bool #foreign libsdl3_ttf "SDL_Init";
 * \sa SDL_Quit
 * \sa SDL_QuitSubSystem
 */
-InitSubSystem :: (flags: InitFlags) -> bool #foreign libsdl3_ttf "SDL_InitSubSystem";
+SDL_InitSubSystem :: (flags: SDL_InitFlags) -> bool #foreign libsdl3_ttf;
 
 /**
 * Shut down specific SDL subsystems.
@@ -30997,7 +30999,7 @@ InitSubSystem :: (flags: InitFlags) -> bool #foreign libsdl3_ttf "SDL_InitSubSys
 * \sa SDL_InitSubSystem
 * \sa SDL_Quit
 */
-QuitSubSystem :: (flags: InitFlags) -> void #foreign libsdl3_ttf "SDL_QuitSubSystem";
+SDL_QuitSubSystem :: (flags: SDL_InitFlags) -> void #foreign libsdl3_ttf;
 
 /**
 * Get a mask of the specified subsystems which are currently initialized.
@@ -31011,7 +31013,7 @@ QuitSubSystem :: (flags: InitFlags) -> void #foreign libsdl3_ttf "SDL_QuitSubSys
 * \sa SDL_Init
 * \sa SDL_InitSubSystem
 */
-WasInit :: (flags: InitFlags) -> InitFlags #foreign libsdl3_ttf "SDL_WasInit";
+SDL_WasInit :: (flags: SDL_InitFlags) -> SDL_InitFlags #foreign libsdl3_ttf;
 
 /**
 * Clean up all initialized subsystems.
@@ -31029,7 +31031,7 @@ WasInit :: (flags: InitFlags) -> InitFlags #foreign libsdl3_ttf "SDL_WasInit";
 * \sa SDL_Init
 * \sa SDL_QuitSubSystem
 */
-Quit :: () -> void #foreign libsdl3_ttf "SDL_Quit";
+SDL_Quit :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Return whether this is the main thread.
@@ -31049,7 +31051,7 @@ Quit :: () -> void #foreign libsdl3_ttf "SDL_Quit";
 *
 * \sa SDL_RunOnMainThread
 */
-IsMainThread :: () -> bool #foreign libsdl3_ttf "SDL_IsMainThread";
+SDL_IsMainThread :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Callback run on the main thread.
@@ -31060,7 +31062,7 @@ IsMainThread :: () -> bool #foreign libsdl3_ttf "SDL_IsMainThread";
 *
 * \sa SDL_RunOnMainThread
 */
-MainThreadCallback :: #type (userdata: *void) -> void #c_call;
+SDL_MainThreadCallback :: #type (userdata: *void) -> void #c_call;
 
 /**
 * Call a function on the main thread during event processing.
@@ -31086,7 +31088,7 @@ MainThreadCallback :: #type (userdata: *void) -> void #c_call;
 *
 * \sa SDL_IsMainThread
 */
-RunOnMainThread :: (callback: MainThreadCallback, userdata: *void, wait_complete: bool) -> bool #foreign libsdl3_ttf "SDL_RunOnMainThread";
+SDL_RunOnMainThread :: (callback: SDL_MainThreadCallback, userdata: *void, wait_complete: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Specify basic metadata about your app.
@@ -31124,7 +31126,7 @@ RunOnMainThread :: (callback: MainThreadCallback, userdata: *void, wait_complete
 *
 * \sa SDL_SetAppMetadataProperty
 */
-SetAppMetadata :: (appname: *u8, appversion: *u8, appidentifier: *u8) -> bool #foreign libsdl3_ttf "SDL_SetAppMetadata";
+SDL_SetAppMetadata :: (appname: *u8, appversion: *u8, appidentifier: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Specify metadata about your app through a set of properties.
@@ -31187,7 +31189,7 @@ SetAppMetadata :: (appname: *u8, appversion: *u8, appidentifier: *u8) -> bool #f
 * \sa SDL_GetAppMetadataProperty
 * \sa SDL_SetAppMetadata
 */
-SetAppMetadataProperty :: (name: *u8, value: *u8) -> bool #foreign libsdl3_ttf "SDL_SetAppMetadataProperty";
+SDL_SetAppMetadataProperty :: (name: *u8, value: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get metadata about your app.
@@ -31210,9 +31212,9 @@ SetAppMetadataProperty :: (name: *u8, value: *u8) -> bool #foreign libsdl3_ttf "
 * \sa SDL_SetAppMetadata
 * \sa SDL_SetAppMetadataProperty
 */
-GetAppMetadataProperty :: (name: *u8) -> *u8 #foreign libsdl3_ttf "SDL_GetAppMetadataProperty";
+SDL_GetAppMetadataProperty :: (name: *u8) -> *u8 #foreign libsdl3_ttf;
 
-SharedObject :: struct {}
+SDL_SharedObject :: struct {}
 
 /**
 * Dynamically load a shared object.
@@ -31228,7 +31230,7 @@ SharedObject :: struct {}
 * \sa SDL_LoadFunction
 * \sa SDL_UnloadObject
 */
-LoadObject :: (sofile: *u8) -> *SharedObject #foreign libsdl3_ttf "SDL_LoadObject";
+SDL_LoadObject :: (sofile: *u8) -> *SDL_SharedObject #foreign libsdl3_ttf;
 
 /**
 * Look up the address of the named function in a shared object.
@@ -31256,7 +31258,7 @@ LoadObject :: (sofile: *u8) -> *SharedObject #foreign libsdl3_ttf "SDL_LoadObjec
 *
 * \sa SDL_LoadObject
 */
-LoadFunction :: (handle: *SharedObject, name: *u8) -> FunctionPointer #foreign libsdl3_ttf "SDL_LoadFunction";
+SDL_LoadFunction :: (handle: *SDL_SharedObject, name: *u8) -> SDL_FunctionPointer #foreign libsdl3_ttf;
 
 /**
 * Unload a shared object from memory.
@@ -31272,7 +31274,7 @@ LoadFunction :: (handle: *SharedObject, name: *u8) -> FunctionPointer #foreign l
 *
 * \sa SDL_LoadObject
 */
-UnloadObject :: (handle: *SharedObject) -> void #foreign libsdl3_ttf "SDL_UnloadObject";
+SDL_UnloadObject :: (handle: *SDL_SharedObject) -> void #foreign libsdl3_ttf;
 
 /**
 * A struct to provide locale data.
@@ -31286,7 +31288,7 @@ UnloadObject :: (handle: *SharedObject) -> void #foreign libsdl3_ttf "SDL_Unload
 *
 * \sa SDL_GetPreferredLocales
 */
-Locale :: struct {
+SDL_Locale :: struct {
     language: *u8; /**< A language name, like "en" for English. */
     country:  *u8; /**< A country, like "US" for America. Can be NULL. */
 }
@@ -31332,7 +31334,7 @@ Locale :: struct {
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetPreferredLocales :: (count: *s32) -> **Locale #foreign libsdl3_ttf "SDL_GetPreferredLocales";
+SDL_GetPreferredLocales :: (count: *s32) -> **SDL_Locale #foreign libsdl3_ttf;
 
 /**
 * The predefined log categories
@@ -31343,7 +31345,7 @@ GetPreferredLocales :: (count: *s32) -> **Locale #foreign libsdl3_ttf "SDL_GetPr
 *
 * \since This enum is available since SDL 3.2.0.
 */
-LogCategory :: enum u32 {
+SDL_LogCategory :: enum u32 {
     APPLICATION :: 0;
     ERROR       :: 1;
     ASSERT      :: 2;
@@ -31396,7 +31398,7 @@ LogCategory :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-LogPriority :: enum u32 {
+SDL_LogPriority :: enum u32 {
     INVALID  :: 0;
     TRACE    :: 1;
     VERBOSE  :: 2;
@@ -31430,7 +31432,7 @@ LogPriority :: enum u32 {
 * \sa SDL_ResetLogPriorities
 * \sa SDL_SetLogPriority
 */
-SetLogPriorities :: (priority: LogPriority) -> void #foreign libsdl3_ttf "SDL_SetLogPriorities";
+SDL_SetLogPriorities :: (priority: SDL_LogPriority) -> void #foreign libsdl3_ttf;
 
 /**
 * Set the priority of a particular log category.
@@ -31446,7 +31448,7 @@ SetLogPriorities :: (priority: LogPriority) -> void #foreign libsdl3_ttf "SDL_Se
 * \sa SDL_ResetLogPriorities
 * \sa SDL_SetLogPriorities
 */
-SetLogPriority :: (category: s32, priority: LogPriority) -> void #foreign libsdl3_ttf "SDL_SetLogPriority";
+SDL_SetLogPriority :: (category: s32, priority: SDL_LogPriority) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the priority of a particular log category.
@@ -31460,7 +31462,7 @@ SetLogPriority :: (category: s32, priority: LogPriority) -> void #foreign libsdl
 *
 * \sa SDL_SetLogPriority
 */
-GetLogPriority :: (category: s32) -> LogPriority #foreign libsdl3_ttf "SDL_GetLogPriority";
+SDL_GetLogPriority :: (category: s32) -> SDL_LogPriority #foreign libsdl3_ttf;
 
 /**
 * Reset all priorities to default.
@@ -31474,7 +31476,7 @@ GetLogPriority :: (category: s32) -> LogPriority #foreign libsdl3_ttf "SDL_GetLo
 * \sa SDL_SetLogPriorities
 * \sa SDL_SetLogPriority
 */
-ResetLogPriorities :: () -> void #foreign libsdl3_ttf "SDL_ResetLogPriorities";
+SDL_ResetLogPriorities :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Set the text prepended to log messages of a given priority.
@@ -31496,7 +31498,7 @@ ResetLogPriorities :: () -> void #foreign libsdl3_ttf "SDL_ResetLogPriorities";
 * \sa SDL_SetLogPriorities
 * \sa SDL_SetLogPriority
 */
-SetLogPriorityPrefix :: (priority: LogPriority, prefix: *u8) -> bool #foreign libsdl3_ttf "SDL_SetLogPriorityPrefix";
+SDL_SetLogPriorityPrefix :: (priority: SDL_LogPriority, prefix: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Log a message with SDL_LOG_CATEGORY_APPLICATION and SDL_LOG_PRIORITY_INFO.
@@ -31519,14 +31521,14 @@ SetLogPriorityPrefix :: (priority: LogPriority, prefix: *u8) -> bool #foreign li
 * \sa SDL_LogVerbose
 * \sa SDL_LogWarn
 */
-Log_CFormat :: (fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_Log";
-Log :: (fmt: string, __args: ..Any) {
+SDL_Log_CFormat :: (fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_Log";
+SDL_Log :: (fmt: string, __args: ..Any) {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    Log_CFormat("%s", formatted_text.data);
+    SDL_Log_CFormat("%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -31552,14 +31554,14 @@ Log :: (fmt: string, __args: ..Any) {
 * \sa SDL_LogVerbose
 * \sa SDL_LogWarn
 */
-LogTrace_CFormat :: (category: s32, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogTrace";
-LogTrace :: (category: s32, fmt: string, __args: ..Any) {
+SDL_LogTrace_CFormat :: (category: s32, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogTrace";
+SDL_LogTrace :: (category: s32, fmt: string, __args: ..Any) {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    LogTrace_CFormat(category, "%s", formatted_text.data);
+    SDL_LogTrace_CFormat(category, "%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -31583,14 +31585,14 @@ LogTrace :: (category: s32, fmt: string, __args: ..Any) {
 * \sa SDL_LogMessageV
 * \sa SDL_LogWarn
 */
-LogVerbose_CFormat :: (category: s32, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogVerbose";
-LogVerbose :: (category: s32, fmt: string, __args: ..Any) {
+SDL_LogVerbose_CFormat :: (category: s32, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogVerbose";
+SDL_LogVerbose :: (category: s32, fmt: string, __args: ..Any) {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    LogVerbose_CFormat(category, "%s", formatted_text.data);
+    SDL_LogVerbose_CFormat(category, "%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -31615,14 +31617,14 @@ LogVerbose :: (category: s32, fmt: string, __args: ..Any) {
 * \sa SDL_LogVerbose
 * \sa SDL_LogWarn
 */
-LogDebug_CFormat :: (category: s32, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogDebug";
-LogDebug :: (category: s32, fmt: string, __args: ..Any) {
+SDL_LogDebug_CFormat :: (category: s32, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogDebug";
+SDL_LogDebug :: (category: s32, fmt: string, __args: ..Any) {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    LogDebug_CFormat(category, "%s", formatted_text.data);
+    SDL_LogDebug_CFormat(category, "%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -31647,14 +31649,14 @@ LogDebug :: (category: s32, fmt: string, __args: ..Any) {
 * \sa SDL_LogVerbose
 * \sa SDL_LogWarn
 */
-LogInfo_CFormat :: (category: s32, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogInfo";
-LogInfo :: (category: s32, fmt: string, __args: ..Any) {
+SDL_LogInfo_CFormat :: (category: s32, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogInfo";
+SDL_LogInfo :: (category: s32, fmt: string, __args: ..Any) {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    LogInfo_CFormat(category, "%s", formatted_text.data);
+    SDL_LogInfo_CFormat(category, "%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -31679,14 +31681,14 @@ LogInfo :: (category: s32, fmt: string, __args: ..Any) {
 * \sa SDL_LogTrace
 * \sa SDL_LogVerbose
 */
-LogWarn_CFormat :: (category: s32, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogWarn";
-LogWarn :: (category: s32, fmt: string, __args: ..Any) {
+SDL_LogWarn_CFormat :: (category: s32, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogWarn";
+SDL_LogWarn :: (category: s32, fmt: string, __args: ..Any) {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    LogWarn_CFormat(category, "%s", formatted_text.data);
+    SDL_LogWarn_CFormat(category, "%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -31711,14 +31713,14 @@ LogWarn :: (category: s32, fmt: string, __args: ..Any) {
 * \sa SDL_LogVerbose
 * \sa SDL_LogWarn
 */
-LogError_CFormat :: (category: s32, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogError";
-LogError :: (category: s32, fmt: string, __args: ..Any) {
+SDL_LogError_CFormat :: (category: s32, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogError";
+SDL_LogError :: (category: s32, fmt: string, __args: ..Any) {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    LogError_CFormat(category, "%s", formatted_text.data);
+    SDL_LogError_CFormat(category, "%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -31743,14 +31745,14 @@ LogError :: (category: s32, fmt: string, __args: ..Any) {
 * \sa SDL_LogVerbose
 * \sa SDL_LogWarn
 */
-LogCritical_CFormat :: (category: s32, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogCritical";
-LogCritical :: (category: s32, fmt: string, __args: ..Any) {
+SDL_LogCritical_CFormat :: (category: s32, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogCritical";
+SDL_LogCritical :: (category: s32, fmt: string, __args: ..Any) {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    LogCritical_CFormat(category, "%s", formatted_text.data);
+    SDL_LogCritical_CFormat(category, "%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -31776,14 +31778,14 @@ LogCritical :: (category: s32, fmt: string, __args: ..Any) {
 * \sa SDL_LogVerbose
 * \sa SDL_LogWarn
 */
-LogMessage_CFormat :: (category: s32, priority: LogPriority, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogMessage";
-LogMessage :: (category: s32, priority: LogPriority, fmt: string, __args: ..Any) {
+SDL_LogMessage_CFormat :: (category: s32, priority: SDL_LogPriority, fmt: *u8, __args: ..Any) -> void #foreign libsdl3_ttf "SDL_LogMessage";
+SDL_LogMessage :: (category: s32, priority: SDL_LogPriority, fmt: string, __args: ..Any) {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    LogMessage_CFormat(category, priority, "%s", formatted_text.data);
+    SDL_LogMessage_CFormat(category, priority, "%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -31801,7 +31803,7 @@ LogMessage :: (category: s32, priority: LogPriority, fmt: string, __args: ..Any)
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-LogOutputFunction :: #type (userdata: *void, category: s32, priority: LogPriority, message: *u8) -> void #c_call;
+SDL_LogOutputFunction :: #type (userdata: *void, category: s32, priority: SDL_LogPriority, message: *u8) -> void #c_call;
 
 /**
 * Get the default log output function.
@@ -31815,7 +31817,7 @@ LogOutputFunction :: #type (userdata: *void, category: s32, priority: LogPriorit
 * \sa SDL_SetLogOutputFunction
 * \sa SDL_GetLogOutputFunction
 */
-GetDefaultLogOutputFunction :: () -> LogOutputFunction #foreign libsdl3_ttf "SDL_GetDefaultLogOutputFunction";
+SDL_GetDefaultLogOutputFunction :: () -> SDL_LogOutputFunction #foreign libsdl3_ttf;
 
 /**
 * Get the current log output function.
@@ -31832,7 +31834,7 @@ GetDefaultLogOutputFunction :: () -> LogOutputFunction #foreign libsdl3_ttf "SDL
 * \sa SDL_GetDefaultLogOutputFunction
 * \sa SDL_SetLogOutputFunction
 */
-GetLogOutputFunction :: (callback: *LogOutputFunction, userdata: **void) -> void #foreign libsdl3_ttf "SDL_GetLogOutputFunction";
+SDL_GetLogOutputFunction :: (callback: *SDL_LogOutputFunction, userdata: **void) -> void #foreign libsdl3_ttf;
 
 /**
 * Replace the default log output function with one of your own.
@@ -31847,7 +31849,7 @@ GetLogOutputFunction :: (callback: *LogOutputFunction, userdata: **void) -> void
 * \sa SDL_GetDefaultLogOutputFunction
 * \sa SDL_GetLogOutputFunction
 */
-SetLogOutputFunction :: (callback: LogOutputFunction, userdata: *void) -> void #foreign libsdl3_ttf "SDL_SetLogOutputFunction";
+SDL_SetLogOutputFunction :: (callback: SDL_LogOutputFunction, userdata: *void) -> void #foreign libsdl3_ttf;
 
 /**
 * Message box flags.
@@ -31856,22 +31858,22 @@ SetLogOutputFunction :: (callback: LogOutputFunction, userdata: *void) -> void #
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-MessageBoxFlags :: Uint32;
+SDL_MessageBoxFlags :: Uint32;
 
 /**
 * SDL_MessageBoxButtonData flags.
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-MessageBoxButtonFlags :: Uint32;
+SDL_MessageBoxButtonFlags :: Uint32;
 
 /**
 * Individual button data.
 *
 * \since This struct is available since SDL 3.2.0.
 */
-MessageBoxButtonData :: struct {
-    flags:    MessageBoxButtonFlags;
+SDL_MessageBoxButtonData :: struct {
+    flags:    SDL_MessageBoxButtonFlags;
     buttonID: s32; /**< User defined button id (value returned via SDL_ShowMessageBox) */
     text:     *u8; /**< The UTF-8 button text */
 }
@@ -31881,7 +31883,7 @@ MessageBoxButtonData :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-MessageBoxColor :: struct {
+SDL_MessageBoxColor :: struct {
     r: Uint8;
     g: Uint8;
     b: Uint8;
@@ -31891,7 +31893,7 @@ MessageBoxColor :: struct {
 * An enumeration of indices inside the colors array of
 * SDL_MessageBoxColorScheme.
 */
-MessageBoxColorType :: enum u32 {
+SDL_MessageBoxColorType :: enum u32 {
     BACKGROUND        :: 0;
     TEXT              :: 1;
     BUTTON_BORDER     :: 2;
@@ -31912,8 +31914,8 @@ MessageBoxColorType :: enum u32 {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-MessageBoxColorScheme :: struct {
-    colors: [5] MessageBoxColor;
+SDL_MessageBoxColorScheme :: struct {
+    colors: [5] SDL_MessageBoxColor;
 }
 
 /**
@@ -31921,16 +31923,16 @@ MessageBoxColorScheme :: struct {
 *
 * \since This struct is available since SDL 3.2.0.
 */
-MessageBoxData :: struct {
-    flags:       MessageBoxFlags;
-    window:      *Window; /**< Parent window, can be NULL */
+SDL_MessageBoxData :: struct {
+    flags:       SDL_MessageBoxFlags;
+    window:      *SDL_Window; /**< Parent window, can be NULL */
     title:       *u8; /**< UTF-8 title */
     message:     *u8; /**< UTF-8 message text */
 
     numbuttons:  s32;
-    buttons:     *MessageBoxButtonData;
+    buttons:     *SDL_MessageBoxButtonData;
 
-    colorScheme: *MessageBoxColorScheme; /**< SDL_MessageBoxColorScheme, can be NULL to use system settings */
+    colorScheme: *SDL_MessageBoxColorScheme; /**< SDL_MessageBoxColorScheme, can be NULL to use system settings */
 }
 
 /**
@@ -31967,7 +31969,7 @@ MessageBoxData :: struct {
 *
 * \sa SDL_ShowSimpleMessageBox
 */
-ShowMessageBox :: (messageboxdata: *MessageBoxData, buttonid: *s32) -> bool #foreign libsdl3_ttf "SDL_ShowMessageBox";
+SDL_ShowMessageBox :: (messageboxdata: *SDL_MessageBoxData, buttonid: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Display a simple modal message box.
@@ -32009,14 +32011,14 @@ ShowMessageBox :: (messageboxdata: *MessageBoxData, buttonid: *s32) -> bool #for
 *
 * \sa SDL_ShowMessageBox
 */
-ShowSimpleMessageBox :: (flags: MessageBoxFlags, title: *u8, message: *u8, window: *Window) -> bool #foreign libsdl3_ttf "SDL_ShowSimpleMessageBox";
+SDL_ShowSimpleMessageBox :: (flags: SDL_MessageBoxFlags, title: *u8, message: *u8, window: *SDL_Window) -> bool #foreign libsdl3_ttf;
 
 /**
 * A handle to a CAMetalLayer-backed NSView (macOS) or UIView (iOS/tvOS).
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-MetalView :: *void;
+SDL_MetalView :: *void;
 
 /**
 * Create a CAMetalLayer-backed NSView/UIView and attach it to the specified
@@ -32036,7 +32038,7 @@ MetalView :: *void;
 * \sa SDL_Metal_DestroyView
 * \sa SDL_Metal_GetLayer
 */
-Metal_CreateView :: (window: *Window) -> MetalView #foreign libsdl3_ttf "SDL_Metal_CreateView";
+SDL_Metal_CreateView :: (window: *SDL_Window) -> SDL_MetalView #foreign libsdl3_ttf;
 
 /**
 * Destroy an existing SDL_MetalView object.
@@ -32050,7 +32052,7 @@ Metal_CreateView :: (window: *Window) -> MetalView #foreign libsdl3_ttf "SDL_Met
 *
 * \sa SDL_Metal_CreateView
 */
-Metal_DestroyView :: (view: MetalView) -> void #foreign libsdl3_ttf "SDL_Metal_DestroyView";
+SDL_Metal_DestroyView :: (view: SDL_MetalView) -> void #foreign libsdl3_ttf;
 
 /**
 * Get a pointer to the backing CAMetalLayer for the given view.
@@ -32060,7 +32062,7 @@ Metal_DestroyView :: (view: MetalView) -> void #foreign libsdl3_ttf "SDL_Metal_D
 *
 * \since This function is available since SDL 3.2.0.
 */
-Metal_GetLayer :: (view: MetalView) -> *void #foreign libsdl3_ttf "SDL_Metal_GetLayer";
+SDL_Metal_GetLayer :: (view: SDL_MetalView) -> *void #foreign libsdl3_ttf;
 
 /**
 * Open a URL/URI in the browser or other appropriate external application.
@@ -32091,7 +32093,7 @@ Metal_GetLayer :: (view: MetalView) -> *void #foreign libsdl3_ttf "SDL_Metal_Get
 *
 * \since This function is available since SDL 3.2.0.
 */
-OpenURL :: (url: *u8) -> bool #foreign libsdl3_ttf "SDL_OpenURL";
+SDL_OpenURL :: (url: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the name of the platform.
@@ -32109,9 +32111,9 @@ OpenURL :: (url: *u8) -> bool #foreign libsdl3_ttf "SDL_OpenURL";
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetPlatform :: () -> *u8 #foreign libsdl3_ttf "SDL_GetPlatform";
+SDL_GetPlatform :: () -> *u8 #foreign libsdl3_ttf;
 
-Process :: struct {}
+SDL_Process :: struct {}
 
 /**
 * Create a new process.
@@ -32153,7 +32155,7 @@ Process :: struct {}
 * \sa SDL_WaitProcess
 * \sa SDL_DestroyProcess
 */
-CreateProcess :: (args: **u8, pipe_stdio: bool) -> *Process #foreign libsdl3_ttf "SDL_CreateProcess";
+SDL_CreateProcess :: (args: **u8, pipe_stdio: bool) -> *SDL_Process #foreign libsdl3_ttf;
 
 /**
 * Description of where standard I/O should be directed when creating a
@@ -32197,7 +32199,7 @@ CreateProcess :: (args: **u8, pipe_stdio: bool) -> *Process #foreign libsdl3_ttf
 * \sa SDL_GetProcessInput
 * \sa SDL_GetProcessOutput
 */
-ProcessIO :: enum u32 {
+SDL_ProcessIO :: enum u32 {
     INHERITED :: 0;
     NULL      :: 1;
     APP       :: 2;
@@ -32269,7 +32271,7 @@ ProcessIO :: enum u32 {
 * \sa SDL_WaitProcess
 * \sa SDL_DestroyProcess
 */
-CreateProcessWithProperties :: (props: PropertiesID) -> *Process #foreign libsdl3_ttf "SDL_CreateProcessWithProperties";
+SDL_CreateProcessWithProperties :: (props: SDL_PropertiesID) -> *SDL_Process #foreign libsdl3_ttf;
 
 /**
 * Get the properties associated with a process.
@@ -32300,7 +32302,7 @@ CreateProcessWithProperties :: (props: PropertiesID) -> *Process #foreign libsdl
 * \sa SDL_CreateProcess
 * \sa SDL_CreateProcessWithProperties
 */
-GetProcessProperties :: (process: *Process) -> PropertiesID #foreign libsdl3_ttf "SDL_GetProcessProperties";
+SDL_GetProcessProperties :: (process: *SDL_Process) -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Read all the output from a process.
@@ -32331,7 +32333,7 @@ GetProcessProperties :: (process: *Process) -> PropertiesID #foreign libsdl3_ttf
 * \sa SDL_CreateProcessWithProperties
 * \sa SDL_DestroyProcess
 */
-ReadProcess :: (process: *Process, datasize: *u64, exitcode: *s32) -> *void #foreign libsdl3_ttf "SDL_ReadProcess";
+SDL_ReadProcess :: (process: *SDL_Process, datasize: *u64, exitcode: *s32) -> *void #foreign libsdl3_ttf;
 
 /**
 * Get the SDL_IOStream associated with process standard input.
@@ -32357,7 +32359,7 @@ ReadProcess :: (process: *Process, datasize: *u64, exitcode: *s32) -> *void #for
 * \sa SDL_CreateProcessWithProperties
 * \sa SDL_GetProcessOutput
 */
-GetProcessInput :: (process: *Process) -> *IOStream #foreign libsdl3_ttf "SDL_GetProcessInput";
+SDL_GetProcessInput :: (process: *SDL_Process) -> *SDL_IOStream #foreign libsdl3_ttf;
 
 /**
 * Get the SDL_IOStream associated with process standard output.
@@ -32381,7 +32383,7 @@ GetProcessInput :: (process: *Process) -> *IOStream #foreign libsdl3_ttf "SDL_Ge
 * \sa SDL_CreateProcessWithProperties
 * \sa SDL_GetProcessInput
 */
-GetProcessOutput :: (process: *Process) -> *IOStream #foreign libsdl3_ttf "SDL_GetProcessOutput";
+SDL_GetProcessOutput :: (process: *SDL_Process) -> *SDL_IOStream #foreign libsdl3_ttf;
 
 /**
 * Stop a process.
@@ -32404,7 +32406,7 @@ GetProcessOutput :: (process: *Process) -> *IOStream #foreign libsdl3_ttf "SDL_G
 * \sa SDL_WaitProcess
 * \sa SDL_DestroyProcess
 */
-KillProcess :: (process: *Process, force: bool) -> bool #foreign libsdl3_ttf "SDL_KillProcess";
+SDL_KillProcess :: (process: *SDL_Process, force: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Wait for a process to finish.
@@ -32437,7 +32439,7 @@ KillProcess :: (process: *Process, force: bool) -> bool #foreign libsdl3_ttf "SD
 * \sa SDL_KillProcess
 * \sa SDL_DestroyProcess
 */
-WaitProcess :: (process: *Process, block: bool, exitcode: *s32) -> bool #foreign libsdl3_ttf "SDL_WaitProcess";
+SDL_WaitProcess :: (process: *SDL_Process, block: bool, exitcode: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Destroy a previously created process object.
@@ -32456,17 +32458,17 @@ WaitProcess :: (process: *Process, block: bool, exitcode: *s32) -> bool #foreign
 * \sa SDL_CreateProcessWithProperties
 * \sa SDL_KillProcess
 */
-DestroyProcess :: (process: *Process) -> void #foreign libsdl3_ttf "SDL_DestroyProcess";
+SDL_DestroyProcess :: (process: *SDL_Process) -> void #foreign libsdl3_ttf;
 
 /**
 * Vertex structure.
 *
 * \since This struct is available since SDL 3.2.0.
 */
-Vertex :: struct {
-    position:  FPoint; /**< Vertex position, in SDL_Renderer coordinates  */
-    color:     FColor; /**< Vertex color */
-    tex_coord: FPoint; /**< Normalized texture coordinates, if needed */
+SDL_Vertex :: struct {
+    position:  SDL_FPoint; /**< Vertex position, in SDL_Renderer coordinates  */
+    color:     SDL_FColor; /**< Vertex color */
+    tex_coord: SDL_FPoint; /**< Normalized texture coordinates, if needed */
 }
 
 /**
@@ -32474,7 +32476,7 @@ Vertex :: struct {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-TextureAccess :: enum u32 {
+SDL_TextureAccess :: enum u32 {
     STATIC    :: 0;
     STREAMING :: 1;
     TARGET    :: 2;
@@ -32489,7 +32491,7 @@ TextureAccess :: enum u32 {
 *
 * \since This enum is available since SDL 3.2.0.
 */
-RendererLogicalPresentation :: enum u32 {
+SDL_RendererLogicalPresentation :: enum u32 {
     DISABLED      :: 0;
     STRETCH       :: 1;
     LETTERBOX     :: 2;
@@ -32503,7 +32505,7 @@ RendererLogicalPresentation :: enum u32 {
     SDL_LOGICAL_PRESENTATION_INTEGER_SCALE :: INTEGER_SCALE;
 }
 
-Renderer :: struct {}
+SDL_Renderer :: struct {}
 
 /**
 * An efficient driver-specific representation of pixel data
@@ -32515,8 +32517,8 @@ Renderer :: struct {}
 * \sa SDL_CreateTextureWithProperties
 * \sa SDL_DestroyTexture
 */
-Texture :: struct {
-    format:   PixelFormat; /**< The format of the texture, read-only */
+SDL_Texture :: struct {
+    format:   SDL_PixelFormat; /**< The format of the texture, read-only */
     w:        s32; /**< The width of the texture, read-only. */
     h:        s32; /**< The height of the texture, read-only. */
 
@@ -32541,7 +32543,7 @@ Texture :: struct {
 * \sa SDL_CreateRenderer
 * \sa SDL_GetRenderDriver
 */
-GetNumRenderDrivers :: () -> s32 #foreign libsdl3_ttf "SDL_GetNumRenderDrivers";
+SDL_GetNumRenderDrivers :: () -> s32 #foreign libsdl3_ttf;
 
 /**
 * Use this function to get the name of a built in 2D rendering driver.
@@ -32565,7 +32567,7 @@ GetNumRenderDrivers :: () -> s32 #foreign libsdl3_ttf "SDL_GetNumRenderDrivers";
 *
 * \sa SDL_GetNumRenderDrivers
 */
-GetRenderDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf "SDL_GetRenderDriver";
+SDL_GetRenderDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Create a window and default renderer.
@@ -32587,7 +32589,7 @@ GetRenderDriver :: (index: s32) -> *u8 #foreign libsdl3_ttf "SDL_GetRenderDriver
 * \sa SDL_CreateRenderer
 * \sa SDL_CreateWindow
 */
-CreateWindowAndRenderer :: (title: *u8, width: s32, height: s32, window_flags: WindowFlags, window: **Window, renderer: **Renderer) -> bool #foreign libsdl3_ttf "SDL_CreateWindowAndRenderer";
+SDL_CreateWindowAndRenderer :: (title: *u8, width: s32, height: s32, window_flags: SDL_WindowFlags, window: **SDL_Window, renderer: **SDL_Renderer) -> bool #foreign libsdl3_ttf;
 
 /**
 * Create a 2D rendering context for a window.
@@ -32622,7 +32624,7 @@ CreateWindowAndRenderer :: (title: *u8, width: s32, height: s32, window_flags: W
 * \sa SDL_GetRenderDriver
 * \sa SDL_GetRendererName
 */
-CreateRenderer :: (window: *Window, name: *u8) -> *Renderer #foreign libsdl3_ttf "SDL_CreateRenderer";
+SDL_CreateRenderer :: (window: *SDL_Window, name: *u8) -> *SDL_Renderer #foreign libsdl3_ttf;
 
 /**
 * Create a 2D rendering context for a window, with the specified properties.
@@ -32675,7 +32677,7 @@ CreateRenderer :: (window: *Window, name: *u8) -> *Renderer #foreign libsdl3_ttf
 * \sa SDL_DestroyRenderer
 * \sa SDL_GetRendererName
 */
-CreateRendererWithProperties :: (props: PropertiesID) -> *Renderer #foreign libsdl3_ttf "SDL_CreateRendererWithProperties";
+SDL_CreateRendererWithProperties :: (props: SDL_PropertiesID) -> *SDL_Renderer #foreign libsdl3_ttf;
 
 /**
 * Create a 2D software rendering context for a surface.
@@ -32696,7 +32698,7 @@ CreateRendererWithProperties :: (props: PropertiesID) -> *Renderer #foreign libs
 *
 * \sa SDL_DestroyRenderer
 */
-CreateSoftwareRenderer :: (surface: *Surface) -> *Renderer #foreign libsdl3_ttf "SDL_CreateSoftwareRenderer";
+SDL_CreateSoftwareRenderer :: (surface: *SDL_Surface) -> *SDL_Renderer #foreign libsdl3_ttf;
 
 /**
 * Get the renderer associated with a window.
@@ -32709,7 +32711,7 @@ CreateSoftwareRenderer :: (surface: *Surface) -> *Renderer #foreign libsdl3_ttf 
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetRenderer :: (window: *Window) -> *Renderer #foreign libsdl3_ttf "SDL_GetRenderer";
+SDL_GetRenderer :: (window: *SDL_Window) -> *SDL_Renderer #foreign libsdl3_ttf;
 
 /**
 * Get the window associated with a renderer.
@@ -32722,7 +32724,7 @@ GetRenderer :: (window: *Window) -> *Renderer #foreign libsdl3_ttf "SDL_GetRende
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetRenderWindow :: (renderer: *Renderer) -> *Window #foreign libsdl3_ttf "SDL_GetRenderWindow";
+SDL_GetRenderWindow :: (renderer: *SDL_Renderer) -> *SDL_Window #foreign libsdl3_ttf;
 
 /**
 * Get the name of a renderer.
@@ -32738,7 +32740,7 @@ GetRenderWindow :: (renderer: *Renderer) -> *Window #foreign libsdl3_ttf "SDL_Ge
 * \sa SDL_CreateRenderer
 * \sa SDL_CreateRendererWithProperties
 */
-GetRendererName :: (renderer: *Renderer) -> *u8 #foreign libsdl3_ttf "SDL_GetRendererName";
+SDL_GetRendererName :: (renderer: *SDL_Renderer) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Get the properties associated with a renderer.
@@ -32824,7 +32826,7 @@ GetRendererName :: (renderer: *Renderer) -> *u8 #foreign libsdl3_ttf "SDL_GetRen
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetRendererProperties :: (renderer: *Renderer) -> PropertiesID #foreign libsdl3_ttf "SDL_GetRendererProperties";
+SDL_GetRendererProperties :: (renderer: *SDL_Renderer) -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Get the output size in pixels of a rendering context.
@@ -32847,7 +32849,7 @@ GetRendererProperties :: (renderer: *Renderer) -> PropertiesID #foreign libsdl3_
 *
 * \sa SDL_GetCurrentRenderOutputSize
 */
-GetRenderOutputSize :: (renderer: *Renderer, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf "SDL_GetRenderOutputSize";
+SDL_GetRenderOutputSize :: (renderer: *SDL_Renderer, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the current output size in pixels of a rendering context.
@@ -32870,7 +32872,7 @@ GetRenderOutputSize :: (renderer: *Renderer, w: *s32, h: *s32) -> bool #foreign 
 *
 * \sa SDL_GetRenderOutputSize
 */
-GetCurrentRenderOutputSize :: (renderer: *Renderer, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf "SDL_GetCurrentRenderOutputSize";
+SDL_GetCurrentRenderOutputSize :: (renderer: *SDL_Renderer, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Create a texture for a rendering context.
@@ -32895,7 +32897,7 @@ GetCurrentRenderOutputSize :: (renderer: *Renderer, w: *s32, h: *s32) -> bool #f
 * \sa SDL_GetTextureSize
 * \sa SDL_UpdateTexture
 */
-CreateTexture :: (renderer: *Renderer, format: PixelFormat, access: TextureAccess, w: s32, h: s32) -> *Texture #foreign libsdl3_ttf "SDL_CreateTexture";
+SDL_CreateTexture :: (renderer: *SDL_Renderer, format: SDL_PixelFormat, access: SDL_TextureAccess, w: s32, h: s32) -> *SDL_Texture #foreign libsdl3_ttf;
 
 /**
 * Create a texture from an existing surface.
@@ -32923,7 +32925,7 @@ CreateTexture :: (renderer: *Renderer, format: PixelFormat, access: TextureAcces
 * \sa SDL_CreateTextureWithProperties
 * \sa SDL_DestroyTexture
 */
-CreateTextureFromSurface :: (renderer: *Renderer, surface: *Surface) -> *Texture #foreign libsdl3_ttf "SDL_CreateTextureFromSurface";
+SDL_CreateTextureFromSurface :: (renderer: *SDL_Renderer, surface: *SDL_Surface) -> *SDL_Texture #foreign libsdl3_ttf;
 
 /**
 * Create a texture for a rendering context with the specified properties.
@@ -33035,7 +33037,7 @@ CreateTextureFromSurface :: (renderer: *Renderer, surface: *Surface) -> *Texture
 * \sa SDL_GetTextureSize
 * \sa SDL_UpdateTexture
 */
-CreateTextureWithProperties :: (renderer: *Renderer, props: PropertiesID) -> *Texture #foreign libsdl3_ttf "SDL_CreateTextureWithProperties";
+SDL_CreateTextureWithProperties :: (renderer: *SDL_Renderer, props: SDL_PropertiesID) -> *SDL_Texture #foreign libsdl3_ttf;
 
 /**
 * Get the properties associated with a texture.
@@ -33123,7 +33125,7 @@ CreateTextureWithProperties :: (renderer: *Renderer, props: PropertiesID) -> *Te
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetTextureProperties :: (texture: *Texture) -> PropertiesID #foreign libsdl3_ttf "SDL_GetTextureProperties";
+SDL_GetTextureProperties :: (texture: *SDL_Texture) -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Get the renderer that created an SDL_Texture.
@@ -33136,7 +33138,7 @@ GetTextureProperties :: (texture: *Texture) -> PropertiesID #foreign libsdl3_ttf
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetRendererFromTexture :: (texture: *Texture) -> *Renderer #foreign libsdl3_ttf "SDL_GetRendererFromTexture";
+SDL_GetRendererFromTexture :: (texture: *SDL_Texture) -> *SDL_Renderer #foreign libsdl3_ttf;
 
 /**
 * Get the size of a texture, as floating point values.
@@ -33153,7 +33155,7 @@ GetRendererFromTexture :: (texture: *Texture) -> *Renderer #foreign libsdl3_ttf 
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetTextureSize :: (texture: *Texture, w: *float, h: *float) -> bool #foreign libsdl3_ttf "SDL_GetTextureSize";
+SDL_GetTextureSize :: (texture: *SDL_Texture, w: *float, h: *float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set an additional color value multiplied into render copy operations.
@@ -33182,7 +33184,7 @@ GetTextureSize :: (texture: *Texture, w: *float, h: *float) -> bool #foreign lib
 * \sa SDL_SetTextureAlphaMod
 * \sa SDL_SetTextureColorModFloat
 */
-SetTextureColorMod :: (texture: *Texture, r: Uint8, g: Uint8, b: Uint8) -> bool #foreign libsdl3_ttf "SDL_SetTextureColorMod";
+SDL_SetTextureColorMod :: (texture: *SDL_Texture, r: Uint8, g: Uint8, b: Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set an additional color value multiplied into render copy operations.
@@ -33211,7 +33213,7 @@ SetTextureColorMod :: (texture: *Texture, r: Uint8, g: Uint8, b: Uint8) -> bool 
 * \sa SDL_SetTextureAlphaModFloat
 * \sa SDL_SetTextureColorMod
 */
-SetTextureColorModFloat :: (texture: *Texture, r: float, g: float, b: float) -> bool #foreign libsdl3_ttf "SDL_SetTextureColorModFloat";
+SDL_SetTextureColorModFloat :: (texture: *SDL_Texture, r: float, g: float, b: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the additional color value multiplied into render copy operations.
@@ -33231,7 +33233,7 @@ SetTextureColorModFloat :: (texture: *Texture, r: float, g: float, b: float) -> 
 * \sa SDL_GetTextureColorModFloat
 * \sa SDL_SetTextureColorMod
 */
-GetTextureColorMod :: (texture: *Texture, r: *Uint8, g: *Uint8, b: *Uint8) -> bool #foreign libsdl3_ttf "SDL_GetTextureColorMod";
+SDL_GetTextureColorMod :: (texture: *SDL_Texture, r: *Uint8, g: *Uint8, b: *Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the additional color value multiplied into render copy operations.
@@ -33251,7 +33253,7 @@ GetTextureColorMod :: (texture: *Texture, r: *Uint8, g: *Uint8, b: *Uint8) -> bo
 * \sa SDL_GetTextureColorMod
 * \sa SDL_SetTextureColorModFloat
 */
-GetTextureColorModFloat :: (texture: *Texture, r: *float, g: *float, b: *float) -> bool #foreign libsdl3_ttf "SDL_GetTextureColorModFloat";
+SDL_GetTextureColorModFloat :: (texture: *SDL_Texture, r: *float, g: *float, b: *float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set an additional alpha value multiplied into render copy operations.
@@ -33277,7 +33279,7 @@ GetTextureColorModFloat :: (texture: *Texture, r: *float, g: *float, b: *float) 
 * \sa SDL_SetTextureAlphaModFloat
 * \sa SDL_SetTextureColorMod
 */
-SetTextureAlphaMod :: (texture: *Texture, alpha: Uint8) -> bool #foreign libsdl3_ttf "SDL_SetTextureAlphaMod";
+SDL_SetTextureAlphaMod :: (texture: *SDL_Texture, alpha: Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set an additional alpha value multiplied into render copy operations.
@@ -33303,7 +33305,7 @@ SetTextureAlphaMod :: (texture: *Texture, alpha: Uint8) -> bool #foreign libsdl3
 * \sa SDL_SetTextureAlphaMod
 * \sa SDL_SetTextureColorModFloat
 */
-SetTextureAlphaModFloat :: (texture: *Texture, alpha: float) -> bool #foreign libsdl3_ttf "SDL_SetTextureAlphaModFloat";
+SDL_SetTextureAlphaModFloat :: (texture: *SDL_Texture, alpha: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the additional alpha value multiplied into render copy operations.
@@ -33321,7 +33323,7 @@ SetTextureAlphaModFloat :: (texture: *Texture, alpha: float) -> bool #foreign li
 * \sa SDL_GetTextureColorMod
 * \sa SDL_SetTextureAlphaMod
 */
-GetTextureAlphaMod :: (texture: *Texture, alpha: *Uint8) -> bool #foreign libsdl3_ttf "SDL_GetTextureAlphaMod";
+SDL_GetTextureAlphaMod :: (texture: *SDL_Texture, alpha: *Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the additional alpha value multiplied into render copy operations.
@@ -33339,7 +33341,7 @@ GetTextureAlphaMod :: (texture: *Texture, alpha: *Uint8) -> bool #foreign libsdl
 * \sa SDL_GetTextureColorModFloat
 * \sa SDL_SetTextureAlphaModFloat
 */
-GetTextureAlphaModFloat :: (texture: *Texture, alpha: *float) -> bool #foreign libsdl3_ttf "SDL_GetTextureAlphaModFloat";
+SDL_GetTextureAlphaModFloat :: (texture: *SDL_Texture, alpha: *float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the blend mode for a texture, used by SDL_RenderTexture().
@@ -33358,7 +33360,7 @@ GetTextureAlphaModFloat :: (texture: *Texture, alpha: *float) -> bool #foreign l
 *
 * \sa SDL_GetTextureBlendMode
 */
-SetTextureBlendMode :: (texture: *Texture, blendMode: BlendMode) -> bool #foreign libsdl3_ttf "SDL_SetTextureBlendMode";
+SDL_SetTextureBlendMode :: (texture: *SDL_Texture, blendMode: SDL_BlendMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the blend mode used for texture copy operations.
@@ -33374,7 +33376,7 @@ SetTextureBlendMode :: (texture: *Texture, blendMode: BlendMode) -> bool #foreig
 *
 * \sa SDL_SetTextureBlendMode
 */
-GetTextureBlendMode :: (texture: *Texture, blendMode: *BlendMode) -> bool #foreign libsdl3_ttf "SDL_GetTextureBlendMode";
+SDL_GetTextureBlendMode :: (texture: *SDL_Texture, blendMode: *SDL_BlendMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the scale mode used for texture scale operations.
@@ -33394,7 +33396,7 @@ GetTextureBlendMode :: (texture: *Texture, blendMode: *BlendMode) -> bool #forei
 *
 * \sa SDL_GetTextureScaleMode
 */
-SetTextureScaleMode :: (texture: *Texture, scaleMode: ScaleMode) -> bool #foreign libsdl3_ttf "SDL_SetTextureScaleMode";
+SDL_SetTextureScaleMode :: (texture: *SDL_Texture, scaleMode: SDL_ScaleMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the scale mode used for texture scale operations.
@@ -33410,7 +33412,7 @@ SetTextureScaleMode :: (texture: *Texture, scaleMode: ScaleMode) -> bool #foreig
 *
 * \sa SDL_SetTextureScaleMode
 */
-GetTextureScaleMode :: (texture: *Texture, scaleMode: *ScaleMode) -> bool #foreign libsdl3_ttf "SDL_GetTextureScaleMode";
+SDL_GetTextureScaleMode :: (texture: *SDL_Texture, scaleMode: *SDL_ScaleMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Update the given texture rectangle with new pixel data.
@@ -33444,7 +33446,7 @@ GetTextureScaleMode :: (texture: *Texture, scaleMode: *ScaleMode) -> bool #forei
 * \sa SDL_UpdateNVTexture
 * \sa SDL_UpdateYUVTexture
 */
-UpdateTexture :: (texture: *Texture, rect: *Rect, pixels: *void, pitch: s32) -> bool #foreign libsdl3_ttf "SDL_UpdateTexture";
+SDL_UpdateTexture :: (texture: *SDL_Texture, rect: *SDL_Rect, pixels: *void, pitch: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Update a rectangle within a planar YV12 or IYUV texture with new pixel
@@ -33476,7 +33478,7 @@ UpdateTexture :: (texture: *Texture, rect: *Rect, pixels: *void, pitch: s32) -> 
 * \sa SDL_UpdateNVTexture
 * \sa SDL_UpdateTexture
 */
-UpdateYUVTexture :: (texture: *Texture, rect: *Rect, Yplane: *Uint8, Ypitch: s32, Uplane: *Uint8, Upitch: s32, Vplane: *Uint8, Vpitch: s32) -> bool #foreign libsdl3_ttf "SDL_UpdateYUVTexture";
+SDL_UpdateYUVTexture :: (texture: *SDL_Texture, rect: *SDL_Rect, Yplane: *Uint8, Ypitch: s32, Uplane: *Uint8, Upitch: s32, Vplane: *Uint8, Vpitch: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Update a rectangle within a planar NV12 or NV21 texture with new pixels.
@@ -33504,7 +33506,7 @@ UpdateYUVTexture :: (texture: *Texture, rect: *Rect, Yplane: *Uint8, Ypitch: s32
 * \sa SDL_UpdateTexture
 * \sa SDL_UpdateYUVTexture
 */
-UpdateNVTexture :: (texture: *Texture, rect: *Rect, Yplane: *Uint8, Ypitch: s32, UVplane: *Uint8, UVpitch: s32) -> bool #foreign libsdl3_ttf "SDL_UpdateNVTexture";
+SDL_UpdateNVTexture :: (texture: *SDL_Texture, rect: *SDL_Rect, Yplane: *Uint8, Ypitch: s32, UVplane: *Uint8, UVpitch: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Lock a portion of the texture for **write-only** pixel access.
@@ -33536,7 +33538,7 @@ UpdateNVTexture :: (texture: *Texture, rect: *Rect, Yplane: *Uint8, Ypitch: s32,
 * \sa SDL_LockTextureToSurface
 * \sa SDL_UnlockTexture
 */
-LockTexture :: (texture: *Texture, rect: *Rect, pixels: **void, pitch: *s32) -> bool #foreign libsdl3_ttf "SDL_LockTexture";
+SDL_LockTexture :: (texture: *SDL_Texture, rect: *SDL_Rect, pixels: **void, pitch: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Lock a portion of the texture for **write-only** pixel access, and expose
@@ -33572,7 +33574,7 @@ LockTexture :: (texture: *Texture, rect: *Rect, pixels: **void, pitch: *s32) -> 
 * \sa SDL_LockTexture
 * \sa SDL_UnlockTexture
 */
-LockTextureToSurface :: (texture: *Texture, rect: *Rect, surface: **Surface) -> bool #foreign libsdl3_ttf "SDL_LockTextureToSurface";
+SDL_LockTextureToSurface :: (texture: *SDL_Texture, rect: *SDL_Rect, surface: **SDL_Surface) -> bool #foreign libsdl3_ttf;
 
 /**
 * Unlock a texture, uploading the changes to video memory, if needed.
@@ -33593,7 +33595,7 @@ LockTextureToSurface :: (texture: *Texture, rect: *Rect, surface: **Surface) -> 
 *
 * \sa SDL_LockTexture
 */
-UnlockTexture :: (texture: *Texture) -> void #foreign libsdl3_ttf "SDL_UnlockTexture";
+SDL_UnlockTexture :: (texture: *SDL_Texture) -> void #foreign libsdl3_ttf;
 
 /**
 * Set a texture as the current rendering target.
@@ -33620,7 +33622,7 @@ UnlockTexture :: (texture: *Texture) -> void #foreign libsdl3_ttf "SDL_UnlockTex
 *
 * \sa SDL_GetRenderTarget
 */
-SetRenderTarget :: (renderer: *Renderer, texture: *Texture) -> bool #foreign libsdl3_ttf "SDL_SetRenderTarget";
+SDL_SetRenderTarget :: (renderer: *SDL_Renderer, texture: *SDL_Texture) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the current render target.
@@ -33637,7 +33639,7 @@ SetRenderTarget :: (renderer: *Renderer, texture: *Texture) -> bool #foreign lib
 *
 * \sa SDL_SetRenderTarget
 */
-GetRenderTarget :: (renderer: *Renderer) -> *Texture #foreign libsdl3_ttf "SDL_GetRenderTarget";
+SDL_GetRenderTarget :: (renderer: *SDL_Renderer) -> *SDL_Texture #foreign libsdl3_ttf;
 
 /**
 * Set a device-independent resolution and presentation mode for rendering.
@@ -33692,7 +33694,7 @@ GetRenderTarget :: (renderer: *Renderer) -> *Texture #foreign libsdl3_ttf "SDL_G
 * \sa SDL_GetRenderLogicalPresentation
 * \sa SDL_GetRenderLogicalPresentationRect
 */
-SetRenderLogicalPresentation :: (renderer: *Renderer, w: s32, h: s32, mode: RendererLogicalPresentation) -> bool #foreign libsdl3_ttf "SDL_SetRenderLogicalPresentation";
+SDL_SetRenderLogicalPresentation :: (renderer: *SDL_Renderer, w: s32, h: s32, mode: SDL_RendererLogicalPresentation) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get device independent resolution and presentation mode for rendering.
@@ -33716,7 +33718,7 @@ SetRenderLogicalPresentation :: (renderer: *Renderer, w: s32, h: s32, mode: Rend
 *
 * \sa SDL_SetRenderLogicalPresentation
 */
-GetRenderLogicalPresentation :: (renderer: *Renderer, w: *s32, h: *s32, mode: *RendererLogicalPresentation) -> bool #foreign libsdl3_ttf "SDL_GetRenderLogicalPresentation";
+SDL_GetRenderLogicalPresentation :: (renderer: *SDL_Renderer, w: *s32, h: *s32, mode: *SDL_RendererLogicalPresentation) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the final presentation rectangle for rendering.
@@ -33741,7 +33743,7 @@ GetRenderLogicalPresentation :: (renderer: *Renderer, w: *s32, h: *s32, mode: *R
 *
 * \sa SDL_SetRenderLogicalPresentation
 */
-GetRenderLogicalPresentationRect :: (renderer: *Renderer, rect: *FRect) -> bool #foreign libsdl3_ttf "SDL_GetRenderLogicalPresentationRect";
+SDL_GetRenderLogicalPresentationRect :: (renderer: *SDL_Renderer, rect: *SDL_FRect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get a point in render coordinates when given a point in window coordinates.
@@ -33768,7 +33770,7 @@ GetRenderLogicalPresentationRect :: (renderer: *Renderer, rect: *FRect) -> bool 
 * \sa SDL_SetRenderLogicalPresentation
 * \sa SDL_SetRenderScale
 */
-RenderCoordinatesFromWindow :: (renderer: *Renderer, window_x: float, window_y: float, x: *float, y: *float) -> bool #foreign libsdl3_ttf "SDL_RenderCoordinatesFromWindow";
+SDL_RenderCoordinatesFromWindow :: (renderer: *SDL_Renderer, window_x: float, window_y: float, x: *float, y: *float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get a point in window coordinates when given a point in render coordinates.
@@ -33798,7 +33800,7 @@ RenderCoordinatesFromWindow :: (renderer: *Renderer, window_x: float, window_y: 
 * \sa SDL_SetRenderScale
 * \sa SDL_SetRenderViewport
 */
-RenderCoordinatesToWindow :: (renderer: *Renderer, x: float, y: float, window_x: *float, window_y: *float) -> bool #foreign libsdl3_ttf "SDL_RenderCoordinatesToWindow";
+SDL_RenderCoordinatesToWindow :: (renderer: *SDL_Renderer, x: float, y: float, window_x: *float, window_y: *float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Convert the coordinates in an event to render coordinates.
@@ -33834,7 +33836,7 @@ RenderCoordinatesToWindow :: (renderer: *Renderer, x: float, y: float, window_x:
 *
 * \sa SDL_RenderCoordinatesFromWindow
 */
-ConvertEventToRenderCoordinates :: (renderer: *Renderer, event: *Event) -> bool #foreign libsdl3_ttf "SDL_ConvertEventToRenderCoordinates";
+SDL_ConvertEventToRenderCoordinates :: (renderer: *SDL_Renderer, event: *SDL_Event) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the drawing area for rendering on the current target.
@@ -33861,7 +33863,7 @@ ConvertEventToRenderCoordinates :: (renderer: *Renderer, event: *Event) -> bool 
 * \sa SDL_GetRenderViewport
 * \sa SDL_RenderViewportSet
 */
-SetRenderViewport :: (renderer: *Renderer, rect: *Rect) -> bool #foreign libsdl3_ttf "SDL_SetRenderViewport";
+SDL_SetRenderViewport :: (renderer: *SDL_Renderer, rect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the drawing area for the current target.
@@ -33881,7 +33883,7 @@ SetRenderViewport :: (renderer: *Renderer, rect: *Rect) -> bool #foreign libsdl3
 * \sa SDL_RenderViewportSet
 * \sa SDL_SetRenderViewport
 */
-GetRenderViewport :: (renderer: *Renderer, rect: *Rect) -> bool #foreign libsdl3_ttf "SDL_GetRenderViewport";
+SDL_GetRenderViewport :: (renderer: *SDL_Renderer, rect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Return whether an explicit rectangle was set as the viewport.
@@ -33903,7 +33905,7 @@ GetRenderViewport :: (renderer: *Renderer, rect: *Rect) -> bool #foreign libsdl3
 * \sa SDL_GetRenderViewport
 * \sa SDL_SetRenderViewport
 */
-RenderViewportSet :: (renderer: *Renderer) -> bool #foreign libsdl3_ttf "SDL_RenderViewportSet";
+SDL_RenderViewportSet :: (renderer: *SDL_Renderer) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the safe area for rendering within the current viewport.
@@ -33925,7 +33927,7 @@ RenderViewportSet :: (renderer: *Renderer) -> bool #foreign libsdl3_ttf "SDL_Ren
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetRenderSafeArea :: (renderer: *Renderer, rect: *Rect) -> bool #foreign libsdl3_ttf "SDL_GetRenderSafeArea";
+SDL_GetRenderSafeArea :: (renderer: *SDL_Renderer, rect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the clip rectangle for rendering on the specified target.
@@ -33946,7 +33948,7 @@ GetRenderSafeArea :: (renderer: *Renderer, rect: *Rect) -> bool #foreign libsdl3
 * \sa SDL_GetRenderClipRect
 * \sa SDL_RenderClipEnabled
 */
-SetRenderClipRect :: (renderer: *Renderer, rect: *Rect) -> bool #foreign libsdl3_ttf "SDL_SetRenderClipRect";
+SDL_SetRenderClipRect :: (renderer: *SDL_Renderer, rect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the clip rectangle for the current target.
@@ -33967,7 +33969,7 @@ SetRenderClipRect :: (renderer: *Renderer, rect: *Rect) -> bool #foreign libsdl3
 * \sa SDL_RenderClipEnabled
 * \sa SDL_SetRenderClipRect
 */
-GetRenderClipRect :: (renderer: *Renderer, rect: *Rect) -> bool #foreign libsdl3_ttf "SDL_GetRenderClipRect";
+SDL_GetRenderClipRect :: (renderer: *SDL_Renderer, rect: *SDL_Rect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get whether clipping is enabled on the given render target.
@@ -33986,7 +33988,7 @@ GetRenderClipRect :: (renderer: *Renderer, rect: *Rect) -> bool #foreign libsdl3
 * \sa SDL_GetRenderClipRect
 * \sa SDL_SetRenderClipRect
 */
-RenderClipEnabled :: (renderer: *Renderer) -> bool #foreign libsdl3_ttf "SDL_RenderClipEnabled";
+SDL_RenderClipEnabled :: (renderer: *SDL_Renderer) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the drawing scale for rendering on the current target.
@@ -34014,7 +34016,7 @@ RenderClipEnabled :: (renderer: *Renderer) -> bool #foreign libsdl3_ttf "SDL_Ren
 *
 * \sa SDL_GetRenderScale
 */
-SetRenderScale :: (renderer: *Renderer, scaleX: float, scaleY: float) -> bool #foreign libsdl3_ttf "SDL_SetRenderScale";
+SDL_SetRenderScale :: (renderer: *SDL_Renderer, scaleX: float, scaleY: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the drawing scale for the current target.
@@ -34034,7 +34036,7 @@ SetRenderScale :: (renderer: *Renderer, scaleX: float, scaleY: float) -> bool #f
 *
 * \sa SDL_SetRenderScale
 */
-GetRenderScale :: (renderer: *Renderer, scaleX: *float, scaleY: *float) -> bool #foreign libsdl3_ttf "SDL_GetRenderScale";
+SDL_GetRenderScale :: (renderer: *SDL_Renderer, scaleX: *float, scaleY: *float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the color used for drawing operations.
@@ -34059,7 +34061,7 @@ GetRenderScale :: (renderer: *Renderer, scaleX: *float, scaleY: *float) -> bool 
 * \sa SDL_GetRenderDrawColor
 * \sa SDL_SetRenderDrawColorFloat
 */
-SetRenderDrawColor :: (renderer: *Renderer, r: Uint8, g: Uint8, b: Uint8, a: Uint8) -> bool #foreign libsdl3_ttf "SDL_SetRenderDrawColor";
+SDL_SetRenderDrawColor :: (renderer: *SDL_Renderer, r: Uint8, g: Uint8, b: Uint8, a: Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the color used for drawing operations (Rect, Line and Clear).
@@ -34084,7 +34086,7 @@ SetRenderDrawColor :: (renderer: *Renderer, r: Uint8, g: Uint8, b: Uint8, a: Uin
 * \sa SDL_GetRenderDrawColorFloat
 * \sa SDL_SetRenderDrawColor
 */
-SetRenderDrawColorFloat :: (renderer: *Renderer, r: float, g: float, b: float, a: float) -> bool #foreign libsdl3_ttf "SDL_SetRenderDrawColorFloat";
+SDL_SetRenderDrawColorFloat :: (renderer: *SDL_Renderer, r: float, g: float, b: float, a: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the color used for drawing operations (Rect, Line and Clear).
@@ -34108,7 +34110,7 @@ SetRenderDrawColorFloat :: (renderer: *Renderer, r: float, g: float, b: float, a
 * \sa SDL_GetRenderDrawColorFloat
 * \sa SDL_SetRenderDrawColor
 */
-GetRenderDrawColor :: (renderer: *Renderer, r: *Uint8, g: *Uint8, b: *Uint8, a: *Uint8) -> bool #foreign libsdl3_ttf "SDL_GetRenderDrawColor";
+SDL_GetRenderDrawColor :: (renderer: *SDL_Renderer, r: *Uint8, g: *Uint8, b: *Uint8, a: *Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the color used for drawing operations (Rect, Line and Clear).
@@ -34132,7 +34134,7 @@ GetRenderDrawColor :: (renderer: *Renderer, r: *Uint8, g: *Uint8, b: *Uint8, a: 
 * \sa SDL_SetRenderDrawColorFloat
 * \sa SDL_GetRenderDrawColor
 */
-GetRenderDrawColorFloat :: (renderer: *Renderer, r: *float, g: *float, b: *float, a: *float) -> bool #foreign libsdl3_ttf "SDL_GetRenderDrawColorFloat";
+SDL_GetRenderDrawColorFloat :: (renderer: *SDL_Renderer, r: *float, g: *float, b: *float, a: *float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the color scale used for render operations.
@@ -34156,7 +34158,7 @@ GetRenderDrawColorFloat :: (renderer: *Renderer, r: *float, g: *float, b: *float
 *
 * \sa SDL_GetRenderColorScale
 */
-SetRenderColorScale :: (renderer: *Renderer, scale: float) -> bool #foreign libsdl3_ttf "SDL_SetRenderColorScale";
+SDL_SetRenderColorScale :: (renderer: *SDL_Renderer, scale: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the color scale used for render operations.
@@ -34172,7 +34174,7 @@ SetRenderColorScale :: (renderer: *Renderer, scale: float) -> bool #foreign libs
 *
 * \sa SDL_SetRenderColorScale
 */
-GetRenderColorScale :: (renderer: *Renderer, scale: *float) -> bool #foreign libsdl3_ttf "SDL_GetRenderColorScale";
+SDL_GetRenderColorScale :: (renderer: *SDL_Renderer, scale: *float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the blend mode used for drawing operations (Fill and Line).
@@ -34190,7 +34192,7 @@ GetRenderColorScale :: (renderer: *Renderer, scale: *float) -> bool #foreign lib
 *
 * \sa SDL_GetRenderDrawBlendMode
 */
-SetRenderDrawBlendMode :: (renderer: *Renderer, blendMode: BlendMode) -> bool #foreign libsdl3_ttf "SDL_SetRenderDrawBlendMode";
+SDL_SetRenderDrawBlendMode :: (renderer: *SDL_Renderer, blendMode: SDL_BlendMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the blend mode used for drawing operations.
@@ -34206,7 +34208,7 @@ SetRenderDrawBlendMode :: (renderer: *Renderer, blendMode: BlendMode) -> bool #f
 *
 * \sa SDL_SetRenderDrawBlendMode
 */
-GetRenderDrawBlendMode :: (renderer: *Renderer, blendMode: *BlendMode) -> bool #foreign libsdl3_ttf "SDL_GetRenderDrawBlendMode";
+SDL_GetRenderDrawBlendMode :: (renderer: *SDL_Renderer, blendMode: *SDL_BlendMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Clear the current rendering target with the drawing color.
@@ -34226,7 +34228,7 @@ GetRenderDrawBlendMode :: (renderer: *Renderer, blendMode: *BlendMode) -> bool #
 *
 * \sa SDL_SetRenderDrawColor
 */
-RenderClear :: (renderer: *Renderer) -> bool #foreign libsdl3_ttf "SDL_RenderClear";
+SDL_RenderClear :: (renderer: *SDL_Renderer) -> bool #foreign libsdl3_ttf;
 
 /**
 * Draw a point on the current rendering target at subpixel precision.
@@ -34243,7 +34245,7 @@ RenderClear :: (renderer: *Renderer) -> bool #foreign libsdl3_ttf "SDL_RenderCle
 *
 * \sa SDL_RenderPoints
 */
-RenderPoint :: (renderer: *Renderer, x: float, y: float) -> bool #foreign libsdl3_ttf "SDL_RenderPoint";
+SDL_RenderPoint :: (renderer: *SDL_Renderer, x: float, y: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Draw multiple points on the current rendering target at subpixel precision.
@@ -34260,7 +34262,7 @@ RenderPoint :: (renderer: *Renderer, x: float, y: float) -> bool #foreign libsdl
 *
 * \sa SDL_RenderPoint
 */
-RenderPoints :: (renderer: *Renderer, points: *FPoint, count: s32) -> bool #foreign libsdl3_ttf "SDL_RenderPoints";
+SDL_RenderPoints :: (renderer: *SDL_Renderer, points: *SDL_FPoint, count: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Draw a line on the current rendering target at subpixel precision.
@@ -34279,7 +34281,7 @@ RenderPoints :: (renderer: *Renderer, points: *FPoint, count: s32) -> bool #fore
 *
 * \sa SDL_RenderLines
 */
-RenderLine :: (renderer: *Renderer, x1: float, y1: float, x2: float, y2: float) -> bool #foreign libsdl3_ttf "SDL_RenderLine";
+SDL_RenderLine :: (renderer: *SDL_Renderer, x1: float, y1: float, x2: float, y2: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Draw a series of connected lines on the current rendering target at
@@ -34297,7 +34299,7 @@ RenderLine :: (renderer: *Renderer, x1: float, y1: float, x2: float, y2: float) 
 *
 * \sa SDL_RenderLine
 */
-RenderLines :: (renderer: *Renderer, points: *FPoint, count: s32) -> bool #foreign libsdl3_ttf "SDL_RenderLines";
+SDL_RenderLines :: (renderer: *SDL_Renderer, points: *SDL_FPoint, count: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Draw a rectangle on the current rendering target at subpixel precision.
@@ -34314,7 +34316,7 @@ RenderLines :: (renderer: *Renderer, points: *FPoint, count: s32) -> bool #forei
 *
 * \sa SDL_RenderRects
 */
-RenderRect :: (renderer: *Renderer, rect: *FRect) -> bool #foreign libsdl3_ttf "SDL_RenderRect";
+SDL_RenderRect :: (renderer: *SDL_Renderer, rect: *SDL_FRect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Draw some number of rectangles on the current rendering target at subpixel
@@ -34332,7 +34334,7 @@ RenderRect :: (renderer: *Renderer, rect: *FRect) -> bool #foreign libsdl3_ttf "
 *
 * \sa SDL_RenderRect
 */
-RenderRects :: (renderer: *Renderer, rects: *FRect, count: s32) -> bool #foreign libsdl3_ttf "SDL_RenderRects";
+SDL_RenderRects :: (renderer: *SDL_Renderer, rects: *SDL_FRect, count: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Fill a rectangle on the current rendering target with the drawing color at
@@ -34350,7 +34352,7 @@ RenderRects :: (renderer: *Renderer, rects: *FRect, count: s32) -> bool #foreign
 *
 * \sa SDL_RenderFillRects
 */
-RenderFillRect :: (renderer: *Renderer, rect: *FRect) -> bool #foreign libsdl3_ttf "SDL_RenderFillRect";
+SDL_RenderFillRect :: (renderer: *SDL_Renderer, rect: *SDL_FRect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Fill some number of rectangles on the current rendering target with the
@@ -34368,7 +34370,7 @@ RenderFillRect :: (renderer: *Renderer, rect: *FRect) -> bool #foreign libsdl3_t
 *
 * \sa SDL_RenderFillRect
 */
-RenderFillRects :: (renderer: *Renderer, rects: *FRect, count: s32) -> bool #foreign libsdl3_ttf "SDL_RenderFillRects";
+SDL_RenderFillRects :: (renderer: *SDL_Renderer, rects: *SDL_FRect, count: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Copy a portion of the texture to the current rendering target at subpixel
@@ -34390,7 +34392,7 @@ RenderFillRects :: (renderer: *Renderer, rects: *FRect, count: s32) -> bool #for
 * \sa SDL_RenderTextureRotated
 * \sa SDL_RenderTextureTiled
 */
-RenderTexture :: (renderer: *Renderer, texture: *Texture, srcrect: *FRect, dstrect: *FRect) -> bool #foreign libsdl3_ttf "SDL_RenderTexture";
+SDL_RenderTexture :: (renderer: *SDL_Renderer, texture: *SDL_Texture, srcrect: *SDL_FRect, dstrect: *SDL_FRect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Copy a portion of the source texture to the current rendering target, with
@@ -34418,7 +34420,7 @@ RenderTexture :: (renderer: *Renderer, texture: *Texture, srcrect: *FRect, dstre
 *
 * \sa SDL_RenderTexture
 */
-RenderTextureRotated :: (renderer: *Renderer, texture: *Texture, srcrect: *FRect, dstrect: *FRect, angle: float64, center: *FPoint, flip: FlipMode) -> bool #foreign libsdl3_ttf "SDL_RenderTextureRotated";
+SDL_RenderTextureRotated :: (renderer: *SDL_Renderer, texture: *SDL_Texture, srcrect: *SDL_FRect, dstrect: *SDL_FRect, angle: float64, center: *SDL_FPoint, flip: SDL_FlipMode) -> bool #foreign libsdl3_ttf;
 
 /**
 * Copy a portion of the source texture to the current rendering target, with
@@ -34446,7 +34448,7 @@ RenderTextureRotated :: (renderer: *Renderer, texture: *Texture, srcrect: *FRect
 *
 * \sa SDL_RenderTexture
 */
-RenderTextureAffine :: (renderer: *Renderer, texture: *Texture, srcrect: *FRect, origin: *FPoint, right: *FPoint, down: *FPoint) -> bool #foreign libsdl3_ttf "SDL_RenderTextureAffine";
+SDL_RenderTextureAffine :: (renderer: *SDL_Renderer, texture: *SDL_Texture, srcrect: *SDL_FRect, origin: *SDL_FPoint, right: *SDL_FPoint, down: *SDL_FPoint) -> bool #foreign libsdl3_ttf;
 
 /**
 * Tile a portion of the texture to the current rendering target at subpixel
@@ -34473,7 +34475,7 @@ RenderTextureAffine :: (renderer: *Renderer, texture: *Texture, srcrect: *FRect,
 *
 * \sa SDL_RenderTexture
 */
-RenderTextureTiled :: (renderer: *Renderer, texture: *Texture, srcrect: *FRect, scale: float, dstrect: *FRect) -> bool #foreign libsdl3_ttf "SDL_RenderTextureTiled";
+SDL_RenderTextureTiled :: (renderer: *SDL_Renderer, texture: *SDL_Texture, srcrect: *SDL_FRect, scale: float, dstrect: *SDL_FRect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Perform a scaled copy using the 9-grid algorithm to the current rendering
@@ -34507,7 +34509,7 @@ RenderTextureTiled :: (renderer: *Renderer, texture: *Texture, srcrect: *FRect, 
 *
 * \sa SDL_RenderTexture
 */
-RenderTexture9Grid :: (renderer: *Renderer, texture: *Texture, srcrect: *FRect, left_width: float, right_width: float, top_height: float, bottom_height: float, scale: float, dstrect: *FRect) -> bool #foreign libsdl3_ttf "SDL_RenderTexture9Grid";
+SDL_RenderTexture9Grid :: (renderer: *SDL_Renderer, texture: *SDL_Texture, srcrect: *SDL_FRect, left_width: float, right_width: float, top_height: float, bottom_height: float, scale: float, dstrect: *SDL_FRect) -> bool #foreign libsdl3_ttf;
 
 /**
 * Render a list of triangles, optionally using a texture and indices into the
@@ -34531,7 +34533,7 @@ RenderTexture9Grid :: (renderer: *Renderer, texture: *Texture, srcrect: *FRect, 
 *
 * \sa SDL_RenderGeometryRaw
 */
-RenderGeometry :: (renderer: *Renderer, texture: *Texture, vertices: *Vertex, num_vertices: s32, indices: *s32, num_indices: s32) -> bool #foreign libsdl3_ttf "SDL_RenderGeometry";
+SDL_RenderGeometry :: (renderer: *SDL_Renderer, texture: *SDL_Texture, vertices: *SDL_Vertex, num_vertices: s32, indices: *s32, num_indices: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Render a list of triangles, optionally using a texture and indices into the
@@ -34560,7 +34562,7 @@ RenderGeometry :: (renderer: *Renderer, texture: *Texture, vertices: *Vertex, nu
 *
 * \sa SDL_RenderGeometry
 */
-RenderGeometryRaw :: (renderer: *Renderer, texture: *Texture, xy: *float, xy_stride: s32, color: *FColor, color_stride: s32, uv: *float, uv_stride: s32, num_vertices: s32, indices: *void, num_indices: s32, size_indices: s32) -> bool #foreign libsdl3_ttf "SDL_RenderGeometryRaw";
+SDL_RenderGeometryRaw :: (renderer: *SDL_Renderer, texture: *SDL_Texture, xy: *float, xy_stride: s32, color: *SDL_FColor, color_stride: s32, uv: *float, uv_stride: s32, num_vertices: s32, indices: *void, num_indices: s32, size_indices: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Read pixels from the current rendering target.
@@ -34587,7 +34589,7 @@ RenderGeometryRaw :: (renderer: *Renderer, texture: *Texture, xy: *float, xy_str
 *
 * \since This function is available since SDL 3.2.0.
 */
-RenderReadPixels :: (renderer: *Renderer, rect: *Rect) -> *Surface #foreign libsdl3_ttf "SDL_RenderReadPixels";
+SDL_RenderReadPixels :: (renderer: *SDL_Renderer, rect: *SDL_Rect) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Update the screen with any rendering performed since the previous call.
@@ -34637,7 +34639,7 @@ RenderReadPixels :: (renderer: *Renderer, rect: *Rect) -> *Surface #foreign libs
 * \sa SDL_SetRenderDrawBlendMode
 * \sa SDL_SetRenderDrawColor
 */
-RenderPresent :: (renderer: *Renderer) -> bool #foreign libsdl3_ttf "SDL_RenderPresent";
+SDL_RenderPresent :: (renderer: *SDL_Renderer) -> bool #foreign libsdl3_ttf;
 
 /**
 * Destroy the specified texture.
@@ -34654,7 +34656,7 @@ RenderPresent :: (renderer: *Renderer) -> bool #foreign libsdl3_ttf "SDL_RenderP
 * \sa SDL_CreateTexture
 * \sa SDL_CreateTextureFromSurface
 */
-DestroyTexture :: (texture: *Texture) -> void #foreign libsdl3_ttf "SDL_DestroyTexture";
+SDL_DestroyTexture :: (texture: *SDL_Texture) -> void #foreign libsdl3_ttf;
 
 /**
 * Destroy the rendering context for a window and free all associated
@@ -34670,7 +34672,7 @@ DestroyTexture :: (texture: *Texture) -> void #foreign libsdl3_ttf "SDL_DestroyT
 *
 * \sa SDL_CreateRenderer
 */
-DestroyRenderer :: (renderer: *Renderer) -> void #foreign libsdl3_ttf "SDL_DestroyRenderer";
+SDL_DestroyRenderer :: (renderer: *SDL_Renderer) -> void #foreign libsdl3_ttf;
 
 /**
 * Force the rendering context to flush any pending commands and state.
@@ -34703,7 +34705,7 @@ DestroyRenderer :: (renderer: *Renderer) -> void #foreign libsdl3_ttf "SDL_Destr
 *
 * \since This function is available since SDL 3.2.0.
 */
-FlushRenderer :: (renderer: *Renderer) -> bool #foreign libsdl3_ttf "SDL_FlushRenderer";
+SDL_FlushRenderer :: (renderer: *SDL_Renderer) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the CAMetalLayer associated with the given Metal renderer.
@@ -34721,7 +34723,7 @@ FlushRenderer :: (renderer: *Renderer) -> bool #foreign libsdl3_ttf "SDL_FlushRe
 *
 * \sa SDL_GetRenderMetalCommandEncoder
 */
-GetRenderMetalLayer :: (renderer: *Renderer) -> *void #foreign libsdl3_ttf "SDL_GetRenderMetalLayer";
+SDL_GetRenderMetalLayer :: (renderer: *SDL_Renderer) -> *void #foreign libsdl3_ttf;
 
 /**
 * Get the Metal command encoder for the current frame.
@@ -34744,7 +34746,7 @@ GetRenderMetalLayer :: (renderer: *Renderer) -> *void #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_GetRenderMetalLayer
 */
-GetRenderMetalCommandEncoder :: (renderer: *Renderer) -> *void #foreign libsdl3_ttf "SDL_GetRenderMetalCommandEncoder";
+SDL_GetRenderMetalCommandEncoder :: (renderer: *SDL_Renderer) -> *void #foreign libsdl3_ttf;
 
 /**
 * Add a set of synchronization semaphores for the current frame.
@@ -34774,7 +34776,7 @@ GetRenderMetalCommandEncoder :: (renderer: *Renderer) -> *void #foreign libsdl3_
 *
 * \since This function is available since SDL 3.2.0.
 */
-AddVulkanRenderSemaphores :: (renderer: *Renderer, wait_stage_mask: Uint32, wait_semaphore: Sint64, signal_semaphore: Sint64) -> bool #foreign libsdl3_ttf "SDL_AddVulkanRenderSemaphores";
+SDL_AddVulkanRenderSemaphores :: (renderer: *SDL_Renderer, wait_stage_mask: Uint32, wait_semaphore: Sint64, signal_semaphore: Sint64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Toggle VSync of the given renderer.
@@ -34799,7 +34801,7 @@ AddVulkanRenderSemaphores :: (renderer: *Renderer, wait_stage_mask: Uint32, wait
 *
 * \sa SDL_GetRenderVSync
 */
-SetRenderVSync :: (renderer: *Renderer, vsync: s32) -> bool #foreign libsdl3_ttf "SDL_SetRenderVSync";
+SDL_SetRenderVSync :: (renderer: *SDL_Renderer, vsync: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get VSync of the given renderer.
@@ -34816,7 +34818,7 @@ SetRenderVSync :: (renderer: *Renderer, vsync: s32) -> bool #foreign libsdl3_ttf
 *
 * \sa SDL_SetRenderVSync
 */
-GetRenderVSync :: (renderer: *Renderer, vsync: *s32) -> bool #foreign libsdl3_ttf "SDL_GetRenderVSync";
+SDL_GetRenderVSync :: (renderer: *SDL_Renderer, vsync: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Draw debug text to an SDL_Renderer.
@@ -34857,13 +34859,13 @@ GetRenderVSync :: (renderer: *Renderer, vsync: *s32) -> bool #foreign libsdl3_tt
 * \sa SDL_RenderDebugTextFormat
 * \sa SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE
 */
-RenderDebugText :: (renderer: *Renderer, x: float, y: float, str: *u8) -> bool #foreign libsdl3_ttf "SDL_RenderDebugText";
+SDL_RenderDebugText :: (renderer: *SDL_Renderer, x: float, y: float, str: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Draw debug text to an SDL_Renderer.
 *
 * This function will render a printf()-style format string to a renderer.
-* Note that this is a convinence function for debugging, with severe
+* Note that this is a convenience function for debugging, with severe
 * limitations, and is not intended to be used for production apps and games.
 *
 * For the full list of limitations and other useful information, see
@@ -34885,14 +34887,14 @@ RenderDebugText :: (renderer: *Renderer, x: float, y: float, str: *u8) -> bool #
 * \sa SDL_RenderDebugText
 * \sa SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE
 */
-RenderDebugTextFormat_CFormat :: (renderer: *Renderer, x: float, y: float, fmt: *u8, __args: ..Any) -> bool #foreign libsdl3_ttf "SDL_RenderDebugTextFormat";
-RenderDebugTextFormat :: (renderer: *Renderer, x: float, y: float, fmt: string, __args: ..Any) -> bool {
+SDL_RenderDebugTextFormat_CFormat :: (renderer: *SDL_Renderer, x: float, y: float, fmt: *u8, __args: ..Any) -> bool #foreign libsdl3_ttf "SDL_RenderDebugTextFormat";
+SDL_RenderDebugTextFormat :: (renderer: *SDL_Renderer, x: float, y: float, fmt: string, __args: ..Any) -> bool {
     push_allocator(temp);
     formatted_text_builder: String_Builder;
     print_to_builder(*formatted_text_builder, fmt, ..__args);
     append(*formatted_text_builder, "\0");
     formatted_text := builder_to_string(*formatted_text_builder);
-    return RenderDebugTextFormat_CFormat(renderer, x, y, "%s", formatted_text.data);
+    return SDL_RenderDebugTextFormat_CFormat(renderer, x, y, "%s", formatted_text.data);
 } @PrintLike
 
 /**
@@ -34911,7 +34913,7 @@ RenderDebugTextFormat :: (renderer: *Renderer, x: float, y: float, fmt: string, 
 *
 * \sa SDL_INIT_INTERFACE
 */
-StorageInterface :: struct {
+SDL_StorageInterface :: struct {
     /* The version of this interface */
     version:         Uint32;
 
@@ -34922,10 +34924,10 @@ StorageInterface :: struct {
     ready:           #type (userdata: *void) -> bool #c_call;
 
     /* Enumerate a directory, optional for write-only storage */
-    enumerate:       #type (userdata: *void, path: *u8, callback: EnumerateDirectoryCallback, callback_userdata: *void) -> bool #c_call;
+    enumerate:       #type (userdata: *void, path: *u8, callback: SDL_EnumerateDirectoryCallback, callback_userdata: *void) -> bool #c_call;
 
     /* Get path information, optional for write-only storage */
-    info:            #type (userdata: *void, path: *u8, info: *PathInfo) -> bool #c_call;
+    info:            #type (userdata: *void, path: *u8, info: *SDL_PathInfo) -> bool #c_call;
 
     /* Read a file from storage, optional for write-only storage */
     read_file:       #type (userdata: *void, path: *u8, destination: *void, length: Uint64) -> bool #c_call;
@@ -34949,7 +34951,7 @@ StorageInterface :: struct {
     space_remaining: #type (userdata: *void) -> Uint64 #c_call;
 }
 
-Storage :: struct {}
+SDL_Storage :: struct {}
 
 /**
 * Opens up a read-only container for the application's filesystem.
@@ -34966,7 +34968,7 @@ Storage :: struct {}
 * \sa SDL_OpenUserStorage
 * \sa SDL_ReadStorageFile
 */
-OpenTitleStorage :: (override: *u8, props: PropertiesID) -> *Storage #foreign libsdl3_ttf "SDL_OpenTitleStorage";
+SDL_OpenTitleStorage :: (override: *u8, props: SDL_PropertiesID) -> *SDL_Storage #foreign libsdl3_ttf;
 
 /**
 * Opens up a container for a user's unique read/write filesystem.
@@ -34992,7 +34994,7 @@ OpenTitleStorage :: (override: *u8, props: PropertiesID) -> *Storage #foreign li
 * \sa SDL_StorageReady
 * \sa SDL_WriteStorageFile
 */
-OpenUserStorage :: (org: *u8, app: *u8, props: PropertiesID) -> *Storage #foreign libsdl3_ttf "SDL_OpenUserStorage";
+SDL_OpenUserStorage :: (org: *u8, app: *u8, props: SDL_PropertiesID) -> *SDL_Storage #foreign libsdl3_ttf;
 
 /**
 * Opens up a container for local filesystem storage.
@@ -35016,7 +35018,7 @@ OpenUserStorage :: (org: *u8, app: *u8, props: PropertiesID) -> *Storage #foreig
 * \sa SDL_ReadStorageFile
 * \sa SDL_WriteStorageFile
 */
-OpenFileStorage :: (path: *u8) -> *Storage #foreign libsdl3_ttf "SDL_OpenFileStorage";
+SDL_OpenFileStorage :: (path: *u8) -> *SDL_Storage #foreign libsdl3_ttf;
 
 /**
 * Opens up a container using a client-provided storage interface.
@@ -35045,7 +35047,7 @@ OpenFileStorage :: (path: *u8) -> *Storage #foreign libsdl3_ttf "SDL_OpenFileSto
 * \sa SDL_StorageReady
 * \sa SDL_WriteStorageFile
 */
-OpenStorage :: (iface: *StorageInterface, userdata: *void) -> *Storage #foreign libsdl3_ttf "SDL_OpenStorage";
+SDL_OpenStorage :: (iface: *SDL_StorageInterface, userdata: *void) -> *SDL_Storage #foreign libsdl3_ttf;
 
 /**
 * Closes and frees a storage container.
@@ -35063,7 +35065,7 @@ OpenStorage :: (iface: *StorageInterface, userdata: *void) -> *Storage #foreign 
 * \sa SDL_OpenTitleStorage
 * \sa SDL_OpenUserStorage
 */
-CloseStorage :: (storage: *Storage) -> bool #foreign libsdl3_ttf "SDL_CloseStorage";
+SDL_CloseStorage :: (storage: *SDL_Storage) -> bool #foreign libsdl3_ttf;
 
 /**
 * Checks if the storage container is ready to use.
@@ -35078,7 +35080,7 @@ CloseStorage :: (storage: *Storage) -> bool #foreign libsdl3_ttf "SDL_CloseStora
 *
 * \since This function is available since SDL 3.2.0.
 */
-StorageReady :: (storage: *Storage) -> bool #foreign libsdl3_ttf "SDL_StorageReady";
+SDL_StorageReady :: (storage: *SDL_Storage) -> bool #foreign libsdl3_ttf;
 
 /**
 * Query the size of a file within a storage container.
@@ -35094,7 +35096,7 @@ StorageReady :: (storage: *Storage) -> bool #foreign libsdl3_ttf "SDL_StorageRea
 * \sa SDL_ReadStorageFile
 * \sa SDL_StorageReady
 */
-GetStorageFileSize :: (storage: *Storage, path: *u8, length: *Uint64) -> bool #foreign libsdl3_ttf "SDL_GetStorageFileSize";
+SDL_GetStorageFileSize :: (storage: *SDL_Storage, path: *u8, length: *Uint64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Synchronously read a file from a storage container into a client-provided
@@ -35117,7 +35119,7 @@ GetStorageFileSize :: (storage: *Storage, path: *u8, length: *Uint64) -> bool #f
 * \sa SDL_StorageReady
 * \sa SDL_WriteStorageFile
 */
-ReadStorageFile :: (storage: *Storage, path: *u8, destination: *void, length: Uint64) -> bool #foreign libsdl3_ttf "SDL_ReadStorageFile";
+SDL_ReadStorageFile :: (storage: *SDL_Storage, path: *u8, destination: *void, length: Uint64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Synchronously write a file from client memory into a storage container.
@@ -35135,7 +35137,7 @@ ReadStorageFile :: (storage: *Storage, path: *u8, destination: *void, length: Ui
 * \sa SDL_ReadStorageFile
 * \sa SDL_StorageReady
 */
-WriteStorageFile :: (storage: *Storage, path: *u8, source: *void, length: Uint64) -> bool #foreign libsdl3_ttf "SDL_WriteStorageFile";
+SDL_WriteStorageFile :: (storage: *SDL_Storage, path: *u8, source: *void, length: Uint64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Create a directory in a writable storage container.
@@ -35149,7 +35151,7 @@ WriteStorageFile :: (storage: *Storage, path: *u8, source: *void, length: Uint64
 *
 * \sa SDL_StorageReady
 */
-CreateStorageDirectory :: (storage: *Storage, path: *u8) -> bool #foreign libsdl3_ttf "SDL_CreateStorageDirectory";
+SDL_CreateStorageDirectory :: (storage: *SDL_Storage, path: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Enumerate a directory in a storage container through a callback function.
@@ -35178,7 +35180,7 @@ CreateStorageDirectory :: (storage: *Storage, path: *u8) -> bool #foreign libsdl
 *
 * \sa SDL_StorageReady
 */
-EnumerateStorageDirectory :: (storage: *Storage, path: *u8, callback: EnumerateDirectoryCallback, userdata: *void) -> bool #foreign libsdl3_ttf "SDL_EnumerateStorageDirectory";
+SDL_EnumerateStorageDirectory :: (storage: *SDL_Storage, path: *u8, callback: SDL_EnumerateDirectoryCallback, userdata: *void) -> bool #foreign libsdl3_ttf;
 
 /**
 * Remove a file or an empty directory in a writable storage container.
@@ -35192,7 +35194,7 @@ EnumerateStorageDirectory :: (storage: *Storage, path: *u8, callback: EnumerateD
 *
 * \sa SDL_StorageReady
 */
-RemoveStoragePath :: (storage: *Storage, path: *u8) -> bool #foreign libsdl3_ttf "SDL_RemoveStoragePath";
+SDL_RemoveStoragePath :: (storage: *SDL_Storage, path: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Rename a file or directory in a writable storage container.
@@ -35207,7 +35209,7 @@ RemoveStoragePath :: (storage: *Storage, path: *u8) -> bool #foreign libsdl3_ttf
 *
 * \sa SDL_StorageReady
 */
-RenameStoragePath :: (storage: *Storage, oldpath: *u8, newpath: *u8) -> bool #foreign libsdl3_ttf "SDL_RenameStoragePath";
+SDL_RenameStoragePath :: (storage: *SDL_Storage, oldpath: *u8, newpath: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Copy a file in a writable storage container.
@@ -35222,7 +35224,7 @@ RenameStoragePath :: (storage: *Storage, oldpath: *u8, newpath: *u8) -> bool #fo
 *
 * \sa SDL_StorageReady
 */
-CopyStorageFile :: (storage: *Storage, oldpath: *u8, newpath: *u8) -> bool #foreign libsdl3_ttf "SDL_CopyStorageFile";
+SDL_CopyStorageFile :: (storage: *SDL_Storage, oldpath: *u8, newpath: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get information about a filesystem path in a storage container.
@@ -35238,7 +35240,7 @@ CopyStorageFile :: (storage: *Storage, oldpath: *u8, newpath: *u8) -> bool #fore
 *
 * \sa SDL_StorageReady
 */
-GetStoragePathInfo :: (storage: *Storage, path: *u8, info: *PathInfo) -> bool #foreign libsdl3_ttf "SDL_GetStoragePathInfo";
+SDL_GetStoragePathInfo :: (storage: *SDL_Storage, path: *u8, info: *SDL_PathInfo) -> bool #foreign libsdl3_ttf;
 
 /**
 * Queries the remaining space in a storage container.
@@ -35251,7 +35253,7 @@ GetStoragePathInfo :: (storage: *Storage, path: *u8, info: *PathInfo) -> bool #f
 * \sa SDL_StorageReady
 * \sa SDL_WriteStorageFile
 */
-GetStorageSpaceRemaining :: (storage: *Storage) -> Uint64 #foreign libsdl3_ttf "SDL_GetStorageSpaceRemaining";
+SDL_GetStorageSpaceRemaining :: (storage: *SDL_Storage) -> Uint64 #foreign libsdl3_ttf;
 
 /**
 * Enumerate a directory tree, filtered by pattern, and return a list.
@@ -35291,7 +35293,7 @@ GetStorageSpaceRemaining :: (storage: *Storage) -> Uint64 #foreign libsdl3_ttf "
 *
 * \since This function is available since SDL 3.2.0.
 */
-GlobStorageDirectory :: (storage: *Storage, path: *u8, pattern: *u8, flags: GlobFlags, count: *s32) -> **u8 #foreign libsdl3_ttf "SDL_GlobStorageDirectory";
+SDL_GlobStorageDirectory :: (storage: *SDL_Storage, path: *u8, pattern: *u8, flags: SDL_GlobFlags, count: *s32) -> **u8 #foreign libsdl3_ttf;
 
 _XEvent :: union {}
 /* this is defined in Xlib's headers, just need a simple declaration here. */
@@ -35317,7 +35319,7 @@ XEvent :: _XEvent;
 *
 * \sa SDL_SetX11EventHook
 */
-X11EventHook :: #type (userdata: *void, xevent: *XEvent) -> bool #c_call;
+SDL_X11EventHook :: #type (userdata: *void, xevent: *XEvent) -> bool #c_call;
 
 /**
 * Set a callback for every X11 event.
@@ -35330,7 +35332,7 @@ X11EventHook :: #type (userdata: *void, xevent: *XEvent) -> bool #c_call;
 *
 * \since This function is available since SDL 3.2.0.
 */
-SetX11EventHook :: (callback: X11EventHook, userdata: *void) -> void #foreign libsdl3_ttf "SDL_SetX11EventHook";
+SDL_SetX11EventHook :: (callback: SDL_X11EventHook, userdata: *void) -> void #foreign libsdl3_ttf;
 
 /**
 * Query if the current device is a tablet.
@@ -35341,7 +35343,7 @@ SetX11EventHook :: (callback: X11EventHook, userdata: *void) -> void #foreign li
 *
 * \since This function is available since SDL 3.2.0.
 */
-IsTablet :: () -> bool #foreign libsdl3_ttf "SDL_IsTablet";
+SDL_IsTablet :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Query if the current device is a TV.
@@ -35352,14 +35354,14 @@ IsTablet :: () -> bool #foreign libsdl3_ttf "SDL_IsTablet";
 *
 * \since This function is available since SDL 3.2.0.
 */
-IsTV :: () -> bool #foreign libsdl3_ttf "SDL_IsTV";
+SDL_IsTV :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Application sandbox environment.
 *
 * \since This enum is available since SDL 3.2.0.
 */
-Sandbox :: enum u32 {
+SDL_Sandbox :: enum u32 {
     NONE              :: 0;
     UNKNOWN_CONTAINER :: 1;
     FLATPAK           :: 2;
@@ -35381,7 +35383,7 @@ Sandbox :: enum u32 {
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetSandbox :: () -> Sandbox #foreign libsdl3_ttf "SDL_GetSandbox";
+SDL_GetSandbox :: () -> SDL_Sandbox #foreign libsdl3_ttf;
 
 /**
 * Let iOS apps with external event handling report
@@ -35398,7 +35400,7 @@ GetSandbox :: () -> Sandbox #foreign libsdl3_ttf "SDL_GetSandbox";
 *
 * \since This function is available since SDL 3.2.0.
 */
-OnApplicationWillTerminate :: () -> void #foreign libsdl3_ttf "SDL_OnApplicationWillTerminate";
+SDL_OnApplicationWillTerminate :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Let iOS apps with external event handling report
@@ -35415,7 +35417,7 @@ OnApplicationWillTerminate :: () -> void #foreign libsdl3_ttf "SDL_OnApplication
 *
 * \since This function is available since SDL 3.2.0.
 */
-OnApplicationDidReceiveMemoryWarning :: () -> void #foreign libsdl3_ttf "SDL_OnApplicationDidReceiveMemoryWarning";
+SDL_OnApplicationDidReceiveMemoryWarning :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Let iOS apps with external event handling report
@@ -35432,7 +35434,7 @@ OnApplicationDidReceiveMemoryWarning :: () -> void #foreign libsdl3_ttf "SDL_OnA
 *
 * \since This function is available since SDL 3.2.0.
 */
-OnApplicationWillEnterBackground :: () -> void #foreign libsdl3_ttf "SDL_OnApplicationWillEnterBackground";
+SDL_OnApplicationWillEnterBackground :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Let iOS apps with external event handling report
@@ -35449,7 +35451,7 @@ OnApplicationWillEnterBackground :: () -> void #foreign libsdl3_ttf "SDL_OnAppli
 *
 * \since This function is available since SDL 3.2.0.
 */
-OnApplicationDidEnterBackground :: () -> void #foreign libsdl3_ttf "SDL_OnApplicationDidEnterBackground";
+SDL_OnApplicationDidEnterBackground :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Let iOS apps with external event handling report
@@ -35466,7 +35468,7 @@ OnApplicationDidEnterBackground :: () -> void #foreign libsdl3_ttf "SDL_OnApplic
 *
 * \since This function is available since SDL 3.2.0.
 */
-OnApplicationWillEnterForeground :: () -> void #foreign libsdl3_ttf "SDL_OnApplicationWillEnterForeground";
+SDL_OnApplicationWillEnterForeground :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Let iOS apps with external event handling report
@@ -35483,7 +35485,7 @@ OnApplicationWillEnterForeground :: () -> void #foreign libsdl3_ttf "SDL_OnAppli
 *
 * \since This function is available since SDL 3.2.0.
 */
-OnApplicationDidEnterForeground :: () -> void #foreign libsdl3_ttf "SDL_OnApplicationDidEnterForeground";
+SDL_OnApplicationDidEnterForeground :: () -> void #foreign libsdl3_ttf;
 
 /**
 * A structure holding a calendar date and time broken down into its
@@ -35491,7 +35493,7 @@ OnApplicationDidEnterForeground :: () -> void #foreign libsdl3_ttf "SDL_OnApplic
 *
 * \since This struct is available since SDL 3.2.0.
 */
-DateTime :: struct {
+SDL_DateTime :: struct {
     year:        s32; /**< Year */
     month:       s32; /**< Month [01-12] */
     day:         s32; /**< Day of the month [01-31] */
@@ -35510,7 +35512,7 @@ DateTime :: struct {
 *
 * \sa SDL_GetDateTimeLocalePreferences
 */
-DateFormat :: enum u32 {
+SDL_DateFormat :: enum u32 {
     YYYYMMDD :: 0;
     DDMMYYYY :: 1;
     MMDDYYYY :: 2;
@@ -35527,7 +35529,7 @@ DateFormat :: enum u32 {
 *
 * \sa SDL_GetDateTimeLocalePreferences
 */
-TimeFormat :: enum u32 {
+SDL_TimeFormat :: enum u32 {
     _24HR :: 0;
     _12HR :: 1;
 
@@ -35552,7 +35554,7 @@ TimeFormat :: enum u32 {
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetDateTimeLocalePreferences :: (dateFormat: *DateFormat, timeFormat: *TimeFormat) -> bool #foreign libsdl3_ttf "SDL_GetDateTimeLocalePreferences";
+SDL_GetDateTimeLocalePreferences :: (dateFormat: *SDL_DateFormat, timeFormat: *SDL_TimeFormat) -> bool #foreign libsdl3_ttf;
 
 /**
 * Gets the current value of the system realtime clock in nanoseconds since
@@ -35564,7 +35566,7 @@ GetDateTimeLocalePreferences :: (dateFormat: *DateFormat, timeFormat: *TimeForma
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetCurrentTime :: (ticks: *Time) -> bool #foreign libsdl3_ttf "SDL_GetCurrentTime";
+SDL_GetCurrentTime :: (ticks: *SDL_Time) -> bool #foreign libsdl3_ttf;
 
 /**
 * Converts an SDL_Time in nanoseconds since the epoch to a calendar time in
@@ -35580,7 +35582,7 @@ GetCurrentTime :: (ticks: *Time) -> bool #foreign libsdl3_ttf "SDL_GetCurrentTim
 *
 * \since This function is available since SDL 3.2.0.
 */
-TimeToDateTime :: (ticks: Time, dt: *DateTime, localTime: bool) -> bool #foreign libsdl3_ttf "SDL_TimeToDateTime";
+SDL_TimeToDateTime :: (ticks: SDL_Time, dt: *SDL_DateTime, localTime: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Converts a calendar time to an SDL_Time in nanoseconds since the epoch.
@@ -35595,7 +35597,7 @@ TimeToDateTime :: (ticks: Time, dt: *DateTime, localTime: bool) -> bool #foreign
 *
 * \since This function is available since SDL 3.2.0.
 */
-DateTimeToTime :: (dt: *DateTime, ticks: *Time) -> bool #foreign libsdl3_ttf "SDL_DateTimeToTime";
+SDL_DateTimeToTime :: (dt: *SDL_DateTime, ticks: *SDL_Time) -> bool #foreign libsdl3_ttf;
 
 /**
 * Converts an SDL time into a Windows FILETIME (100-nanosecond intervals
@@ -35611,7 +35613,7 @@ DateTimeToTime :: (dt: *DateTime, ticks: *Time) -> bool #foreign libsdl3_ttf "SD
 *
 * \since This function is available since SDL 3.2.0.
 */
-TimeToWindows :: (ticks: Time, dwLowDateTime: *Uint32, dwHighDateTime: *Uint32) -> void #foreign libsdl3_ttf "SDL_TimeToWindows";
+SDL_TimeToWindows :: (ticks: SDL_Time, dwLowDateTime: *Uint32, dwHighDateTime: *Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Converts a Windows FILETIME (100-nanosecond intervals since January 1,
@@ -35626,7 +35628,7 @@ TimeToWindows :: (ticks: Time, dwLowDateTime: *Uint32, dwHighDateTime: *Uint32) 
 *
 * \since This function is available since SDL 3.2.0.
 */
-TimeFromWindows :: (dwLowDateTime: Uint32, dwHighDateTime: Uint32) -> Time #foreign libsdl3_ttf "SDL_TimeFromWindows";
+SDL_TimeFromWindows :: (dwLowDateTime: Uint32, dwHighDateTime: Uint32) -> SDL_Time #foreign libsdl3_ttf;
 
 /**
 * Get the number of days in a month for a given year.
@@ -35638,7 +35640,7 @@ TimeFromWindows :: (dwLowDateTime: Uint32, dwHighDateTime: Uint32) -> Time #fore
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetDaysInMonth :: (year: s32, month: s32) -> s32 #foreign libsdl3_ttf "SDL_GetDaysInMonth";
+SDL_GetDaysInMonth :: (year: s32, month: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the day of year for a calendar date.
@@ -35651,7 +35653,7 @@ GetDaysInMonth :: (year: s32, month: s32) -> s32 #foreign libsdl3_ttf "SDL_GetDa
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetDayOfYear :: (year: s32, month: s32, day: s32) -> s32 #foreign libsdl3_ttf "SDL_GetDayOfYear";
+SDL_GetDayOfYear :: (year: s32, month: s32, day: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the day of week for a calendar date.
@@ -35664,7 +35666,7 @@ GetDayOfYear :: (year: s32, month: s32, day: s32) -> s32 #foreign libsdl3_ttf "S
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetDayOfWeek :: (year: s32, month: s32, day: s32) -> s32 #foreign libsdl3_ttf "SDL_GetDayOfWeek";
+SDL_GetDayOfWeek :: (year: s32, month: s32, day: s32) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the number of milliseconds since SDL library initialization.
@@ -35676,7 +35678,7 @@ GetDayOfWeek :: (year: s32, month: s32, day: s32) -> s32 #foreign libsdl3_ttf "S
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetTicks :: () -> Uint64 #foreign libsdl3_ttf "SDL_GetTicks";
+SDL_GetTicks :: () -> Uint64 #foreign libsdl3_ttf;
 
 /**
 * Get the number of nanoseconds since SDL library initialization.
@@ -35688,7 +35690,7 @@ GetTicks :: () -> Uint64 #foreign libsdl3_ttf "SDL_GetTicks";
 *
 * \since This function is available since SDL 3.2.0.
 */
-GetTicksNS :: () -> Uint64 #foreign libsdl3_ttf "SDL_GetTicksNS";
+SDL_GetTicksNS :: () -> Uint64 #foreign libsdl3_ttf;
 
 /**
 * Get the current value of the high resolution counter.
@@ -35707,7 +35709,7 @@ GetTicksNS :: () -> Uint64 #foreign libsdl3_ttf "SDL_GetTicksNS";
 *
 * \sa SDL_GetPerformanceFrequency
 */
-GetPerformanceCounter :: () -> Uint64 #foreign libsdl3_ttf "SDL_GetPerformanceCounter";
+SDL_GetPerformanceCounter :: () -> Uint64 #foreign libsdl3_ttf;
 
 /**
 * Get the count per second of the high resolution counter.
@@ -35720,7 +35722,7 @@ GetPerformanceCounter :: () -> Uint64 #foreign libsdl3_ttf "SDL_GetPerformanceCo
 *
 * \sa SDL_GetPerformanceCounter
 */
-GetPerformanceFrequency :: () -> Uint64 #foreign libsdl3_ttf "SDL_GetPerformanceFrequency";
+SDL_GetPerformanceFrequency :: () -> Uint64 #foreign libsdl3_ttf;
 
 /**
 * Wait a specified number of milliseconds before returning.
@@ -35738,7 +35740,7 @@ GetPerformanceFrequency :: () -> Uint64 #foreign libsdl3_ttf "SDL_GetPerformance
 * \sa SDL_DelayNS
 * \sa SDL_DelayPrecise
 */
-Delay :: (ms: Uint32) -> void #foreign libsdl3_ttf "SDL_Delay";
+SDL_Delay :: (ms: Uint32) -> void #foreign libsdl3_ttf;
 
 /**
 * Wait a specified number of nanoseconds before returning.
@@ -35756,7 +35758,7 @@ Delay :: (ms: Uint32) -> void #foreign libsdl3_ttf "SDL_Delay";
 * \sa SDL_Delay
 * \sa SDL_DelayPrecise
 */
-DelayNS :: (ns: Uint64) -> void #foreign libsdl3_ttf "SDL_DelayNS";
+SDL_DelayNS :: (ns: Uint64) -> void #foreign libsdl3_ttf;
 
 /**
 * Wait a specified number of nanoseconds before returning.
@@ -35774,14 +35776,14 @@ DelayNS :: (ns: Uint64) -> void #foreign libsdl3_ttf "SDL_DelayNS";
 * \sa SDL_Delay
 * \sa SDL_DelayNS
 */
-DelayPrecise :: (ns: Uint64) -> void #foreign libsdl3_ttf "SDL_DelayPrecise";
+SDL_DelayPrecise :: (ns: Uint64) -> void #foreign libsdl3_ttf;
 
 /**
 * Definition of the timer ID type.
 *
 * \since This datatype is available since SDL 3.2.0.
 */
-TimerID :: Uint32;
+SDL_TimerID :: Uint32;
 
 /**
 * Function prototype for the millisecond timer callback function.
@@ -35807,7 +35809,7 @@ TimerID :: Uint32;
 *
 * \sa SDL_AddTimer
 */
-TimerCallback :: #type (userdata: *void, timerID: TimerID, interval: Uint32) -> Uint32 #c_call;
+SDL_TimerCallback :: #type (userdata: *void, timerID: SDL_TimerID, interval: Uint32) -> Uint32 #c_call;
 
 /**
 * Call a callback function at a future time.
@@ -35843,7 +35845,7 @@ TimerCallback :: #type (userdata: *void, timerID: TimerID, interval: Uint32) -> 
 * \sa SDL_AddTimerNS
 * \sa SDL_RemoveTimer
 */
-AddTimer :: (interval: Uint32, callback: TimerCallback, userdata: *void) -> TimerID #foreign libsdl3_ttf "SDL_AddTimer";
+SDL_AddTimer :: (interval: Uint32, callback: SDL_TimerCallback, userdata: *void) -> SDL_TimerID #foreign libsdl3_ttf;
 
 /**
 * Function prototype for the nanosecond timer callback function.
@@ -35869,7 +35871,7 @@ AddTimer :: (interval: Uint32, callback: TimerCallback, userdata: *void) -> Time
 *
 * \sa SDL_AddTimerNS
 */
-NSTimerCallback :: #type (userdata: *void, timerID: TimerID, interval: Uint64) -> Uint64 #c_call;
+SDL_NSTimerCallback :: #type (userdata: *void, timerID: SDL_TimerID, interval: Uint64) -> Uint64 #c_call;
 
 /**
 * Call a callback function at a future time.
@@ -35905,7 +35907,7 @@ NSTimerCallback :: #type (userdata: *void, timerID: TimerID, interval: Uint64) -
 * \sa SDL_AddTimer
 * \sa SDL_RemoveTimer
 */
-AddTimerNS :: (interval: Uint64, callback: NSTimerCallback, userdata: *void) -> TimerID #foreign libsdl3_ttf "SDL_AddTimerNS";
+SDL_AddTimerNS :: (interval: Uint64, callback: SDL_NSTimerCallback, userdata: *void) -> SDL_TimerID #foreign libsdl3_ttf;
 
 /**
 * Remove a timer created with SDL_AddTimer().
@@ -35920,13 +35922,13 @@ AddTimerNS :: (interval: Uint64, callback: NSTimerCallback, userdata: *void) -> 
 *
 * \sa SDL_AddTimer
 */
-RemoveTimer :: (id: TimerID) -> bool #foreign libsdl3_ttf "SDL_RemoveTimer";
+SDL_RemoveTimer :: (id: SDL_TimerID) -> bool #foreign libsdl3_ttf;
 
-Tray :: struct {}
+SDL_Tray :: struct {}
 
-TrayMenu :: struct {}
+SDL_TrayMenu :: struct {}
 
-TrayEntry :: struct {}
+SDL_TrayEntry :: struct {}
 
 /**
 * Flags that control the creation of system tray entries.
@@ -35939,7 +35941,7 @@ TrayEntry :: struct {}
 *
 * \sa SDL_InsertTrayEntryAt
 */
-TrayEntryFlags :: Uint32;
+SDL_TrayEntryFlags :: Uint32;
 
 /**
 * A callback that is invoked when a tray entry is selected.
@@ -35952,7 +35954,7 @@ TrayEntryFlags :: Uint32;
 *
 * \sa SDL_SetTrayEntryCallback
 */
-TrayCallback :: #type (userdata: *void, entry: *TrayEntry) -> void #c_call;
+SDL_TrayCallback :: #type (userdata: *void, entry: *SDL_TrayEntry) -> void #c_call;
 
 /**
 * Create an icon to be placed in the operating system's tray, or equivalent.
@@ -35976,7 +35978,7 @@ TrayCallback :: #type (userdata: *void, entry: *TrayEntry) -> void #c_call;
 * \sa SDL_GetTrayMenu
 * \sa SDL_DestroyTray
 */
-CreateTray :: (icon: *Surface, tooltip: *u8) -> *Tray #foreign libsdl3_ttf "SDL_CreateTray";
+SDL_CreateTray :: (icon: *SDL_Surface, tooltip: *u8) -> *SDL_Tray #foreign libsdl3_ttf;
 
 /**
 * Updates the system tray icon's icon.
@@ -35991,7 +35993,7 @@ CreateTray :: (icon: *Surface, tooltip: *u8) -> *Tray #foreign libsdl3_ttf "SDL_
 *
 * \sa SDL_CreateTray
 */
-SetTrayIcon :: (tray: *Tray, icon: *Surface) -> void #foreign libsdl3_ttf "SDL_SetTrayIcon";
+SDL_SetTrayIcon :: (tray: *SDL_Tray, icon: *SDL_Surface) -> void #foreign libsdl3_ttf;
 
 /**
 * Updates the system tray icon's tooltip.
@@ -36006,7 +36008,7 @@ SetTrayIcon :: (tray: *Tray, icon: *Surface) -> void #foreign libsdl3_ttf "SDL_S
 *
 * \sa SDL_CreateTray
 */
-SetTrayTooltip :: (tray: *Tray, tooltip: *u8) -> void #foreign libsdl3_ttf "SDL_SetTrayTooltip";
+SDL_SetTrayTooltip :: (tray: *SDL_Tray, tooltip: *u8) -> void #foreign libsdl3_ttf;
 
 /**
 * Create a menu for a system tray.
@@ -36030,7 +36032,7 @@ SetTrayTooltip :: (tray: *Tray, tooltip: *u8) -> void #foreign libsdl3_ttf "SDL_
 * \sa SDL_GetTrayMenu
 * \sa SDL_GetTrayMenuParentTray
 */
-CreateTrayMenu :: (tray: *Tray) -> *TrayMenu #foreign libsdl3_ttf "SDL_CreateTrayMenu";
+SDL_CreateTrayMenu :: (tray: *SDL_Tray) -> *SDL_TrayMenu #foreign libsdl3_ttf;
 
 /**
 * Create a submenu for a system tray entry.
@@ -36054,7 +36056,7 @@ CreateTrayMenu :: (tray: *Tray) -> *TrayMenu #foreign libsdl3_ttf "SDL_CreateTra
 * \sa SDL_GetTraySubmenu
 * \sa SDL_GetTrayMenuParentEntry
 */
-CreateTraySubmenu :: (entry: *TrayEntry) -> *TrayMenu #foreign libsdl3_ttf "SDL_CreateTraySubmenu";
+SDL_CreateTraySubmenu :: (entry: *SDL_TrayEntry) -> *SDL_TrayMenu #foreign libsdl3_ttf;
 
 /**
 * Gets a previously created tray menu.
@@ -36078,7 +36080,7 @@ CreateTraySubmenu :: (entry: *TrayEntry) -> *TrayMenu #foreign libsdl3_ttf "SDL_
 * \sa SDL_CreateTray
 * \sa SDL_CreateTrayMenu
 */
-GetTrayMenu :: (tray: *Tray) -> *TrayMenu #foreign libsdl3_ttf "SDL_GetTrayMenu";
+SDL_GetTrayMenu :: (tray: *SDL_Tray) -> *SDL_TrayMenu #foreign libsdl3_ttf;
 
 /**
 * Gets a previously created tray entry submenu.
@@ -36102,7 +36104,7 @@ GetTrayMenu :: (tray: *Tray) -> *TrayMenu #foreign libsdl3_ttf "SDL_GetTrayMenu"
 * \sa SDL_InsertTrayEntryAt
 * \sa SDL_CreateTraySubmenu
 */
-GetTraySubmenu :: (entry: *TrayEntry) -> *TrayMenu #foreign libsdl3_ttf "SDL_GetTraySubmenu";
+SDL_GetTraySubmenu :: (entry: *SDL_TrayEntry) -> *SDL_TrayMenu #foreign libsdl3_ttf;
 
 /**
 * Returns a list of entries in the menu, in order.
@@ -36122,7 +36124,7 @@ GetTraySubmenu :: (entry: *TrayEntry) -> *TrayMenu #foreign libsdl3_ttf "SDL_Get
 * \sa SDL_RemoveTrayEntry
 * \sa SDL_InsertTrayEntryAt
 */
-GetTrayEntries :: (menu: *TrayMenu, count: *s32) -> **TrayEntry #foreign libsdl3_ttf "SDL_GetTrayEntries";
+SDL_GetTrayEntries :: (menu: *SDL_TrayMenu, count: *s32) -> **SDL_TrayEntry #foreign libsdl3_ttf;
 
 /**
 * Removes a tray entry.
@@ -36137,7 +36139,7 @@ GetTrayEntries :: (menu: *TrayMenu, count: *s32) -> **TrayEntry #foreign libsdl3
 * \sa SDL_GetTrayEntries
 * \sa SDL_InsertTrayEntryAt
 */
-RemoveTrayEntry :: (entry: *TrayEntry) -> void #foreign libsdl3_ttf "SDL_RemoveTrayEntry";
+SDL_RemoveTrayEntry :: (entry: *SDL_TrayEntry) -> void #foreign libsdl3_ttf;
 
 /**
 * Insert a tray entry at a given position.
@@ -36165,7 +36167,7 @@ RemoveTrayEntry :: (entry: *TrayEntry) -> void #foreign libsdl3_ttf "SDL_RemoveT
 * \sa SDL_RemoveTrayEntry
 * \sa SDL_GetTrayEntryParent
 */
-InsertTrayEntryAt :: (menu: *TrayMenu, pos: s32, label: *u8, flags: TrayEntryFlags) -> *TrayEntry #foreign libsdl3_ttf "SDL_InsertTrayEntryAt";
+SDL_InsertTrayEntryAt :: (menu: *SDL_TrayMenu, pos: s32, label: *u8, flags: SDL_TrayEntryFlags) -> *SDL_TrayEntry #foreign libsdl3_ttf;
 
 /**
 * Sets the label of an entry.
@@ -36187,7 +36189,7 @@ InsertTrayEntryAt :: (menu: *TrayMenu, pos: s32, label: *u8, flags: TrayEntryFla
 * \sa SDL_InsertTrayEntryAt
 * \sa SDL_GetTrayEntryLabel
 */
-SetTrayEntryLabel :: (entry: *TrayEntry, label: *u8) -> void #foreign libsdl3_ttf "SDL_SetTrayEntryLabel";
+SDL_SetTrayEntryLabel :: (entry: *SDL_TrayEntry, label: *u8) -> void #foreign libsdl3_ttf;
 
 /**
 * Gets the label of an entry.
@@ -36206,7 +36208,7 @@ SetTrayEntryLabel :: (entry: *TrayEntry, label: *u8) -> void #foreign libsdl3_tt
 * \sa SDL_InsertTrayEntryAt
 * \sa SDL_SetTrayEntryLabel
 */
-GetTrayEntryLabel :: (entry: *TrayEntry) -> *u8 #foreign libsdl3_ttf "SDL_GetTrayEntryLabel";
+SDL_GetTrayEntryLabel :: (entry: *SDL_TrayEntry) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Sets whether or not an entry is checked.
@@ -36225,7 +36227,7 @@ GetTrayEntryLabel :: (entry: *TrayEntry) -> *u8 #foreign libsdl3_ttf "SDL_GetTra
 * \sa SDL_InsertTrayEntryAt
 * \sa SDL_GetTrayEntryChecked
 */
-SetTrayEntryChecked :: (entry: *TrayEntry, checked: bool) -> void #foreign libsdl3_ttf "SDL_SetTrayEntryChecked";
+SDL_SetTrayEntryChecked :: (entry: *SDL_TrayEntry, checked: bool) -> void #foreign libsdl3_ttf;
 
 /**
 * Gets whether or not an entry is checked.
@@ -36244,7 +36246,7 @@ SetTrayEntryChecked :: (entry: *TrayEntry, checked: bool) -> void #foreign libsd
 * \sa SDL_InsertTrayEntryAt
 * \sa SDL_SetTrayEntryChecked
 */
-GetTrayEntryChecked :: (entry: *TrayEntry) -> bool #foreign libsdl3_ttf "SDL_GetTrayEntryChecked";
+SDL_GetTrayEntryChecked :: (entry: *SDL_TrayEntry) -> bool #foreign libsdl3_ttf;
 
 /**
 * Sets whether or not an entry is enabled.
@@ -36261,7 +36263,7 @@ GetTrayEntryChecked :: (entry: *TrayEntry) -> bool #foreign libsdl3_ttf "SDL_Get
 * \sa SDL_InsertTrayEntryAt
 * \sa SDL_GetTrayEntryEnabled
 */
-SetTrayEntryEnabled :: (entry: *TrayEntry, enabled: bool) -> void #foreign libsdl3_ttf "SDL_SetTrayEntryEnabled";
+SDL_SetTrayEntryEnabled :: (entry: *SDL_TrayEntry, enabled: bool) -> void #foreign libsdl3_ttf;
 
 /**
 * Gets whether or not an entry is enabled.
@@ -36278,7 +36280,7 @@ SetTrayEntryEnabled :: (entry: *TrayEntry, enabled: bool) -> void #foreign libsd
 * \sa SDL_InsertTrayEntryAt
 * \sa SDL_SetTrayEntryEnabled
 */
-GetTrayEntryEnabled :: (entry: *TrayEntry) -> bool #foreign libsdl3_ttf "SDL_GetTrayEntryEnabled";
+SDL_GetTrayEntryEnabled :: (entry: *SDL_TrayEntry) -> bool #foreign libsdl3_ttf;
 
 /**
 * Sets a callback to be invoked when the entry is selected.
@@ -36296,7 +36298,7 @@ GetTrayEntryEnabled :: (entry: *TrayEntry) -> bool #foreign libsdl3_ttf "SDL_Get
 * \sa SDL_GetTrayEntries
 * \sa SDL_InsertTrayEntryAt
 */
-SetTrayEntryCallback :: (entry: *TrayEntry, callback: TrayCallback, userdata: *void) -> void #foreign libsdl3_ttf "SDL_SetTrayEntryCallback";
+SDL_SetTrayEntryCallback :: (entry: *SDL_TrayEntry, callback: SDL_TrayCallback, userdata: *void) -> void #foreign libsdl3_ttf;
 
 /**
 * Simulate a click on a tray entry.
@@ -36308,7 +36310,7 @@ SetTrayEntryCallback :: (entry: *TrayEntry, callback: TrayCallback, userdata: *v
 *
 * \since This function is available since SDL 3.2.0.
 */
-ClickTrayEntry :: (entry: *TrayEntry) -> void #foreign libsdl3_ttf "SDL_ClickTrayEntry";
+SDL_ClickTrayEntry :: (entry: *SDL_TrayEntry) -> void #foreign libsdl3_ttf;
 
 /**
 * Destroys a tray object.
@@ -36324,7 +36326,7 @@ ClickTrayEntry :: (entry: *TrayEntry) -> void #foreign libsdl3_ttf "SDL_ClickTra
 *
 * \sa SDL_CreateTray
 */
-DestroyTray :: (tray: *Tray) -> void #foreign libsdl3_ttf "SDL_DestroyTray";
+SDL_DestroyTray :: (tray: *SDL_Tray) -> void #foreign libsdl3_ttf;
 
 /**
 * Gets the menu containing a certain tray entry.
@@ -36339,7 +36341,7 @@ DestroyTray :: (tray: *Tray) -> void #foreign libsdl3_ttf "SDL_DestroyTray";
 *
 * \sa SDL_InsertTrayEntryAt
 */
-GetTrayEntryParent :: (entry: *TrayEntry) -> *TrayMenu #foreign libsdl3_ttf "SDL_GetTrayEntryParent";
+SDL_GetTrayEntryParent :: (entry: *SDL_TrayEntry) -> *SDL_TrayMenu #foreign libsdl3_ttf;
 
 /**
 * Gets the entry for which the menu is a submenu, if the current menu is a
@@ -36359,7 +36361,7 @@ GetTrayEntryParent :: (entry: *TrayEntry) -> *TrayMenu #foreign libsdl3_ttf "SDL
 * \sa SDL_CreateTraySubmenu
 * \sa SDL_GetTrayMenuParentTray
 */
-GetTrayMenuParentEntry :: (menu: *TrayMenu) -> *TrayEntry #foreign libsdl3_ttf "SDL_GetTrayMenuParentEntry";
+SDL_GetTrayMenuParentEntry :: (menu: *SDL_TrayMenu) -> *SDL_TrayEntry #foreign libsdl3_ttf;
 
 /**
 * Gets the tray for which this menu is the first-level menu, if the current
@@ -36379,7 +36381,7 @@ GetTrayMenuParentEntry :: (menu: *TrayMenu) -> *TrayEntry #foreign libsdl3_ttf "
 * \sa SDL_CreateTrayMenu
 * \sa SDL_GetTrayMenuParentEntry
 */
-GetTrayMenuParentTray :: (menu: *TrayMenu) -> *Tray #foreign libsdl3_ttf "SDL_GetTrayMenuParentTray";
+SDL_GetTrayMenuParentTray :: (menu: *SDL_TrayMenu) -> *SDL_Tray #foreign libsdl3_ttf;
 
 /**
 * Update the trays.
@@ -36391,7 +36393,7 @@ GetTrayMenuParentTray :: (menu: *TrayMenu) -> *Tray #foreign libsdl3_ttf "SDL_Ge
 *
 * \since This function is available since SDL 3.2.0.
 */
-UpdateTrays :: () -> void #foreign libsdl3_ttf "SDL_UpdateTrays";
+SDL_UpdateTrays :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Get the version of SDL that is linked against your program.
@@ -36409,7 +36411,7 @@ UpdateTrays :: () -> void #foreign libsdl3_ttf "SDL_UpdateTrays";
 *
 * \sa SDL_GetRevision
 */
-GetVersion :: () -> s32 #foreign libsdl3_ttf "SDL_GetVersion";
+SDL_GetVersion :: () -> s32 #foreign libsdl3_ttf;
 
 /**
 * Get the code revision of SDL that is linked against your program.
@@ -36435,7 +36437,7 @@ GetVersion :: () -> s32 #foreign libsdl3_ttf "SDL_GetVersion";
 *
 * \sa SDL_GetVersion
 */
-GetRevision :: () -> *u8 #foreign libsdl3_ttf "SDL_GetRevision";
+SDL_GetRevision :: () -> *u8 #foreign libsdl3_ttf;
 
 /**
 * This function gets the version of the dynamically linked SDL_ttf library.
@@ -36446,7 +36448,7 @@ GetRevision :: () -> *u8 #foreign libsdl3_ttf "SDL_GetRevision";
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-Version :: () -> s32 #foreign libsdl3_ttf "TTF_Version";
+TTF_Version :: () -> s32 #foreign libsdl3_ttf;
 
 /**
 * Query the version of the FreeType library in use.
@@ -36463,7 +36465,7 @@ Version :: () -> s32 #foreign libsdl3_ttf "TTF_Version";
 *
 * \sa TTF_Init
 */
-GetFreeTypeVersion :: (major: *s32, minor: *s32, patch: *s32) -> void #foreign libsdl3_ttf "TTF_GetFreeTypeVersion";
+TTF_GetFreeTypeVersion :: (major: *s32, minor: *s32, patch: *s32) -> void #foreign libsdl3_ttf;
 
 /**
 * Query the version of the HarfBuzz library in use.
@@ -36478,9 +36480,9 @@ GetFreeTypeVersion :: (major: *s32, minor: *s32, patch: *s32) -> void #foreign l
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetHarfBuzzVersion :: (major: *s32, minor: *s32, patch: *s32) -> void #foreign libsdl3_ttf "TTF_GetHarfBuzzVersion";
+TTF_GetHarfBuzzVersion :: (major: *s32, minor: *s32, patch: *s32) -> void #foreign libsdl3_ttf;
 
-Font :: struct {}
+TTF_Font :: struct {}
 
 /**
 * Initialize SDL_ttf.
@@ -36498,7 +36500,7 @@ Font :: struct {}
 *
 * \sa TTF_Quit
 */
-Init :: () -> bool #foreign libsdl3_ttf "TTF_Init";
+TTF_Init :: () -> bool #foreign libsdl3_ttf;
 
 /**
 * Create a font from a file, using a specified point size.
@@ -36520,7 +36522,7 @@ Init :: () -> bool #foreign libsdl3_ttf "TTF_Init";
 *
 * \sa TTF_CloseFont
 */
-OpenFont :: (file: *u8, ptsize: float) -> *Font #foreign libsdl3_ttf "TTF_OpenFont";
+TTF_OpenFont :: (file: *u8, ptsize: float) -> *TTF_Font #foreign libsdl3_ttf;
 
 /**
 * Create a font from an SDL_IOStream, using a specified point size.
@@ -36547,7 +36549,7 @@ OpenFont :: (file: *u8, ptsize: float) -> *Font #foreign libsdl3_ttf "TTF_OpenFo
 *
 * \sa TTF_CloseFont
 */
-OpenFontIO :: (src: *IOStream, closeio: bool, ptsize: float) -> *Font #foreign libsdl3_ttf "TTF_OpenFontIO";
+TTF_OpenFontIO :: (src: *SDL_IOStream, closeio: bool, ptsize: float) -> *TTF_Font #foreign libsdl3_ttf;
 
 /**
 * Create a font with the specified properties.
@@ -36592,7 +36594,7 @@ OpenFontIO :: (src: *IOStream, closeio: bool, ptsize: float) -> *Font #foreign l
 *
 * \sa TTF_CloseFont
 */
-OpenFontWithProperties :: (props: PropertiesID) -> *Font #foreign libsdl3_ttf "TTF_OpenFontWithProperties";
+TTF_OpenFontWithProperties :: (props: SDL_PropertiesID) -> *TTF_Font #foreign libsdl3_ttf;
 
 /**
 * Create a copy of an existing font.
@@ -36613,7 +36615,7 @@ OpenFontWithProperties :: (props: PropertiesID) -> *Font #foreign libsdl3_ttf "T
 *
 * \sa TTF_CloseFont
 */
-CopyFont :: (existing_font: *Font) -> *Font #foreign libsdl3_ttf "TTF_CopyFont";
+TTF_CopyFont :: (existing_font: *TTF_Font) -> *TTF_Font #foreign libsdl3_ttf;
 
 /**
 * Get the properties associated with a font.
@@ -36637,7 +36639,7 @@ CopyFont :: (existing_font: *Font) -> *Font #foreign libsdl3_ttf "TTF_CopyFont";
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetFontProperties :: (font: *Font) -> PropertiesID #foreign libsdl3_ttf "TTF_GetFontProperties";
+TTF_GetFontProperties :: (font: *TTF_Font) -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Get the font generation.
@@ -36654,7 +36656,7 @@ GetFontProperties :: (font: *Font) -> PropertiesID #foreign libsdl3_ttf "TTF_Get
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetFontGeneration :: (font: *Font) -> Uint32 #foreign libsdl3_ttf "TTF_GetFontGeneration";
+TTF_GetFontGeneration :: (font: *TTF_Font) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Add a fallback font.
@@ -36679,7 +36681,7 @@ GetFontGeneration :: (font: *Font) -> Uint32 #foreign libsdl3_ttf "TTF_GetFontGe
 * \sa TTF_ClearFallbackFonts
 * \sa TTF_RemoveFallbackFont
 */
-AddFallbackFont :: (font: *Font, fallback: *Font) -> bool #foreign libsdl3_ttf "TTF_AddFallbackFont";
+TTF_AddFallbackFont :: (font: *TTF_Font, fallback: *TTF_Font) -> bool #foreign libsdl3_ttf;
 
 /**
 * Remove a fallback font.
@@ -36697,7 +36699,7 @@ AddFallbackFont :: (font: *Font, fallback: *Font) -> bool #foreign libsdl3_ttf "
 * \sa TTF_AddFallbackFont
 * \sa TTF_ClearFallbackFonts
 */
-RemoveFallbackFont :: (font: *Font, fallback: *Font) -> void #foreign libsdl3_ttf "TTF_RemoveFallbackFont";
+TTF_RemoveFallbackFont :: (font: *TTF_Font, fallback: *TTF_Font) -> void #foreign libsdl3_ttf;
 
 /**
 * Remove all fallback fonts.
@@ -36714,7 +36716,7 @@ RemoveFallbackFont :: (font: *Font, fallback: *Font) -> void #foreign libsdl3_tt
 * \sa TTF_AddFallbackFont
 * \sa TTF_RemoveFallbackFont
 */
-ClearFallbackFonts :: (font: *Font) -> void #foreign libsdl3_ttf "TTF_ClearFallbackFonts";
+TTF_ClearFallbackFonts :: (font: *TTF_Font) -> void #foreign libsdl3_ttf;
 
 /**
 * Set a font's size dynamically.
@@ -36734,7 +36736,7 @@ ClearFallbackFonts :: (font: *Font) -> void #foreign libsdl3_ttf "TTF_ClearFallb
 *
 * \sa TTF_GetFontSize
 */
-SetFontSize :: (font: *Font, ptsize: float) -> bool #foreign libsdl3_ttf "TTF_SetFontSize";
+TTF_SetFontSize :: (font: *TTF_Font, ptsize: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set font size dynamically with target resolutions, in dots per inch.
@@ -36757,7 +36759,7 @@ SetFontSize :: (font: *Font, ptsize: float) -> bool #foreign libsdl3_ttf "TTF_Se
 * \sa TTF_GetFontSize
 * \sa TTF_GetFontSizeDPI
 */
-SetFontSizeDPI :: (font: *Font, ptsize: float, hdpi: s32, vdpi: s32) -> bool #foreign libsdl3_ttf "TTF_SetFontSizeDPI";
+TTF_SetFontSizeDPI :: (font: *TTF_Font, ptsize: float, hdpi: s32, vdpi: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the size of a font.
@@ -36774,7 +36776,7 @@ SetFontSizeDPI :: (font: *Font, ptsize: float, hdpi: s32, vdpi: s32) -> bool #fo
 * \sa TTF_SetFontSize
 * \sa TTF_SetFontSizeDPI
 */
-GetFontSize :: (font: *Font) -> float #foreign libsdl3_ttf "TTF_GetFontSize";
+TTF_GetFontSize :: (font: *TTF_Font) -> float #foreign libsdl3_ttf;
 
 /**
 * Get font target resolutions, in dots per inch.
@@ -36792,7 +36794,7 @@ GetFontSize :: (font: *Font) -> float #foreign libsdl3_ttf "TTF_GetFontSize";
 *
 * \sa TTF_SetFontSizeDPI
 */
-GetFontDPI :: (font: *Font, hdpi: *s32, vdpi: *s32) -> bool #foreign libsdl3_ttf "TTF_GetFontDPI";
+TTF_GetFontDPI :: (font: *TTF_Font, hdpi: *s32, vdpi: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Font style flags for TTF_Font
@@ -36806,7 +36808,7 @@ GetFontDPI :: (font: *Font, hdpi: *s32, vdpi: *s32) -> bool #foreign libsdl3_ttf
 * \sa TTF_SetFontStyle
 * \sa TTF_GetFontStyle
 */
-FontStyleFlags :: Uint32;
+TTF_FontStyleFlags :: Uint32;
 
 /**
 * Set a font's current style.
@@ -36832,7 +36834,7 @@ FontStyleFlags :: Uint32;
 *
 * \sa TTF_GetFontStyle
 */
-SetFontStyle :: (font: *Font, style: FontStyleFlags) -> void #foreign libsdl3_ttf "TTF_SetFontStyle";
+TTF_SetFontStyle :: (font: *TTF_Font, style: TTF_FontStyleFlags) -> void #foreign libsdl3_ttf;
 
 /**
 * Query a font's current style.
@@ -36854,7 +36856,7 @@ SetFontStyle :: (font: *Font, style: FontStyleFlags) -> void #foreign libsdl3_tt
 *
 * \sa TTF_SetFontStyle
 */
-GetFontStyle :: (font: *Font) -> FontStyleFlags #foreign libsdl3_ttf "TTF_GetFontStyle";
+TTF_GetFontStyle :: (font: *TTF_Font) -> TTF_FontStyleFlags #foreign libsdl3_ttf;
 
 /**
 * Set a font's current outline.
@@ -36878,7 +36880,7 @@ GetFontStyle :: (font: *Font) -> FontStyleFlags #foreign libsdl3_ttf "TTF_GetFon
 *
 * \sa TTF_GetFontOutline
 */
-SetFontOutline :: (font: *Font, outline: s32) -> bool #foreign libsdl3_ttf "TTF_SetFontOutline";
+TTF_SetFontOutline :: (font: *TTF_Font, outline: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Query a font's current outline.
@@ -36892,7 +36894,7 @@ SetFontOutline :: (font: *Font, outline: s32) -> bool #foreign libsdl3_ttf "TTF_
 *
 * \sa TTF_SetFontOutline
 */
-GetFontOutline :: (font: *Font) -> s32 #foreign libsdl3_ttf "TTF_GetFontOutline";
+TTF_GetFontOutline :: (font: *TTF_Font) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Hinting flags for TTF (TrueType Fonts)
@@ -36906,7 +36908,7 @@ GetFontOutline :: (font: *Font) -> s32 #foreign libsdl3_ttf "TTF_GetFontOutline"
 * \sa TTF_SetFontHinting
 * \sa TTF_GetFontHinting
 */
-HintingFlags :: enum s32 {
+TTF_HintingFlags :: enum s32 {
     INVALID        :: -1;
     NORMAL         :: 0;
     LIGHT          :: 1;
@@ -36946,7 +36948,7 @@ HintingFlags :: enum s32 {
 *
 * \sa TTF_GetFontHinting
 */
-SetFontHinting :: (font: *Font, hinting: HintingFlags) -> void #foreign libsdl3_ttf "TTF_SetFontHinting";
+TTF_SetFontHinting :: (font: *TTF_Font, hinting: TTF_HintingFlags) -> void #foreign libsdl3_ttf;
 
 /**
 * Query the number of faces of a font.
@@ -36958,7 +36960,7 @@ SetFontHinting :: (font: *Font, hinting: HintingFlags) -> void #foreign libsdl3_
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetNumFontFaces :: (font: *Font) -> s32 #foreign libsdl3_ttf "TTF_GetNumFontFaces";
+TTF_GetNumFontFaces :: (font: *TTF_Font) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Query a font's current FreeType hinter setting.
@@ -36981,7 +36983,7 @@ GetNumFontFaces :: (font: *Font) -> s32 #foreign libsdl3_ttf "TTF_GetNumFontFace
 *
 * \sa TTF_SetFontHinting
 */
-GetFontHinting :: (font: *Font) -> HintingFlags #foreign libsdl3_ttf "TTF_GetFontHinting";
+TTF_GetFontHinting :: (font: *TTF_Font) -> TTF_HintingFlags #foreign libsdl3_ttf;
 
 /**
 * Enable Signed Distance Field rendering for a font.
@@ -37007,7 +37009,7 @@ GetFontHinting :: (font: *Font) -> HintingFlags #foreign libsdl3_ttf "TTF_GetFon
 *
 * \sa TTF_GetFontSDF
 */
-SetFontSDF :: (font: *Font, enabled: bool) -> bool #foreign libsdl3_ttf "TTF_SetFontSDF";
+TTF_SetFontSDF :: (font: *TTF_Font, enabled: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Query whether Signed Distance Field rendering is enabled for a font.
@@ -37021,7 +37023,7 @@ SetFontSDF :: (font: *Font, enabled: bool) -> bool #foreign libsdl3_ttf "TTF_Set
 *
 * \sa TTF_SetFontSDF
 */
-GetFontSDF :: (font: *Font) -> bool #foreign libsdl3_ttf "TTF_GetFontSDF";
+TTF_GetFontSDF :: (font: *TTF_Font) -> bool #foreign libsdl3_ttf;
 
 /**
 * Query a font's weight, in terms of the lightness/heaviness of the strokes.
@@ -37034,14 +37036,14 @@ GetFontSDF :: (font: *Font) -> bool #foreign libsdl3_ttf "TTF_GetFontSDF";
 *
 * \since This function is available since SDL_ttf 3.4.0.
 */
-GetFontWeight :: (font: *Font) -> s32 #foreign libsdl3_ttf "TTF_GetFontWeight";
+TTF_GetFontWeight :: (font: *TTF_Font) -> s32 #foreign libsdl3_ttf;
 
 /**
 * The horizontal alignment used when rendering wrapped text.
 *
 * \since This enum is available since SDL_ttf 3.0.0.
 */
-HorizontalAlignment :: enum s32 {
+TTF_HorizontalAlignment :: enum s32 {
     INVALID :: -1;
     LEFT    :: 0;
     CENTER  :: 1;
@@ -37068,7 +37070,7 @@ HorizontalAlignment :: enum s32 {
 *
 * \sa TTF_GetFontWrapAlignment
 */
-SetFontWrapAlignment :: (font: *Font, align: HorizontalAlignment) -> void #foreign libsdl3_ttf "TTF_SetFontWrapAlignment";
+TTF_SetFontWrapAlignment :: (font: *TTF_Font, align: TTF_HorizontalAlignment) -> void #foreign libsdl3_ttf;
 
 /**
 * Query a font's current wrap alignment option.
@@ -37082,7 +37084,7 @@ SetFontWrapAlignment :: (font: *Font, align: HorizontalAlignment) -> void #forei
 *
 * \sa TTF_SetFontWrapAlignment
 */
-GetFontWrapAlignment :: (font: *Font) -> HorizontalAlignment #foreign libsdl3_ttf "TTF_GetFontWrapAlignment";
+TTF_GetFontWrapAlignment :: (font: *TTF_Font) -> TTF_HorizontalAlignment #foreign libsdl3_ttf;
 
 /**
 * Query the total height of a font.
@@ -37096,7 +37098,7 @@ GetFontWrapAlignment :: (font: *Font) -> HorizontalAlignment #foreign libsdl3_tt
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetFontHeight :: (font: *Font) -> s32 #foreign libsdl3_ttf "TTF_GetFontHeight";
+TTF_GetFontHeight :: (font: *TTF_Font) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Query the offset from the baseline to the top of a font.
@@ -37110,7 +37112,7 @@ GetFontHeight :: (font: *Font) -> s32 #foreign libsdl3_ttf "TTF_GetFontHeight";
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetFontAscent :: (font: *Font) -> s32 #foreign libsdl3_ttf "TTF_GetFontAscent";
+TTF_GetFontAscent :: (font: *TTF_Font) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Query the offset from the baseline to the bottom of a font.
@@ -37124,7 +37126,7 @@ GetFontAscent :: (font: *Font) -> s32 #foreign libsdl3_ttf "TTF_GetFontAscent";
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetFontDescent :: (font: *Font) -> s32 #foreign libsdl3_ttf "TTF_GetFontDescent";
+TTF_GetFontDescent :: (font: *TTF_Font) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Set the spacing between lines of text for a font.
@@ -37141,7 +37143,7 @@ GetFontDescent :: (font: *Font) -> s32 #foreign libsdl3_ttf "TTF_GetFontDescent"
 *
 * \sa TTF_GetFontLineSkip
 */
-SetFontLineSkip :: (font: *Font, lineskip: s32) -> void #foreign libsdl3_ttf "TTF_SetFontLineSkip";
+TTF_SetFontLineSkip :: (font: *TTF_Font, lineskip: s32) -> void #foreign libsdl3_ttf;
 
 /**
 * Query the spacing between lines of text for a font.
@@ -37155,7 +37157,7 @@ SetFontLineSkip :: (font: *Font, lineskip: s32) -> void #foreign libsdl3_ttf "TT
 *
 * \sa TTF_SetFontLineSkip
 */
-GetFontLineSkip :: (font: *Font) -> s32 #foreign libsdl3_ttf "TTF_GetFontLineSkip";
+TTF_GetFontLineSkip :: (font: *TTF_Font) -> s32 #foreign libsdl3_ttf;
 
 /**
 * Set if kerning is enabled for a font.
@@ -37177,7 +37179,7 @@ GetFontLineSkip :: (font: *Font) -> s32 #foreign libsdl3_ttf "TTF_GetFontLineSki
 *
 * \sa TTF_GetFontKerning
 */
-SetFontKerning :: (font: *Font, enabled: bool) -> void #foreign libsdl3_ttf "TTF_SetFontKerning";
+TTF_SetFontKerning :: (font: *TTF_Font, enabled: bool) -> void #foreign libsdl3_ttf;
 
 /**
 * Query whether or not kerning is enabled for a font.
@@ -37191,7 +37193,7 @@ SetFontKerning :: (font: *Font, enabled: bool) -> void #foreign libsdl3_ttf "TTF
 *
 * \sa TTF_SetFontKerning
 */
-GetFontKerning :: (font: *Font) -> bool #foreign libsdl3_ttf "TTF_GetFontKerning";
+TTF_GetFontKerning :: (font: *TTF_Font) -> bool #foreign libsdl3_ttf;
 
 /**
 * Query whether a font is fixed-width.
@@ -37209,7 +37211,7 @@ GetFontKerning :: (font: *Font) -> bool #foreign libsdl3_ttf "TTF_GetFontKerning
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-FontIsFixedWidth :: (font: *Font) -> bool #foreign libsdl3_ttf "TTF_FontIsFixedWidth";
+TTF_FontIsFixedWidth :: (font: *TTF_Font) -> bool #foreign libsdl3_ttf;
 
 /**
 * Query whether a font is scalable or not.
@@ -37225,7 +37227,7 @@ FontIsFixedWidth :: (font: *Font) -> bool #foreign libsdl3_ttf "TTF_FontIsFixedW
 *
 * \sa TTF_SetFontSDF
 */
-FontIsScalable :: (font: *Font) -> bool #foreign libsdl3_ttf "TTF_FontIsScalable";
+TTF_FontIsScalable :: (font: *TTF_Font) -> bool #foreign libsdl3_ttf;
 
 /**
 * Query a font's family name.
@@ -37243,7 +37245,7 @@ FontIsScalable :: (font: *Font) -> bool #foreign libsdl3_ttf "TTF_FontIsScalable
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetFontFamilyName :: (font: *Font) -> *u8 #foreign libsdl3_ttf "TTF_GetFontFamilyName";
+TTF_GetFontFamilyName :: (font: *TTF_Font) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Query a font's style name.
@@ -37261,7 +37263,7 @@ GetFontFamilyName :: (font: *Font) -> *u8 #foreign libsdl3_ttf "TTF_GetFontFamil
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetFontStyleName :: (font: *Font) -> *u8 #foreign libsdl3_ttf "TTF_GetFontStyleName";
+TTF_GetFontStyleName :: (font: *TTF_Font) -> *u8 #foreign libsdl3_ttf;
 
 /**
 * Direction flags
@@ -37274,7 +37276,7 @@ GetFontStyleName :: (font: *Font) -> *u8 #foreign libsdl3_ttf "TTF_GetFontStyleN
 *
 * \sa TTF_SetFontDirection
 */
-Direction :: enum u32 {
+TTF_Direction :: enum u32 {
     INVALID :: 0;
     LTR     :: 4;
     RTL     :: 5;
@@ -37306,7 +37308,7 @@ Direction :: enum u32 {
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-SetFontDirection :: (font: *Font, direction: Direction) -> bool #foreign libsdl3_ttf "TTF_SetFontDirection";
+TTF_SetFontDirection :: (font: *TTF_Font, direction: TTF_Direction) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the direction to be used for text shaping by a font.
@@ -37321,7 +37323,7 @@ SetFontDirection :: (font: *Font, direction: Direction) -> bool #foreign libsdl3
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetFontDirection :: (font: *Font) -> Direction #foreign libsdl3_ttf "TTF_GetFontDirection";
+TTF_GetFontDirection :: (font: *TTF_Font) -> TTF_Direction #foreign libsdl3_ttf;
 
 /**
 * Convert from a 4 character string to a 32-bit tag.
@@ -37335,7 +37337,7 @@ GetFontDirection :: (font: *Font) -> Direction #foreign libsdl3_ttf "TTF_GetFont
 *
 * \sa TTF_TagToString
 */
-StringToTag :: (_string: *u8) -> Uint32 #foreign libsdl3_ttf "TTF_StringToTag";
+TTF_StringToTag :: (_string: *u8) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Convert from a 32-bit tag to a 4 character string.
@@ -37352,7 +37354,7 @@ StringToTag :: (_string: *u8) -> Uint32 #foreign libsdl3_ttf "TTF_StringToTag";
 *
 * \sa TTF_TagToString
 */
-TagToString :: (tag: Uint32, _string: *u8, size: u64) -> void #foreign libsdl3_ttf "TTF_TagToString";
+TTF_TagToString :: (tag: Uint32, _string: *u8, size: u64) -> void #foreign libsdl3_ttf;
 
 /**
 * Set the script to be used for text shaping by a font.
@@ -37375,7 +37377,7 @@ TagToString :: (tag: Uint32, _string: *u8, size: u64) -> void #foreign libsdl3_t
 *
 * \sa TTF_StringToTag
 */
-SetFontScript :: (font: *Font, script: Uint32) -> bool #foreign libsdl3_ttf "TTF_SetFontScript";
+TTF_SetFontScript :: (font: *TTF_Font, script: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the script used for text shaping a font.
@@ -37392,7 +37394,7 @@ SetFontScript :: (font: *Font, script: Uint32) -> bool #foreign libsdl3_ttf "TTF
 *
 * \sa TTF_TagToString
 */
-GetFontScript :: (font: *Font) -> Uint32 #foreign libsdl3_ttf "TTF_GetFontScript";
+TTF_GetFontScript :: (font: *TTF_Font) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Get the script used by a 32-bit codepoint.
@@ -37409,7 +37411,7 @@ GetFontScript :: (font: *Font) -> Uint32 #foreign libsdl3_ttf "TTF_GetFontScript
 *
 * \sa TTF_TagToString
 */
-GetGlyphScript :: (ch: Uint32) -> Uint32 #foreign libsdl3_ttf "TTF_GetGlyphScript";
+TTF_GetGlyphScript :: (ch: Uint32) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Set language to be used for text shaping by a font.
@@ -37430,7 +37432,7 @@ GetGlyphScript :: (ch: Uint32) -> Uint32 #foreign libsdl3_ttf "TTF_GetGlyphScrip
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-SetFontLanguage :: (font: *Font, language_bcp47: *u8) -> bool #foreign libsdl3_ttf "TTF_SetFontLanguage";
+TTF_SetFontLanguage :: (font: *TTF_Font, language_bcp47: *u8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Check whether a glyph is provided by the font for a UNICODE codepoint.
@@ -37444,14 +37446,14 @@ SetFontLanguage :: (font: *Font, language_bcp47: *u8) -> bool #foreign libsdl3_t
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-FontHasGlyph :: (font: *Font, ch: Uint32) -> bool #foreign libsdl3_ttf "TTF_FontHasGlyph";
+TTF_FontHasGlyph :: (font: *TTF_Font, ch: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * The type of data in a glyph image
 *
 * \since This enum is available since SDL_ttf 3.0.0.
 */
-ImageType :: enum u32 {
+TTF_ImageType :: enum u32 {
     INVALID :: 0;
     ALPHA   :: 1;
     COLOR   :: 2;
@@ -37478,7 +37480,7 @@ ImageType :: enum u32 {
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetGlyphImage :: (font: *Font, ch: Uint32, image_type: *ImageType) -> *Surface #foreign libsdl3_ttf "TTF_GetGlyphImage";
+TTF_GetGlyphImage :: (font: *TTF_Font, ch: Uint32, image_type: *TTF_ImageType) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Get the pixel image for a character index.
@@ -37498,7 +37500,7 @@ GetGlyphImage :: (font: *Font, ch: Uint32, image_type: *ImageType) -> *Surface #
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetGlyphImageForIndex :: (font: *Font, glyph_index: Uint32, image_type: *ImageType) -> *Surface #foreign libsdl3_ttf "TTF_GetGlyphImageForIndex";
+TTF_GetGlyphImageForIndex :: (font: *TTF_Font, glyph_index: Uint32, image_type: *TTF_ImageType) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Query the metrics (dimensions) of a font's glyph for a UNICODE codepoint.
@@ -37529,7 +37531,7 @@ GetGlyphImageForIndex :: (font: *Font, glyph_index: Uint32, image_type: *ImageTy
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetGlyphMetrics :: (font: *Font, ch: Uint32, minx: *s32, maxx: *s32, miny: *s32, maxy: *s32, advance: *s32) -> bool #foreign libsdl3_ttf "TTF_GetGlyphMetrics";
+TTF_GetGlyphMetrics :: (font: *TTF_Font, ch: Uint32, minx: *s32, maxx: *s32, miny: *s32, maxy: *s32, advance: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Query the kerning size between the glyphs of two UNICODE codepoints.
@@ -37547,7 +37549,7 @@ GetGlyphMetrics :: (font: *Font, ch: Uint32, minx: *s32, maxx: *s32, miny: *s32,
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetGlyphKerning :: (font: *Font, previous_ch: Uint32, ch: Uint32, kerning: *s32) -> bool #foreign libsdl3_ttf "TTF_GetGlyphKerning";
+TTF_GetGlyphKerning :: (font: *TTF_Font, previous_ch: Uint32, ch: Uint32, kerning: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Calculate the dimensions of a rendered string of UTF-8 text.
@@ -37569,7 +37571,7 @@ GetGlyphKerning :: (font: *Font, previous_ch: Uint32, ch: Uint32, kerning: *s32)
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetStringSize :: (font: *Font, text: *u8, length: u64, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf "TTF_GetStringSize";
+TTF_GetStringSize :: (font: *TTF_Font, text: *u8, length: u64, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Calculate the dimensions of a rendered string of UTF-8 text.
@@ -37597,7 +37599,7 @@ GetStringSize :: (font: *Font, text: *u8, length: u64, w: *s32, h: *s32) -> bool
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetStringSizeWrapped :: (font: *Font, text: *u8, length: u64, wrap_width: s32, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf "TTF_GetStringSizeWrapped";
+TTF_GetStringSizeWrapped :: (font: *TTF_Font, text: *u8, length: u64, wrap_width: s32, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Calculate how much of a UTF-8 string will fit in a given width.
@@ -37625,7 +37627,7 @@ GetStringSizeWrapped :: (font: *Font, text: *u8, length: u64, wrap_width: s32, w
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-MeasureString :: (font: *Font, text: *u8, length: u64, max_width: s32, measured_width: *s32, measured_length: *u64) -> bool #foreign libsdl3_ttf "TTF_MeasureString";
+TTF_MeasureString :: (font: *TTF_Font, text: *u8, length: u64, max_width: s32, measured_width: *s32, measured_length: *u64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Render UTF-8 text at fast quality to a new 8-bit surface.
@@ -37662,7 +37664,7 @@ MeasureString :: (font: *Font, text: *u8, length: u64, max_width: s32, measured_
 * \sa TTF_RenderText_Solid
 * \sa TTF_RenderText_Solid_Wrapped
 */
-RenderText_Solid :: (font: *Font, text: *u8, length: u64, fg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_Solid";
+TTF_RenderText_Solid :: (font: *TTF_Font, text: *u8, length: u64, fg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Render word-wrapped UTF-8 text at fast quality to a new 8-bit surface.
@@ -37698,7 +37700,7 @@ RenderText_Solid :: (font: *Font, text: *u8, length: u64, fg: Color) -> *Surface
 * \sa TTF_RenderText_Shaded_Wrapped
 * \sa TTF_RenderText_Solid
 */
-RenderText_Solid_Wrapped :: (font: *Font, text: *u8, length: u64, fg: Color, wrapLength: s32) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_Solid_Wrapped";
+TTF_RenderText_Solid_Wrapped :: (font: *TTF_Font, text: *u8, length: u64, fg: SDL_Color, wrapLength: s32) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Render a single 32-bit glyph at fast quality to a new 8-bit surface.
@@ -37727,7 +37729,7 @@ RenderText_Solid_Wrapped :: (font: *Font, text: *u8, length: u64, fg: Color, wra
 * \sa TTF_RenderGlyph_LCD
 * \sa TTF_RenderGlyph_Shaded
 */
-RenderGlyph_Solid :: (font: *Font, ch: Uint32, fg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderGlyph_Solid";
+TTF_RenderGlyph_Solid :: (font: *TTF_Font, ch: Uint32, fg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Render UTF-8 text at high quality to a new 8-bit surface.
@@ -37765,7 +37767,7 @@ RenderGlyph_Solid :: (font: *Font, ch: Uint32, fg: Color) -> *Surface #foreign l
 * \sa TTF_RenderText_Shaded_Wrapped
 * \sa TTF_RenderText_Solid
 */
-RenderText_Shaded :: (font: *Font, text: *u8, length: u64, fg: Color, bg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_Shaded";
+TTF_RenderText_Shaded :: (font: *TTF_Font, text: *u8, length: u64, fg: SDL_Color, bg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Render word-wrapped UTF-8 text at high quality to a new 8-bit surface.
@@ -37803,7 +37805,7 @@ RenderText_Shaded :: (font: *Font, text: *u8, length: u64, fg: Color, bg: Color)
 * \sa TTF_RenderText_Shaded
 * \sa TTF_RenderText_Solid_Wrapped
 */
-RenderText_Shaded_Wrapped :: (font: *Font, text: *u8, length: u64, fg: Color, bg: Color, wrap_width: s32) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_Shaded_Wrapped";
+TTF_RenderText_Shaded_Wrapped :: (font: *TTF_Font, text: *u8, length: u64, fg: SDL_Color, bg: SDL_Color, wrap_width: s32) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Render a single UNICODE codepoint at high quality to a new 8-bit surface.
@@ -37834,7 +37836,7 @@ RenderText_Shaded_Wrapped :: (font: *Font, text: *u8, length: u64, fg: Color, bg
 * \sa TTF_RenderGlyph_LCD
 * \sa TTF_RenderGlyph_Solid
 */
-RenderGlyph_Shaded :: (font: *Font, ch: Uint32, fg: Color, bg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderGlyph_Shaded";
+TTF_RenderGlyph_Shaded :: (font: *TTF_Font, ch: Uint32, fg: SDL_Color, bg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Render UTF-8 text at high quality to a new ARGB surface.
@@ -37870,7 +37872,7 @@ RenderGlyph_Shaded :: (font: *Font, ch: Uint32, fg: Color, bg: Color) -> *Surfac
 * \sa TTF_RenderText_Shaded
 * \sa TTF_RenderText_Solid
 */
-RenderText_Blended :: (font: *Font, text: *u8, length: u64, fg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_Blended";
+TTF_RenderText_Blended :: (font: *TTF_Font, text: *u8, length: u64, fg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Render word-wrapped UTF-8 text at high quality to a new ARGB surface.
@@ -37906,7 +37908,7 @@ RenderText_Blended :: (font: *Font, text: *u8, length: u64, fg: Color) -> *Surfa
 * \sa TTF_RenderText_Shaded_Wrapped
 * \sa TTF_RenderText_Solid_Wrapped
 */
-RenderText_Blended_Wrapped :: (font: *Font, text: *u8, length: u64, fg: Color, wrap_width: s32) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_Blended_Wrapped";
+TTF_RenderText_Blended_Wrapped :: (font: *TTF_Font, text: *u8, length: u64, fg: SDL_Color, wrap_width: s32) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Render a single UNICODE codepoint at high quality to a new ARGB surface.
@@ -37935,7 +37937,7 @@ RenderText_Blended_Wrapped :: (font: *Font, text: *u8, length: u64, fg: Color, w
 * \sa TTF_RenderGlyph_Shaded
 * \sa TTF_RenderGlyph_Solid
 */
-RenderGlyph_Blended :: (font: *Font, ch: Uint32, fg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderGlyph_Blended";
+TTF_RenderGlyph_Blended :: (font: *TTF_Font, ch: Uint32, fg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Render UTF-8 text at LCD subpixel quality to a new ARGB surface.
@@ -37972,7 +37974,7 @@ RenderGlyph_Blended :: (font: *Font, ch: Uint32, fg: Color) -> *Surface #foreign
 * \sa TTF_RenderText_Shaded
 * \sa TTF_RenderText_Solid
 */
-RenderText_LCD :: (font: *Font, text: *u8, length: u64, fg: Color, bg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_LCD";
+TTF_RenderText_LCD :: (font: *TTF_Font, text: *u8, length: u64, fg: SDL_Color, bg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Render word-wrapped UTF-8 text at LCD subpixel quality to a new ARGB
@@ -38010,7 +38012,7 @@ RenderText_LCD :: (font: *Font, text: *u8, length: u64, fg: Color, bg: Color) ->
 * \sa TTF_RenderText_Shaded_Wrapped
 * \sa TTF_RenderText_Solid_Wrapped
 */
-RenderText_LCD_Wrapped :: (font: *Font, text: *u8, length: u64, fg: Color, bg: Color, wrap_width: s32) -> *Surface #foreign libsdl3_ttf "TTF_RenderText_LCD_Wrapped";
+TTF_RenderText_LCD_Wrapped :: (font: *TTF_Font, text: *u8, length: u64, fg: SDL_Color, bg: SDL_Color, wrap_width: s32) -> *SDL_Surface #foreign libsdl3_ttf;
 
 /**
 * Render a single UNICODE codepoint at LCD subpixel quality to a new ARGB
@@ -38041,11 +38043,11 @@ RenderText_LCD_Wrapped :: (font: *Font, text: *u8, length: u64, fg: Color, bg: C
 * \sa TTF_RenderGlyph_Shaded
 * \sa TTF_RenderGlyph_Solid
 */
-RenderGlyph_LCD :: (font: *Font, ch: Uint32, fg: Color, bg: Color) -> *Surface #foreign libsdl3_ttf "TTF_RenderGlyph_LCD";
+TTF_RenderGlyph_LCD :: (font: *TTF_Font, ch: Uint32, fg: SDL_Color, bg: SDL_Color) -> *SDL_Surface #foreign libsdl3_ttf;
 
-TextEngine :: struct {}
+TTF_TextEngine :: struct {}
 
-TextData :: struct {}
+TTF_TextData :: struct {}
 
 /**
 * Text created with TTF_CreateText()
@@ -38056,13 +38058,13 @@ TextData :: struct {}
 * \sa TTF_GetTextProperties
 * \sa TTF_DestroyText
 */
-Text :: struct {
+TTF_Text :: struct {
     text:      *u8; /**< A copy of the UTF-8 string that this text object represents, useful for layout, debugging and retrieving substring text. This is updated when the text object is modified and will be freed automatically when the object is destroyed. */
     num_lines: s32; /**< The number of lines in the text, 0 if it's empty */
 
     refcount:  s32; /**< Application reference count, used when freeing surface */
 
-    internal:  *TextData; /**< Private */
+    internal:  *TTF_TextData; /**< Private */
 }
 
 /**
@@ -38078,7 +38080,7 @@ Text :: struct {
 * \sa TTF_DestroySurfaceTextEngine
 * \sa TTF_DrawSurfaceText
 */
-CreateSurfaceTextEngine :: () -> *TextEngine #foreign libsdl3_ttf "TTF_CreateSurfaceTextEngine";
+TTF_CreateSurfaceTextEngine :: () -> *TTF_TextEngine #foreign libsdl3_ttf;
 
 /**
 * Draw text to an SDL surface.
@@ -38103,7 +38105,7 @@ CreateSurfaceTextEngine :: () -> *TextEngine #foreign libsdl3_ttf "TTF_CreateSur
 * \sa TTF_CreateSurfaceTextEngine
 * \sa TTF_CreateText
 */
-DrawSurfaceText :: (text: *Text, x: s32, y: s32, surface: *Surface) -> bool #foreign libsdl3_ttf "TTF_DrawSurfaceText";
+TTF_DrawSurfaceText :: (text: *TTF_Text, x: s32, y: s32, surface: *SDL_Surface) -> bool #foreign libsdl3_ttf;
 
 /**
 * Destroy a text engine created for drawing text on SDL surfaces.
@@ -38121,7 +38123,7 @@ DrawSurfaceText :: (text: *Text, x: s32, y: s32, surface: *Surface) -> bool #for
 *
 * \sa TTF_CreateSurfaceTextEngine
 */
-DestroySurfaceTextEngine :: (engine: *TextEngine) -> void #foreign libsdl3_ttf "TTF_DestroySurfaceTextEngine";
+TTF_DestroySurfaceTextEngine :: (engine: *TTF_TextEngine) -> void #foreign libsdl3_ttf;
 
 /**
 * Create a text engine for drawing text on an SDL renderer.
@@ -38139,7 +38141,7 @@ DestroySurfaceTextEngine :: (engine: *TextEngine) -> void #foreign libsdl3_ttf "
 * \sa TTF_DrawRendererText
 * \sa TTF_CreateRendererTextEngineWithProperties
 */
-CreateRendererTextEngine :: (renderer: *Renderer) -> *TextEngine #foreign libsdl3_ttf "TTF_CreateRendererTextEngine";
+TTF_CreateRendererTextEngine :: (renderer: *SDL_Renderer) -> *TTF_TextEngine #foreign libsdl3_ttf;
 
 /**
 * Create a text engine for drawing text on an SDL renderer, with the
@@ -38165,7 +38167,7 @@ CreateRendererTextEngine :: (renderer: *Renderer) -> *TextEngine #foreign libsdl
 * \sa TTF_DestroyRendererTextEngine
 * \sa TTF_DrawRendererText
 */
-CreateRendererTextEngineWithProperties :: (props: PropertiesID) -> *TextEngine #foreign libsdl3_ttf "TTF_CreateRendererTextEngineWithProperties";
+TTF_CreateRendererTextEngineWithProperties :: (props: SDL_PropertiesID) -> *TTF_TextEngine #foreign libsdl3_ttf;
 
 /**
 * Draw text to an SDL renderer.
@@ -38190,7 +38192,7 @@ CreateRendererTextEngineWithProperties :: (props: PropertiesID) -> *TextEngine #
 * \sa TTF_CreateRendererTextEngine
 * \sa TTF_CreateText
 */
-DrawRendererText :: (text: *Text, x: float, y: float) -> bool #foreign libsdl3_ttf "TTF_DrawRendererText";
+TTF_DrawRendererText :: (text: *TTF_Text, x: float, y: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Destroy a text engine created for drawing text on an SDL renderer.
@@ -38208,7 +38210,7 @@ DrawRendererText :: (text: *Text, x: float, y: float) -> bool #foreign libsdl3_t
 *
 * \sa TTF_CreateRendererTextEngine
 */
-DestroyRendererTextEngine :: (engine: *TextEngine) -> void #foreign libsdl3_ttf "TTF_DestroyRendererTextEngine";
+TTF_DestroyRendererTextEngine :: (engine: *TTF_TextEngine) -> void #foreign libsdl3_ttf;
 
 /**
 * Create a text engine for drawing text with the SDL GPU API.
@@ -38227,7 +38229,7 @@ DestroyRendererTextEngine :: (engine: *TextEngine) -> void #foreign libsdl3_ttf 
 * \sa TTF_DestroyGPUTextEngine
 * \sa TTF_GetGPUTextDrawData
 */
-CreateGPUTextEngine :: (device: *GPUDevice) -> *TextEngine #foreign libsdl3_ttf "TTF_CreateGPUTextEngine";
+TTF_CreateGPUTextEngine :: (device: *SDL_GPUDevice) -> *TTF_TextEngine #foreign libsdl3_ttf;
 
 /**
 * Create a text engine for drawing text with the SDL GPU API, with the
@@ -38253,7 +38255,7 @@ CreateGPUTextEngine :: (device: *GPUDevice) -> *TextEngine #foreign libsdl3_ttf 
 * \sa TTF_DestroyGPUTextEngine
 * \sa TTF_GetGPUTextDrawData
 */
-CreateGPUTextEngineWithProperties :: (props: PropertiesID) -> *TextEngine #foreign libsdl3_ttf "TTF_CreateGPUTextEngineWithProperties";
+TTF_CreateGPUTextEngineWithProperties :: (props: SDL_PropertiesID) -> *TTF_TextEngine #foreign libsdl3_ttf;
 
 /**
 * Draw sequence returned by TTF_GetGPUTextDrawData
@@ -38262,16 +38264,16 @@ CreateGPUTextEngineWithProperties :: (props: PropertiesID) -> *TextEngine #forei
 *
 * \sa TTF_GetGPUTextDrawData
 */
-GPUAtlasDrawSequence :: struct {
-    atlas_texture: *GPUTexture; /**< Texture atlas that stores the glyphs */
-    xy:            *FPoint; /**< An array of vertex positions */
-    uv:            *FPoint; /**< An array of normalized texture coordinates for each vertex */
+TTF_GPUAtlasDrawSequence :: struct {
+    atlas_texture: *SDL_GPUTexture; /**< Texture atlas that stores the glyphs */
+    xy:            *SDL_FPoint; /**< An array of vertex positions */
+    uv:            *SDL_FPoint; /**< An array of normalized texture coordinates for each vertex */
     num_vertices:  s32; /**< Number of vertices */
     indices:       *s32; /**< An array of indices into the 'vertices' arrays */
     num_indices:   s32; /**< Number of indices */
-    image_type:    ImageType; /**< The image type of this draw sequence */
+    image_type:    TTF_ImageType; /**< The image type of this draw sequence */
 
-    next:          *GPUAtlasDrawSequence; /**< The next sequence (will be NULL in case of the last sequence) */
+    next:          *TTF_GPUAtlasDrawSequence; /**< The next sequence (will be NULL in case of the last sequence) */
 }
 
 /**
@@ -38301,7 +38303,7 @@ GPUAtlasDrawSequence :: struct {
 * \sa TTF_CreateGPUTextEngine
 * \sa TTF_CreateText
 */
-GetGPUTextDrawData :: (text: *Text) -> *GPUAtlasDrawSequence #foreign libsdl3_ttf "TTF_GetGPUTextDrawData";
+TTF_GetGPUTextDrawData :: (text: *TTF_Text) -> *TTF_GPUAtlasDrawSequence #foreign libsdl3_ttf;
 
 /**
 * Destroy a text engine created for drawing text with the SDL GPU API.
@@ -38319,14 +38321,14 @@ GetGPUTextDrawData :: (text: *Text) -> *GPUAtlasDrawSequence #foreign libsdl3_tt
 *
 * \sa TTF_CreateGPUTextEngine
 */
-DestroyGPUTextEngine :: (engine: *TextEngine) -> void #foreign libsdl3_ttf "TTF_DestroyGPUTextEngine";
+TTF_DestroyGPUTextEngine :: (engine: *TTF_TextEngine) -> void #foreign libsdl3_ttf;
 
 /**
 * The winding order of the vertices returned by TTF_GetGPUTextDrawData
 *
 * \since This enum is available since SDL_ttf 3.0.0.
 */
-GPUTextEngineWinding :: enum s32 {
+TTF_GPUTextEngineWinding :: enum s32 {
     INVALID           :: -1;
     CLOCKWISE         :: 0;
     COUNTER_CLOCKWISE :: 1;
@@ -38351,7 +38353,7 @@ GPUTextEngineWinding :: enum s32 {
 *
 * \sa TTF_GetGPUTextEngineWinding
 */
-SetGPUTextEngineWinding :: (engine: *TextEngine, winding: GPUTextEngineWinding) -> void #foreign libsdl3_ttf "TTF_SetGPUTextEngineWinding";
+TTF_SetGPUTextEngineWinding :: (engine: *TTF_TextEngine, winding: TTF_GPUTextEngineWinding) -> void #foreign libsdl3_ttf;
 
 /**
 * Get the winding order of the vertices returned by TTF_GetGPUTextDrawData
@@ -38369,7 +38371,7 @@ SetGPUTextEngineWinding :: (engine: *TextEngine, winding: GPUTextEngineWinding) 
 *
 * \sa TTF_SetGPUTextEngineWinding
 */
-GetGPUTextEngineWinding :: (engine: *TextEngine) -> GPUTextEngineWinding #foreign libsdl3_ttf "TTF_GetGPUTextEngineWinding";
+TTF_GetGPUTextEngineWinding :: (engine: *TTF_TextEngine) -> TTF_GPUTextEngineWinding #foreign libsdl3_ttf;
 
 /**
 * Create a text object from UTF-8 text and a text engine.
@@ -38390,7 +38392,7 @@ GetGPUTextEngineWinding :: (engine: *TextEngine) -> GPUTextEngineWinding #foreig
 *
 * \sa TTF_DestroyText
 */
-CreateText :: (engine: *TextEngine, font: *Font, text: *u8, length: u64) -> *Text #foreign libsdl3_ttf "TTF_CreateText";
+TTF_CreateText :: (engine: *TTF_TextEngine, font: *TTF_Font, text: *u8, length: u64) -> *TTF_Text #foreign libsdl3_ttf;
 
 /**
 * Get the properties associated with a text object.
@@ -38404,7 +38406,7 @@ CreateText :: (engine: *TextEngine, font: *Font, text: *u8, length: u64) -> *Tex
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetTextProperties :: (text: *Text) -> PropertiesID #foreign libsdl3_ttf "TTF_GetTextProperties";
+TTF_GetTextProperties :: (text: *TTF_Text) -> SDL_PropertiesID #foreign libsdl3_ttf;
 
 /**
 * Set the text engine used by a text object.
@@ -38423,7 +38425,7 @@ GetTextProperties :: (text: *Text) -> PropertiesID #foreign libsdl3_ttf "TTF_Get
 *
 * \sa TTF_GetTextEngine
 */
-SetTextEngine :: (text: *Text, engine: *TextEngine) -> bool #foreign libsdl3_ttf "TTF_SetTextEngine";
+TTF_SetTextEngine :: (text: *TTF_Text, engine: *TTF_TextEngine) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the text engine used by a text object.
@@ -38439,7 +38441,7 @@ SetTextEngine :: (text: *Text, engine: *TextEngine) -> bool #foreign libsdl3_ttf
 *
 * \sa TTF_SetTextEngine
 */
-GetTextEngine :: (text: *Text) -> *TextEngine #foreign libsdl3_ttf "TTF_GetTextEngine";
+TTF_GetTextEngine :: (text: *TTF_Text) -> *TTF_TextEngine #foreign libsdl3_ttf;
 
 /**
 * Set the font used by a text object.
@@ -38462,7 +38464,7 @@ GetTextEngine :: (text: *Text) -> *TextEngine #foreign libsdl3_ttf "TTF_GetTextE
 *
 * \sa TTF_GetTextFont
 */
-SetTextFont :: (text: *Text, font: *Font) -> bool #foreign libsdl3_ttf "TTF_SetTextFont";
+TTF_SetTextFont :: (text: *TTF_Text, font: *TTF_Font) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the font used by a text object.
@@ -38478,7 +38480,7 @@ SetTextFont :: (text: *Text, font: *Font) -> bool #foreign libsdl3_ttf "TTF_SetT
 *
 * \sa TTF_SetTextFont
 */
-GetTextFont :: (text: *Text) -> *Font #foreign libsdl3_ttf "TTF_GetTextFont";
+TTF_GetTextFont :: (text: *TTF_Text) -> *TTF_Font #foreign libsdl3_ttf;
 
 /**
 * Set the direction to be used for text shaping a text object.
@@ -38496,7 +38498,7 @@ GetTextFont :: (text: *Text) -> *Font #foreign libsdl3_ttf "TTF_GetTextFont";
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-SetTextDirection :: (text: *Text, direction: Direction) -> bool #foreign libsdl3_ttf "TTF_SetTextDirection";
+TTF_SetTextDirection :: (text: *TTF_Text, direction: TTF_Direction) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the direction to be used for text shaping a text object.
@@ -38511,7 +38513,7 @@ SetTextDirection :: (text: *Text, direction: Direction) -> bool #foreign libsdl3
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetTextDirection :: (text: *Text) -> Direction #foreign libsdl3_ttf "TTF_GetTextDirection";
+TTF_GetTextDirection :: (text: *TTF_Text) -> TTF_Direction #foreign libsdl3_ttf;
 
 /**
 * Set the script to be used for text shaping a text object.
@@ -38532,7 +38534,7 @@ GetTextDirection :: (text: *Text) -> Direction #foreign libsdl3_ttf "TTF_GetText
 *
 * \sa TTF_StringToTag
 */
-SetTextScript :: (text: *Text, script: Uint32) -> bool #foreign libsdl3_ttf "TTF_SetTextScript";
+TTF_SetTextScript :: (text: *TTF_Text, script: Uint32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the script used for text shaping a text object.
@@ -38552,7 +38554,7 @@ SetTextScript :: (text: *Text, script: Uint32) -> bool #foreign libsdl3_ttf "TTF
 *
 * \sa TTF_TagToString
 */
-GetTextScript :: (text: *Text) -> Uint32 #foreign libsdl3_ttf "TTF_GetTextScript";
+TTF_GetTextScript :: (text: *TTF_Text) -> Uint32 #foreign libsdl3_ttf;
 
 /**
 * Set the color of a text object.
@@ -38575,7 +38577,7 @@ GetTextScript :: (text: *Text) -> Uint32 #foreign libsdl3_ttf "TTF_GetTextScript
 * \sa TTF_GetTextColor
 * \sa TTF_SetTextColorFloat
 */
-SetTextColor :: (text: *Text, r: Uint8, g: Uint8, b: Uint8, a: Uint8) -> bool #foreign libsdl3_ttf "TTF_SetTextColor";
+TTF_SetTextColor :: (text: *TTF_Text, r: Uint8, g: Uint8, b: Uint8, a: Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the color of a text object.
@@ -38598,7 +38600,7 @@ SetTextColor :: (text: *Text, r: Uint8, g: Uint8, b: Uint8, a: Uint8) -> bool #f
 * \sa TTF_GetTextColorFloat
 * \sa TTF_SetTextColor
 */
-SetTextColorFloat :: (text: *Text, r: float, g: float, b: float, a: float) -> bool #foreign libsdl3_ttf "TTF_SetTextColorFloat";
+TTF_SetTextColorFloat :: (text: *TTF_Text, r: float, g: float, b: float, a: float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the color of a text object.
@@ -38623,7 +38625,7 @@ SetTextColorFloat :: (text: *Text, r: float, g: float, b: float, a: float) -> bo
 * \sa TTF_GetTextColorFloat
 * \sa TTF_SetTextColor
 */
-GetTextColor :: (text: *Text, r: *Uint8, g: *Uint8, b: *Uint8, a: *Uint8) -> bool #foreign libsdl3_ttf "TTF_GetTextColor";
+TTF_GetTextColor :: (text: *TTF_Text, r: *Uint8, g: *Uint8, b: *Uint8, a: *Uint8) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the color of a text object.
@@ -38648,7 +38650,7 @@ GetTextColor :: (text: *Text, r: *Uint8, g: *Uint8, b: *Uint8, a: *Uint8) -> boo
 * \sa TTF_GetTextColor
 * \sa TTF_SetTextColorFloat
 */
-GetTextColorFloat :: (text: *Text, r: *float, g: *float, b: *float, a: *float) -> bool #foreign libsdl3_ttf "TTF_GetTextColorFloat";
+TTF_GetTextColorFloat :: (text: *TTF_Text, r: *float, g: *float, b: *float, a: *float) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the position of a text object.
@@ -38669,7 +38671,7 @@ GetTextColorFloat :: (text: *Text, r: *float, g: *float, b: *float, a: *float) -
 *
 * \sa TTF_GetTextPosition
 */
-SetTextPosition :: (text: *Text, x: s32, y: s32) -> bool #foreign libsdl3_ttf "TTF_SetTextPosition";
+TTF_SetTextPosition :: (text: *TTF_Text, x: s32, y: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the position of a text object.
@@ -38687,7 +38689,7 @@ SetTextPosition :: (text: *Text, x: s32, y: s32) -> bool #foreign libsdl3_ttf "T
 *
 * \sa TTF_SetTextPosition
 */
-GetTextPosition :: (text: *Text, x: *s32, y: *s32) -> bool #foreign libsdl3_ttf "TTF_GetTextPosition";
+TTF_GetTextPosition :: (text: *TTF_Text, x: *s32, y: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set whether wrapping is enabled on a text object.
@@ -38707,7 +38709,7 @@ GetTextPosition :: (text: *Text, x: *s32, y: *s32) -> bool #foreign libsdl3_ttf 
 *
 * \sa TTF_GetTextWrapWidth
 */
-SetTextWrapWidth :: (text: *Text, wrap_width: s32) -> bool #foreign libsdl3_ttf "TTF_SetTextWrapWidth";
+TTF_SetTextWrapWidth :: (text: *TTF_Text, wrap_width: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get whether wrapping is enabled on a text object.
@@ -38725,7 +38727,7 @@ SetTextWrapWidth :: (text: *Text, wrap_width: s32) -> bool #foreign libsdl3_ttf 
 *
 * \sa TTF_SetTextWrapWidth
 */
-GetTextWrapWidth :: (text: *Text, wrap_width: *s32) -> bool #foreign libsdl3_ttf "TTF_GetTextWrapWidth";
+TTF_GetTextWrapWidth :: (text: *TTF_Text, wrap_width: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set whether whitespace should be visible when wrapping a text object.
@@ -38750,7 +38752,7 @@ GetTextWrapWidth :: (text: *Text, wrap_width: *s32) -> bool #foreign libsdl3_ttf
 *
 * \sa TTF_TextWrapWhitespaceVisible
 */
-SetTextWrapWhitespaceVisible :: (text: *Text, visible: bool) -> bool #foreign libsdl3_ttf "TTF_SetTextWrapWhitespaceVisible";
+TTF_SetTextWrapWhitespaceVisible :: (text: *TTF_Text, visible: bool) -> bool #foreign libsdl3_ttf;
 
 /**
 * Return whether whitespace is shown when wrapping a text object.
@@ -38766,7 +38768,7 @@ SetTextWrapWhitespaceVisible :: (text: *Text, visible: bool) -> bool #foreign li
 *
 * \sa TTF_SetTextWrapWhitespaceVisible
 */
-TextWrapWhitespaceVisible :: (text: *Text) -> bool #foreign libsdl3_ttf "TTF_TextWrapWhitespaceVisible";
+TTF_TextWrapWhitespaceVisible :: (text: *TTF_Text) -> bool #foreign libsdl3_ttf;
 
 /**
 * Set the UTF-8 text used by a text object.
@@ -38789,7 +38791,7 @@ TextWrapWhitespaceVisible :: (text: *Text) -> bool #foreign libsdl3_ttf "TTF_Tex
 * \sa TTF_DeleteTextString
 * \sa TTF_InsertTextString
 */
-SetTextString :: (text: *Text, _string: *u8, length: u64) -> bool #foreign libsdl3_ttf "TTF_SetTextString";
+TTF_SetTextString :: (text: *TTF_Text, _string: *u8, length: u64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Insert UTF-8 text into a text object.
@@ -38816,7 +38818,7 @@ SetTextString :: (text: *Text, _string: *u8, length: u64) -> bool #foreign libsd
 * \sa TTF_DeleteTextString
 * \sa TTF_SetTextString
 */
-InsertTextString :: (text: *Text, offset: s32, _string: *u8, length: u64) -> bool #foreign libsdl3_ttf "TTF_InsertTextString";
+TTF_InsertTextString :: (text: *TTF_Text, offset: s32, _string: *u8, length: u64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Append UTF-8 text to a text object.
@@ -38839,7 +38841,7 @@ InsertTextString :: (text: *Text, offset: s32, _string: *u8, length: u64) -> boo
 * \sa TTF_InsertTextString
 * \sa TTF_SetTextString
 */
-AppendTextString :: (text: *Text, _string: *u8, length: u64) -> bool #foreign libsdl3_ttf "TTF_AppendTextString";
+TTF_AppendTextString :: (text: *TTF_Text, _string: *u8, length: u64) -> bool #foreign libsdl3_ttf;
 
 /**
 * Delete UTF-8 text from a text object.
@@ -38865,7 +38867,7 @@ AppendTextString :: (text: *Text, _string: *u8, length: u64) -> bool #foreign li
 * \sa TTF_InsertTextString
 * \sa TTF_SetTextString
 */
-DeleteTextString :: (text: *Text, offset: s32, length: s32) -> bool #foreign libsdl3_ttf "TTF_DeleteTextString";
+TTF_DeleteTextString :: (text: *TTF_Text, offset: s32, length: s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the size of a text object.
@@ -38886,7 +38888,7 @@ DeleteTextString :: (text: *Text, offset: s32, length: s32) -> bool #foreign lib
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetTextSize :: (text: *Text, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf "TTF_GetTextSize";
+TTF_GetTextSize :: (text: *TTF_Text, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf;
 
 /**
 * Flags for TTF_SubString
@@ -38895,7 +38897,7 @@ GetTextSize :: (text: *Text, w: *s32, h: *s32) -> bool #foreign libsdl3_ttf "TTF
 *
 * \sa TTF_SubString
 */
-SubStringFlags :: Uint32;
+TTF_SubStringFlags :: Uint32;
 
 /**
 * The representation of a substring within text.
@@ -38909,13 +38911,13 @@ SubStringFlags :: Uint32;
 * \sa TTF_GetTextSubStringForPoint
 * \sa TTF_GetTextSubStringsForRange
 */
-SubString :: struct {
-    flags:         SubStringFlags; /**< The flags for this substring */
+TTF_SubString :: struct {
+    flags:         TTF_SubStringFlags; /**< The flags for this substring */
     offset:        s32; /**< The byte offset from the beginning of the text */
     length:        s32; /**< The byte length starting at the offset */
     line_index:    s32; /**< The index of the line that contains this substring */
     cluster_index: s32; /**< The internal cluster index, used for quickly iterating */
-    rect:          Rect; /**< The rectangle, relative to the top left of the text, containing the substring */
+    rect:          SDL_Rect; /**< The rectangle, relative to the top left of the text, containing the substring */
 }
 
 /**
@@ -38939,7 +38941,7 @@ SubString :: struct {
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetTextSubString :: (text: *Text, offset: s32, substring: *SubString) -> bool #foreign libsdl3_ttf "TTF_GetTextSubString";
+TTF_GetTextSubString :: (text: *TTF_Text, offset: s32, substring: *TTF_SubString) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the substring of a text object that contains the given line.
@@ -38962,7 +38964,7 @@ GetTextSubString :: (text: *Text, offset: s32, substring: *SubString) -> bool #f
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetTextSubStringForLine :: (text: *Text, line: s32, substring: *SubString) -> bool #foreign libsdl3_ttf "TTF_GetTextSubStringForLine";
+TTF_GetTextSubStringForLine :: (text: *TTF_Text, line: s32, substring: *TTF_SubString) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the substrings of a text object that contain a range of text.
@@ -38983,7 +38985,7 @@ GetTextSubStringForLine :: (text: *Text, line: s32, substring: *SubString) -> bo
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetTextSubStringsForRange :: (text: *Text, offset: s32, length: s32, count: *s32) -> **SubString #foreign libsdl3_ttf "TTF_GetTextSubStringsForRange";
+TTF_GetTextSubStringsForRange :: (text: *TTF_Text, offset: s32, length: s32, count: *s32) -> **TTF_SubString #foreign libsdl3_ttf;
 
 /**
 * Get the portion of a text string that is closest to a point.
@@ -39005,7 +39007,7 @@ GetTextSubStringsForRange :: (text: *Text, offset: s32, length: s32, count: *s32
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetTextSubStringForPoint :: (text: *Text, x: s32, y: s32, substring: *SubString) -> bool #foreign libsdl3_ttf "TTF_GetTextSubStringForPoint";
+TTF_GetTextSubStringForPoint :: (text: *TTF_Text, x: s32, y: s32, substring: *TTF_SubString) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the previous substring in a text object
@@ -39023,7 +39025,7 @@ GetTextSubStringForPoint :: (text: *Text, x: s32, y: s32, substring: *SubString)
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetPreviousTextSubString :: (text: *Text, substring: *SubString, previous: *SubString) -> bool #foreign libsdl3_ttf "TTF_GetPreviousTextSubString";
+TTF_GetPreviousTextSubString :: (text: *TTF_Text, substring: *TTF_SubString, previous: *TTF_SubString) -> bool #foreign libsdl3_ttf;
 
 /**
 * Get the next substring in a text object
@@ -39042,7 +39044,7 @@ GetPreviousTextSubString :: (text: *Text, substring: *SubString, previous: *SubS
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-GetNextTextSubString :: (text: *Text, substring: *SubString, next: *SubString) -> bool #foreign libsdl3_ttf "TTF_GetNextTextSubString";
+TTF_GetNextTextSubString :: (text: *TTF_Text, substring: *TTF_SubString, next: *TTF_SubString) -> bool #foreign libsdl3_ttf;
 
 /**
 * Update the layout of a text object.
@@ -39060,7 +39062,7 @@ GetNextTextSubString :: (text: *Text, substring: *SubString, next: *SubString) -
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-UpdateText :: (text: *Text) -> bool #foreign libsdl3_ttf "TTF_UpdateText";
+TTF_UpdateText :: (text: *TTF_Text) -> bool #foreign libsdl3_ttf;
 
 /**
 * Destroy a text object created by a text engine.
@@ -39074,7 +39076,7 @@ UpdateText :: (text: *Text) -> bool #foreign libsdl3_ttf "TTF_UpdateText";
 *
 * \sa TTF_CreateText
 */
-DestroyText :: (text: *Text) -> void #foreign libsdl3_ttf "TTF_DestroyText";
+TTF_DestroyText :: (text: *TTF_Text) -> void #foreign libsdl3_ttf;
 
 /**
 * Dispose of a previously-created font.
@@ -39098,7 +39100,7 @@ DestroyText :: (text: *Text) -> void #foreign libsdl3_ttf "TTF_DestroyText";
 * \sa TTF_OpenFont
 * \sa TTF_OpenFontIO
 */
-CloseFont :: (font: *Font) -> void #foreign libsdl3_ttf "TTF_CloseFont";
+TTF_CloseFont :: (font: *TTF_Font) -> void #foreign libsdl3_ttf;
 
 /**
 * Deinitialize SDL_ttf.
@@ -39120,7 +39122,7 @@ CloseFont :: (font: *Font) -> void #foreign libsdl3_ttf "TTF_CloseFont";
 *
 * \since This function is available since SDL_ttf 3.0.0.
 */
-Quit :: () -> void #foreign libsdl3_ttf "TTF_Quit";
+TTF_Quit :: () -> void #foreign libsdl3_ttf;
 
 /**
 * Check if SDL_ttf is initialized.
@@ -39144,7 +39146,7 @@ Quit :: () -> void #foreign libsdl3_ttf "TTF_Quit";
 * \sa TTF_Init
 * \sa TTF_Quit
 */
-WasInit :: () -> s32 #foreign libsdl3_ttf "TTF_WasInit";
+TTF_WasInit :: () -> s32 #foreign libsdl3_ttf;
 
 #scope_file
 

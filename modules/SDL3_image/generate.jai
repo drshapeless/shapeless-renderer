@@ -23,6 +23,7 @@ generate_bindings :: () -> bool {
         opts.strip_flags = .FUNCTIONS_WITH_VALIST;
 
         array_add(*opts.library_search_paths, "/opt/homebrew/lib");
+        array_add(*opts.include_paths, "/opt/homebrew/include");
 
         array_add(*opts.libraries, .{filename="libSDL3_image.dylib"});
     } else {
@@ -34,9 +35,6 @@ generate_bindings :: () -> bool {
 
     opts.visitor = visitor;
     opts.generate_compile_time_struct_checks = false;
-
-    array_add(*opts.strip_prefixes, "IMG_");
-    array_add(*opts.strip_prefixes, "SDL_");
 
     return generate_bindings(opts, output_filename);
 }
