@@ -10,7 +10,7 @@ FrameData :: struct {
 }
 
 Renderer :: struct {
-    window: *sdl.Window;
+    window: *SDL_Window;
 
     // Device
     vk_allocator    : *VkAllocationCallbacks;
@@ -73,7 +73,7 @@ VK_CHECK :: (result: VkResult, loc := #caller_location) {
     assert(result == .SUCCESS, "VK_CHECK failed: %", result, loc = loc);
 }
 
-init_renderer :: (using renderer: *Renderer, sdl_window: *sdl.Window) {
+init_renderer :: (using renderer: *Renderer, sdl_window: *SDL_Window) {
     window = sdl_window;
     init_instance(renderer);
     get_physical_device(renderer);
@@ -94,7 +94,7 @@ destroy_renderer :: (using renderer: *Renderer) {
     vkDestroyDevice(dev, vk_allocator);
 
     log("Destroying surface...");
-    sdl.Vulkan_DestroySurface(xx instance, xx surface, xx vk_allocator);
+    SDL_Vulkan_DestroySurface(xx instance, xx surface, xx vk_allocator);
 
     #if ENABLE_VALIDATION {
         log("Destorying debug messenger...");
@@ -107,7 +107,7 @@ destroy_renderer :: (using renderer: *Renderer) {
 init_instance :: (using renderer: *Renderer) {
     vk_allocator = null;
 
-    vk_load_global_functions(xx sdl.Vulkan_GetVkGetInstanceProcAddr());
+    vk_load_global_functions(xx SDL_Vulkan_GetVkGetInstanceProcAddr());
 
     application_info:= VkApplicationInfo.{
         pApplicationName = "shapeless renderer",
@@ -126,7 +126,7 @@ init_instance :: (using renderer: *Renderer) {
     }
 
     extension_count: u32 = 0;
-    sdl_extensions := sdl.Vulkan_GetInstanceExtensions(*extension_count);
+    sdl_extensions := SDL_Vulkan_GetInstanceExtensions(*extension_count);
 
     push_allocator(temp);
     defer reset_temporary_storage();
@@ -238,7 +238,7 @@ get_physical_device :: (using renderer: *Renderer) {
 
 init_surface :: (using renderer: *Renderer) {
     // Mismatch binding types between SDL3 and Vulkan
-    ok := sdl.Vulkan_CreateSurface(window, xx instance, xx vk_allocator, xx *surface);
+    ok := SDL_Vulkan_CreateSurface(window, xx instance, xx vk_allocator, xx *surface);
     assert(ok);
 }
 
@@ -457,11 +457,11 @@ create_swapchain :: (using renderer: *Renderer, extent: VkExtent2D, old_swapchai
     image_format = surface_format.format;
 }
 
-get_window_extent :: (window: *sdl.Window) -> VkExtent2D {
+get_window_extent :: (window: *SDL_Window) -> VkExtent2D {
     w: s32;
     h : s32;
-    if !sdl.GetWindowSize(window, *w, *h) {
-        log_error("Cannot get window size %", sdl.GetError());
+    if !SDL_GetWindowSize(window, *w, *h) {
+        log_error("Cannot get window size %", SDL_GetError());
     }
 
     return VkExtent2D.{xx w, xx h};
@@ -1296,6 +1296,6 @@ end_draw :: (using renderer: *Renderer) {
 #import "Vulkan_Memory_Allocator";
 #import "Basic";
 #import "String";
-sdl :: #import "SDL3";
+#import "SDL3";
 #import "Math";
 #import "File";
