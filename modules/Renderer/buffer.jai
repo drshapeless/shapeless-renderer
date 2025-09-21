@@ -4,7 +4,7 @@ Buffer :: struct {
     info : VmaAllocationInfo;
 }
 
-buffer_copy :: (cmd: VkCommandBuffer, src_buffer: VkBuffer, dst_buffer: VkBuffer, size: u64, src_offset: u64, dst_offset: u64) {
+copy_buffer :: (cmd: VkCommandBuffer, src_buffer: VkBuffer, dst_buffer: VkBuffer, size: u64, src_offset: u64, dst_offset: u64) {
     copy_region := VkBufferCopy2.{
         srcOffset = src_offset,
         dstOffset = dst_offset,

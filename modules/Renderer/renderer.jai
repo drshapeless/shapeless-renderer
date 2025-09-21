@@ -1,12 +1,12 @@
 ENABLE_VALIDATION :: true;
 
-FrameData :: struct {
+Frame_Data :: struct {
     command_pool         : VkCommandPool;
     cmd                  : VkCommandBuffer;
     swapchain_semaphore  : VkSemaphore;
     render_semaphore     : VkSemaphore;
     render_fence         : VkFence;
-    descriptor_allocator : DescriptorAllocator;
+    descriptor_allocator : Descriptor_Allocator;
 }
 
 Renderer :: struct {
@@ -40,7 +40,7 @@ Renderer :: struct {
     image_format        : VkFormat;
     images              : []VkImage;
     image_views         : []VkImageView;
-    frames              : []FrameData;
+    frames              : []Frame_Data;
     current_frame_index : u32;
     current_image_index : u32;
 
@@ -435,7 +435,7 @@ create_swapchain :: (using renderer: *Renderer, extent: VkExtent2D, old_swapchai
     // Allocate the array according to image_count
     images = NewArray(image_count, VkImage);
     image_views = NewArray(image_count, VkImageView);
-    frames = NewArray(image_count, FrameData);
+    frames = NewArray(image_count, Frame_Data);
 
     if swapchain_support.capabilities.maxImageCount > 0 && image_count > swapchain_support.capabilities.maxImageCount {
         image_count = swapchain_support.capabilities.maxImageCount;
@@ -661,16 +661,16 @@ descriptor_layout_builder_build :: (using self: *DescriptorLayoutBuilder, using 
     return set;
 }
 
-DescriptorAllocator :: struct {
+Descriptor_Allocator :: struct {
     pool_sizes : [..]VkDescriptorPoolSize;
     pool       : VkDescriptorPool;
 }
 
-descriptor_allocator_destroy :: (using self: *DescriptorAllocator) {
+descriptor_allocator_destroy :: (using self: *Descriptor_Allocator) {
     array_free(pool_sizes);
 }
 
-descriptor_allocator_add_pool_size :: (using self: *DescriptorAllocator, type: VkDescriptorType, descriptor_count: u32) {
+descriptor_allocator_add_pool_size :: (using self: *Descriptor_Allocator, type: VkDescriptorType, descriptor_count: u32) {
     pool_size := VkDescriptorPoolSize.{
         type            = type,
         descriptorCount = descriptor_count,
@@ -679,7 +679,7 @@ descriptor_allocator_add_pool_size :: (using self: *DescriptorAllocator, type: V
     array_add(*pool_sizes, pool_size);
 }
 
-descriptor_allocator_init_pool :: (using self: *DescriptorAllocator, using renderer: *Renderer, max_sets: u32) {
+descriptor_allocator_init_pool :: (using self: *Descriptor_Allocator, using renderer: *Renderer, max_sets: u32) {
     pool_info := VkDescriptorPoolCreateInfo.{
         maxSets       = max_sets,
         poolSizeCount = xx pool_sizes.count,
@@ -689,15 +689,15 @@ descriptor_allocator_init_pool :: (using self: *DescriptorAllocator, using rende
     VK_CHECK(vkCreateDescriptorPool(dev, *pool_info, vk_allocator, *pool));
 }
 
-descriptor_allocator_clear_descriptors :: (using self: *DescriptorAllocator, using renderer: *Renderer) {
+descriptor_allocator_clear_descriptors :: (using self: *Descriptor_Allocator, using renderer: *Renderer) {
     vkResetDescriptorPool(dev, pool, 0);
 }
 
-descriptor_allocator_destroy_pool :: (using self: *DescriptorAllocator, using renderer: *Renderer) {
+descriptor_allocator_destroy_pool :: (using self: *Descriptor_Allocator, using renderer: *Renderer) {
     vkDestroyDescriptorPool(dev, pool, vk_allocator);
 }
 
-descriptor_allocator_allocate :: (using self: *DescriptorAllocator, using renderer: *Renderer, layout: VkDescriptorSetLayout) -> VkDescriptorSet {
+descriptor_allocator_allocate :: (using self: *Descriptor_Allocator, using renderer: *Renderer, layout: VkDescriptorSetLayout) -> VkDescriptorSet {
     alloc_info := VkDescriptorSetAllocateInfo.{
         descriptorPool = pool,
         descriptorSetCount = 1,
@@ -779,7 +779,7 @@ descriptor_writer_update_set :: (using self: *DescriptorWriter, device: VkDevice
     vkUpdateDescriptorSets(device, writes.count, writes.data, 0, null);
 }
 
-PipelineBuilder :: struct {
+Pipeline_Builder :: struct {
     shader_stages: [..]VkPipelineShaderStageCreateInfo;
     vertex_bindings:         [..]VkVertexInputBindingDescription;
     vertex_attributes:       [..]VkVertexInputAttributeDescription;
@@ -799,7 +799,7 @@ PipelineBuilder :: struct {
     color_attachment_format: VkFormat;
 }
 
-pipeline_builder_build :: (using builder: *PipelineBuilder, using renderer: *Renderer) -> VkPipeline {
+pipeline_builder_build :: (using builder: *Pipeline_Builder, using renderer: *Renderer) -> VkPipeline {
     vertex_input_info.vertexBindingDescriptionCount = vertex_bindings.count;
     vertex_input_info.pVertexBindingDescriptions = vertex_bindings.data;
 
@@ -839,7 +839,7 @@ pipeline_builder_build :: (using builder: *PipelineBuilder, using renderer: *Ren
     return pipeline;
 }
 
-pipeline_builder_destroy :: (using builder: *PipelineBuilder) {
+pipeline_builder_destroy :: (using builder: *Pipeline_Builder) {
     array_free(shader_stages);
     array_free(vertex_bindings);
     array_free(vertex_attributes);
@@ -847,7 +847,7 @@ pipeline_builder_destroy :: (using builder: *PipelineBuilder) {
     array_free(dynamic_states);
 }
 
-pipeline_builder_clear :: (using builder: *PipelineBuilder) {
+pipeline_builder_clear :: (using builder: *Pipeline_Builder) {
     vertex_input_info   = .{};
     input_assembly_info = .{};
     tessellation_info   = .{};
@@ -860,7 +860,7 @@ pipeline_builder_clear :: (using builder: *PipelineBuilder) {
     depth_stencil_info = .{};
 
     color_blend_info = .{
-        logicOpEnable = false,
+        logicOpEnable = VK_FALSE,
         logicOp       = .COPY,
     };
 
@@ -869,7 +869,7 @@ pipeline_builder_clear :: (using builder: *PipelineBuilder) {
     render_info = .{};
 }
 
-pipeline_builder_set_shaders :: (using builder: *PipelineBuilder, vert_shader: VkShaderModule, frag_shader: VkShaderModule) {
+pipeline_builder_set_shaders :: (using builder: *Pipeline_Builder, vert_shader: VkShaderModule, frag_shader: VkShaderModule) {
     array_reset_keeping_memory(*shader_stages);
     vert_info := VkPipelineShaderStageCreateInfo.{
         stage = .VERTEX,
@@ -888,26 +888,26 @@ pipeline_builder_set_shaders :: (using builder: *PipelineBuilder, vert_shader: V
     array_add(*shader_stages, frag_info);
 }
 
-pipeline_builder_set_layout :: (builder: *PipelineBuilder, layout: VkPipelineLayout) {
+pipeline_builder_set_layout :: (builder: *Pipeline_Builder, layout: VkPipelineLayout) {
     builder.layout = layout;
 }
 
-pipeline_builder_set_input_topology :: (using builder: *PipelineBuilder, topology: VkPrimitiveTopology) {
+pipeline_builder_set_input_topology :: (using builder: *Pipeline_Builder, topology: VkPrimitiveTopology) {
     input_assembly_info.topology = topology;
     input_assembly_info.primitiveRestartEnable = VK_FALSE;
 }
 
-pipeline_builder_set_polygon_mode :: (using builder: *PipelineBuilder, mode: VkPolygonMode) {
+pipeline_builder_set_polygon_mode :: (using builder: *Pipeline_Builder, mode: VkPolygonMode) {
     rasterization_info.polygonMode = mode;
     rasterization_info.lineWidth = 1;
 }
 
-pipeline_builder_set_cull_mode :: (using builder: *PipelineBuilder, cull_mode: VkCullModeFlags, front_face: VkFrontFace) {
+pipeline_builder_set_cull_mode :: (using builder: *Pipeline_Builder, cull_mode: VkCullModeFlags, front_face: VkFrontFace) {
     rasterization_info.cullMode = cull_mode;
     rasterization_info.frontFace = front_face;
 }
 
-pipeline_builder_set_multisampling_none :: (using builder: *PipelineBuilder) {
+pipeline_builder_set_multisampling_none :: (using builder: *Pipeline_Builder) {
     multisample_info.sampleShadingEnable   = VK_FALSE;
     multisample_info.rasterizationSamples  = .e1;
     multisample_info.minSampleShading      = 1;
@@ -916,7 +916,7 @@ pipeline_builder_set_multisampling_none :: (using builder: *PipelineBuilder) {
     multisample_info.alphaToOneEnable      = VK_FALSE;
 }
 
-pipeline_builder_disable_blending :: (using builder: *PipelineBuilder) {
+pipeline_builder_disable_blending :: (using builder: *Pipeline_Builder) {
     color_blend_attachment := VkPipelineColorBlendAttachmentState.{
         colorWriteMask = .R | .G | .B | .A,
         blendEnable = VK_FALSE,
@@ -926,18 +926,18 @@ pipeline_builder_disable_blending :: (using builder: *PipelineBuilder) {
     array_add(*color_blend_attachments, color_blend_attachment);
 }
 
-pipeline_builder_set_color_attachment_format :: (using builder: *PipelineBuilder, format: VkFormat) {
+pipeline_builder_set_color_attachment_format :: (using builder: *Pipeline_Builder, format: VkFormat) {
     color_attachment_format = format;
 
     render_info.colorAttachmentCount = 1;
     render_info.pColorAttachmentFormats = *color_attachment_format;
 }
 
-pipeline_builder_set_depth_format :: (using builder: *PipelineBuilder, format: VkFormat) {
+pipeline_builder_set_depth_format :: (using builder: *Pipeline_Builder, format: VkFormat) {
     render_info.depthAttachmentFormat = format;
 }
 
-pipeline_builder_disable_depthtest :: (using builder: *PipelineBuilder) {
+pipeline_builder_disable_depthtest :: (using builder: *Pipeline_Builder) {
     depth_stencil_info.depthTestEnable = VK_FALSE;
     depth_stencil_info.depthWriteEnable = VK_FALSE;
     depth_stencil_info.depthCompareOp = .NEVER;
@@ -949,7 +949,7 @@ pipeline_builder_disable_depthtest :: (using builder: *PipelineBuilder) {
     depth_stencil_info.maxDepthBounds = 1;
 }
 
-pipeline_builder_enable_depthtest :: (using builder: *PipelineBuilder, depth_write_enable: VkBool32, op: VkCompareOp) {
+pipeline_builder_enable_depthtest :: (using builder: *Pipeline_Builder, depth_write_enable: VkBool32, op: VkCompareOp) {
     depth_stencil_info.depthTestEnable = VK_TRUE;
     depth_stencil_info.depthBoundsTestEnable = VK_TRUE;
     depth_stencil_info.depthWriteEnable = depth_write_enable;
@@ -961,7 +961,7 @@ pipeline_builder_enable_depthtest :: (using builder: *PipelineBuilder, depth_wri
     depth_stencil_info.maxDepthBounds = 1;
 }
 
-pipeline_builder_enable_blending_additive :: (using builder: *PipelineBuilder) {
+pipeline_builder_enable_blending_additive :: (using builder: *Pipeline_Builder) {
     color_blend_attachment := VkPipelineColorBlendAttachmentState.{
         colorWriteMask      = .R | .G | .B | .A,
         blendEnable         = VK_TRUE,
@@ -976,7 +976,7 @@ pipeline_builder_enable_blending_additive :: (using builder: *PipelineBuilder) {
     array_add(*color_blend_attachments, color_blend_attachment);
 }
 
-pipeline_builder_enable_blending_alphablend :: (using builder: *PipelineBuilder) {
+pipeline_builder_enable_blending_alphablend :: (using builder: *Pipeline_Builder) {
     color_blend_attachment := VkPipelineColorBlendAttachmentState.{
         colorWriteMask      = .R | .G | .B | .A,
         blendEnable         = VK_TRUE,
@@ -991,7 +991,7 @@ pipeline_builder_enable_blending_alphablend :: (using builder: *PipelineBuilder)
     array_add(*color_blend_attachments, color_blend_attachment);
 }
 
-pipeline_builder_add_vertex_input_binding :: (using builder: *PipelineBuilder, binding: u32, stride: u32, input_rate: VkVertexInputRate) {
+pipeline_builder_add_vertex_input_binding :: (using builder: *Pipeline_Builder, binding: u32, stride: u32, input_rate: VkVertexInputRate) {
     description := VkVertexInputBindingDescription.{
         binding   = binding,
         stride    = stride,
@@ -1001,7 +1001,7 @@ pipeline_builder_add_vertex_input_binding :: (using builder: *PipelineBuilder, b
     array_add(*vertex_bindings, description);
 }
 
-pipeline_builder_add_vertex_input_attribute :: (using builder: *PipelineBuilder, location: u32, binding: u32, format: VkFormat, offset: u32) {
+pipeline_builder_add_vertex_input_attribute :: (using builder: *Pipeline_Builder, location: u32, binding: u32, format: VkFormat, offset: u32) {
     description := VkVertexInputAttributeDescription.{
         location = location,
         binding  = binding,
@@ -1012,16 +1012,16 @@ pipeline_builder_add_vertex_input_attribute :: (using builder: *PipelineBuilder,
     array_add(*vertex_attributes, description);
 }
 
-pipeline_builder_clear_vertex_input :: (using builder: *PipelineBuilder) {
+pipeline_builder_clear_vertex_input :: (using builder: *Pipeline_Builder) {
     array_reset_keeping_memory(*vertex_attributes);
     array_reset_keeping_memory(*vertex_bindings);
 }
 
-pipeline_builder_add_dynamic_state :: (using builder: *PipelineBuilder, state: VkDynamicState) {
+pipeline_builder_add_dynamic_state :: (using builder: *Pipeline_Builder, state: VkDynamicState) {
     array_add(*dynamic_states, state);
 }
 
-pipeline_builder_clear_dynamic_state :: (using builder: *PipelineBuilder) {
+pipeline_builder_clear_dynamic_state :: (using builder: *Pipeline_Builder) {
     array_reset_keeping_memory(*dynamic_states);
 }
 
@@ -1085,7 +1085,7 @@ destroy_image :: (using renderer: *Renderer, image: *Image) {
     vmaDestroyImage(vma_allocator, image.img, image.allocation);
 }
 
-get_current_frame :: (using renderer: *Renderer) -> *FrameData {
+get_current_frame :: (using renderer: *Renderer) -> *Frame_Data {
     return *frames[current_frame_index];
 }
 
@@ -1150,8 +1150,8 @@ load_shader_module :: (using renderer: *Renderer, file_path: string) -> VkShader
     assert(ok, "cannot read file %", file_path);
 
     create_info := VkShaderModuleCreateInfo.{
-        codeSize = data.count,
-        pCode = data.data,
+        codeSize = xx data.count,
+        pCode = xx data.data,
     };
 
     shader_module : VkShaderModule;
@@ -1297,6 +1297,88 @@ end_draw :: (using renderer: *Renderer) {
     cmd = null;
 }
 
+begin_single_time_commands :: (using renderer: *Renderer) -> VkCommandBuffer {
+    cmd_alloc_info := VkCommandBufferAllocateInfo.{
+        commandPool = command_pool,
+        commandBufferCount = 1,
+        level = .PRIMARY,
+    };
+    cmd: VkCommandBuffer;
+    VK_CHECK(vkAllocateCommandBuffers(dev, *cmd_alloc_info, *cmd));
+
+    cmd_begin_info := VkCommandBufferBeginInfo.{
+        flags = .ONE_TIME_SUBMIT,
+    };
+    VK_CHECK(vkBeginCommandBuffer(cmd, *cmd_begin_info));
+
+    return cmd;
+}
+
+end_single_time_commands :: (using renderer: *Renderer, cmd: VkCommandBuffer) {
+    VK_CHECK(vkEndCommandBuffer(cmd));
+
+    cmdinfo := VkCommandBufferSubmitInfo.{
+        commandBuffer = cmd,
+    };
+    submit := VkSubmitInfo2.{
+        commandBufferInfoCount = 1,
+        pCommandBufferInfos = cmdinfo,
+    };
+    VK_CHECK(vkQueueSubmit2(graphics_queue, 1, *submit, null));
+    vkQueueWaitIdle(graphics_queue);
+    vkFreeCommandBuffers(dev, command_pool, 1, *cmd);
+}
+
+create_buffer :: (using renderer: *Renderer, alloc_size: u64, usage: VkBufferUsageFlags, memory_usage: VmaMemoryUsage) -> Buffer {
+    buffer_info := VkBufferCreateInfo.{
+        size = alloc_size,
+        usage = usage,
+    };
+
+    vma_alloc_info := VmaAllocationCreateInfo.{
+        usage = memory_usage,
+        flags = VmaAllocationCreateFlagBits.MAPPED_BIT,
+    };
+
+    new_buffer: Buffer;
+
+    VK_CHECK(vmaCreateBuffer(vma_allocator, *buffer_info, *vma_alloc_info, *new_buffer, buffer, *new_buffer.allocation, *new_buffer.info));
+
+    return new_buffer;
+}
+
+destroy_buffer :: (using renderer: *Renderer, buffer: *Buffer) {
+    vmaDestroyBuffer(vma_allocator, buffer.buffer, buffer.allocation);
+}
+
+map_buffer :: (using renderer: *Renderer, buffer: *Buffer) -> *void {
+    data: *void;
+    vmaMapMemory(vma_allocator, buffer.allocation, *data);
+    return data;
+}
+
+unmap_buffer :: (using renderer: *Renderer, buffer: *Buffer) {
+    vmaUnmapMemory(vma_allocator, buffer.allocation);
+}
+
+// This function is seldom used, I am not sure whether to keep it.
+flush_buffer :: (using renderer: *Renderer, buffer: *Buffer, size: VkDeviceSize, offset: VkDeviceSize) {
+    vmaFlushAllocation(vma_allocator, buffer.allocation, offset, size);
+}
+
+upload_buffer :: (using renderer: *Renderer, buffer: *Buffer, data: *void, size: u64, src_offset: u64, dst_offset: u64) {
+    staging_buffer := create_buffer(renderer, size, .TRANSFER_SRC | STORAGE_BUFFER, .CPU_ONLY);
+    staging_data := map_buffer(renderer, *staging_buffer);
+    copy(staging_data, data, size);
+    unmap_buffer(renderer, *staging_buffer);
+
+    c := begin_single_time_commands(renderer);
+    copy_buffer(c, staging_buffer.buffer, buffer.buffer, size, src_offset, dst_offset);
+    end_single_time_commands(renderer, c);
+
+    destroy_buffer(renderer, *staging_buffer);
+}
+
 #scope_file
 
 #import "Vulkan";
@@ -1306,3 +1388,4 @@ end_draw :: (using renderer: *Renderer) {
 #import "SDL3";
 #import "Math";
 #import "File";
+#import "Memory";
