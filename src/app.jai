@@ -7,11 +7,11 @@ app_init :: (appstate: **void, argc: s32, argv: **u8) -> SDL_AppResult {
     state := New(AppState);
     using state;
     log("Initializing SDL...");
-    ok := SDL_Init(SDL_INIT_VIDEO);
+    ok := SDL_Init(.VIDEO);
     assert(ok, "cannot init SDL");
 
     log("Creating SDL Window...");
-    window = SDL_CreateWindow("shapeless", 800, 600, SDL_WINDOW_RESIZABLE | SDL_WINDOW_VULKAN);
+    window = SDL_CreateWindow("shapeless", 800, 600, .RESIZABLE | .VULKAN);
     assert(window != null, "cannot create window %", to_string(SDL_GetError()));
 
     init_renderer(*renderer, window);
@@ -22,12 +22,28 @@ app_init :: (appstate: **void, argc: s32, argv: **u8) -> SDL_AppResult {
 }
 
 app_event :: (appstate: *void, event: *SDL_Event) -> SDL_AppResult {
+    if event.type == {
+    case .QUIT;
+        #through;
+    case .WINDOW_CLOSE_REQUESTED;
+        return .SUCCESS;
+    case .KEY_DOWN;
+        if event.key.key == {
+        case SDLK_ESCAPE;
+            return .SUCCESS;
+        }
+    }
     return .CONTINUE;
 }
 
 app_iter :: (appstate: *void) -> SDL_AppResult {
-    // TODO: When it works, return .CONTINUE
-    return .SUCCESS;
+    state := cast(*AppState)appstate;
+    using state;
+    set_clear_color(*renderer, float.[1, 1, 0.5, 1]);
+    if begin_draw(*renderer) {
+        end_draw(*renderer);
+    }
+    return .CONTINUE;
 }
 
 app_quit :: (appstate: *void, result: SDL_AppResult) {
