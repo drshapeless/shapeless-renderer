@@ -29,6 +29,8 @@ OUTPUT_EXECUTABLE_NAME := "shapeless-renderer";
     message_loop();
 
     compiler_end_intercept(w);
+
+    compile_shaders();
 }
 
 message_loop :: () {
@@ -50,3 +52,5 @@ message_loop :: () {
 #import "Compiler";
 #import "File_Utilities";
 #import "File";
+
+#load "shader_compilation.jai";
