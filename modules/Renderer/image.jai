@@ -24,7 +24,7 @@ transition_image :: (cmd: VkCommandBuffer, img: VkImage, old_layout: VkImageLayo
 
     image_barrier := VkImageMemoryBarrier2.{
         srcStageMask     = .ALL_COMMANDS,
-        srcAccessMask    = .MEMROY_WRITE,
+        srcAccessMask    = .MEMORY_WRITE,
         dstStageMask     = .ALL_COMMANDS,
         dstAccessMask    = .MEMORY_WRITE | .MEMORY_READ,
         oldLayout        = old_layout,
@@ -49,7 +49,7 @@ copy_image :: (cmd: VkCommandBuffer, src_img: VkImage, dst_img: VkImage, src_ext
             layerCount     = 1,
             mipLevel       = 0,
         },
-        dstSubResource = .{
+        dstSubresource = .{
             aspectMask     = .COLOR,
             baseArrayLayer = 0,
             layerCount     = 1,

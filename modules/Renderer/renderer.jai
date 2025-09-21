@@ -52,7 +52,7 @@ Renderer :: struct {
     transfer_command_pool : VkCommandPool;
     graphics_command_pool : VkCommandPool;
     cmd                   : VkCommandBuffer;
-    resize_request        : bool;
+    resize_requested      : bool;
 }
 
 VALIDATION_LAYERS :: (*u8).["VK_LAYER_KHRONOS_validation"];
@@ -81,9 +81,16 @@ init_renderer :: (using renderer: *Renderer, sdl_window: *SDL_Window) {
     init_device(renderer);
     init_vma(renderer);
     init_swapchain(renderer);
+    create_command_pool(renderer);
+    create_draw_images(renderer);
 }
 
 destroy_renderer :: (using renderer: *Renderer) {
+    VK_CHECK(vkDeviceWaitIdle(dev));
+
+    destroy_draw_images(renderer);
+    destroy_command_pool(renderer);
+
     log("Destroying swapchain...");
     destroy_swapchain(renderer);
 
@@ -683,7 +690,7 @@ descriptor_allocator_init_pool :: (using self: *DescriptorAllocator, using rende
 }
 
 descriptor_allocator_clear_descriptors :: (using self: *DescriptorAllocator, using renderer: *Renderer) {
-    vkResetDescriptorPool(dev, pool, null);
+    vkResetDescriptorPool(dev, pool, 0);
 }
 
 descriptor_allocator_destroy_pool :: (using self: *DescriptorAllocator, using renderer: *Renderer) {
@@ -1037,7 +1044,7 @@ create_image :: (using renderer: *Renderer, extent: VkExtent3D, format: VkFormat
 
     if mippmapped {
         // There is no log2 in Jai, WTF.
-        img_info.mipLevels = xx floor(log(max(extent.width, extent.height)) / log(2));
+        img_info.mipLevels = xx floor(log(cast(float)max(extent.width, extent.height)) / #run log(2));
     }
 
     alloc_info := VmaAllocationCreateInfo.{
@@ -1049,7 +1056,7 @@ create_image :: (using renderer: *Renderer, extent: VkExtent3D, format: VkFormat
 
     aspect_flag := VkImageAspectFlags.COLOR;
     if format == .D32_SFLOAT {
-        aspect_flag = .DPETH;
+        aspect_flag = .DEPTH;
     }
 
     view_info := VkImageViewCreateInfo.{
@@ -1091,7 +1098,7 @@ acquire_next_image :: (using renderer: *Renderer) -> VkResult {
         swapchain = swapchain,
         timeout = U64_MAX,
         semaphore = get_current_frame(renderer).swapchain_semaphore,
-        fence = 0,
+        fence = null,
         deviceMask = 1,
     };
 
@@ -1170,7 +1177,7 @@ begin_draw :: (using renderer: *Renderer) -> bool {
     VK_CHECK(vkResetCommandBuffer(current_frame.cmd, 0));
     result := acquire_next_image(renderer);
     if result == .ERROR_OUT_OF_DATE_KHR {
-        resize_request = true;
+        resize_requested = true;
         return false;
     } else {
         assert(result == .SUBOPTIMAL_KHR || result == .SUCCESS, "acquire image failed %", result);
@@ -1203,9 +1210,9 @@ begin_draw :: (using renderer: *Renderer) -> bool {
 
     rendering_info := VkRenderingInfo.{
         renderArea = .{offset = .{0, 0}, extent = draw_extent},
-        layoutCount = 1,
+        layerCount = 1,
         colorAttachmentCount = 1,
-        pColorAttachmentCount = *color_attachment,
+        pColorAttachments = *color_attachment,
         pDepthAttachment = *depth_attachment,
         pStencilAttachment = null,
     };
@@ -1215,8 +1222,8 @@ begin_draw :: (using renderer: *Renderer) -> bool {
     viewport := VkViewport.{
         x = 0,
         y = 0,
-        width = draw_extent.width,
-        height = draw_extent.height,
+        width = xx draw_extent.width,
+        height = xx draw_extent.height,
         minDepth = 0,
         maxDepth = 1,
     };
@@ -1241,7 +1248,7 @@ end_draw :: (using renderer: *Renderer) {
     current_image := get_current_image(renderer);
     transition_image(cmd, draw_image.img, .GENERAL, .TRANSFER_SRC_OPTIMAL);
     transition_image(cmd, current_image, .UNDEFINED, .TRANSFER_DST_OPTIMAL);
-    copy_image(cmd, draw_image.img, current_image, draw_extent, extent);
+    copy_image(cmd, draw_image.img, current_image, draw_extent, swapchain_extent);
     transition_image(cmd, current_image, .TRANSFER_DST_OPTIMAL, .PRESENT_SRC_KHR);
 
     VK_CHECK(vkEndCommandBuffer(cmd));
