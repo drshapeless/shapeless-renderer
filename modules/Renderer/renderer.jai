@@ -1337,12 +1337,12 @@ create_buffer :: (using renderer: *Renderer, alloc_size: u64, usage: VkBufferUsa
 
     vma_alloc_info := VmaAllocationCreateInfo.{
         usage = memory_usage,
-        flags = VmaAllocationCreateFlagBits.MAPPED_BIT,
+        flags = xx VmaAllocationCreateFlagBits.MAPPED_BIT,
     };
 
     new_buffer: Buffer;
 
-    VK_CHECK(vmaCreateBuffer(vma_allocator, *buffer_info, *vma_alloc_info, *new_buffer, buffer, *new_buffer.allocation, *new_buffer.info));
+    VK_CHECK(vmaCreateBuffer(vma_allocator, *buffer_info, *vma_alloc_info, *new_buffer.buffer, *new_buffer.allocation, *new_buffer.info));
 
     return new_buffer;
 }
@@ -1377,6 +1377,33 @@ upload_buffer :: (using renderer: *Renderer, buffer: *Buffer, data: *void, size:
     end_single_time_commands(renderer, c);
 
     destroy_buffer(renderer, *staging_buffer);
+}
+
+create_model :: (using renderer: *Renderer, vertices: *void, vertex_stride: u64, vertex_size: u64, indices: *u32, index_size: u64) -> Model {
+    model := Model.{
+        vertex_size = vertex_size,
+        index_size = index_size,
+    };
+
+    buffer_size := vertex_stride * vertex_size;
+
+    model.vertex_buffer = create_buffer(renderer, buffer_size, .INDEX_BUFFER | .TRANSFER_DST, .GPU_ONLY);
+    upload_buffer(renderer, *model.vertex_buffer, vertices, buffer_size, 0, 0);
+
+    if index_size > 0 {
+        buffer_size = size_of(u32) * index_size;
+        model.index_buffer = create_buffer(buffer_size, .INDEX_BUFFER | .TRANSFER_DST, .GPU_ONLY);
+        upload_buffer(renderer, *model.index_buffer, indices, buffer_size, 0, 0);
+    }
+
+    return model;
+}
+
+destroy_model :: (using renderer: *Renderer, model: *Model) {
+    destroy_buffer(renderer, *model.vertex_buffer);
+    if model.index_size > 0 {
+        destroy_buffer(renderer, *model.index_buffer);
+    }
 }
 
 #scope_file
