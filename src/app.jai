@@ -25,10 +25,9 @@ app_init :: (appstate: **void, argc: s32, argv: **u8) -> SDL_AppResult {
     init_solid_color_system(*solid_color_system, *renderer);
     init_test_system(*test_system, *renderer);
     init_camera(*camera, get_aspect_ratio(*renderer));
-    translate(*pc.model, .{0.5, 0.0, 0.0});
-    // pc.view = camera_view(*camera);
-    // pc.proj = camera_projection(*camera);
-    // pc.proj.coef[1][1] *= -1;
+    pc.view = camera_view(*camera);
+    pc.proj = camera_projection(*camera);
+
     log("model %", pc.model);
     log("view %", pc.view);
     log("proj %", pc.proj);
@@ -58,15 +57,15 @@ app_iter :: (appstate: *void) -> SDL_AppResult {
 
     if begin_draw(*renderer) {
         cmd := renderer.cmd;
-        // vkCmdBindPipeline(cmd, .GRAPHICS, solid_color_system.pipeline);
-        // vkCmdPushConstants(cmd, solid_color_system.pipeline_layout, .VERTEX, 0, size_of(Matrix4) * 3, *pc);
-        // vkCmdPushConstants(cmd, solid_color_system.pipeline_layout, .FRAGMENT, size_of(Solid_Color_System.Vertex_Push_Constant), size_of(Vector4), *TEST_COLOR);
-        vkCmdBindPipeline(cmd, .GRAPHICS, test_system.pipeline);
-        vkCmdPushConstants(cmd, test_system.pipeline_layout, .VERTEX, 0, size_of(Matrix4), *pc.model);
-        vkCmdPushConstants(cmd, test_system.pipeline_layout, .FRAGMENT, size_of(Matrix4), size_of(Vector4), *TEST_COLOR);
+        vkCmdBindPipeline(cmd, .GRAPHICS, solid_color_system.pipeline);
+        vkCmdPushConstants(cmd, solid_color_system.pipeline_layout, .VERTEX, 0, size_of(Matrix4) * 3, *pc);
+        vkCmdPushConstants(cmd, solid_color_system.pipeline_layout, .FRAGMENT, size_of(Solid_Color_System.Vertex_Push_Constant), size_of(Vector4), *TEST_COLOR);
+        // vkCmdBindPipeline(cmd, .GRAPHICS, test_system.pipeline);
+        // vkCmdPushConstants(cmd, test_system.pipeline_layout, .VERTEX, 0, size_of(Matrix4), *pc.model);
+        // vkCmdPushConstants(cmd, test_system.pipeline_layout, .FRAGMENT, size_of(Matrix4), size_of(Vector4), *TEST_COLOR);
 
-        bind_model(*renderer.builtin_models.square, cmd);
-        draw_model(*renderer.builtin_models.square, cmd);
+        bind_model(*renderer.builtin_models.cube, cmd);
+        draw_model(*renderer.builtin_models.cube, cmd);
 
         end_draw(*renderer);
     }
