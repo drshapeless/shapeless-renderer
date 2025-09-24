@@ -626,22 +626,22 @@ recreate_swapchain :: (using renderer: *Renderer) {
     vkDestroySwapchainKHR(dev, old_swapchain, vk_allocator);
 }
 
-DescriptorLayoutBuilder :: struct {
+Descriptor_Layout_Builder :: struct {
     bindings: [..]VkDescriptorSetLayoutBinding;
 }
 
-// There is not init function for DescriptorLayoutBuilder, maybe I
+// There is not init function for Descriptor_Layout_Builder, maybe I
 // should make a dumb one for consistency.
 
-descriptor_layout_builder_free :: (using self: *DescriptorLayoutBuilder) {
+descriptor_layout_builder_free :: (using self: *Descriptor_Layout_Builder) {
     array_free(bindings);
 }
 
-descriptor_layout_builder_clear :: (using self: *DescriptorLayoutBuilder) {
+descriptor_layout_builder_clear :: (using self: *Descriptor_Layout_Builder) {
     array_reset_keeping_memory(bindings);
 }
 
-descriptor_layout_builder_add_binding :: (using self: *DescriptorLayoutBuilder, binding: u32, type: VkDescriptorType, shader_stages: VkShaderStageFlags) {
+descriptor_layout_builder_add_binding :: (using self: *Descriptor_Layout_Builder, binding: u32, type: VkDescriptorType, shader_stages: VkShaderStageFlags) {
     new_bind := VkDescriptorSetLayoutBinding.{
         binding         = binding,
         descriptorCount = 1,
@@ -652,7 +652,7 @@ descriptor_layout_builder_add_binding :: (using self: *DescriptorLayoutBuilder, 
     array_add(*bindings, new_bind);
 }
 
-descriptor_layout_builder_build :: (using self: *DescriptorLayoutBuilder, using renderer: *Renderer, pNext: *void, flags: VkDescriptorSetLayoutCreateFlags) -> VkDescriptorSetLayout {
+descriptor_layout_builder_build :: (using self: *Descriptor_Layout_Builder, using renderer: *Renderer, pNext: *void, flags: VkDescriptorSetLayoutCreateFlags) -> VkDescriptorSetLayout {
     info := VkDescriptorSetLayoutCreateInfo.{
         pNext        = pNext,
         pBindings    = bindings.data,
@@ -714,19 +714,19 @@ descriptor_allocator_allocate :: (using self: *Descriptor_Allocator, using rende
     return ds;
 }
 
-DescriptorWriter :: struct {
+Descriptor_Writer :: struct {
     image_infos  : [..]*VkDescriptorImageInfo;
     buffer_infos : [..]VkDescriptorBufferInfo;
     writes       : [..]VkWriteDescriptorSet;
 }
 
-descriptor_writer_destroy :: (using self: *DescriptorWriter) {
+descriptor_writer_destroy :: (using self: *Descriptor_Writer) {
     array_free(image_infos);
     array_free(buffer_infos);
     array_free(writes);
 }
 
-descriptor_writer_write_image :: (using self: *DescriptorWriter, binding: u32, image_view: VkImageView, sampler: VkSampler, layout: VkImageLayout, type: VkDescriptorType) {
+descriptor_writer_write_image :: (using self: *Descriptor_Writer, binding: u32, image_view: VkImageView, sampler: VkSampler, layout: VkImageLayout, type: VkDescriptorType) {
     info := New(VkDescriptorImageInfo);
     info.sampler     = sampler;
     info.imageView   = image_view;
@@ -744,7 +744,7 @@ descriptor_writer_write_image :: (using self: *DescriptorWriter, binding: u32, i
     array_add(*writes, write);
 }
 
-descriptor_writer_write_buffer :: (using self: *DescriptorWriter, binding: u32, buffer: VkBuffer, size: VkDeviceSize, offset: VkDeviceSize, type: VkDescriptorType) {
+descriptor_writer_write_buffer :: (using self: *Descriptor_Writer, binding: u32, buffer: VkBuffer, size: VkDeviceSize, offset: VkDeviceSize, type: VkDescriptorType) {
     info := New(VkDescriptorBufferInfo);
     info.buffer = buffer;
     info.offset = offset;
@@ -762,7 +762,7 @@ descriptor_writer_write_buffer :: (using self: *DescriptorWriter, binding: u32, 
     append(*writes, write);
 }
 
-descriptor_writer_clear :: (using self: *DescriptorWriter) {
+descriptor_writer_clear :: (using self: *Descriptor_Writer) {
     for i : image_infos {
         free(i);
     }
@@ -776,7 +776,7 @@ descriptor_writer_clear :: (using self: *DescriptorWriter) {
     array_reset_keeping_memory(writes);
 }
 
-descriptor_writer_update_set :: (using self: *DescriptorWriter, device: VkDevice, set: VkDescriptorSet) {
+descriptor_writer_update_set :: (using self: *Descriptor_Writer, device: VkDevice, set: VkDescriptorSet) {
     for *write : writes {
         write.dstSet = set;
     }
@@ -1413,10 +1413,13 @@ destroy_model :: (using renderer: *Renderer, model: *Model) {
 
 init_builtin_models :: (using renderer: *Renderer) {
     builtin_models.square = create_model(renderer, SQUARE_VERTICES.data, size_of(Vector3), xx SQUARE_VERTICES.count, SQUARE_INDICES.data, xx SQUARE_INDICES.count);
+
+    builtin_models.cube   = create_model(renderer, CUBE_VERTICES.data, size_of(Vector3), xx CUBE_VERTICES.count, CUBE_INDICES.data, xx CUBE_INDICES.count);
 }
 
 destroy_builtin_models :: (using renderer: *Renderer) {
     destroy_model(renderer, *builtin_models.square);
+    destroy_model(renderer, *builtin_models.cube);
 }
 
 get_aspect_ratio :: (using renderer: *Renderer) -> float {
