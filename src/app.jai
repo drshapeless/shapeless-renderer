@@ -2,6 +2,9 @@ AppState :: struct {
     window: *SDL_Window;
     renderer: Renderer;
     solid_color_system: Solid_Color_System;
+    test_system: Test_System;
+    camera: Camera;
+    pc: Solid_Color_System.Vertex_Push_Constant;
 }
 
 app_init :: (appstate: **void, argc: s32, argv: **u8) -> SDL_AppResult {
@@ -20,6 +23,15 @@ app_init :: (appstate: **void, argc: s32, argv: **u8) -> SDL_AppResult {
     appstate.* = state;
 
     init_solid_color_system(*solid_color_system, *renderer);
+    init_test_system(*test_system, *renderer);
+    init_camera(*camera, get_aspect_ratio(*renderer));
+    translate(*pc.model, .{0.5, 0.0, 0.0});
+    // pc.view = camera_view(*camera);
+    // pc.proj = camera_projection(*camera);
+    // pc.proj.coef[1][1] *= -1;
+    log("model %", pc.model);
+    log("view %", pc.view);
+    log("proj %", pc.proj);
 
     return .CONTINUE;
 }
@@ -44,16 +56,17 @@ app_iter :: (appstate: *void) -> SDL_AppResult {
     using state;
     set_clear_color(*renderer, float.[1, 1, 0.5, 1]);
 
-    // TODO: WIP
-    vertex_buffer := create_buffer(*renderer, size_of(Solid_Color_System.Vertex) * 3, .VERTEX_BUFFER, .GPU_ONLY);
-
-
     if begin_draw(*renderer) {
         cmd := renderer.cmd;
+        // vkCmdBindPipeline(cmd, .GRAPHICS, solid_color_system.pipeline);
+        // vkCmdPushConstants(cmd, solid_color_system.pipeline_layout, .VERTEX, 0, size_of(Matrix4) * 3, *pc);
+        // vkCmdPushConstants(cmd, solid_color_system.pipeline_layout, .FRAGMENT, size_of(Solid_Color_System.Vertex_Push_Constant), size_of(Vector4), *TEST_COLOR);
+        vkCmdBindPipeline(cmd, .GRAPHICS, test_system.pipeline);
+        vkCmdPushConstants(cmd, test_system.pipeline_layout, .VERTEX, 0, size_of(Matrix4), *pc.model);
+        vkCmdPushConstants(cmd, test_system.pipeline_layout, .FRAGMENT, size_of(Matrix4), size_of(Vector4), *TEST_COLOR);
 
-        vkCmdBindPipeline(cmd, .GRAPHICS, solid_color_system.pipeline);
-        vkCmdPushConstants(cmd, solid_color_system.pipeline_layout, .FRAGMENT, sizeof(Solid_Color_System.Vertex_Push_Constant), sizeof(Solid_Color_System.Fragment_Push_Constant), *RED);
-        vkCmdDraw(cmd, 3, 1, 0, 0);
+        bind_model(*renderer.builtin_models.square, cmd);
+        draw_model(*renderer.builtin_models.square, cmd);
 
         end_draw(*renderer);
     }
@@ -63,6 +76,8 @@ app_iter :: (appstate: *void) -> SDL_AppResult {
 app_quit :: (appstate: *void, result: SDL_AppResult) {
     state := cast(*AppState)appstate;
     using state;
+    VK_CHECK(vkDeviceWaitIdle(renderer.dev));
+    destroy_test_system(*test_system, *renderer);
     destroy_solid_color_system(*solid_color_system, *renderer);
     destroy_renderer(*renderer);
     SDL_DestroyWindow(window);
@@ -75,8 +90,8 @@ app_quit :: (appstate: *void, result: SDL_AppResult) {
 #import "SDL3";
 #import "Renderer";
 #import "Basic";
+#import "Math";
 #load "render_systems.jai";
+#load "camera.jai";
 
-VV :: Solid_Color_System.Vertex.[.{.{0.5, 0.5, 0}}, .{.{-0.5, 0.5, 0}}, .{.{0.5, -0.5, 0}}];
-
-RED :: Vector4.{1, 0, 0, 1};
+TEST_COLOR :: Vector4.{0.3, 0.2, 0.7, 1.0};

@@ -3,6 +3,12 @@ OUTPUT_EXECUTABLE_NAME := "shapeless-renderer";
 #run {
     set_build_options_dc(.{do_output = false});
 
+    if !compile_shaders() {
+        log("Failed to compile shaders");
+        exit(-1);
+    }
+
+
     root_options := get_build_options();
     cpu_target := CPU;
     os_target  := OS;
@@ -29,8 +35,6 @@ OUTPUT_EXECUTABLE_NAME := "shapeless-renderer";
     message_loop();
 
     compiler_end_intercept(w);
-
-    compile_shaders();
 }
 
 message_loop :: () {

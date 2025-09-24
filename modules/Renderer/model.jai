@@ -1,8 +1,8 @@
 Model :: struct {
     vertex_buffer: Buffer;
     index_buffer:  Buffer;
-    vertex_size:   u64;
-    index_size:    u64;
+    vertex_size:   u32;
+    index_size:    u32;
 }
 
 bind_model :: (using model: *Model, cmd: VkCommandBuffer) {
@@ -13,7 +13,7 @@ bind_model :: (using model: *Model, cmd: VkCommandBuffer) {
     }
 }
 
-draw_model :: (model: *Model, cmd: VkCommandBuffer) {
+draw_model :: (using model: *Model, cmd: VkCommandBuffer) {
     if index_size > 0 {
         vkCmdDrawIndexed(cmd, index_size, 1, 0, 0, 0);
     } else {

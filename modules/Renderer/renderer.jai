@@ -53,6 +53,9 @@ Renderer :: struct {
     graphics_command_pool : VkCommandPool;
     cmd                   : VkCommandBuffer;
     resize_requested      : bool;
+
+    // Builtin shapes
+    builtin_models: Builtin_Models;
 }
 
 VALIDATION_LAYERS :: (*u8).["VK_LAYER_KHRONOS_validation"];
@@ -83,11 +86,13 @@ init_renderer :: (using renderer: *Renderer, sdl_window: *SDL_Window) {
     init_swapchain(renderer);
     create_command_pool(renderer);
     create_draw_images(renderer);
+    init_builtin_models(renderer);
 }
 
 destroy_renderer :: (using renderer: *Renderer) {
     VK_CHECK(vkDeviceWaitIdle(dev));
 
+    destroy_builtin_models(renderer);
     destroy_draw_images(renderer);
     destroy_command_pool(renderer);
 
@@ -800,20 +805,20 @@ Pipeline_Builder :: struct {
 }
 
 pipeline_builder_build :: (using builder: *Pipeline_Builder, using renderer: *Renderer) -> VkPipeline {
-    vertex_input_info.vertexBindingDescriptionCount = vertex_bindings.count;
+    vertex_input_info.vertexBindingDescriptionCount = xx vertex_bindings.count;
     vertex_input_info.pVertexBindingDescriptions = vertex_bindings.data;
 
-    vertex_input_info.vertexAttributeDescriptionCount = vertex_attributes.count;
+    vertex_input_info.vertexAttributeDescriptionCount = xx vertex_attributes.count;
     vertex_input_info.pVertexAttributeDescriptions = vertex_attributes.data;
 
-    color_blend_info.attachmentCount = color_blend_attachments.count;
+    color_blend_info.attachmentCount = xx color_blend_attachments.count;
     color_blend_info.pAttachments = color_blend_attachments.data;
 
     dynamic_info.pDynamicStates = dynamic_states.data;
-    dynamic_info.dynamicStateCount = dynamic_states.count;
+    dynamic_info.dynamicStateCount = xx dynamic_states.count;
 
     pipeline_info := VkGraphicsPipelineCreateInfo.{
-        stageCount = shader_stages.count,
+        stageCount = xx shader_stages.count,
         pStages = shader_stages.data,
         pVertexInputState = *vertex_input_info,
         pInputAssemblyState = *input_assembly_info,
@@ -826,7 +831,7 @@ pipeline_builder_build :: (using builder: *Pipeline_Builder, using renderer: *Re
         pDynamicState       = *dynamic_info,
         layout              = layout,
         renderPass          = null,
-        subpass             = null,
+        subpass             = 0,
         basePipelineHandle  = null,
         basePipelineIndex   = -1,
         pNext               = *render_info,
@@ -1299,34 +1304,34 @@ end_draw :: (using renderer: *Renderer) {
 
 begin_single_time_commands :: (using renderer: *Renderer) -> VkCommandBuffer {
     cmd_alloc_info := VkCommandBufferAllocateInfo.{
-        commandPool = command_pool,
+        commandPool = graphics_command_pool,
         commandBufferCount = 1,
         level = .PRIMARY,
     };
-    cmd: VkCommandBuffer;
-    VK_CHECK(vkAllocateCommandBuffers(dev, *cmd_alloc_info, *cmd));
+    command: VkCommandBuffer;
+    VK_CHECK(vkAllocateCommandBuffers(dev, *cmd_alloc_info, *command));
 
     cmd_begin_info := VkCommandBufferBeginInfo.{
         flags = .ONE_TIME_SUBMIT,
     };
-    VK_CHECK(vkBeginCommandBuffer(cmd, *cmd_begin_info));
+    VK_CHECK(vkBeginCommandBuffer(command, *cmd_begin_info));
 
-    return cmd;
+    return command;
 }
 
-end_single_time_commands :: (using renderer: *Renderer, cmd: VkCommandBuffer) {
-    VK_CHECK(vkEndCommandBuffer(cmd));
+end_single_time_commands :: (using renderer: *Renderer, command: VkCommandBuffer) {
+    VK_CHECK(vkEndCommandBuffer(command));
 
     cmdinfo := VkCommandBufferSubmitInfo.{
-        commandBuffer = cmd,
+        commandBuffer = command,
     };
     submit := VkSubmitInfo2.{
         commandBufferInfoCount = 1,
-        pCommandBufferInfos = cmdinfo,
+        pCommandBufferInfos = *cmdinfo,
     };
     VK_CHECK(vkQueueSubmit2(graphics_queue, 1, *submit, null));
     vkQueueWaitIdle(graphics_queue);
-    vkFreeCommandBuffers(dev, command_pool, 1, *cmd);
+    vkFreeCommandBuffers(dev, graphics_command_pool, 1, *command);
 }
 
 create_buffer :: (using renderer: *Renderer, alloc_size: u64, usage: VkBufferUsageFlags, memory_usage: VmaMemoryUsage) -> Buffer {
@@ -1367,9 +1372,9 @@ flush_buffer :: (using renderer: *Renderer, buffer: *Buffer, size: VkDeviceSize,
 }
 
 upload_buffer :: (using renderer: *Renderer, buffer: *Buffer, data: *void, size: u64, src_offset: u64, dst_offset: u64) {
-    staging_buffer := create_buffer(renderer, size, .TRANSFER_SRC | STORAGE_BUFFER, .CPU_ONLY);
+    staging_buffer := create_buffer(renderer, size, .TRANSFER_SRC | .STORAGE_BUFFER, .CPU_ONLY);
     staging_data := map_buffer(renderer, *staging_buffer);
-    copy(staging_data, data, size);
+    copy(staging_data, data, xx size);
     unmap_buffer(renderer, *staging_buffer);
 
     c := begin_single_time_commands(renderer);
@@ -1379,7 +1384,7 @@ upload_buffer :: (using renderer: *Renderer, buffer: *Buffer, data: *void, size:
     destroy_buffer(renderer, *staging_buffer);
 }
 
-create_model :: (using renderer: *Renderer, vertices: *void, vertex_stride: u64, vertex_size: u64, indices: *u32, index_size: u64) -> Model {
+create_model :: (using renderer: *Renderer, vertices: *void, vertex_stride: u64, vertex_size: u32, indices: *u32, index_size: u32) -> Model {
     model := Model.{
         vertex_size = vertex_size,
         index_size = index_size,
@@ -1387,12 +1392,12 @@ create_model :: (using renderer: *Renderer, vertices: *void, vertex_stride: u64,
 
     buffer_size := vertex_stride * vertex_size;
 
-    model.vertex_buffer = create_buffer(renderer, buffer_size, .INDEX_BUFFER | .TRANSFER_DST, .GPU_ONLY);
+    model.vertex_buffer = create_buffer(renderer, buffer_size, .VERTEX_BUFFER | .TRANSFER_DST, .GPU_ONLY);
     upload_buffer(renderer, *model.vertex_buffer, vertices, buffer_size, 0, 0);
 
     if index_size > 0 {
         buffer_size = size_of(u32) * index_size;
-        model.index_buffer = create_buffer(buffer_size, .INDEX_BUFFER | .TRANSFER_DST, .GPU_ONLY);
+        model.index_buffer = create_buffer(renderer, buffer_size, .INDEX_BUFFER | .TRANSFER_DST, .GPU_ONLY);
         upload_buffer(renderer, *model.index_buffer, indices, buffer_size, 0, 0);
     }
 
@@ -1404,6 +1409,19 @@ destroy_model :: (using renderer: *Renderer, model: *Model) {
     if model.index_size > 0 {
         destroy_buffer(renderer, *model.index_buffer);
     }
+}
+
+init_builtin_models :: (using renderer: *Renderer) {
+    builtin_models.square = create_model(renderer, SQUARE_VERTICES.data, size_of(Vector3), xx SQUARE_VERTICES.count, SQUARE_INDICES.data, xx SQUARE_INDICES.count);
+}
+
+destroy_builtin_models :: (using renderer: *Renderer) {
+    destroy_model(renderer, *builtin_models.square);
+}
+
+get_aspect_ratio :: (using renderer: *Renderer) -> float {
+    extent := get_window_extent(renderer.window);
+    return cast(float)extent.width / extent.height;
 }
 
 #scope_file

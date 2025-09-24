@@ -1,4 +1,7 @@
 compile_shaders :: () -> bool {
+    at := current_time_monotonic();
+    start_time := to_float64_seconds(at);
+
     #if OS == .LINUX {
         shader_compiler := "glslc";
     } else #if OS == .MACOS {
@@ -15,7 +18,8 @@ compile_shaders :: () -> bool {
         }
     }
 
-    log("Shader compilation succeeded");
+    end_time := to_float64_seconds(current_time_monotonic());
+    log("Shader compilation succeeded in % seconds", end_time - start_time);
 
     return true;
 }
