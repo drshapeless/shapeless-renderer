@@ -12,9 +12,9 @@ Camera :: struct {
 }
 
 init_camera :: (camera: *Camera, aspect_ratio: float) {
-    camera.pos = .{0, 0, -4};
+    camera.pos = .{2, 2, 2};
     camera.front = .{0, 0, 0};
-    camera.up = .{0, -1, 0};
+    camera.up = .{0, 0, 1};
 
     camera.fov = to_radian(45.0);
     camera.aspect_ratio = aspect_ratio;
@@ -23,35 +23,40 @@ init_camera :: (camera: *Camera, aspect_ratio: float) {
 }
 
 camera_view :: (camera: *Camera) -> Matrix4 {
-    w := normalize(camera.front);
-    u := normalize(cross(w, camera.up));
-    v := cross(w, u);
+    // w := normalize(camera.front);
+    // u := normalize(cross(w, camera.up));
+    // v := cross(w, u);
 
-    view := Matrix4_Identity;
-    view._11 = u.x;
-    view._12 = u.y;
-    view._13 = u.z;
-    view._21 = v.x;
-    view._22 = v.y;
-    view._23 = v.z;
-    view._31 = w.x;
-    view._32 = w.y;
-    view._33 = w.z;
-    view._14 = -dot(u, camera.pos);
-    view._24 = -dot(v, camera.pos);
-    view._34 = -dot(w, camera.pos);
+    // view := Matrix4_Identity;
+    // view._11 = u.x;
+    // view._12 = u.y;
+    // view._13 = u.z;
+    // view._21 = v.x;
+    // view._22 = v.y;
+    // view._23 = v.z;
+    // view._31 = w.x;
+    // view._32 = w.y;
+    // view._33 = w.z;
+    // view._14 = -dot(u, camera.pos);
+    // view._24 = -dot(v, camera.pos);
+    // view._34 = -dot(w, camera.pos);
+
+    view := make_look_at_matrix(camera.pos, camera.front, camera.up, false);
 
     return view;
 }
 
 camera_projection :: (using camera: *Camera) -> Matrix4 {
-    tan_half_fov := tan(fov / 2);
-    projection: Matrix4;
-    projection._11 = 1.0 / (aspect_ratio * tan_half_fov);
-    projection._22 = 1.0 / tan_half_fov;
-    projection._33 = far_plane / (far_plane - near_plane);
-    projection._34 = -(far_plane * near_plane) / (far_plane - near_plane);
-    projection._43 = 1.0;
+    // tan_half_fov := tan(fov / 2);
+    // projection: Matrix4;
+    // projection._11 = 1.0 / (aspect_ratio * tan_half_fov);
+    // projection._22 = 1.0 / tan_half_fov;
+    // projection._33 = far_plane / (far_plane - near_plane);
+    // projection._34 = -(far_plane * near_plane) / (far_plane - near_plane);
+    // projection._43 = 1.0;
+
+    projection := make_projection_matrix(fov * PI / 180.0, aspect_ratio, near_plane, far_plane);
+    projection.coef[1][1] *= -1;
 
     return projection;
 }
