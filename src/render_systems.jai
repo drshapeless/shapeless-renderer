@@ -173,6 +173,88 @@ draw_rectangle :: (renderer: *Renderer, rect: Rect, color: Vector4) {
 
 }
 
+Texture_System :: struct {
+    Vertex :: struct {
+        pos: Vector3;
+        uv: Vector2;
+    }
+
+    Push_Constant :: struct {
+        model: Matrix4;
+        view: Matrix4;
+        proj: Matrix4;
+    }
+
+    pipeline: VkPipeline;
+    pipeline_layout: VkPipelineLayout;
+    descriptor_set_layout: VkDescriptorSetLayout;
+    sampler: VkSampler;
+}
+
+init_texture_system :: (using system: *Texture_System, using renderer: *Renderer) {
+    pb: Pipeline_Builder;
+    pipeline_builder_clear(*pb);
+    vert_shader := load_shader_module(renderer, "texture.vert.spv");
+    frag_shader := load_shader_module(renderer, "texture.frag.spv");
+    defer {
+        destroy_shader_module(renderer, vert_shader);
+        destroy_shader_module(renderer, frag_shader);
+    }
+
+    pipeline_builder_set_shaders(*pb, vert_shader, frag_shader);
+    pipeline_builder_set_input_topology(*pb, .TRIANGLE_LIST);
+    pipeline_builder_set_polygon_mode(*pb, .FILL);
+    pipeline_builder_set_cull_mode(*pb, .BACK, .CLOCKWISE);
+    pipeline_builder_set_multisampling_none(*pb);
+    pipeline_builder_set_color_attachment_format(*pb, draw_image.format);
+    pipeline_builder_set_depth_format(*pb, depth_image.format);
+    pipeline_builder_enable_depthtest(*pb, VK_TRUE, .LESS);
+    pipeline_builder_enable_blending_alphablend(*pb);
+    pipeline_builder_add_dynamic_state(*pb, .VIEWPORT);
+    pipeline_builder_add_dynamic_state(*pb, .SCISSOR);
+    pipeline_builder_add_vertex_input_binding(*pb, 0, size_of(Vertex), .VERTEX);
+    pipeline_builder_add_vertex_input_attribute(*pb, 0, 0, .R32G32B32_SFLOAT, 0);
+    pipeline_builder_add_vertex_input_attribute(*pb, 1, 0, .R32G32_SFLOAT, size_of(Matrix4) * 3);
+
+    range := VkPushConstantRange.{
+        stageFlags = .VERTEX,
+        offset = 0,
+        size = size_of(Push_Constant),
+    };
+
+    lb: Descriptor_Layout_Builder;
+    descriptor_layout_builder_clear(*lb);
+    descriptor_layout_builder_add_binding(*lb, 0, .COMBINED_IMAGE_SAMPLER, .FRAGMENT);
+    descriptor_set_layout = descriptor_layout_builder_build(*lb, renderer, null, 0);
+
+    layout_info := VkPipelineLayoutCreateInfo.{
+        setLayoutCount         = 1,
+        pSetLayouts            = *descriptor_set_layout,
+        pushConstantRangeCount = 1,
+        pPushConstantRanges    = *range,
+    };
+
+    VK_CHECK(vkCreatePipelineLayout(dev, *layout_info, vk_allocator, *pipeline_layout));
+    pipeline_builder_set_layout(*pb, pipeline_layout);
+
+    pipeline = pipeline_builder_build(*pb, renderer);
+
+    sampler_info := VkSamplerCreateInfo.{
+        magFilter = .NEAREST,
+        minFilter = .NEAREST,
+        mipmapMode = .NEAREST,
+    };
+
+    VK_CHECK(vkCreateSampler(dev, *sampler_info, vk_allocator, *sampler));
+}
+
+destroy_texture_system :: (using system: *Texture_System, using renderer: *Renderer) {
+    vkDestroySampler(dev, sampler, vk_allocator);
+    vkDestroyDescriptorSetLayout(dev, descriptor_set_layout, vk_allocator);
+    vkDestroyPipelineLayout(dev, pipeline_layout, vk_allocator);
+    vkDestroyPipeline(dev, pipeline, vk_allocator);
+}
+
 #scope_file
 #import "Vulkan";
 #import "Renderer";
